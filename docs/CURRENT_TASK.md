@@ -1,5 +1,14 @@
 # Current Task
 
+## 2026-08-28 gfchair：LLaVA 500 图四种 Jacobian S 单独训练
+
+- 为回答“四种 S 本身是否具有幻觉检测信号”，新增 `scripts/train_four_s_only_mlp_500.py`，严格复用既有 Union aggregate 公平实验的同一批 500 张 LLaVA 图片和现成 JFFN/aggregate 分片，不重新执行 VLM forward 或 JVP。四个分类头分别只输入 32 层 `all-token aggregate S`、`all-token tokenwise S`、`Union-TopK tokenwise S`、`Union-TopK aggregate S`；每个输入都恰好 32 维，不含 risk、EV 或其他特征。
+- 训练协议保持一致：原图片 split 在该 500 图 cohort 中的交集为 train/test images=`395/105`、mentions=`1513/404`；使用三隐藏层 `[128,64,32]` MLP、batch 256、最多 100 epochs、seeds `43/44/45`、无标准化、minimum-train-loss checkpoint 和仅由 train F1 选择阈值。
+- 三 seed 平均 AUROC/Hall-F1/Hall-AUPR 分别为：all-token aggregate S=`0.826055±0.004179/0.558968/0.559724`；all-token tokenwise S=`0.851866±0.010224/0.624512/0.633475`；Union-TopK tokenwise S=`0.849838±0.006390/0.577861/0.620931`；Union-TopK aggregate S=`0.830376±0.003443/0.562651/0.549222`。因此这批 500 图上 tokenwise 两种定义明显强于 aggregate 两种定义；all-token tokenwise 的均值最好，但与 Union tokenwise 的 seed-ensemble AUROC 差仅 `+0.004204`，10,000 次图片级 paired bootstrap 95% CI=`[-0.011050,+0.018550]`，不能认为二者有可靠差异。
+- all-token tokenwise 相对 all-token aggregate 的 ensemble AUROC/Hall-AUPR 差为 `+0.027457/+0.077759`，95% CI 分别为 `[+0.001905,+0.054067]` 与 `[+0.015498,+0.146401]`；说明在这批数据上，“先对每个视觉 token 求模长再相加”的 sensitivity gain 比“先把方向向量相加再求模长”的 cancellation-sensitive aggregate gain 更稳定。Union tokenwise 相对 Union aggregate 的 Hall-AUPR 增量 `+0.072868`、CI=`[+0.013322,+0.133260]`，AUROC 增量 `+0.019016` 的 CI=`[-0.002263,+0.040435]` 仍跨 0。
+- 结论仅限 500 图小样本筛选：四种 S-only 的 AUROC 都显著高于随机，证明 Jacobian S 自身携带标签信息；当前证据支持优先保留 tokenwise S，但 105 张测试图不足以在 all-token 与 Union-TopK tokenwise 之间定胜负，也不能替代完整 4000 图结果。
+- 完整 JSON、逐 seed CSV、PNG/PDF 和中文报告位于 `outputs/llava_1_5_7b/COCO4000-INSLEN-OFFICIAL-TARGET/results/jffn_second_round/four_s_only_mlp_500_fair/`。新增 `tests/test_four_s_only_mlp_500.py` 强制四个头只能读取自己的 32 维 S 块并拒绝错误宽度；相关 `py_compile` 通过，S-only/Union/JFFN 回归测试共 14/14 通过，所有 12 个训练结果与 6 组 10,000 次 bootstrap 均完成。
+
 ## 2026-08-28 gfchair：JFFN 综合讨论文档与 GitHub 代码发布
 
 - 新增 `docs/JFFN_EXPERIMENT_SUMMARY_FOR_DISCUSSION.md`，自包含整合 `jacobian_visual_ffn_validation_report.md`、`jffn_second_round_incremental_validation_report.md` 及后续 `risk+EV+S`、`S×risk+EV`、JFFN–target Union-TopK JS、all/Union tokenwise S、Union aggregate S 和原生分类头消融。文档明确区分：JFFN-P 替换旧 P 的负结果、WRITE-only 对空间收益的解释，以及 aggregate/tokenwise S 作为旧 risk+EV 附加块的正结果；另列出可声称/不可声称、推荐实验和可直接交给 ChatGPT 的讨论问题。

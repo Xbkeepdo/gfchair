@@ -1,0 +1,6 @@
+extends: model_configs_vqa_ours_only_target_topk32.yaml
+
+# AMBER does not provide a reliable unique question-object token span.
+qa_benchmarks:
+  position_protocols:
+    - "prompt_last_token"

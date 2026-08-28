@@ -1,0 +1,25 @@
+extends: model_configs_unified.yaml
+
+# QA-only profile: DGST hpre raw-logit Gaussian risk + target mass*cosine,
+# together with ADS+CGC. Baselines and sweep/capped variants are disabled.
+qa_benchmarks:
+  extraction_mode: "all"
+
+feature_extraction:
+  baseline:
+    enabled: false
+  dgst_t:
+    four_gate_methods:
+      - "hpre_raw_logit_gauss"
+    tau: 0.05
+    source_tau_values: null
+    transport_top_k_values: null
+    compute_capped_topmass_085: false
+    atarget_visual_top_k: 32
+
+training:
+  feature_sets:
+    method:
+      - "hpre_raw_logit_gauss_risk_sqrt_matched_state+hpre_raw_logit_gauss_ev_target_dist_mass_x_cosine"
+    ads_cgc:
+      - "ads+cgc"

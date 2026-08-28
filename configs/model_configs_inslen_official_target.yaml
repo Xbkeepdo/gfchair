@@ -1,0 +1,68 @@
+extends: model_configs_unified.yaml
+
+# Controlled gfchair comparison: generation, DGST/spatial-cost features and
+# training remain inherited.  Only the object target resolver follows the
+# released Instruction-Lens first-token/first-occurrence implementation.
+labeling:
+  schema_version: 2
+  sample_unit: "inslen_unique_detected_word"
+  primary_locator: "inslen_official_first_token_first_occurrence"
+  save_all_mentions: true
+  save_svar_official_samples: false
+  alignment_failure_policy: "error"
+
+qa_benchmarks:
+  output_root: "/home/apulis-dev/userdata/CODEX/test-cocochair/gfchair/outputs/qa_benchmarks"
+
+# Independent JFFN-P comparison.  Ordinary run.sh does not read this section;
+# scripts/run_jffn_p_comparison.py activates it explicitly, so the established
+# InsLen official-target experiment remains unchanged.
+jffn_p_comparison:
+  enabled: false
+  output_subdir: "results/jffn_p_comparison"
+  source_modes:
+    - "hmid_cos"
+    - "hpre_cos"
+    - "jffn"
+    - "jffn_entropy_matched"
+  gate_methods:
+    - "hpre_raw_logit_gauss"
+    - "hpre_softmax_prob_gauss"
+  cost_modes:
+    - "sqrt_matched_state"
+    - "cosine_matched_state"
+  support_modes: ["vv"]
+  transport_top_k: 64
+  source_top_k: 32
+  target_top_k: 32
+  target_region_top_k: 32
+  shard_images: 50
+  jvp:
+    max_increment_gib: 1.5
+    qwen_fallback_chunks: [256, 128, 64]
+  qwen_shared_forward_gate:
+    enabled: true
+    peak_memory_gib: 22.0
+    relative_error: 1.0e-3
+  entropy_matching:
+    calibration_images: 500
+    selection_seed: 20260818
+    target_source: "hpre_cos"
+    beta_min: 0.02
+    beta_max: 50.0
+    bisection_steps: 60
+  training:
+    seeds: [43, 44, 45]
+    hidden_sizes: [128, 64, 32]
+    batch_size: 256
+    max_epochs: 100
+    feature_normalization: "none"
+    checkpoint_selection: "minimum_train_loss"
+    threshold_selection: "train_f1"
+    bootstrap_replicates: 10000
+    bootstrap_seed: 20260819
+  spatial_validation:
+    real_targets_only: true
+    bbox_union_same_category: true
+    llava_grid: [24, 24]
+    internvl_grid: [16, 16]

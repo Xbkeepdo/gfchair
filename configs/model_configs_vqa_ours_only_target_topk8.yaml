@@ -1,0 +1,6 @@
+extends: model_configs_vqa_ours_target_topk8.yaml
+
+# Resume QA generations while extracting and training only the DGST method.
+# ADS/CGC and baseline extraction/training families are disabled by this mode.
+qa_benchmarks:
+  extraction_mode: "method_only"

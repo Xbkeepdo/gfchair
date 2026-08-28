@@ -6,7 +6,7 @@
 - README 增加 JFFN 入口；`.gitignore` 明确排除 `outputs/`、日志、checkpoint/分片和根目录生成的 JFFN CSV/JSON/PNG。用户随后明确要求一并发布 `docs/CURRENT_TASK.md`，因此该中文实验交接记录纳入第二次提交；仍不包含本地大规模特征、预测、权重、图片或运行数据。
 - 在原本没有 `.git` 的 gfchair 目录初始化 `main`。远端 `https://github.com/Xbkeepdo/gfchair.git` 发布前 `ls-remote` 为空。staged 审计为 250 个文件、无软链接、最大文件约 361 KB；高置信私钥/API token 和通用 credential assignment 扫描均无命中，`git diff --cached --check` 通过。
 - 验证：正式解释器下 JFFN/second-round/Union-S/JS/S×risk/native-head 定向单测 `29/29` 通过；`compileall -q` 覆盖代码与测试目录通过；全部根目录及 `scripts/*.sh` 的 `bash -n` 通过。
-- 本地初始提交已创建：`5f594b8 Initial gfchair research code and JFFN reports`，repo-local 作者为 `Xbkeepdo <Xbkeepdo@users.noreply.github.com>`，远端 origin 已指向用户给定仓库。HTTPS push 因服务器无 GitHub credential 失败；`gh` 未安装，`GH_TOKEN/GITHUB_TOKEN/GIT_ASKPASS/SSH_AUTH_SOCK` 均未设置，SSH 也无可用私钥。当前需用户在自己的终端完成 GitHub 认证后再执行/让 Codex执行 `git push -u origin main`；不得把 PAT 发到聊天或写进仓库。
+- GitHub 发布已完成：初始代码/报告提交为 `5f594b8`，纳入完整 `CURRENT_TASK.md` 的提交为 `df4d3d0`。服务器最初无 HTTPS/SSH credential，随后在用户明确要求网页弹窗认证后，下载并校验官方 GitHub CLI 2.97.0，通过 device-login 网页授权 `Xbkeepdo`，最终远端 `main` 与本地同步。认证过程中没有把 PAT 写入仓库或聊天；GitHub CLI 报告其 credential 保存在用户目录的配置中，可在不再需要推送时用 `gh auth logout --hostname github.com` 主动清除。
 
 ## 2026-08-28 gfchair：LLaVA 500 图 Union-TopK aggregate S
 

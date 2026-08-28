@@ -41,10 +41,13 @@ from scripts.train_union_topk_region_s_mlp import (  # noqa: E402
 from utils.config_utils import load_config  # noqa: E402
 
 
-SCHEMA_VERSION = "four-s-only-mlp-500-v1"
+SCHEMA_VERSION = "four-s-only-mlp-v2"
+LEGACY_SCHEMA_VERSION = "four-s-only-mlp-500-v1"
 MODEL = "llava_1_5_7b"
 DEFAULT_AGGREGATE_SHARDS = "results/jffn_union_aggregate_500/shards"
 DEFAULT_OUTPUT_SUBDIR = "results/jffn_second_round/four_s_only_mlp_500_fair"
+DEFAULT_COHORT_LABEL = "500-image fair cohort"
+DEFAULT_ARTIFACT_STEM = "llava_1_5_7b_four_s_only_mlp_500"
 SPECS = (
     "all_aggregate_s",
     "all_tokenwise_s",
@@ -79,6 +82,14 @@ def parse_args() -> argparse.Namespace:
         "--aggregate-shards-subdir", default=DEFAULT_AGGREGATE_SHARDS
     )
     parser.add_argument("--output-subdir", default=DEFAULT_OUTPUT_SUBDIR)
+    parser.add_argument("--cohort-label", default=DEFAULT_COHORT_LABEL)
+    parser.add_argument("--artifact-stem", default=DEFAULT_ARTIFACT_STEM)
+    parser.add_argument(
+        "--allow-subset",
+        action=argparse.BooleanOptionalAction,
+        default=True,
+        help="Allow aggregate shards to define a strict subset of the full cohort.",
+    )
     return parser.parse_args()
 
 
@@ -119,7 +130,13 @@ def build_s_only_features(
     return output
 
 
-def _plot_results(output_dir: Path, comparisons: Mapping[str, Any]) -> None:
+def _plot_results(
+    output_dir: Path,
+    comparisons: Mapping[str, Any],
+    *,
+    cohort_label: str,
+    artifact_stem: str,
+) -> None:
     metrics = (
         ("auroc", "AUROC"),
         ("hall_aupr", "Hall AUPR"),
@@ -145,9 +162,11 @@ def _plot_results(output_dir: Path, comparisons: Mapping[str, Any]) -> None:
                 va="bottom",
                 fontsize=9,
             )
-    fig.suptitle("LLaVA: four standalone 32-D Jacobian-S probes (500-image cohort)")
+    fig.suptitle(
+        f"LLaVA: four standalone 32-D Jacobian-S probes ({cohort_label})"
+    )
     fig.tight_layout()
-    stem = output_dir / "llava_1_5_7b_four_s_only_mlp_500_metrics"
+    stem = output_dir / f"{artifact_stem}_metrics"
     fig.savefig(stem.with_suffix(".png"), dpi=180, bbox_inches="tight")
     fig.savefig(stem.with_suffix(".pdf"), bbox_inches="tight")
     plt.close(fig)
@@ -179,8 +198,9 @@ def _write_seed_csv(output_dir: Path, completed: Mapping[str, Mapping[int, Any]]
 
 
 def _report(payload: Mapping[str, Any]) -> str:
+    cohort_label = str(payload["cohort_label"])
     lines = [
-        "# LLaVA：四种 Jacobian S 单独训练（500 图公平 cohort）",
+        f"# LLaVA：四种 Jacobian S 单独训练（{cohort_label}）",
         "",
         "四个分类头均只输入 32 层 S，不包含 risk 或 EV；MLP、图片级 split、"
         "seeds 43/44/45 和训练协议完全一致。",
@@ -233,7 +253,7 @@ def main() -> None:
     aggregate, aggregate_audit = load_union_aggregate(
         model_root / args.aggregate_shards_subdir,
         matrices,
-        allow_subset=True,
+        allow_subset=args.allow_subset,
     )
     feature_x = build_s_only_features(matrices, aggregate)
     train, test = matrices["train"], matrices["test"]
@@ -244,7 +264,10 @@ def main() -> None:
     probabilities: dict[str, dict[int, np.ndarray]] = {spec: {} for spec in SPECS}
     if args.resume and progress_path.exists():
         progress = torch.load(progress_path, map_location="cpu", weights_only=False)
-        if progress.get("schema_version") != SCHEMA_VERSION:
+        if progress.get("schema_version") not in {
+            SCHEMA_VERSION,
+            LEGACY_SCHEMA_VERSION,
+        }:
             raise AssertionError("Incompatible four-S-only resume artifact")
         for spec in SPECS:
             completed[spec] = {
@@ -328,6 +351,7 @@ def main() -> None:
     payload = {
         "schema_version": SCHEMA_VERSION,
         "model": args.model,
+        "cohort_label": args.cohort_label,
         "definitions": FORMULAS,
         "sample_audit": {
             "train_images": int(np.unique(train["image_ids"]).size),
@@ -348,15 +372,20 @@ def main() -> None:
             "feature_normalization": "none",
             "checkpoint_selection": "minimum_train_loss",
             "threshold_selection": "train_f1",
-            "split": "same 500-image fair cohort as Union aggregate comparison",
+            "split": args.cohort_label,
         },
         "comparisons": comparisons,
         "paired_bootstrap": bootstrap,
     }
     atomic_json_save(payload, output_dir / "results.json")
     _write_seed_csv(output_dir, completed)
-    _plot_results(output_dir, comparisons)
-    (output_dir / "llava_1_5_7b_four_s_only_mlp_500_report.md").write_text(
+    _plot_results(
+        output_dir,
+        comparisons,
+        cohort_label=args.cohort_label,
+        artifact_stem=args.artifact_stem,
+    )
+    (output_dir / f"{args.artifact_stem}_report.md").write_text(
         _report(payload), encoding="utf-8"
     )
     print(f"[S-only] wrote {output_dir}", flush=True)

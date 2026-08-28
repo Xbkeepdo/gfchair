@@ -234,7 +234,7 @@ S_{union,agg}=\frac{\|\sum_{j\in U}Ja_j\|}
 
 500 图与 4000 图的 S 内部排序不一致；这说明 500 图能判断“有 S 信号”，不能可靠选择最优 S。Union aggregate 还没有 4000 图正式结果。
 
-### 7.4 LLaVA 500 图四种 S-only 实验
+### 7.4 LLaVA 四种 S-only：500 图筛选与完整 cohort
 
 为分离 Jacobian S 自身的信息与 risk/EV 的贡献，在与 7.3 完全相同的 500 图公平 cohort 上，分别只输入四种 32 层 S，不拼接 risk 或 EV。四个头都使用相同的 `[128,64,32]` 三层 MLP、seeds 43/44/45、图片级 split、无标准化、minimum-train-loss checkpoint 和 train-F1 threshold。
 
@@ -247,7 +247,20 @@ S_{union,agg}=\frac{\|\sum_{j\in U}Ja_j\|}
 
 同 cohort 的 `risk+EV` AUROC/Hall-AUPR/Hall-F1 为 `0.821245/0.549276/0.610406`。因此在这批 500 图上，all-token tokenwise S 单独训练的 AUROC 和 Hall-AUPR 不仅高于 risk+EV，也高于对应的 `risk+EV+S` 拼接结果。但这不能直接与 4000 图 risk+EV 数值比较，也不能据此声称 S 在完整实验中已经优于 risk+EV。
 
-两种 tokenwise S 之间没有可靠差异：all-token tokenwise − Union-tokenwise 的 seed-ensemble AUROC 为 `+0.004204`，10,000 次图片级 paired bootstrap 95% CI=`[-0.011050,+0.018550]`。相比之下，all-token tokenwise 相对 all-token aggregate 的 AUROC/Hall-AUPR 增量为 `+0.027457/+0.077759`，95% CI 分别为 `[+0.001905,+0.054067]` 和 `[+0.015498,+0.146401]`。当前证据支持 tokenwise gain 比 cancellation-sensitive aggregate gain 更适合作为单独检测特征，但测试集只有 105 张图、404 mentions、105 个 HALL，最终结论仍需完整 4000 图 S-only 复验。
+两种 tokenwise S 之间没有可靠差异：all-token tokenwise − Union-tokenwise 的 seed-ensemble AUROC 为 `+0.004204`，10,000 次图片级 paired bootstrap 95% CI=`[-0.011050,+0.018550]`。相比之下，all-token tokenwise 相对 all-token aggregate 的 AUROC/Hall-AUPR 增量为 `+0.027457/+0.077759`，95% CI 分别为 `[+0.001905,+0.054067]` 和 `[+0.015498,+0.146401]`。
+
+随后补齐完整 3971 图正式 cohort（3174/797 train/test images、12317/3146 mentions），四种 S-only 的结果为：
+
+| 32-D S-only 特征 | AUROC | Hall-AUPR | Hall-F1 |
+|---|---:|---:|---:|
+| all-token aggregate S | 0.864417 ± 0.000909 | 0.623901 | 0.582569 |
+| all-token tokenwise S | **0.879812 ± 0.001614** | **0.651029** | 0.591302 |
+| Union-TopK tokenwise S | 0.874654 ± 0.001957 | 0.625348 | **0.596298** |
+| Union-TopK aggregate S | 0.862309 ± 0.001108 | 0.602870 | 0.576299 |
+
+完整结果确认 tokenwise 比 aggregate 更适合作为独立特征。all-token tokenwise 相对 all-token aggregate 的 seed-ensemble AUROC/Hall-AUPR 增量为 `+0.013941/+0.023964`，95% CI 分别为 `[+0.006120,+0.021859]` 和 `[+0.000116,+0.047159]`。all-token tokenwise 相对 Union-tokenwise 的 AUROC 增量 `+0.004837`、CI=`[-0.000063,+0.009667]`，几乎触及 0；Hall-AUPR 增量 `+0.025323`、CI=`[+0.011462,+0.038318]`。
+
+最重要的是，500 图上的 S-only 优势没有在完整 cohort 复现：完整 all-token tokenwise S-only 的 AUROC/Hall-AUPR/Hall-F1=`0.879812/0.651029/0.591302`，低于同 cohort `risk+EV` 的 `0.888141/0.656175/0.644332`；`risk+EV+all-token tokenwise S` 则达到 AUROC/Hall-AUPR=`0.894717/0.668844`。因此 S 自身有强信号，但当前最合理的定位仍是 risk+EV 的补充，而不是替代品。
 
 ## 8. 其他构造的结果
 
@@ -314,7 +327,7 @@ u=\frac{\delta^{visual}}{\|\delta^{visual}\|+\epsilon},
 3. WRITE magnitude 已解释 P_JFFN 的大部分空间排序，Jacobian reranking 没有超过 WRITE-only。
 4. 直接用 P_JFFN 替换旧 P 不会改善幻觉检测，在 LLaVA 上反而显著下降。
 5. 多层 aggregate/tokenwise S 作为旧 risk+EV 的附加块，在 LLaVA 与 InternVL 三层 MLP 上均提高 AUROC；最佳聚合方式具有模型依赖性。
-6. LLaVA 500 图筛选中，tokenwise S 单独训练已表现出强信号并优于同 cohort 的 risk+EV；该结果尚未在完整 4000 图上确认。
+6. 完整 LLaVA cohort 中，tokenwise S-only 有强检测信号但低于 risk+EV；500 图上观察到的反向排序属于小样本不稳定，S 作为 risk+EV 补充块仍优于单独使用。
 
 ### 不能声称
 
@@ -324,7 +337,7 @@ u=\frac{\delta^{visual}}{\|\delta^{visual}\|+\epsilon},
 4. S 已被证明是独立于 I 的普适幻觉因果变量。
 5. 当前低精度 intervention 已验证 attribution 的因果幅值。
 6. LLaVA/InternVL 结论已经在 Qwen2.5/Qwen3 上成立。
-7. 500 图 S-only 优于 risk+EV 的排序已经在完整 4000 图上成立。
+7. S-only 可以替代 risk+EV；完整 LLaVA 结果明确不支持这一说法。
 
 ## 11. 推荐下一步
 
@@ -334,7 +347,7 @@ u=\frac{\delta^{visual}}{\|\delta^{visual}\|+\epsilon},
 4. **做 matched-norm 方向控制。** 把真实视觉方向与随机/背景/框内方向比较，判断 S 是 FFN 层尺度还是对象特异方向响应。
 5. **提高因果干预可分辨性。** FP32 局部 FFN、larger-but-local eta sweep、多次重复及 logit margin 累积，先证明预测量级可观测，再讨论 causal agreement。
 6. **完成 Qwen 正式验证。** 在相同 InsLen cohort、split、首 subtoken、三 seeds 下验证 `[risk,EV,S]`，而不是把已有 smoke 当正式结果。
-7. **完成完整 LLaVA S-only 对照。** 在 4000 图正式 cohort 上重训四种 32-D S-only，并与同 cohort 的 risk+EV、risk+EV+S 做配对比较；不要用 500 图结果决定最终主方法。
+7. **补做 InternVL S-only 对照。** 用相同四种 32-D 输入验证“tokenwise 优于 aggregate、S-only 低于 risk+EV”的结论是否跨模型成立。
 
 ## 12. 供 ChatGPT 重点讨论的问题
 

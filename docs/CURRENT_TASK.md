@@ -1,5 +1,14 @@
 # Current Task
 
+## 2026-08-29 gfchair：LLaVA 完整 3971 图四种 Jacobian S 单独训练
+
+- 在用户确认 500 图筛选后，续跑 LLaVA Union-TopK aggregate S 的完整正式 cohort。上次会话中断时已有 72 个分片、3600 张图且无重复；本轮通过两 rank resume 分别补齐 186/185 张。最终为 80 个原子分片、3971 张正式图片，两个 extraction audit 均为 `worker_complete=true`、`failures=[]`，峰值显存约 15.65/15.67 GB。
+- 将 `scripts/train_four_s_only_mlp_500.py` 泛化为可显式指定 cohort label、artifact stem 与 `--no-allow-subset`；完整实验要求 aggregate mention 与正式 JFFN cohort 精确一致，防止把部分分片误报成全量结果。四个分类头仍分别只输入自己的 32 层 S，不包含 risk 或 EV；训练使用原图片 split（train/test images=`3174/797`、mentions=`12317/3146`）、三层 `[128,64,32]`、batch 256、100 epochs、seeds `43/44/45`、无标准化、minimum-train-loss checkpoint 和 train-F1 threshold。
+- 完整三 seed AUROC/Hall-F1/Hall-AUPR：all-token aggregate S=`0.864417±0.000909/0.582569/0.623901`；all-token tokenwise S=`0.879812±0.001614/0.591302/0.651029`；Union-TopK tokenwise S=`0.874654±0.001957/0.596298/0.625348`；Union-TopK aggregate S=`0.862309±0.001108/0.576299/0.602870`。最佳 S-only 是 all-token tokenwise；它相对 all-token aggregate 的 seed-ensemble AUROC/Hall-AUPR 增量为 `+0.013941/+0.023964`，10,000 次图片级 paired bootstrap 95% CI 分别为 `[+0.006120,+0.021859]` 与 `[+0.000116,+0.047159]`。
+- all-token tokenwise 相对 Union tokenwise 的 ensemble AUROC 增量 `+0.004837`，CI=`[-0.000063,+0.009667]`，几乎触及 0；Hall-AUPR 增量 `+0.025323`，CI=`[+0.011462,+0.038318]`。因此全视觉 tokenwise 在 Hall 排序质量上更稳定，但 AUROC 不能按传统 95% 门槛宣称显著优于 Union tokenwise。
+- 500 图上的“tokenwise S-only 优于 risk+EV”没有在完整 cohort 复现。完整 all-token tokenwise S-only 的 AUROC/Hall-AUPR/Hall-F1=`0.879812/0.651029/0.591302`，低于同 cohort risk+EV 的 `0.888141/0.656175/0.644332`；而 `risk+EV+all-token tokenwise S` 为 `0.894717/0.668844`（AUROC/Hall-AUPR）。最终结论是 S 单独具有强信号，但尚不能替代 risk+EV；S 作为补充块仍是当前更好的用法。
+- 完整 JSON、逐 seed CSV、PNG/PDF 和中文报告位于 `outputs/llava_1_5_7b/COCO4000-INSLEN-OFFICIAL-TARGET/results/jffn_second_round/four_s_only_mlp_4000_fair/`。四种方法×三 seeds、六组 10,000 次图片级 bootstrap 均完成，全部结果有限；相关 `py_compile` 通过，S-only/Union/JFFN 定向回归 14/14 通过，最终 artifact 审计确认 3971 images、15463 mentions、12×32-D heads、6×10000 bootstraps 且无 NaN/Inf，`git diff --check` 通过，两张 GPU 已释放。
+
 ## 2026-08-28 gfchair：LLaVA 500 图四种 Jacobian S 单独训练
 
 - 为回答“四种 S 本身是否具有幻觉检测信号”，新增 `scripts/train_four_s_only_mlp_500.py`，严格复用既有 Union aggregate 公平实验的同一批 500 张 LLaVA 图片和现成 JFFN/aggregate 分片，不重新执行 VLM forward 或 JVP。四个分类头分别只输入 32 层 `all-token aggregate S`、`all-token tokenwise S`、`Union-TopK tokenwise S`、`Union-TopK aggregate S`；每个输入都恰好 32 维，不含 risk、EV 或其他特征。

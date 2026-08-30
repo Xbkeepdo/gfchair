@@ -1,5 +1,12 @@
 # Current Task
 
+## 2026-08-30 gfchair：当前 3090 队列改为 Qwen3 → InternVL，LLaVA 留给 4090
+
+- 按用户要求，将当前双 RTX 3090 机器的后续顺序改为 Qwen3 完成后只运行 InternVL；LLaVA 不再由本机自动启动，留给稍后的 4090 新对话。原队列父 shell `558757` 已先 `SIGSTOP` 并确认 Qwen3 coordinator/path 子进程继续满载，再精确终止该父 shell；Qwen3 PID `558763` 及两个 Path worker `559546/559547` 没有重启或丢失当前进度。
+- 新的独立控制器 PID=`593002`，日志为 `outputs/tc_fvpa_qwen3_then_intern_20260830.log`。它等待 Qwen3 coordinator 退出后，先用 checksum-verified loader 检查 Qwen3 L36 `PATH_LOG_PROBABILITY_GAUSS_LEGENDRE_K32`；只有完整封存验证通过才启动 InternVL formal resume。LLaVA 明确不在控制器命令中。
+- 当前 Qwen3 Path 两 rank 约完成 `66/100` 与 `67/100` images，但日志已累计 `4+1=5` 个失败 case。正式零失败门禁保持不变：若 Qwen3 因这些 case 结束为 FAIL，控制器会记录 `BLOCKED` 并且不启动 InternVL，等待本对话诊断/修复；不会跳过失败伪造“Qwen3 完成”。
+- 4090 新对话应从 GitHub `main` 拉取当前代码，在确认目标机器具备同一模型、COCO4000/CHAIR/InsLen 输入与环境后，仅启动 `llava_1_5_7b` 的 formal root。不要复用当前 3090 的 InternVL root，也不要同时在共享输出根写同一模型。
+
 ## 2026-08-30 gfchair：GitHub 阶段性审阅快照
 
 - 按用户要求准备将当前 TC-FVPA 代码与已完成结果发布到 GitHub，供 ChatGPT 先行审阅。新增 `docs/TC_FVPA_CURRENT_RESULTS_20260830.md`，明确分开 Qwen2 已完成正式测量、Qwen3 正在运行、LLaVA/InternVL 排队以及 fixed-QK/pixel/detection/VQA 等 `BLOCKED/NOT RUN` 项；同时修正 runbook 中已经过期的“Qwen 尚未通过门禁”说明。

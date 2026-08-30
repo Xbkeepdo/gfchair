@@ -46,6 +46,18 @@ implementation and the complete numerical/scientific audit are available in:
 Large extracted features, checkpoints, predictions, and generated figures are
 runtime artifacts under `outputs/` and are intentionally excluded from Git.
 
+## TC-FVPA / Riesz path study
+
+The target-conditioned Riesz, finite-path, true-FP32 causal, frozen-write and
+region-Shapley implementation is documented in
+[`docs/TC_FVPA_RUNBOOK.md`](docs/TC_FVPA_RUNBOOK.md). Its formal hypotheses are
+frozen before real-model results; smoke, blocked, and formal statuses are kept
+separate in each result root's `manifests/run_status.json`.
+
+The review-ready 2026-08-30 partial snapshot, including the completed Qwen2
+measurements and the exact remaining blockers, is summarized in
+[`docs/TC_FVPA_CURRENT_RESULTS_20260830.md`](docs/TC_FVPA_CURRENT_RESULTS_20260830.md).
+
 ## Main Pipeline
 
 Run from this directory:

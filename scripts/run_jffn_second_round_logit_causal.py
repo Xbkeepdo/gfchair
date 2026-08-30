@@ -41,6 +41,7 @@ from models.dgst_capture import (  # noqa: E402
     run_forward_with_dgst_captures,
 )
 from models.llava_wrapper import _append_prefix_token_ids  # noqa: E402
+from models.qwen_shared_caption import append_response_ids  # noqa: E402
 from scripts.run_jffn_p_comparison import (  # noqa: E402
     _image_path,
     _load_inputs,
@@ -51,7 +52,12 @@ from scripts.run_jffn_p_comparison import (  # noqa: E402
 from utils.config_utils import get_extraction_model_cfg, load_config  # noqa: E402
 
 
-MODELS = ("llava_1_5_7b", "internvl_2_5_8b")
+MODELS = (
+    "llava_1_5_7b",
+    "internvl_2_5_8b",
+    "qwen2_5_vl_7b",
+    "qwen3_vl_8b",
+)
 EXPERIMENT = "COCO4000-INSLEN-OFFICIAL-TARGET"
 DEFAULT_LAYERS = (8, 16, 24, 32)
 ETAS = (0.05, 0.10, 0.25)
@@ -175,6 +181,54 @@ def prepare_inputs(wrapper, model_name: str, image: Image.Image, prefix: Sequenc
         )
         return inputs, int(positions[0]), int(visual_start), int(visual_end), [24, 24]
 
+    if model_name in {"qwen2_5_vl_7b", "qwen3_vl_8b"}:
+        resolved_prompt = wrapper.resolve_prompt(prompt)
+        if model_name == "qwen3_vl_8b":
+            prompt_inputs = wrapper._prompt_inputs(image, resolved_prompt)
+        else:
+            messages = [
+                {
+                    "role": "user",
+                    "content": [
+                        {"type": "image", "image": image},
+                        {"type": "text", "text": resolved_prompt},
+                    ],
+                }
+            ]
+            text = wrapper.processor.apply_chat_template(
+                messages, tokenize=False, add_generation_prompt=True
+            )
+            prompt_inputs = wrapper.processor(
+                text=[text], images=[image], return_tensors="pt"
+            )
+        prompt_length = int(prompt_inputs["input_ids"].shape[1])
+        inputs = append_response_ids(
+            prompt_inputs,
+            response_token_ids=prefix,
+            device=wrapper.device,
+        )
+        input_ids = inputs["input_ids"][0]
+        if prefix and input_ids[-len(prefix):].tolist() != [int(value) for value in prefix]:
+            raise AssertionError("Qwen causal prefix IDs changed while preparing inputs")
+        prediction_position = prompt_length - 1 + len(prefix)
+        if prediction_position != int(input_ids.numel()) - 1:
+            raise AssertionError(
+                "Qwen prediction row must be the final prompt/prefix position"
+            )
+        visual_start, visual_end = wrapper._find_vision_token_range(input_ids)
+        grid = wrapper._resolve_visual_grid(inputs, visual_end - visual_start)
+        if grid is None:
+            raise ValueError(
+                f"{model_name} did not expose a single-image visual grid"
+            )
+        return (
+            inputs,
+            int(prediction_position),
+            int(visual_start),
+            int(visual_end),
+            [int(grid[0]), int(grid[1])],
+        )
+
     pixel_values = wrapper._preprocess_image(image)
     prompt_ids, _, _ = wrapper._build_input_ids_with_image(
         pixel_values, prefix_token_ids=[], user_prompt=wrapper.resolve_prompt(prompt)
@@ -212,7 +266,15 @@ def prepare_inputs(wrapper, model_name: str, image: Image.Image, prefix: Sequenc
 
 
 def capture_clean(wrapper, inputs, prediction_position: int):
-    is_internvl = type(wrapper).__name__ == "InternVLWrapper"
+    wrapper_type = type(wrapper).__name__
+    is_internvl = wrapper_type == "InternVLWrapper"
+    # Qwen's formal processor grids yield a few hundred visual tokens, so the
+    # stock eager attention workspace is safe.  Keeping the clean capture on
+    # the same eager kernel as branch-replacement replay is important: BF16
+    # chunked-vs-full GEMM order has near-identical logits but can noticeably
+    # change downstream gradients.  LLaVA retains chunking for longer visual
+    # sequences where the full quadratic workspace is materially larger.
+    use_standard_qwen_eager = wrapper_type in {"QwenVLWrapper", "Qwen3VLWrapper"}
     with torch.no_grad():
         out, captures = run_forward_with_dgst_captures(
             wrapper.model,
@@ -226,7 +288,9 @@ def capture_clean(wrapper, inputs, prediction_position: int):
                 None if is_internvl else [prediction_position]
             ),
             capture_device=None,
-            attention_query_chunk_size=None if is_internvl else 512,
+            attention_query_chunk_size=(
+                None if is_internvl or use_standard_qwen_eager else 512
+            ),
             record_model_attentions=is_internvl,
             **inputs,
         )

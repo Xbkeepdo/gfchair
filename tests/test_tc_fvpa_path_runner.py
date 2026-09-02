@@ -5,11 +5,24 @@ from torch import nn
 
 from features.ffn_visual_path_attribution import target_scalar_from_logits
 from scripts.run_tc_fvpa_path_attribution import (
+    _choose_target_indices,
     final_block_gradients_at_replacement,
 )
 
 
 class TCFVPAPathRunnerTest(unittest.TestCase):
+    def test_conflicting_label_position_is_selected_only_once(self):
+        groups = {
+            9: [{"label": 1}, {"label": 0}],
+            17: [{"label": 1}],
+            85: [{"label": 0}],
+        }
+
+        selected = _choose_target_indices(groups, limit=2)
+
+        self.assertEqual(selected, [9, 17])
+        self.assertEqual(len(selected), len(set(selected)))
+
     def test_exact_final_block_suffix_matches_direct_autograd(self):
         torch.manual_seed(20260829)
         dtype = torch.float64

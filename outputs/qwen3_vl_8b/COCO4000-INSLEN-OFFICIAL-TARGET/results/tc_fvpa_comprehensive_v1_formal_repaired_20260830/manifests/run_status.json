@@ -1,0 +1,58 @@
+{
+  "completed_shards": [],
+  "created_unix": 1788079795.7280254,
+  "failed_cases": [],
+  "failed_shards": [],
+  "resume_commands": [
+    "/opt/conda/private/envs/vicr/bin/python scripts/run_tc_fvpa_path_attribution.py --model qwen3_vl_8b --device cuda:0 --devices cuda:0,cuda:1 --output-dir /home/apulis-dev/userdata/CODEX/test-cocochair/gfchair/outputs/qwen3_vl_8b/COCO4000-INSLEN-OFFICIAL-TARGET/results/tc_fvpa_comprehensive_v1_formal_repaired_20260830 --seed 20260829 --layers 9,18,27,36 --target-scalars log_probability,margin,logit --integration-points 1,4,8,16,32 --config /home/apulis-dev/userdata/CODEX/test-cocochair/gfchair/configs/model_configs_inslen_official_target.yaml --num-shards 2 --shard-id 0 --resume --formal --attribution-mode local --audit-vector-cases 0 --num-images 500",
+    "/opt/conda/private/envs/vicr/bin/python scripts/run_tc_fvpa_path_attribution.py --model qwen3_vl_8b --device cuda:1 --devices cuda:0,cuda:1 --output-dir /home/apulis-dev/userdata/CODEX/test-cocochair/gfchair/outputs/qwen3_vl_8b/COCO4000-INSLEN-OFFICIAL-TARGET/results/tc_fvpa_comprehensive_v1_formal_repaired_20260830 --seed 20260829 --layers 9,18,27,36 --target-scalars log_probability,margin,logit --integration-points 1,4,8,16,32 --config /home/apulis-dev/userdata/CODEX/test-cocochair/gfchair/configs/model_configs_inslen_official_target.yaml --num-shards 2 --shard-id 1 --resume --formal --attribution-mode local --audit-vector-cases 0 --num-images 500",
+    "/opt/conda/private/envs/vicr/bin/python scripts/run_tc_fvpa_path_attribution.py --model qwen3_vl_8b --device cuda:0 --devices cuda:0,cuda:1 --output-dir /home/apulis-dev/userdata/CODEX/test-cocochair/gfchair/outputs/qwen3_vl_8b/COCO4000-INSLEN-OFFICIAL-TARGET/results/tc_fvpa_comprehensive_v1_formal_repaired_20260830 --seed 20260829 --layers 9,18,27,36 --target-scalars log_probability,margin,logit --integration-points 1,4,8,16,32 --config /home/apulis-dev/userdata/CODEX/test-cocochair/gfchair/configs/model_configs_inslen_official_target.yaml --num-shards 2 --shard-id 0 --resume --formal --attribution-mode path --num-images 200",
+    "/opt/conda/private/envs/vicr/bin/python scripts/run_tc_fvpa_path_attribution.py --model qwen3_vl_8b --device cuda:1 --devices cuda:0,cuda:1 --output-dir /home/apulis-dev/userdata/CODEX/test-cocochair/gfchair/outputs/qwen3_vl_8b/COCO4000-INSLEN-OFFICIAL-TARGET/results/tc_fvpa_comprehensive_v1_formal_repaired_20260830 --seed 20260829 --layers 9,18,27,36 --target-scalars log_probability,margin,logit --integration-points 1,4,8,16,32 --config /home/apulis-dev/userdata/CODEX/test-cocochair/gfchair/configs/model_configs_inslen_official_target.yaml --num-shards 2 --shard-id 1 --resume --formal --attribution-mode path --num-images 200"
+  ],
+  "schema_version": "tc-fvpa-comprehensive-v1",
+  "stages": {
+    "local_riesz:qwen3_vl_8b:shard0": {
+      "details": {
+        "case_shard": "/home/apulis-dev/userdata/CODEX/test-cocochair/gfchair/outputs/qwen3_vl_8b/COCO4000-INSLEN-OFFICIAL-TARGET/results/tc_fvpa_comprehensive_v1_formal_repaired_20260830/shards/local_case_rank00_shard_00000.pt",
+        "resumed_existing": true
+      },
+      "started_unix": 1788079795.8026376,
+      "status": "PASS",
+      "updated_unix": 1788084604.3381205
+    },
+    "local_riesz:qwen3_vl_8b:shard1": {
+      "details": {
+        "case_shard": "/home/apulis-dev/userdata/CODEX/test-cocochair/gfchair/outputs/qwen3_vl_8b/COCO4000-INSLEN-OFFICIAL-TARGET/results/tc_fvpa_comprehensive_v1_formal_repaired_20260830/shards/local_case_rank01_shard_00000.pt",
+        "resumed_existing": true
+      },
+      "started_unix": 1788079826.312357,
+      "status": "PASS",
+      "updated_unix": 1788084634.7951596
+    },
+    "path_attribution:qwen3_vl_8b:shard0": {
+      "details": {
+        "elapsed_seconds": 17337.24798634404,
+        "failed_cases": 5,
+        "images": 100,
+        "measured_cases": 743,
+        "peak_gpu_memory_bytes": 24587555328
+      },
+      "started_unix": 1788084799.3038712,
+      "status": "FAIL",
+      "updated_unix": 1788102143.586912
+    },
+    "path_attribution:qwen3_vl_8b:shard1": {
+      "details": {
+        "elapsed_seconds": 16166.254655370023,
+        "failed_cases": 5,
+        "images": 100,
+        "measured_cases": 703,
+        "peak_gpu_memory_bytes": 24425425920
+      },
+      "started_unix": 1788084829.3735275,
+      "status": "FAIL",
+      "updated_unix": 1788101002.734152
+    }
+  },
+  "updated_unix": 1788102143.586912
+}

@@ -1,0 +1,118 @@
+{
+  "config": {
+    "attribution_mode": "local",
+    "audit_vector_cases": 0,
+    "calibration_cohort": "none during extraction; downstream calibration must be train-image-only",
+    "competitor_rule": "fixed highest non-target token from clean logits",
+    "config": "/home/apulis-dev/userdata/CODEX/test-cocochair/gfchair/configs/model_configs_inslen_official_target.yaml",
+    "device": "cuda:0",
+    "devices": [
+      "cuda:0",
+      "cuda:1"
+    ],
+    "integration_points": [
+      1,
+      4,
+      8,
+      16,
+      32
+    ],
+    "layers": [
+      8,
+      16,
+      24,
+      32
+    ],
+    "max_targets_per_image": 2,
+    "mode": "formal",
+    "model": "llava_1_5_7b",
+    "num_images": 500,
+    "num_shards": 2,
+    "output_dir": "/home/apulis-dev/userdata/CODEX/test-cocochair/gfchair/outputs/llava_1_5_7b/COCO4000-INSLEN-OFFICIAL-TARGET/results/tc_fvpa_comprehensive_v1_formal_repaired_20260830",
+    "path_baseline": "current-block zero visual write: z0=z-sum_m a_m; not a no-image baseline",
+    "path_batch_size": 1,
+    "quadrature": [
+      "trapezoid",
+      "gauss_legendre"
+    ],
+    "resume": true,
+    "seed": 20260829,
+    "shard_id": 0,
+    "target_protocol": "InsLen official first subtoken, first occurrence; target excluded from prefix",
+    "target_scalars": [
+      "log_probability",
+      "margin",
+      "logit"
+    ]
+  },
+  "created_unix": 1788099911.8990664,
+  "exact_command": [
+    "/opt/conda/private/envs/vicr/bin/python",
+    "scripts/run_tc_fvpa_path_attribution.py",
+    "--model",
+    "llava_1_5_7b",
+    "--device",
+    "cuda:0",
+    "--devices",
+    "cuda:0,cuda:1",
+    "--output-dir",
+    "/home/apulis-dev/userdata/CODEX/test-cocochair/gfchair/outputs/llava_1_5_7b/COCO4000-INSLEN-OFFICIAL-TARGET/results/tc_fvpa_comprehensive_v1_formal_repaired_20260830",
+    "--seed",
+    "20260829",
+    "--layers",
+    "8,16,24,32",
+    "--target-scalars",
+    "log_probability,margin,logit",
+    "--integration-points",
+    "1,4,8,16,32",
+    "--config",
+    "/home/apulis-dev/userdata/CODEX/test-cocochair/gfchair/configs/model_configs_inslen_official_target.yaml",
+    "--num-shards",
+    "2",
+    "--shard-id",
+    "0",
+    "--resume",
+    "--formal",
+    "--attribution-mode",
+    "local",
+    "--audit-vector-cases",
+    "0",
+    "--num-images",
+    "500"
+  ],
+  "repository": {
+    "diff_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "diff_stat": {
+      "command": [
+        "git",
+        "diff",
+        "--stat"
+      ],
+      "elapsed_seconds": 0.010621309280395508,
+      "exit_code": 0,
+      "output": ""
+    },
+    "revision": {
+      "command": [
+        "git",
+        "rev-parse",
+        "HEAD"
+      ],
+      "elapsed_seconds": 0.02087879180908203,
+      "exit_code": 0,
+      "output": "6e92f8f3d8e44e43f53569ad35561efc2b0e295e\n"
+    },
+    "status": {
+      "command": [
+        "git",
+        "status",
+        "--short",
+        "--branch"
+      ],
+      "elapsed_seconds": 0.805689811706543,
+      "exit_code": 0,
+      "output": "## main...origin/main\n?? docs/CODEX_CONVERSATION_HANDOFF_20260830.md\n"
+    }
+  },
+  "schema_version": "tc-fvpa-comprehensive-v1"
+}

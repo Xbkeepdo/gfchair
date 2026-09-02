@@ -184,7 +184,7 @@ def _choose_target_indices(
             for index, spans in sorted(groups.items())
             if any(int(span["label"]) == label for span in spans)
         ]
-        if candidates:
+        if candidates and candidates[0] not in selected:
             selected.append(candidates[0])
     for index in sorted(groups):
         if len(selected) >= int(limit):

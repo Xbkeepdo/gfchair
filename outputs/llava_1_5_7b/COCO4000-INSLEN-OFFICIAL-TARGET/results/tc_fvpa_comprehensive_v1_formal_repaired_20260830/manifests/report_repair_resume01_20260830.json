@@ -1,0 +1,20 @@
+{
+  "detected_utc": "2026-08-30T19:08:42Z",
+  "issue": "reports/19_FORMAL_SCOPE_AND_BLOCKER_AUDIT.md was copied from a stale central smoke audit and contradicted this output root by reporting formal local/path/FP32/Shapley counts as zero or NOT RUN",
+  "scope": "report generation and final checksum/handoff rebuild only",
+  "numeric_artifacts_modified": false,
+  "root_cause": "scripts/build_tc_fvpa_reports.py copied report 19 only when the destination did not exist and used development-scale wording for formal LLaVA local/path evidence",
+  "repair": [
+    "generate report 19 dynamically from comprehensive_summary.json, stage summaries, and run_status.json",
+    "mark formal LLaVA local and path requirements PASS only when persisted denominators and the complete 30-cell path grid meet the frozen thresholds",
+    "retain lower-layer FP32, non-final-layer Shapley, unimplemented counterfactuals, Parquet, detector/bootstrap, cross-model, and VQA work as PARTIAL, BLOCKED, or NOT_RUN",
+    "flush the final report log line before the terminal output checksum pass"
+  ],
+  "validation": {
+    "command": "/opt/conda/private/envs/vicr/bin/python -m unittest -v tests.test_tc_fvpa_reports tests.test_tc_fvpa_path_runner tests.test_tc_fvpa_artifacts tests.test_load_tc_fvpa_results",
+    "result": "PASS",
+    "tests": 15
+  },
+  "git_commit_created": false,
+  "git_push_performed": false
+}

@@ -1,0 +1,115 @@
+{
+  "audit_utc": "2026-08-30T19:20:00Z",
+  "model": "llava_1_5_7b",
+  "overall_execution_status": "COMPLETE_WITH_DECLARED_BLOCKERS",
+  "coordinator": {
+    "pid": 499771,
+    "ppid": 1,
+    "sid": 499771,
+    "pgid": 499771,
+    "detached": true,
+    "completion_evidence": "coordinator log records local, path, fp32, shapley, analyze, counterfactuals, and reports complete; process and all workers exited"
+  },
+  "measured": {
+    "local": {
+      "images": 500,
+      "unique_target_layer_cases": 3656,
+      "failures": 0,
+      "stage_status": "PASS"
+    },
+    "path": {
+      "images": 200,
+      "unique_target_layer_cases": 1420,
+      "path_convergence_rows": 42600,
+      "path_batch_size_requested": 1,
+      "path_batch_size_effective": 1,
+      "path_batch_oom_fallbacks": 0,
+      "failures": 0,
+      "stage_status": "PASS"
+    },
+    "fp32": {
+      "images": 100,
+      "layer_32_measured_rows": 60144,
+      "blocked_rows": 6,
+      "blocked_layers": [8, 16, 24],
+      "failures": 0,
+      "stage_status": "BLOCKED"
+    },
+    "shapley": {
+      "images": 50,
+      "layer_32_measured_cases": 300,
+      "running_estimates": 38400,
+      "permutations": 128,
+      "not_in_scope_layers": [8, 16, 24],
+      "failures": 0,
+      "stage_status": "PASS"
+    },
+    "counterfactuals": {
+      "rows": 46830,
+      "measured_frozen_write_rows": 46815,
+      "not_run_rows": 15,
+      "family_status": {
+        "frozen_write": "PASS",
+        "fixed_qk": "NOT_RUN",
+        "activation_patching": "NOT_RUN",
+        "pixel_counterfactual": "NOT_RUN"
+      },
+      "stage_status": "BLOCKED"
+    }
+  },
+  "optional_outputs": {
+    "parquet": "BLOCKED_MISSING_PANDAS_PARQUET_DEPENDENCIES",
+    "pt_csv_gz": "PASS",
+    "vqa_benchmarks": "NOT_RUN",
+    "cross_model": "NOT_RUN"
+  },
+  "validation": {
+    "directed_unittest": "37/37 PASS",
+    "loader_with_checksums": "PASS, 3656 WRITE rows",
+    "pt_nonfinite_values": 0,
+    "csv_nonfinite_literals": 0,
+    "output_checksum_entries": 78,
+    "output_checksum_mismatches": 0,
+    "handoff_files": 50,
+    "handoff_checksum_mismatches": 0
+  },
+  "audit_attempts": [
+    {
+      "attempt": 1,
+      "status": "AUDIT_SCRIPT_ERROR",
+      "traceback_tail": "json.decoder.JSONDecodeError: Expecting value: line 1 column 1 (char 0)",
+      "cause": "CSV.GZ tables were incorrectly parsed as JSONL",
+      "artifact_failure": false
+    },
+    {
+      "attempt": 2,
+      "status": "AUDIT_ASSERTION_ERROR",
+      "traceback_tail": "AssertionError: ('interventions.csv.gz', 60150, 60144)",
+      "cause": "expected count omitted six valid lower-layer BLOCKED rows",
+      "artifact_failure": false
+    },
+    {
+      "attempt": 3,
+      "status": "PASS",
+      "method": "csv.DictReader with MEASURED/BLOCKED/NOT_RUN denominators audited separately"
+    }
+  ],
+  "report_repair": {
+    "status": "PASS",
+    "details_manifest": "manifests/report_repair_resume01_20260830.json",
+    "numeric_artifacts_modified": false
+  },
+  "isolation": {
+    "current_machine_gpu": "2x NVIDIA GeForce RTX 4090",
+    "forbidden_processes_at_final_audit": 0,
+    "shared_qwen3_directory_changed_concurrently": true,
+    "shared_qwen3_change_attribution": "independent old queue whose persisted hardware manifest records 2x RTX 3090 and whose exact command names qwen3_vl_8b; no command in this execution targeted that root",
+    "internvl_directory_modified_by_this_execution": false,
+    "vqa_directory_modified_by_this_execution": false
+  },
+  "git": {
+    "head": "6e92f8f3d8e44e43f53569ad35561efc2b0e295e",
+    "commit_created": false,
+    "push_performed": false
+  }
+}

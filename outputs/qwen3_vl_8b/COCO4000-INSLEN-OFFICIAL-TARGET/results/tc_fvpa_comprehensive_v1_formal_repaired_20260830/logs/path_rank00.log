@@ -1,0 +1,111 @@
+COMMAND: /opt/conda/private/envs/vicr/bin/python scripts/run_tc_fvpa_path_attribution.py --model qwen3_vl_8b --device cuda:0 --devices cuda:0,cuda:1 --output-dir /home/apulis-dev/userdata/CODEX/test-cocochair/gfchair/outputs/qwen3_vl_8b/COCO4000-INSLEN-OFFICIAL-TARGET/results/tc_fvpa_comprehensive_v1_formal_repaired_20260830 --seed 20260829 --layers 9,18,27,36 --target-scalars log_probability,margin,logit --integration-points 1,4,8,16,32 --config /home/apulis-dev/userdata/CODEX/test-cocochair/gfchair/configs/model_configs_inslen_official_target.yaml --num-shards 2 --shard-id 0 --resume --formal --attribution-mode path --num-images 200
+`torch_dtype` is deprecated! Use `dtype` instead!
+[Qwen3VLWrapper] Loading model from /home/apulis-dev/userdata/models/Qwen3-VL-8B-Instruct ...
+Loading checkpoint shards:   0%|          | 0/4 [00:00<?, ?it/s]Loading checkpoint shards:  25%|██▌       | 1/4 [00:01<00:04,  1.43s/it]Loading checkpoint shards:  50%|█████     | 2/4 [00:02<00:02,  1.42s/it]Loading checkpoint shards:  75%|███████▌  | 3/4 [00:04<00:01,  1.43s/it]Loading checkpoint shards: 100%|██████████| 4/4 [00:05<00:00,  1.21s/it]Loading checkpoint shards: 100%|██████████| 4/4 [00:05<00:00,  1.29s/it]
+[Qwen3VLWrapper] Loaded. image_token=151655, vision_start=151652, vision_end=151653
+[TC-FVPA path] 1/100 image=368602 cases=8 failures=0
+[TC-FVPA path] 2/100 image=254816 cases=12 failures=0
+[TC-FVPA path] 3/100 image=314557 cases=20 failures=0
+[TC-FVPA path] 4/100 image=577796 cases=28 failures=0
+[TC-FVPA path] 5/100 image=400847 cases=32 failures=0
+[TC-FVPA path] 6/100 image=460347 cases=40 failures=0
+[TC-FVPA path] 7/100 image=490624 cases=48 failures=0
+[TC-FVPA path] 8/100 image=578848 cases=56 failures=0
+[TC-FVPA path] 9/100 image=469609 cases=64 failures=0
+[TC-FVPA path] 10/100 image=535183 cases=72 failures=0
+[TC-FVPA path] 11/100 image=24805 cases=76 failures=0
+[TC-FVPA path] 12/100 image=404738 cases=80 failures=0
+[TC-FVPA path] 13/100 image=364580 cases=88 failures=0
+[TC-FVPA path] 14/100 image=452027 cases=96 failures=0
+[TC-FVPA path] 15/100 image=79545 cases=100 failures=0
+[TC-FVPA path] 16/100 image=427655 cases=108 failures=0
+[TC-FVPA path] 17/100 image=81061 cases=116 failures=0
+[TC-FVPA path] 18/100 image=427193 cases=120 failures=0
+[TC-FVPA path] 19/100 image=153486 cases=128 failures=0
+[TC-FVPA path] 20/100 image=347460 cases=136 failures=0
+[TC-FVPA path] 21/100 image=24566 cases=140 failures=0
+[TC-FVPA path] 22/100 image=99567 cases=148 failures=0
+[TC-FVPA path] 23/100 image=576650 cases=156 failures=0
+[TC-FVPA path] 24/100 image=486991 cases=158 failures=2
+[TC-FVPA path] 25/100 image=24693 cases=165 failures=3
+[TC-FVPA path] 26/100 image=456239 cases=173 failures=3
+[TC-FVPA path] 27/100 image=50637 cases=177 failures=3
+[TC-FVPA path] 28/100 image=92935 cases=185 failures=3
+[TC-FVPA path] 29/100 image=198367 cases=193 failures=3
+[TC-FVPA path] 30/100 image=488567 cases=201 failures=3
+[TC-FVPA path] 31/100 image=11360 cases=209 failures=3
+[TC-FVPA path] 32/100 image=260818 cases=217 failures=3
+[TC-FVPA path] 33/100 image=453273 cases=221 failures=3
+[TC-FVPA path] 34/100 image=195889 cases=229 failures=3
+[TC-FVPA path] 35/100 image=272673 cases=233 failures=3
+[TC-FVPA path] 36/100 image=559614 cases=241 failures=3
+[TC-FVPA path] 37/100 image=300245 cases=249 failures=3
+[TC-FVPA path] 38/100 image=374249 cases=257 failures=3
+[TC-FVPA path] 39/100 image=397287 cases=261 failures=3
+[TC-FVPA path] 40/100 image=568502 cases=269 failures=3
+[TC-FVPA path] 41/100 image=194851 cases=277 failures=3
+[TC-FVPA path] 42/100 image=382333 cases=281 failures=3
+[TC-FVPA path] 43/100 image=529568 cases=289 failures=3
+[TC-FVPA path] 44/100 image=220526 cases=297 failures=3
+[TC-FVPA path] 45/100 image=369310 cases=305 failures=3
+[TC-FVPA path] 46/100 image=435358 cases=313 failures=3
+[TC-FVPA path] 47/100 image=313928 cases=321 failures=3
+[TC-FVPA path] 48/100 image=253575 cases=329 failures=3
+[TC-FVPA path] 49/100 image=542959 cases=337 failures=3
+[TC-FVPA path] 50/100 image=116517 cases=345 failures=3
+[TC-FVPA path] 51/100 image=7256 cases=353 failures=3
+[TC-FVPA path] 52/100 image=263068 cases=361 failures=3
+[TC-FVPA path] 53/100 image=39150 cases=369 failures=3
+[TC-FVPA path] 54/100 image=277674 cases=377 failures=3
+[TC-FVPA path] 55/100 image=240250 cases=384 failures=4
+[TC-FVPA path] 56/100 image=47552 cases=392 failures=4
+[TC-FVPA path] 57/100 image=65530 cases=400 failures=4
+[TC-FVPA path] 58/100 image=279649 cases=408 failures=4
+[TC-FVPA path] 59/100 image=330750 cases=416 failures=4
+[TC-FVPA path] 60/100 image=356906 cases=424 failures=4
+[TC-FVPA path] 61/100 image=330439 cases=432 failures=4
+[TC-FVPA path] 62/100 image=30595 cases=440 failures=4
+[TC-FVPA path] 63/100 image=306553 cases=448 failures=4
+[TC-FVPA path] 64/100 image=555686 cases=456 failures=4
+[TC-FVPA path] 65/100 image=579231 cases=464 failures=4
+[TC-FVPA path] 66/100 image=191126 cases=472 failures=4
+[TC-FVPA path] 67/100 image=831 cases=480 failures=4
+[TC-FVPA path] 68/100 image=529649 cases=488 failures=4
+[TC-FVPA path] 69/100 image=479836 cases=496 failures=4
+[TC-FVPA path] 70/100 image=534669 cases=504 failures=4
+[TC-FVPA path] 71/100 image=272440 cases=512 failures=4
+[TC-FVPA path] 72/100 image=259342 cases=519 failures=5
+[TC-FVPA path] 73/100 image=182775 cases=527 failures=5
+[TC-FVPA path] 74/100 image=523565 cases=535 failures=5
+[TC-FVPA path] 75/100 image=359239 cases=543 failures=5
+[TC-FVPA path] 76/100 image=139623 cases=551 failures=5
+[TC-FVPA path] 77/100 image=167166 cases=559 failures=5
+[TC-FVPA path] 78/100 image=183049 cases=567 failures=5
+[TC-FVPA path] 79/100 image=481710 cases=575 failures=5
+[TC-FVPA path] 80/100 image=15528 cases=583 failures=5
+[TC-FVPA path] 81/100 image=149550 cases=591 failures=5
+[TC-FVPA path] 82/100 image=376264 cases=599 failures=5
+[TC-FVPA path] 83/100 image=194956 cases=607 failures=5
+[TC-FVPA path] 84/100 image=327186 cases=615 failures=5
+[TC-FVPA path] 85/100 image=531134 cases=623 failures=5
+[TC-FVPA path] 86/100 image=162067 cases=631 failures=5
+[TC-FVPA path] 87/100 image=119861 cases=639 failures=5
+[TC-FVPA path] 88/100 image=36539 cases=647 failures=5
+[TC-FVPA path] 89/100 image=139281 cases=655 failures=5
+[TC-FVPA path] 90/100 image=475890 cases=663 failures=5
+[TC-FVPA path] 91/100 image=206381 cases=671 failures=5
+[TC-FVPA path] 92/100 image=223182 cases=679 failures=5
+[TC-FVPA path] 93/100 image=530466 cases=687 failures=5
+[TC-FVPA path] 94/100 image=94940 cases=695 failures=5
+[TC-FVPA path] 95/100 image=469329 cases=703 failures=5
+[TC-FVPA path] 96/100 image=113333 cases=711 failures=5
+[TC-FVPA path] 97/100 image=336302 cases=719 failures=5
+[TC-FVPA path] 98/100 image=222771 cases=727 failures=5
+[TC-FVPA path] 99/100 image=350447 cases=735 failures=5
+[TC-FVPA path] 100/100 image=184402 cases=743 failures=5
+Traceback (most recent call last):
+  File "/home/apulis-dev/userdata/CODEX/test-cocochair/gfchair/scripts/run_tc_fvpa_path_attribution.py", line 1757, in <module>
+    main()
+  File "/home/apulis-dev/userdata/CODEX/test-cocochair/gfchair/scripts/run_tc_fvpa_path_attribution.py", line 1732, in main
+    raise RuntimeError(
+RuntimeError: path extraction ended with status FAIL; failures=5

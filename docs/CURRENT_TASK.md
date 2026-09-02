@@ -1,5 +1,31 @@
 # Current Task
 
+## 2026-09-02 TC-FVPA 当前结果汇总与 GitHub 可审阅快照
+
+- 按用户要求新增 `docs/TC_FVPA_CURRENT_RESULTS_20260902.md`，统一汇总 Qwen2.5 与 LLaVA 已封存正式结果、Qwen3 partial/OOM 失败和 InternVL 未启动状态。Qwen2/LLaVA 的 Local/Path 规模、Path completeness、frozen-write 相关、真 FP32、Shapley 和描述性空间指标均从 compact artifact 重新计算；未运行的 detector/bootstrap/VQA/fixed-QK/activation/pixel/neuron 项继续明确标为 `NOT RUN/BLOCKED`。
+- Qwen3 不能升级为正式结果：Local shard 实际为 `3743 success + 1 OOM`，虽然旧 resume 状态误写 PASS；Path 两 rank 均扫描 100 images 后以 `743+703=1446 success`、`5+5=10 OOM` 结束为 FAIL。控制器因 Qwen3 未生成 checksum-verified formal root 于 2026-08-30 23:03 停止，InternVL 没有启动或生成 formal root。
+- 将待提交的 report builder 从 LLaVA 专用硬编码泛化为按 `FORMAL_LAYERS_BY_MODEL` 核验冻结层位；Qwen2 `7/14/21/28` 与 LLaVA/InternVL `8/16/24/32` 均可正确判断。FP32 报告现仅在有 measured rows、0 blocked layers、0 failures 时标 PASS；formal scope、handoff 与 verdict 不再错误写死 LLaVA/Qwen。
+- 用冻结 LLaVA reports 命令只重建报告、handoff 和 checksum，没有重算或改写数值 shard。重建后 checksum `78/78`、handoff `SHA256SUMS 50/50` 全部匹配；checksum-enabled loader 成功读取 WRITE `3656` rows。定向 6 模块 `20/20` PASS，相关 `py_compile` 与 `git diff --check` PASS。首次测试因报告措辞已泛化但旧断言仍匹配旧句子而 `1/20` 失败，更新断言后完整重跑通过；这是测试预期同步问题，不是实验失败。发布前一次临时 checksum 审计又误把 manifest 的字典 entry 当成纯 digest 字符串而产生 78 个假 mismatch，按 `entry['sha256']` 修正后 78/78 通过，artifact 未损坏。
+- GitHub 快照沿用精简策略：纳入汇总、代码/测试、LLaVA reports/manifests/metrics/schemas、约 10 MiB compact CSV.GZ 与小型 Shapley case 表，以及 Qwen3 小型状态/失败日志；不纳入约 486 MiB LLaVA 与 199 MiB Qwen3 根中的 token maps、rank shards、audit vectors、Shapley running estimates 或 tarball。公开快照足以复核汇总统计，但不冒充完整张量归档。
+
+## 2026-08-30 双 RTX 4090 LLaVA TC-FVPA 正式实验完成与终验
+
+- 正式根 `outputs/llava_1_5_7b/COCO4000-INSLEN-OFFICIAL-TARGET/results/tc_fvpa_comprehensive_v1_formal_repaired_20260830` 已由 detached coordinator PID `499771`（PPID 1、SID/PGID 499771）按冻结命令完成 local、path、真 FP32、Shapley、analyze、counterfactuals 和 reports，顶层日志 `outputs/llava_1_5_7b/COCO4000-INSLEN-OFFICIAL-TARGET/tc_fvpa_comprehensive_v1_formal_repaired_20260830.resume01.coordinator.log` 逐阶段记录 complete，最终所有 worker 退出、两张 RTX 4090 均回到 0 MiB/0%。没有运行 VQA benchmark、Qwen3 或 InternVL。
+- Local 两 shard 为 `1728+1928=3656` 个唯一 target-layer cases、500 images、四层各 914、REAL/HALL=`2528/1128`，全部 MEASURED、failure=0、stage PASS。首次 rank1 重复 causal position 失败的 traceback、失败 manifest 和旧日志继续保留；修复后只安全复用 rank0 PASS，rank1 重跑通过，没有覆盖失败证据。
+- Path 两 shard为 `692+728=1420` 个唯一 target-layer cases、200 images、四层各 355、REAL/HALL=`884/536`，全部 MEASURED、failure=0、stage PASS。所有行均保持 requested/effective `path_batch_size=1`、OOM fallback=0，并完整包含 `3 scalars × K(1/4/8/16/32) × 2 quadratures=30` 项，共 42600 convergence rows。
+- 真 FP32 两 shard 各 50 images，共 60144 个 layer-32 MEASURED intervention rows，全部 `final_block_true_fp32`/`torch.float32`、failure=0；layers 8/16/24 各 shard各有一条带 error 的 BLOCKED 记录，因此两个 FP32 stage 诚实为 BLOCKED。Shapley 完成 50 images、300 个 layer-32 cases、38400 running estimates、8/16 regions、128 permutations、failure=0；layers 8/16/24 明确为 `not_in_scope_layers`。
+- Analyze stage PASS，生成 3656 case rows、42600 path convergence rows、76032 token-score sample rows和 57464 spatial rows；Parquet 因正式环境无 pandas/Parquet 依赖明确 BLOCKED，权威 PT/CSV.GZ 均存在。Counterfactual 表共 46830 行，其中 frozen-write 46815 MEASURED，另外 15 行诚实 NOT_RUN；fixed-QK、activation patching、pixel counterfactual 均 NOT_RUN，所以 stage 为 BLOCKED。Reports stage PASS，但最终科学 verdict 保持 PARTIAL。
+- 终验发现旧 report builder 会把中央 smoke 版 `19_FORMAL_SCOPE_AND_BLOCKER_AUDIT.md` 静态带入并误报本次 formal 计数为 0/NOT RUN；已改为从本根 summary/run_status 动态生成，并修复最终 report-log/checksum 时序。修复后 report 05/06 分别把已达标的正式 Local/Path 标 PASS，report 18 保持 PARTIAL，report 19 逐项保留 lower-layer FP32、非最终层 Shapley、未实现 counterfactual、Parquet、detector/bootstrap、cross-model 与 VQA blocker。数值 shard 未因报告修复改变。
+- 最终 output checksum 77/77、handoff 49/49 及内部 `SHA256SUMS` 全部匹配；正式 loader 在 checksum 验证开启时读取 WRITE 3656 rows 成功。PT 递归 finite 检查为 0 个 NaN/Inf；六张 CSV.GZ 表行数、状态和有限值审计通过。两次临时 CSV 审计脚本先后因误把 CSV 当 JSONL、再因漏计 6 条合法 BLOCKED intervention rows 退出，均是只读审计假设错误；第三次使用 `csv.DictReader` 和正确分母通过，未改 artifact。
+- 定向 `unittest` 37/37 PASS；`vicr` 环境没有 pytest，附加 pytest 命令在收集前报 `No module named pytest`，不属于实验失败。共享 Qwen3 目录在本次期间确有旧队列写入，但其 hardware manifest 明确是双 RTX 3090、独立 qwen3 exact command；本机 4090 进程树只含 LLaVA，未向 Qwen3/InternVL/VQA 根发出写命令。Git HEAD 仍为 `6e92f8f3d8e44e43f53569ad35561efc2b0e295e`，未 commit、未 push。
+
+## 2026-08-30 双 4090 LLaVA TC-FVPA local 冲突位置去重修复
+
+- LLaVA 正式根 `tc_fvpa_comprehensive_v1_formal_repaired_20260830` 的双卡 local 首轮完成两边各 250 图计算；rank0 以 1728 measured cases、0 failures 落盘并 PASS，rank1 在提交原子 shard 前因 `Duplicate case inside shard: llava_1_5_7b:449731:9:8` 诚实 FAIL。协调器按零失败门禁停止，完整 traceback 保留在 `logs/local_rank01.log` 和 `manifests/run_status.json`；没有进入 Path，也没有覆盖 rank0 产物。
+- 根因是 InsLen 官方首 subtoken/首次出现协议允许不同 detected word 指向同一因果位置。`image=449731` 的 REAL `toilet` 与 HALL `toothbrush` 都解析到 `response_index=9,target_token_id=304`；TC-FVPA 的 `_choose_target_indices()` 先按 HALL、REAL 取候选时把同一索引 append 两次，违反仓库既有“同一 `(image_id,response_index)` 只计算一次”的唯一位置原则。不能靠扩展 case key 把同一个预测事件伪装成两个独立 case。
+- 最小修复仅在选择器 append 前检查该位置尚未选中；随后原有补位循环用下一个唯一位置补足上限。固定 seed `20260829` 的 500 图 cohort 审计显示旧版只有 `449731:[9,9]`、`325736:[10,10]` 两张发生重复，均在 rank1；修复后重复选择为 0，rank0 选择完全不变，因此已有 rank0 PASS shard 可安全复用。200 图 Path cohort 也包含这两张，修复同时防止后续 Path 落盘失败。
+- 新增回归 `test_conflicting_label_position_is_selected_only_once`，覆盖 REAL/HALL 冲突位置只选一次并由下一唯一位置补位。相关 `py_compile`、`git diff --check` 和 7 个 TC-FVPA 定向模块共 30/30 测试通过。恢复运行前仍需保留首轮失败日志，并用新的 coordinator 日志/PID 文件启动 `--resume`，不覆盖失败证据。
+
 ## 2026-08-30 gfchair：当前 3090 队列改为 Qwen3 → InternVL，LLaVA 留给 4090
 
 - 按用户要求，将当前双 RTX 3090 机器的后续顺序改为 Qwen3 完成后只运行 InternVL；LLaVA 不再由本机自动启动，留给稍后的 4090 新对话。原队列父 shell `558757` 已先 `SIGSTOP` 并确认 Qwen3 coordinator/path 子进程继续满载，再精确终止该父 shell；Qwen3 PID `558763` 及两个 Path worker `559546/559547` 没有重启或丢失当前进度。

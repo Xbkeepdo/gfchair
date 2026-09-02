@@ -1,0 +1,15 @@
+[2026-08-30T21:31:21+08:00] WATCH qwen_pid=558763; LLaVA intentionally excluded
+[2026-08-30T23:02:37+08:00] QWEN3 PROCESS EXITED; validating sealed results
+Traceback (most recent call last):
+  File "/home/apulis-dev/userdata/CODEX/test-cocochair/gfchair/scripts/load_tc_fvpa_results.py", line 231, in <module>
+    main()
+  File "/home/apulis-dev/userdata/CODEX/test-cocochair/gfchair/scripts/load_tc_fvpa_results.py", line 209, in main
+    rows = select_token_maps(
+  File "/home/apulis-dev/userdata/CODEX/test-cocochair/gfchair/scripts/load_tc_fvpa_results.py", line 145, in select_token_maps
+    for row in iter_token_maps(result_root, verify_checksums=verify_checksums):
+  File "/home/apulis-dev/userdata/CODEX/test-cocochair/gfchair/scripts/load_tc_fvpa_results.py", line 116, in iter_token_maps
+    verify_checksum(path, root, checksums)
+  File "/home/apulis-dev/userdata/CODEX/test-cocochair/gfchair/scripts/load_tc_fvpa_results.py", line 49, in verify_checksum
+    raise KeyError(f"No persisted checksum for {relative}")
+KeyError: 'No persisted checksum for shards/token_maps_rank00_shard_00000.pt'
+[2026-08-30T23:03:03+08:00] BLOCKED: Qwen3 did not produce a checksum-verified formal result; InternVL not started; rc=1

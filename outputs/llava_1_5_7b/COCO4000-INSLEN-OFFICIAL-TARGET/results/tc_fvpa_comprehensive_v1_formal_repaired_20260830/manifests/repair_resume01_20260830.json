@@ -1,0 +1,41 @@
+{
+  "schema_version": "tc-fvpa-repair-record-v1",
+  "created_utc": "2026-08-30T14:47:44Z",
+  "created_unix": 1788101264,
+  "repository_revision": "6e92f8f3d8e44e43f53569ad35561efc2b0e295e",
+  "repair_diff_sha256": "4fc08942c6ba2a5e7b5246df473fc60dc967a016717a0950ddc67a10ea1d5208",
+  "failed_stage": "local_riesz:llava_1_5_7b:shard1",
+  "failure": "Duplicate case inside shard: llava_1_5_7b:449731:9:8",
+  "failure_gate": "The first coordinator stopped before Path and preserved the traceback.",
+  "root_cause": "The HALL and REAL selection passes could append the same official causal response index twice when two detected words shared one first-subtoken/first-occurrence position.",
+  "repair": "Deduplicate the selected response index before append; the existing fill loop then selects the next unique causal position without changing max_targets_per_image.",
+  "cohort_audit": {
+    "seed": 20260829,
+    "formal_images": 500,
+    "old_duplicate_images": {
+      "449731": [9, 9],
+      "325736": [10, 10]
+    },
+    "new_duplicate_images": 0,
+    "affected_rank": 1,
+    "rank0_selection_changed": false,
+    "path_200_contains_both_affected_images": true
+  },
+  "verification": {
+    "tc_fvpa_targeted_tests": "30/30 PASS",
+    "py_compile": "PASS",
+    "git_diff_check": "PASS",
+    "rank0_case_rows": 1728,
+    "rank0_token_maps": 1728,
+    "rank0_failures": 0,
+    "rank0_keys_unique": true,
+    "rank1_case_shard_before_resume": "ABSENT",
+    "rank1_token_map_shard_before_resume": "ABSENT"
+  },
+  "preserved_failure_artifacts": {
+    "logs/local_rank00_attempt01_pass.log": "cd66ecdeed75892353b7e54930b2622fdfb115fd9243b04ffe65dfaeab0af3f2",
+    "logs/local_rank01_attempt01_fail.log": "303adb3de88fde0398c99c8ac9b7a43d6fe31d41d2571387ddcd1fcac5383c05",
+    "manifests/run_status_attempt01_failure.json": "b93767330ee2b44ceca02e3c5ec52a9599734789f7498bb7de3be1f4cd8a283b"
+  },
+  "resume_policy": "Reuse the unchanged rank0 PASS shards, recompute rank1 local, and stop on any new failure before entering later phases."
+}

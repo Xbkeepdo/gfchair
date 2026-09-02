@@ -54,8 +54,11 @@ region-Shapley implementation is documented in
 frozen before real-model results; smoke, blocked, and formal statuses are kept
 separate in each result root's `manifests/run_status.json`.
 
-The review-ready 2026-08-30 partial snapshot, including the completed Qwen2
-measurements and the exact remaining blockers, is summarized in
+The latest review-ready snapshot includes the completed Qwen2 and LLaVA
+measurements, the failed Qwen3 partial run, the unstarted InternVL run, and all
+remaining blockers:
+[`docs/TC_FVPA_CURRENT_RESULTS_20260902.md`](docs/TC_FVPA_CURRENT_RESULTS_20260902.md).
+The earlier Qwen2-only checkpoint remains available in
 [`docs/TC_FVPA_CURRENT_RESULTS_20260830.md`](docs/TC_FVPA_CURRENT_RESULTS_20260830.md).
 
 ## Main Pipeline

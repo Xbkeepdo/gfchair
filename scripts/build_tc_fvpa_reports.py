@@ -25,6 +25,7 @@ from features.tc_fvpa_artifacts import (  # noqa: E402
     write_output_checksums,
 )
 from scripts.tc_fvpa_common import (  # noqa: E402
+    FORMAL_LAYERS_BY_MODEL,
     add_common_arguments,
     print_dry_run,
     shell_command,
@@ -66,7 +67,6 @@ def _copy_frozen_reports(layout: ExperimentLayout) -> None:
         "00_PREREGISTERED_HYPOTHESES.md",
         "01_PROBLEM_AND_NOTATION.md",
         "02_EXISTING_PIPELINE_AUDIT.md",
-        "19_FORMAL_SCOPE_AND_BLOCKER_AUDIT.md",
     ):
         source = central / name
         destination = layout.path(f"reports/{name}")
@@ -83,20 +83,45 @@ def _status_for(
     validation: dict,
 ) -> tuple[str, str]:
     cases = int(summary.get("case_rows", 0))
+    model = str(summary.get("model", "unknown_model"))
+    cohort_images = summary.get("cohort_image_counts", {})
+    cohort_cases = summary.get("cohort_case_counts", {})
+    layers = {int(layer) for layer in summary.get("layers", ())}
+    expected_layers = set(FORMAL_LAYERS_BY_MODEL.get(model, ()))
+    formal_layers_match = bool(expected_layers) and layers == expected_layers
+    local_formal = (
+        int(cohort_images.get("local", 0)) >= 500
+        and int(cohort_cases.get("local", 0)) >= 2_000
+        and formal_layers_match
+    )
+    path_cases = int(cohort_cases.get("path", 0))
+    path_rows = int(summary.get("path_convergence_rows", 0))
+    path_formal = (
+        int(cohort_images.get("path", 0)) >= 200
+        and path_cases >= 800
+        and path_rows >= path_cases * 30
+        and formal_layers_match
+    )
     if name == "03_ATTENTION_WRITE_DECOMPOSITION.md":
-        return ("PARTIAL", f"Measured in {cases} target-layer cases; formal all-model scale is incomplete.") if cases else ("NOT RUN", "No new case shards.")
+        return ("PARTIAL", f"Measured in {cases} target-layer cases; complete image-patch causality is outside this conditional-write estimand.") if cases else ("NOT RUN", "No new case shards.")
     if name == "04_JACOBIAN_NUMERICAL_VALIDATION.md":
         return ("PARTIAL", "Synthetic FP64 tests are separate; real-case reconstruction is available but no formal all-model audit.") if cases else ("NOT RUN", "No new real cases.")
     if name == "05_RIESZ_FUNCTIONAL_VALIDATION.md":
-        return ("PARTIAL", f"Local logit/margin/log-probability Riesz measured for {cases} cases; formal minimum/cross-model validation may be incomplete.") if cases else ("NOT RUN", "No local Riesz cases.")
+        if local_formal:
+            return "PASS", f"Formal {model} local cohort completed: {cohort_images['local']} images and {cohort_cases['local']} target-layer cases across layers {sorted(layers)}."
+        return ("PARTIAL", f"Local logit/margin/log-probability Riesz measured for {cases} cases; the formal {model} minimum or frozen layer set is incomplete.") if cases else ("NOT RUN", "No local Riesz cases.")
     if name == "06_PATH_ATTRIBUTION_VALIDATION.md":
-        rows = int(summary.get("path_convergence_rows", 0))
-        return ("PARTIAL", f"Persisted {rows} convergence rows; formal minimum and all baselines are not yet complete.") if rows else ("NOT RUN", "No path convergence rows.")
+        if path_formal:
+            return "PASS", f"Formal {model} path cohort completed: {cohort_images['path']} images, {path_cases} target-layer cases, and {path_rows} rows covering 3 scalars x 5 K values x 2 quadratures."
+        return ("PARTIAL", f"Persisted {path_rows} convergence rows; the formal {model} minimum, frozen layer set, or full path grid is incomplete.") if path_rows else ("NOT RUN", "No path convergence rows.")
     if name == "07_FP32_CAUSAL_VALIDATION.md":
         measured = int(fp32.get("measured_rows", 0))
-        blocked = fp32.get("blocked_layer_rows", 0)
+        blocked = int(fp32.get("blocked_layer_rows", 0))
+        failures = fp32.get("failures", ())
+        if measured and not blocked and not failures:
+            return "PASS", f"True FP32 causal validation measured {measured} rows with no blocked layers or failures."
         if measured:
-            return "PARTIAL", f"True FP32 final-block route measured {measured} rows; {blocked} lower-layer entries remain blocked."
+            return "PARTIAL", f"True FP32 causal validation measured {measured} rows; {blocked} lower-layer entries and {len(failures)} failures remain."
         return "NOT RUN", "No true-FP32 measurements."
     if name == "08_FINITE_COUNTERFACTUALS.md":
         rows = int(counter.get("rows", 0))
@@ -139,7 +164,7 @@ def _status_for(
         return "PASS", "The failure/limitation audit is present; see run_status.json for blocked stages and exact resume commands."
     if name == "18_FINAL_SCIENTIFIC_VERDICT.md":
         return (
-            ("PARTIAL", "Only a development-scale mechanistic verdict is possible; formal causal, spatial and detection axes remain open.")
+            ("PARTIAL", f"Formal {model} local/path evidence exists, while lower-layer true-FP32, full counterfactual, spatial-inference and detection axes remain open.")
             if cases
             else ("NOT RUN", "No new measurement supports a verdict.")
         )
@@ -172,6 +197,84 @@ Model: `{model}`
     temporary.replace(path)
 
 
+def _write_formal_scope_report(
+    path: Path,
+    *,
+    model: str,
+    summary: dict,
+    fp32: dict,
+    counter: dict,
+    shapley: dict,
+    run_status: dict,
+) -> None:
+    cohort_images = summary.get("cohort_image_counts", {})
+    cohort_cases = summary.get("cohort_case_counts", {})
+    local_images = int(cohort_images.get("local", 0))
+    path_images = int(cohort_images.get("path", 0))
+    local_cases = int(cohort_cases.get("local", 0))
+    path_cases = int(cohort_cases.get("path", 0))
+    path_rows = int(summary.get("path_convergence_rows", 0))
+    layers = sorted({int(layer) for layer in summary.get("layers", ())})
+    expected_layers = list(FORMAL_LAYERS_BY_MODEL.get(model, ()))
+    formal_layers_match = bool(expected_layers) and layers == expected_layers
+    final_layer = expected_layers[-1] if expected_layers else (layers[-1] if layers else "unknown")
+    lower_layers = expected_layers[:-1] if expected_layers else layers[:-1]
+    local_status = "PASS" if local_images >= 500 and local_cases >= 2_000 and formal_layers_match else "PARTIAL"
+    path_status = "PASS" if path_images >= 200 and path_cases >= 800 and path_rows >= path_cases * 30 and formal_layers_match else "PARTIAL"
+    fp32_rows = int(fp32.get("measured_rows", 0))
+    fp32_blocked = int(fp32.get("blocked_layer_rows", 0))
+    fp32_failures = len(fp32.get("failures", ()))
+    fp32_status = "PASS" if fp32_rows and not fp32_blocked and not fp32_failures else "PARTIAL / BLOCKED"
+    shapley_rows = int(shapley.get("measured_rows", 0))
+    permutations = int(shapley.get("permutations", 0))
+    not_in_scope = sorted({int(layer) for layer in shapley.get("not_in_scope_layers", ())})
+    counter_rows = int(counter.get("rows", 0))
+    families = counter.get("family_status", {})
+    parquet = summary.get("parquet", {})
+    parquet_statuses = sorted({str(entry.get("status", "NOT_RUN")) for entry in parquet.values()})
+    stages = {
+        name: entry.get("status")
+        for name, entry in sorted(run_status.get("stages", {}).items())
+    }
+    text = f"""# Formal scope and blocker audit
+
+This audit is generated from the persisted artifacts in this formal output root. It does not import smoke or cross-model results.
+
+Model: `{model}`
+
+## Frozen-protocol execution
+
+| Family | Persisted formal evidence | Status |
+|---|---|---|
+| Local Riesz | {local_images} images; {local_cases} unique target-layer cases; layers {layers}; three target scalars | **{local_status}** |
+| Path attribution | {path_images} images; {path_cases} unique target-layer cases; {path_rows} convergence rows (3 scalars x K=1/4/8/16/32 x trapezoid/Gauss-Legendre) | **{path_status}** |
+| True FP32 causal | {fp32_rows} measured rows; final layer {final_layer} included; {fp32_blocked} persisted lower-layer blocker entries; {fp32_failures} failures | **{fp32_status}** |
+| Shapley | {shapley_rows} final-layer true-FP32 rows; {permutations} permutations; non-final layers {not_in_scope} are outside implemented scope | **PARTIAL** |
+| Frozen-write counterfactual | {counter_rows} rows; family status `{json.dumps(families, ensure_ascii=False, sort_keys=True)}` | **PARTIAL / BLOCKED** |
+| Analyze | authoritative PT/CSV.GZ tables and metrics generated | **PASS** |
+| Reports | dynamic evidence reports and handoff bundle generated | **PASS** |
+
+## Explicitly blocked or not run
+
+- Lower-layer true-FP32 downstream execution (layers {lower_layers}): **BLOCKED** when listed in the persisted FP32 summary. No lower-layer result is approximated or relabeled measured.
+- Fixed-QK, activation patching, and pixel counterfactuals: **NOT_RUN**.
+- Real-neuron interventions, train-only geometry calibration, hallucination detector fitting, and paired 10,000-replicate spatial/detection bootstrap: **NOT_RUN**.
+- Cross-model generalization and external QA/VQA benchmarks: **NOT_RUN**. They were outside this single-model execution.
+- Parquet exports: **{', '.join(parquet_statuses) if parquet_statuses else 'NOT_RUN'}** because optional pandas/Parquet dependencies are unavailable. PT and CSV.GZ outputs are authoritative.
+
+## Persisted stage gate
+
+```json
+{json.dumps(stages, indent=2, ensure_ascii=False, sort_keys=True)}
+```
+
+The report status `PASS (scope audit)` means this audit faithfully records measured, blocked, and not-run items; it does not promote partial scientific families to PASS.
+"""
+    temporary = path.with_suffix(path.suffix + ".tmp")
+    temporary.write_text(text, encoding="utf-8")
+    temporary.replace(path)
+
+
 def main() -> None:
     args = parse_args()
     common = validate_common_args(args)
@@ -193,11 +296,13 @@ def main() -> None:
     validation = _load(
         layout.path("metrics/validation_test_summary.json"), {}
     )
-    status = load_run_status(layout)
     denominators = {
         "model": args.model,
         "images": summary.get("images", 0),
+        "local_images": summary.get("cohort_image_counts", {}).get("local", 0),
+        "path_images": summary.get("cohort_image_counts", {}).get("path", 0),
         "target_layer_cases": summary.get("case_rows", 0),
+        "path_target_layer_cases": summary.get("cohort_case_counts", {}).get("path", 0),
         "labels": summary.get("labels", {}),
         "layers": summary.get("layers", []),
         "path_convergence_rows": summary.get("path_convergence_rows", 0),
@@ -234,14 +339,32 @@ def main() -> None:
     ) + "\n"
     layout.path("reports/REPORT_INDEX.md").write_text(index, encoding="utf-8")
 
+    update_stage_status(
+        layout=layout,
+        stage=f"reports:{args.model}",
+        status="PASS",
+        details={"reports": len(REPORTS) + 6},
+        resume_command=shell_command(),
+    )
+    status = load_run_status(layout)
+    _write_formal_scope_report(
+        layout.path("reports/19_FORMAL_SCOPE_AND_BLOCKER_AUDIT.md"),
+        model=args.model,
+        summary=summary,
+        fp32=fp32,
+        counter=counter,
+        shapley=shapley,
+        run_status=status,
+    )
+
     repository = _load(layout.path("manifests/experiment_manifest.json"), {}).get("repository", {})
     current_repository = git_snapshot(ROOT)
     revision_output = repository.get("revision", {}).get("output", "unknown").strip()
     verdict = "NOT RUN"
     if denominators["target_layer_cases"]:
         verdict = (
-            "PARTIAL: mechanistic local/path measurements exist, but the complete "
-            "four-model causal/spatial/detection decision is not available."
+            f"PARTIAL: formal {args.model} local/path measurements exist, but lower-layer "
+            "true-FP32, full counterfactual, spatial-inference and detection axes remain unavailable."
         )
     handoff = f"""# HANDOFF TO CHATGPT
 
@@ -286,15 +409,15 @@ Scientific verdict: **{verdict}**
 
 ## Negative results and limitations
 
-Existing pre-TC-FVPA evidence shows that WRITE explains most JFFN token ranking and JFFN does not exceed WRITE spatially on LLaVA/InternVL. This handoff does not extrapolate to Qwen. True-FP32 downstream is currently valid only for the final block; lower-layer FP32, fixed-QK, activation/pixel counterfactual, Shapley, neuron intervention, geometry, formal detection and external QA remain explicitly incomplete unless their reports say otherwise.
+This handoff reports only the persisted `{args.model}` execution and does not extrapolate to other models. True-FP32 downstream and Shapley are currently valid only for the final block unless their summaries state otherwise; lower-layer FP32, fixed-QK, activation/pixel counterfactual, neuron intervention, geometry calibration, formal detection and external QA remain explicitly incomplete unless their reports say otherwise.
 
-No confidence interval or detector metric is reported for this development cohort: it has too few independent images/classes for the preregistered 10,000-replicate image-cluster bootstrap. No scientific figure is promoted from this underpowered cohort; inspect the numerical smoke artifacts in `tables/` instead.
+No confidence interval or detector metric is reported because the preregistered train/test detector and 10,000-replicate image-cluster bootstrap were not executed. No missing inference is reconstructed from the formal mechanistic tables.
 
 ## Fixed and unresolved implementation issues
 
 Fixed in this implementation: the target never enters its causal prefix; the margin competitor is frozen from clean logits; output-projection bias is assigned once; local JVP/VJP duality and path completeness are test-covered; negative contributions are persisted; the final-block causal route executes FFN, final norm, and LM head in actual FP32; shards and checksums are atomic and deduplicated.
 
-Unresolved: Qwen adapter parity, lower-layer true-FP32 downstream execution, fixed-QK/full-activation/pixel estimands, real neuron intervention, train-only cohort geometry calibration, formal spatial/detection statistics, and external QA. Parquet is blocked by missing optional dependencies; PT and CSV.GZ remain authoritative.
+Unresolved: model-specific lower-layer true-FP32 downstream execution where marked blocked, fixed-QK/full-activation/pixel estimands, real neuron intervention, train-only cohort geometry calibration, formal spatial/detection statistics, and external QA. Parquet is blocked by missing optional dependencies; PT and CSV.GZ remain authoritative.
 
 ## Data paths and loader
 
@@ -307,13 +430,6 @@ Unresolved: Qwen adapter parity, lower-layer true-FP32 downstream execution, fix
 No missing measurement is replaced by zero or inference.
 """
     layout.path("reports/HANDOFF_TO_CHATGPT.md").write_text(handoff, encoding="utf-8")
-    update_stage_status(
-        layout=layout,
-        stage=f"reports:{args.model}",
-        status="PASS",
-        details={"reports": len(REPORTS) + 6},
-        resume_command=shell_command(),
-    )
     write_output_checksums(layout)
     bundle_manifest = build_handoff_bundle(layout)
     atomic_json_save(
@@ -322,6 +438,7 @@ No missing measurement is replaced by zero or inference.
     )
     # The second pass makes the checksum manifest and copied handoff manifest
     # include the report summary produced from the first pass.
+    print(f"[TC-FVPA reports] wrote {layout.path('reports')}", flush=True)
     write_output_checksums(layout)
     build_handoff_bundle(layout)
     archive = layout.path("handoff_bundle.tar.gz")
@@ -331,7 +448,6 @@ No missing measurement is replaced by zero or inference.
     with tarfile.open(temporary_archive, "w:gz") as handle:
         handle.add(layout.path("handoff_bundle"), arcname="handoff_bundle")
     os.replace(temporary_archive, archive)
-    print(f"[TC-FVPA reports] wrote {layout.path('reports')}")
 
 
 if __name__ == "__main__":

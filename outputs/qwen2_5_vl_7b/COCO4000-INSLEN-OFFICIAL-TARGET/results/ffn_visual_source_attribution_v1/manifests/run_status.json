@@ -1,0 +1,120 @@
+{
+  "completed_shards": [],
+  "created_unix": 1788455854.7980878,
+  "failed_cases": [],
+  "failed_shards": [],
+  "resume_commands": [
+    "/opt/conda/private/envs/vicr/bin/python scripts/run_ffn_visual_source_audit.py --model qwen2_5_vl_7b --device cuda:0 --smoke --num-images 1 --audit-cases 1 --permutations 2 --no-resume",
+    "/opt/conda/private/envs/vicr/bin/python scripts/run_ffn_visual_source_attribution.py --model qwen2_5_vl_7b --device cuda:0 --smoke --num-images 1 --k 4 --jvp-backend vmap_jvp --no-resume",
+    "/opt/conda/private/envs/vicr/bin/python scripts/run_ffn_visual_source_audit.py --model qwen2_5_vl_7b --device cuda:0 --num-images 200 --audit-cases 50 --permutations 128 --resume",
+    "/opt/conda/private/envs/vicr/bin/python scripts/run_ffn_visual_source_attribution.py --model qwen2_5_vl_7b --device cuda:0 --k 0 --jvp-backend auto --num-images 0 --shard-images 10 --resume",
+    "/opt/conda/private/envs/vicr/bin/python scripts/run_ffn_visual_source_counterfactuals.py --model qwen2_5_vl_7b --device cuda:0 --num-images 100 --bootstrap-resamples 10000 --resume"
+  ],
+  "schema_version": "tc-fvpa-comprehensive-v1",
+  "stages": {
+    "analysis_and_detectors:qwen2_5_vl_7b": {
+      "details": {
+        "bootstrap_resamples": 10000,
+        "feature_sets": 13,
+        "gate": "PASS",
+        "seeds": [
+          43,
+          44,
+          45
+        ]
+      },
+      "started_unix": 1788468000.3127387,
+      "status": "PASS",
+      "updated_unix": 1788468000.3127387
+    },
+    "audit:qwen2_5_vl_7b:rank0": {
+      "details": {
+        "already_complete": 200,
+        "elapsed_seconds": 6.244413416017778,
+        "failure": null,
+        "pending_at_start": 0,
+        "requested_images": 200,
+        "stratified_fp32_cases_global": 50
+      },
+      "started_unix": 1788456308.6821885,
+      "status": "PASS",
+      "updated_unix": 1788458011.7635126
+    },
+    "audit_smoke:qwen2_5_vl_7b:rank0": {
+      "details": {
+        "already_complete": 0,
+        "elapsed_seconds": 67.7456364450045,
+        "failure": null,
+        "pending_at_start": 1,
+        "requested_images": 1,
+        "stratified_fp32_cases_global": 1
+      },
+      "started_unix": 1788455854.8463063,
+      "status": "PASS",
+      "updated_unix": 1788455922.5945172
+    },
+    "counterfactuals:qwen2_5_vl_7b:rank0": {
+      "details": {
+        "elapsed_seconds": 372.92258686898276,
+        "failure": null,
+        "frozen_k": 4,
+        "pending_at_start": 100,
+        "requested_images": 100
+      },
+      "started_unix": 1788476081.7158437,
+      "status": "PASS",
+      "updated_unix": 1788476455.0395336
+    },
+    "full_attribution:qwen2_5_vl_7b:rank0": {
+      "details": {
+        "already_complete": 3679,
+        "elapsed_seconds": 13.966585313901305,
+        "failures": [],
+        "lookup": {
+          "duplicate_mentions": 63,
+          "feature_rows": 8717,
+          "maximum_duplicate_error": 0.0,
+          "r_cos_origin": "old_hpre_cos source, hpre_raw_logit_gauss target, sqrt_matched_state OT",
+          "selected_images": 4000,
+          "target_formula": "normalize(dgst_t_attention_support_per_layer * dgst_t_hpre_raw_logit_gauss_gate_per_layer)",
+          "unique_targets": 8654
+        },
+        "model": "qwen2_5_vl_7b",
+        "pending_at_start": 321,
+        "rank": 0,
+        "requested_images": 4000,
+        "schema_version": "ffn-visual-source-attribution-v1",
+        "world_size": 1
+      },
+      "started_unix": 1788458103.2283323,
+      "status": "PASS",
+      "updated_unix": 1788464209.2341416
+    },
+    "smoke:qwen2_5_vl_7b:rank0": {
+      "details": {
+        "already_complete": 0,
+        "elapsed_seconds": 10.941701911971904,
+        "failures": [],
+        "lookup": {
+          "duplicate_mentions": 0,
+          "feature_rows": 8717,
+          "maximum_duplicate_error": 0.0,
+          "r_cos_origin": "old_hpre_cos source, hpre_raw_logit_gauss target, sqrt_matched_state OT",
+          "selected_images": 1,
+          "target_formula": "normalize(dgst_t_attention_support_per_layer * dgst_t_hpre_raw_logit_gauss_gate_per_layer)",
+          "unique_targets": 4
+        },
+        "model": "qwen2_5_vl_7b",
+        "pending_at_start": 1,
+        "rank": 0,
+        "requested_images": 1,
+        "schema_version": "ffn-visual-source-attribution-v1",
+        "world_size": 1
+      },
+      "started_unix": 1788455966.5673738,
+      "status": "PASS",
+      "updated_unix": 1788455980.4873154
+    }
+  },
+  "updated_unix": 1788476455.0395336
+}

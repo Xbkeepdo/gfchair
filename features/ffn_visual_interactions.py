@@ -20,6 +20,17 @@ class SampledShapleyResult:
     completeness_absolute_error: float
 
 
+@dataclass(frozen=True)
+class SampledVectorShapleyResult:
+    values: torch.Tensor
+    standard_errors: torch.Tensor
+    running_estimates: torch.Tensor
+    permutation_count: int
+    total_game_effect: torch.Tensor
+    completeness_vector: torch.Tensor
+    completeness_relative_error: float
+
+
 def aggregate_region_writes(
     writes: torch.Tensor, regions: Sequence[Sequence[int]]
 ) -> torch.Tensor:
@@ -116,4 +127,73 @@ def sampled_shapley(
         permutation_count=samples,
         total_game_effect=total_effect,
         completeness_absolute_error=abs(float(values.sum()) - total_effect),
+    )
+
+
+def sampled_vector_shapley(
+    *,
+    value_from_active_mask: Callable[[torch.Tensor], torch.Tensor],
+    region_count: int,
+    permutations: int,
+    seed: int,
+    persist_every: int = 1,
+    eps: float = 1e-12,
+) -> SampledVectorShapleyResult:
+    """Monte-Carlo permutation Shapley for a vector-valued game."""
+    count = int(region_count)
+    samples = int(permutations)
+    every = int(persist_every)
+    if count <= 0 or samples <= 0:
+        raise ValueError("region_count and permutations must be positive")
+    if every <= 0:
+        raise ValueError("persist_every must be positive")
+    empty = torch.zeros(count, dtype=torch.bool)
+    full = torch.ones(count, dtype=torch.bool)
+    baseline = value_from_active_mask(empty).detach().cpu().to(torch.float64)
+    complete = value_from_active_mask(full).detach().cpu().to(torch.float64)
+    if baseline.ndim != 1 or complete.shape != baseline.shape:
+        raise ValueError("vector game values must be matching [D] tensors")
+
+    rng = random.Random(int(seed))
+    contributions = torch.empty(samples, count, int(baseline.numel()), dtype=torch.float64)
+    running = []
+    for sample_index in range(samples):
+        order = list(range(count))
+        rng.shuffle(order)
+        active = torch.zeros(count, dtype=torch.bool)
+        previous = baseline
+        for region in order:
+            active[region] = True
+            current = (
+                value_from_active_mask(active.clone())
+                .detach()
+                .cpu()
+                .to(torch.float64)
+            )
+            if current.shape != baseline.shape:
+                raise ValueError("vector game returned inconsistent shapes")
+            contributions[sample_index, region] = current - previous
+            previous = current
+        if (sample_index + 1) % every == 0 or sample_index + 1 == samples:
+            running.append(contributions[: sample_index + 1].mean(dim=0).clone())
+
+    values = contributions.mean(dim=0)
+    standard_errors = (
+        contributions.std(dim=0, unbiased=True) / math.sqrt(samples)
+        if samples > 1
+        else torch.full_like(values, float("nan"))
+    )
+    total_effect = complete - baseline
+    completeness_vector = values.sum(dim=0) - total_effect
+    completeness_relative_error = float(
+        completeness_vector.norm() / total_effect.norm().clamp_min(float(eps))
+    )
+    return SampledVectorShapleyResult(
+        values=values,
+        standard_errors=standard_errors,
+        running_estimates=torch.stack(running),
+        permutation_count=samples,
+        total_game_effect=total_effect,
+        completeness_vector=completeness_vector,
+        completeness_relative_error=completeness_relative_error,
     )

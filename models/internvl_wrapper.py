@@ -755,6 +755,27 @@ class InternVLWrapper(BaseLVLMWrapper):
                 jffn_union_side_top_k=int(
                     cfg_dgst_t.get("jffn_union_side_top_k", 32)
                 ),
+                jffn_vector_path_integration_points=cfg_dgst_t.get(
+                    "jffn_vector_path_integration_points"
+                ),
+                jffn_vector_path_method=cfg_dgst_t.get(
+                    "jffn_vector_path_method", "gauss_legendre"
+                ),
+                jffn_vector_path_chunk_size=int(
+                    cfg_dgst_t.get("jffn_vector_path_chunk_size", 256)
+                ),
+                jffn_vector_path_jvp_backend=cfg_dgst_t.get(
+                    "jffn_vector_path_jvp_backend", "vmap_jvp"
+                ),
+                jffn_vector_path_only=bool(
+                    cfg_dgst_t.get("jffn_vector_path_only", False)
+                ),
+                jffn_vector_path_target_distributions=cfg_dgst_t.get(
+                    "jffn_vector_path_target_distributions"
+                ),
+                jffn_vector_path_evidence_strengths=cfg_dgst_t.get(
+                    "jffn_vector_path_evidence_strengths"
+                ),
                 release_layer_captures=(not keep_attention and not keep_hidden),
             )
 

@@ -1,5 +1,19 @@
 # 1. Executive conclusion
 
+## 2026-09-04 superseding addendum：Vector FFN Source Attribution
+
+本报告以下正文记录的是旧 scalar-path/JFFN 与 bbox 路线，作为历史结果保留；其 source attribution 定义和 Outcome C **不再代表当前主方法**。当前定义已由
+
+\[
+e_m=\int_0^1J_G(z^0+\alpha A)a_m\,d\alpha
+\]
+
+的 vector path attribution 取代。Riesz 只解释 downstream target consequence，bbox 只作 auxiliary sanity check，不再用于判定 FFN source attribution 是否成立。
+
+新路线已完成四模型正式实验，详见 [ffn_visual_source_attribution_report.md](ffn_visual_source_attribution_report.md)：Qwen2/LLaVA/Qwen3/InternVL 均完成 200 图 audit、全层 COCO4000、13×3 detector 和 100 图×4 层的三类因果干预。主模型四个预注册 `G−C` gate 的 10,000 次图片级 paired-bootstrap CI 下界全部大于 0，因此扩展与因果阶段为必跑且已完成。
+
+更新后的结论是：vector source detector 增量成立；`P_FFN` 与 `P_WRITE` 在 fixed-QK、activation patching 和 pixel counterfactual 中都稳定强于确定性随机 region，但 `P_FFN` 没有跨模型、跨 intervention 稳定优于 `P_WRITE`。因此旧 bbox 的负结果不能否定 vector 方法，新的因果结果也不能被表述成 FFN ranking 全面替代 WRITE。
+
 本轮只分析已经完成正式提取的 **LLaVA-1.5-7B** 和 **InternVL2.5-8B**。结论属于预注册决策树中的 **Outcome C**：
 
 \[

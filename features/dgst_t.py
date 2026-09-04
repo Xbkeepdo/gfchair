@@ -390,6 +390,13 @@ def compute_dgst_t_batch_from_captures(
     jffn_second_round_only: bool = False,
     jffn_union_target_distributions: Any | None = None,
     jffn_union_side_top_k: int = 32,
+    jffn_vector_path_integration_points: int | None = None,
+    jffn_vector_path_method: str = "gauss_legendre",
+    jffn_vector_path_chunk_size: int = 256,
+    jffn_vector_path_jvp_backend: str = "vmap_jvp",
+    jffn_vector_path_only: bool = False,
+    jffn_vector_path_target_distributions: Any | None = None,
+    jffn_vector_path_evidence_strengths: Any | None = None,
     release_layer_captures: bool = False,
 ) -> list[dict[str, Any]]:
     """Compute DGST-T for several target tokens directly from shared captures."""
@@ -451,7 +458,84 @@ def compute_dgst_t_batch_from_captures(
                 ),
                 union_target_distributions=jffn_union_target_distributions,
                 union_side_top_k=int(jffn_union_side_top_k),
+                vector_path_integration_points=jffn_vector_path_integration_points,
+                vector_path_method=str(jffn_vector_path_method),
+                vector_path_chunk_size=int(jffn_vector_path_chunk_size),
+                vector_path_jvp_backend=str(jffn_vector_path_jvp_backend),
+                vector_path_only=bool(jffn_vector_path_only),
+                vector_path_target_distributions=(
+                    jffn_vector_path_target_distributions
+                ),
+                vector_path_evidence_strengths=jffn_vector_path_evidence_strengths,
             )
+            if jffn_vector_path_only:
+                vector_results: list[dict[str, Any]] = []
+                for target_offset in range(len(target_ids)):
+                    result: dict[str, Any] = {}
+                    tensor_fields = (
+                        "attention_evidence",
+                        "ae_strength",
+                        "write_energy",
+                        "write_distribution",
+                        "ffn_path_gross",
+                        "ffn_distribution",
+                        "path_signed_q",
+                        "gross_strength",
+                        "net_strength",
+                        "kappa",
+                        "completeness_relative_error",
+                        "gross_degenerate",
+                        "net_degenerate",
+                    )
+                    for field in tensor_fields:
+                        result[f"ffn_source_{field}"] = torch.stack(
+                            [
+                                entry["vector_path"][field][target_offset]
+                                for entry in jffn_payload
+                            ]
+                        ).detach().cpu()
+                    for family in ("js", "ot"):
+                        for distance in ("D_EW", "D_WF", "D_EF"):
+                            result[f"ffn_source_{family}_{distance}"] = torch.stack(
+                                [
+                                    entry["vector_path"][family][distance][
+                                        target_offset
+                                    ]
+                                    for entry in jffn_payload
+                                ]
+                            ).detach().to(device="cpu", dtype=torch.float32)
+                    result["ffn_source_token_chunk_size"] = torch.tensor(
+                        [
+                            entry["vector_path"]["token_chunk_size"]
+                            for entry in jffn_payload
+                        ],
+                        dtype=torch.int32,
+                    )
+                    result["ffn_source_attention_reconstruction_relative_error"] = (
+                        torch.tensor(
+                            [
+                                entry["reconstruction_relative_error"]
+                                for entry in jffn_payload
+                            ],
+                            dtype=torch.float32,
+                        )
+                    )
+                    result["ffn_source_component_sum_relative_error"] = torch.tensor(
+                        [
+                            entry["component_sum_relative_error"]
+                            for entry in jffn_payload
+                        ],
+                        dtype=torch.float32,
+                    )
+                    result["ffn_source_quadrature"] = str(jffn_vector_path_method)
+                    result["ffn_source_integration_points"] = int(
+                        jffn_vector_path_integration_points
+                    )
+                    result["ffn_source_jvp_backend"] = str(
+                        jffn_vector_path_jvp_backend
+                    )
+                    vector_results.append(result)
+                return vector_results
             if jffn_second_round_only:
                 if not jffn_second_round_diagnostics:
                     raise ValueError(
@@ -5661,7 +5745,7 @@ def _compute_four_gate_single_scope_from_captures(
                 dtype=torch.float32,
             )
             result["dgst_t_jffn_component_sum_relative_error_per_layer"] = torch.tensor(
-                [entry["component_sum_relative_error"] for entry in jffn_payload],
+                [entry.get("component_sum_relative_error", 0.0) for entry in jffn_payload],
                 dtype=torch.float32,
             )
             result["dgst_t_jffn_chunk_size_per_layer"] = torch.tensor(

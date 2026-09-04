@@ -713,4 +713,23 @@ def _dgst_options(cfg: Mapping[str, Any]) -> dict[str, Any]:
         ),
         "jffn_finite_difference_eta": cfg.get("jffn_finite_difference_eta"),
         "jffn_parity_chunk_size": cfg.get("jffn_parity_chunk_size"),
+        "jffn_vector_path_integration_points": cfg.get(
+            "jffn_vector_path_integration_points"
+        ),
+        "jffn_vector_path_method": cfg.get(
+            "jffn_vector_path_method", "gauss_legendre"
+        ),
+        "jffn_vector_path_chunk_size": int(
+            cfg.get("jffn_vector_path_chunk_size", 256)
+        ),
+        "jffn_vector_path_jvp_backend": cfg.get(
+            "jffn_vector_path_jvp_backend", "vmap_jvp"
+        ),
+        "jffn_vector_path_only": bool(cfg.get("jffn_vector_path_only", False)),
+        "jffn_vector_path_target_distributions": cfg.get(
+            "jffn_vector_path_target_distributions"
+        ),
+        "jffn_vector_path_evidence_strengths": cfg.get(
+            "jffn_vector_path_evidence_strengths"
+        ),
     }

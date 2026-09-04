@@ -26,6 +26,7 @@ import torch
 
 TensorFunction = Callable[[torch.Tensor], torch.Tensor]
 QuadratureMethod = Literal["trapezoid", "gauss_legendre"]
+JVPBackend = Literal["vmap_jvp", "linearize"]
 
 
 @dataclass(frozen=True)
@@ -64,6 +65,27 @@ class VectorPathResult:
     component_sum: torch.Tensor
     completeness_relative_error: float
     quadrature: QuadratureRule
+
+
+@dataclass(frozen=True)
+class VectorPathStatistics:
+    """Compact vector-path statistics for many targets and visual sources."""
+
+    ffn_path_gross: torch.Tensor
+    p_ffn: torch.Tensor
+    path_signed_q: torch.Tensor
+    gross_strength: torch.Tensor
+    net_strength: torch.Tensor
+    kappa: torch.Tensor
+    total_finite_effect: torch.Tensor
+    component_sum: torch.Tensor
+    completeness_relative_error: torch.Tensor
+    gross_degenerate: torch.Tensor
+    net_degenerate: torch.Tensor
+    quadrature: QuadratureRule
+    token_chunk_size: int
+    jvp_backend: str
+    components: torch.Tensor | None
 
 
 @dataclass(frozen=True)
@@ -335,6 +357,23 @@ def source_scaling_autograd_scores(
     return torch.autograd.grad(score, lambdas)[0]
 
 
+def source_scaled_residual(
+    z: torch.Tensor,
+    writes: torch.Tensor,
+    source_indices: Sequence[int],
+    scale: float,
+) -> torch.Tensor:
+    """Scale selected clean source writes while keeping every other write fixed."""
+    _require_case_shapes(z, writes)
+    indices = sorted({int(value) for value in source_indices})
+    value = float(scale)
+    if not indices or min(indices) < 0 or max(indices) >= int(writes.shape[0]):
+        raise ValueError("source_indices must select valid visual writes")
+    if not math.isfinite(value) or value < 0.0:
+        raise ValueError("scale must be finite and non-negative")
+    return z + (value - 1.0) * writes[indices].sum(dim=0)
+
+
 def vector_path_components(
     *,
     ffn_map: TensorFunction,
@@ -384,6 +423,151 @@ def vector_path_components(
         component_sum=component_sum,
         completeness_relative_error=relative_error,
         quadrature=rule,
+    )
+
+
+def streaming_vector_path_statistics(
+    *,
+    ffn_map: TensorFunction,
+    z: torch.Tensor,
+    writes: torch.Tensor,
+    method: QuadratureMethod,
+    integration_points: int,
+    baseline_scale: float = 0.0,
+    token_chunk_size: int | None = None,
+    jvp_backend: JVPBackend = "vmap_jvp",
+    save_components: bool = False,
+    eps: float = 1e-12,
+) -> VectorPathStatistics:
+    """Integrate vector FFN effects without retaining ``[M,T,D]`` by default.
+
+    ``z`` contains ``T`` target residuals and ``writes[m,t]`` is source
+    ``m``'s clean attention write into target ``t``.  Sources are processed
+    in chunks while their gross norm and projection onto the net finite FFN
+    effect are accumulated.
+    """
+    if z.ndim != 2:
+        raise ValueError(f"z must have shape [T,D], got {tuple(z.shape)}")
+    if writes.ndim != 3 or tuple(writes.shape[1:]) != tuple(z.shape):
+        raise ValueError(
+            f"writes must have shape [M,{z.shape[0]},{z.shape[1]}], "
+            f"got {tuple(writes.shape)}"
+        )
+    if int(writes.shape[0]) <= 0:
+        raise ValueError("writes must contain at least one visual token")
+    if not bool(torch.isfinite(z).all()) or not bool(torch.isfinite(writes).all()):
+        raise ValueError("z and writes must be finite")
+    scale = float(baseline_scale)
+    if not math.isfinite(scale) or scale < 0.0 or scale >= 1.0:
+        raise ValueError("baseline_scale must be finite in [0,1)")
+    chunk = int(token_chunk_size or writes.shape[0])
+    if chunk <= 0:
+        raise ValueError("token_chunk_size must be positive or None")
+    if jvp_backend not in {"vmap_jvp", "linearize"}:
+        raise ValueError(f"Unsupported jvp_backend {jvp_backend!r}")
+
+    aggregate = writes.sum(dim=0)
+    z0 = z - (1.0 - scale) * aggregate
+    path_writes = (1.0 - scale) * writes
+    rule = quadrature_rule(
+        method, integration_points, device=z.device, dtype=z.dtype
+    )
+    stats_dtype = (
+        torch.float32 if z.dtype in {torch.float16, torch.bfloat16} else z.dtype
+    )
+    with torch.no_grad():
+        clean = ffn_map(z).to(stats_dtype)
+        baseline = ffn_map(z0).to(stats_dtype)
+    if clean.shape != z.shape or baseline.shape != z.shape:
+        raise ValueError("ffn_map must preserve [T,D] shape")
+    finite_effect = clean - baseline
+    net_strength = finite_effect.norm(dim=-1)
+    net_degenerate = net_strength <= float(eps)
+    net_unit = finite_effect / net_strength.clamp_min(float(eps)).unsqueeze(-1)
+
+    source_count, target_count, width = map(int, writes.shape)
+    gross = torch.empty(target_count, source_count, device=z.device, dtype=stats_dtype)
+    signed = torch.empty_like(gross)
+    component_sum = torch.zeros_like(finite_effect)
+    saved = (
+        torch.empty(
+            source_count,
+            target_count,
+            width,
+            device=z.device,
+            dtype=stats_dtype,
+        )
+        if save_components
+        else None
+    )
+
+    def one(point: torch.Tensor, direction: torch.Tensor) -> torch.Tensor:
+        return torch.func.jvp(ffn_map, (point,), (direction,))[1]
+
+    for start in range(0, source_count, chunk):
+        stop = min(source_count, start + chunk)
+        directions = path_writes[start:stop]
+        components = torch.zeros(
+            stop - start,
+            target_count,
+            width,
+            device=z.device,
+            dtype=stats_dtype,
+        )
+        for alpha, weight in zip(rule.nodes, rule.weights):
+            point = z0 + alpha * (1.0 - scale) * aggregate
+            with torch.enable_grad():
+                if jvp_backend == "linearize":
+                    _output, jvp = torch.func.linearize(ffn_map, point)
+                    responses = torch.vmap(jvp)(directions)
+                else:
+                    responses = torch.vmap(lambda direction: one(point, direction))(
+                        directions
+                    )
+            components.add_(responses.detach().to(stats_dtype), alpha=weight.item())
+        gross[:, start:stop] = components.norm(dim=-1).transpose(0, 1)
+        signed[:, start:stop] = torch.einsum(
+            "ctd,td->tc", components, net_unit
+        )
+        component_sum.add_(components.sum(dim=0))
+        if saved is not None:
+            saved[start:stop].copy_(components)
+
+    gross_strength = gross.sum(dim=-1)
+    gross_degenerate = gross_strength <= float(eps)
+    uniform = torch.full_like(gross, 1.0 / float(source_count))
+    p_ffn = torch.where(
+        gross_degenerate.unsqueeze(-1),
+        uniform,
+        gross / gross_strength.clamp_min(float(eps)).unsqueeze(-1),
+    )
+    path_signed_q = torch.where(
+        net_degenerate.unsqueeze(-1), torch.zeros_like(signed), signed
+    )
+    kappa = torch.where(
+        gross_degenerate,
+        torch.zeros_like(net_strength),
+        net_strength / gross_strength.clamp_min(float(eps)),
+    )
+    completeness = (component_sum - finite_effect).norm(dim=-1) / net_strength.clamp_min(
+        float(eps)
+    )
+    return VectorPathStatistics(
+        ffn_path_gross=gross,
+        p_ffn=p_ffn,
+        path_signed_q=path_signed_q,
+        gross_strength=gross_strength,
+        net_strength=net_strength,
+        kappa=kappa,
+        total_finite_effect=finite_effect,
+        component_sum=component_sum,
+        completeness_relative_error=completeness,
+        gross_degenerate=gross_degenerate,
+        net_degenerate=net_degenerate,
+        quadrature=rule,
+        token_chunk_size=chunk,
+        jvp_backend=jvp_backend,
+        components=saved,
     )
 
 

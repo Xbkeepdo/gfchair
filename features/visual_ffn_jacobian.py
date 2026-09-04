@@ -606,6 +606,13 @@ def build_jffn_source_payload(
     include_second_round_diagnostics: bool = False,
     union_target_distributions: Any | None = None,
     union_side_top_k: int = 32,
+    vector_path_integration_points: int | None = None,
+    vector_path_method: str = "gauss_legendre",
+    vector_path_chunk_size: int = 256,
+    vector_path_jvp_backend: str = "vmap_jvp",
+    vector_path_only: bool = False,
+    vector_path_target_distributions: Any | None = None,
+    vector_path_evidence_strengths: Any | None = None,
     eps: float = 1e-12,
 ) -> list[dict[str, Any]]:
     """Compute all JFFN source matrices once before the inference-only OT path."""
@@ -631,6 +638,24 @@ def build_jffn_source_payload(
                 "union_target_distributions must have shape "
                 f"[targets,layers,visual], got {tuple(union_targets.shape)}"
             )
+    vector_targets = None
+    vector_strengths = None
+    if vector_path_only:
+        if vector_path_integration_points is None:
+            raise ValueError("vector_path_only requires vector_path_integration_points")
+        vector_targets = torch.as_tensor(vector_path_target_distributions)
+        vector_strengths = torch.as_tensor(vector_path_evidence_strengths)
+        expected = (len(prediction_positions), len(layers))
+        if vector_targets.ndim != 3 or tuple(vector_targets.shape[:2]) != expected:
+            raise ValueError(
+                "vector_path_target_distributions must have shape "
+                f"[targets,layers,visual], got {tuple(vector_targets.shape)}"
+            )
+        if tuple(vector_strengths.shape) != expected:
+            raise ValueError(
+                "vector_path_evidence_strengths must have shape "
+                f"{expected}, got {tuple(vector_strengths.shape)}"
+            )
     positions = [int(value) for value in prediction_positions]
     payload: list[dict[str, Any]] = []
     for layer_index, (layer, capture) in enumerate(zip(layers, captures)):
@@ -652,6 +677,138 @@ def build_jffn_source_payload(
             dtype=adapter.output_projection.weight.dtype,
         ).index_select(0, position_index)
         a_tokens = directions["a_tokens"]
+        if vector_path_only:
+            from features.dgst_t import (
+                _prepare_transport_problem_for_state_cost,
+                _solve_transport_problem,
+                _source_target_divergences,
+                _topk_union_indices,
+            )
+            from features.ffn_visual_path_attribution import (
+                streaming_vector_path_statistics,
+            )
+
+            def ffn_map(value: torch.Tensor) -> torch.Tensor:
+                return ffn_from_residual(layer, value)
+
+            statistics = None
+            used_path_chunk = None
+            candidates = []
+            requested_path_chunk = int(vector_path_chunk_size)
+            for candidate in (requested_path_chunk, 256, 128, 64, 32):
+                candidate = min(candidate, int(a_tokens.shape[0]))
+                if (
+                    candidate > 0
+                    and candidate <= requested_path_chunk
+                    and candidate not in candidates
+                ):
+                    candidates.append(candidate)
+
+            def attempt(chunk_size: int):
+                try:
+                    return streaming_vector_path_statistics(
+                        ffn_map=ffn_map,
+                        z=z,
+                        writes=a_tokens,
+                        method=vector_path_method,
+                        integration_points=int(vector_path_integration_points),
+                        token_chunk_size=chunk_size,
+                        jvp_backend=vector_path_jvp_backend,
+                    )
+                except torch.cuda.OutOfMemoryError:
+                    return None
+
+            for candidate in candidates:
+                statistics = attempt(candidate)
+                if statistics is not None:
+                    used_path_chunk = candidate
+                    break
+                torch.cuda.empty_cache()
+            if statistics is None:
+                raise torch.cuda.OutOfMemoryError(
+                    "Vector path exhausted token chunks 256/128/64/32"
+                )
+
+            write_energy = a_tokens.float().norm(dim=-1).transpose(0, 1).contiguous()
+            write_distribution = _renormalize_energy(write_energy, float(eps))
+            target_distribution = vector_targets[:, layer_index].to(
+                device=z.device, dtype=torch.float32
+            )
+            target_distribution = _renormalize_energy(
+                target_distribution, float(eps)
+            )
+            visual_states = capture["h_prev"][
+                0, int(visual_start) : int(visual_end)
+            ].to(device=z.device, dtype=torch.float32)
+            js = {name: [] for name in ("D_EW", "D_WF", "D_EF")}
+            ot = {name: [] for name in ("D_EW", "D_WF", "D_EF")}
+            for target_offset in range(len(positions)):
+                distributions = {
+                    "E": target_distribution[target_offset],
+                    "W": write_distribution[target_offset],
+                    "F": statistics.p_ffn[target_offset],
+                }
+                for name, left, right in (
+                    ("D_EW", "E", "W"),
+                    ("D_WF", "W", "F"),
+                    ("D_EF", "E", "F"),
+                ):
+                    first = distributions[left]
+                    second = distributions[right]
+                    js[name].append(
+                        _source_target_divergences(first, second)["js"]
+                    )
+                    support = _topk_union_indices(first, second, 64)
+                    problem = _prepare_transport_problem_for_state_cost(
+                        source_dist=first,
+                        target_dist=second,
+                        states=visual_states,
+                        support=support,
+                        sqrt_cosine=True,
+                    )
+                    ot[name].append(_solve_transport_problem(problem, "emd"))
+
+            payload.append(
+                {
+                    "vector_path": {
+                        "attention_evidence": target_distribution.detach(),
+                        "ae_strength": vector_strengths[:, layer_index].to(
+                            device=z.device, dtype=torch.float32
+                        ).detach(),
+                        "write_energy": write_energy.detach(),
+                        "write_distribution": write_distribution.detach(),
+                        "ffn_path_gross": statistics.ffn_path_gross.detach(),
+                        "ffn_distribution": statistics.p_ffn.detach(),
+                        "path_signed_q": statistics.path_signed_q.detach(),
+                        "gross_strength": statistics.gross_strength.detach(),
+                        "net_strength": statistics.net_strength.detach(),
+                        "kappa": statistics.kappa.detach(),
+                        "completeness_relative_error": (
+                            statistics.completeness_relative_error.detach()
+                        ),
+                        "gross_degenerate": statistics.gross_degenerate.detach(),
+                        "net_degenerate": statistics.net_degenerate.detach(),
+                        "js": {
+                            key: torch.tensor(value, device=z.device)
+                            for key, value in js.items()
+                        },
+                        "ot": {
+                            key: torch.tensor(value, device=z.device)
+                            for key, value in ot.items()
+                        },
+                        "token_chunk_size": int(used_path_chunk),
+                        "jvp_backend": str(vector_path_jvp_backend),
+                    },
+                    "reconstruction_relative_error": float(
+                        directions["reconstruction_relative_error"]
+                    ),
+                    "component_sum_relative_error": float(
+                        directions["component_sum_relative_error"]
+                    ),
+                }
+            )
+            del a_tokens, directions, z, statistics
+            continue
         requested_chunk = fixed_chunk_size
         if requested_chunk is None and not force_full_parallel:
             requested_chunk = choose_adaptive_jvp_chunk_size(

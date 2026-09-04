@@ -1,0 +1,80 @@
+{
+  "config": {
+    "fp32_cases": 1,
+    "images": 1,
+    "k_values": [
+      1,
+      4,
+      8,
+      16,
+      32,
+      64
+    ],
+    "layers": [
+      7,
+      14,
+      21,
+      28
+    ],
+    "model": "qwen2_5_vl_7b",
+    "region_counts": [
+      8,
+      16
+    ],
+    "schema_version": "ffn-visual-source-audit-v1",
+    "seed": 20260829,
+    "shapley_permutations": 2
+  },
+  "created_unix": 1788455854.5491424,
+  "exact_command": [
+    "/opt/conda/private/envs/vicr/bin/python",
+    "scripts/run_ffn_visual_source_audit.py",
+    "--model",
+    "qwen2_5_vl_7b",
+    "--device",
+    "cuda:0",
+    "--smoke",
+    "--num-images",
+    "1",
+    "--audit-cases",
+    "1",
+    "--permutations",
+    "2",
+    "--no-resume"
+  ],
+  "repository": {
+    "diff_sha256": "f59d849c07f906c0b08d2b828e0c11570e73a0b2b42c2ee4b626c0c889dbcd6c",
+    "diff_stat": {
+      "command": [
+        "git",
+        "diff",
+        "--stat"
+      ],
+      "elapsed_seconds": 0.0794677734375,
+      "exit_code": 0,
+      "output": " docs/CURRENT_TASK.md                      |  73 +++++++++++\n features/dgst_t.py                        |  86 ++++++++++++-\n features/ffn_visual_interactions.py       |  80 ++++++++++++\n features/ffn_visual_path_attribution.py   | 180 ++++++++++++++++++++++++++\n features/visual_ffn_jacobian.py           | 157 +++++++++++++++++++++++\n models/internvl_wrapper.py                |  21 ++++\n models/llava_wrapper.py                   |  21 ++++\n models/prompt_target.py                   |  19 +++\n scripts/run_jffn_p_comparison.py          |   1 +\n scripts/train_torch_probe_feature_sets.py | 202 ++++++++++++++++++++++++++----\n scripts/train_union_topk_region_s_mlp.py  |  12 ++\n tests/test_ffn_visual_interactions.py     |  21 ++++\n tests/test_ffn_visual_path_attribution.py |  69 ++++++++++\n 13 files changed, 920 insertions(+), 22 deletions(-)\n"
+    },
+    "revision": {
+      "command": [
+        "git",
+        "rev-parse",
+        "HEAD"
+      ],
+      "elapsed_seconds": 0.030339956283569336,
+      "exit_code": 0,
+      "output": "b11cfc0ff56f798fe8ed2f2d9f4a174e7645f495\n"
+    },
+    "status": {
+      "command": [
+        "git",
+        "status",
+        "--short",
+        "--branch"
+      ],
+      "elapsed_seconds": 0.04198431968688965,
+      "exit_code": 0,
+      "output": "## main...origin/main\n M docs/CURRENT_TASK.md\n M features/dgst_t.py\n M features/ffn_visual_interactions.py\n M features/ffn_visual_path_attribution.py\n M features/visual_ffn_jacobian.py\n M models/internvl_wrapper.py\n M models/llava_wrapper.py\n M models/prompt_target.py\n M scripts/run_jffn_p_comparison.py\n M scripts/train_torch_probe_feature_sets.py\n M scripts/train_union_topk_region_s_mlp.py\n M tests/test_ffn_visual_interactions.py\n M tests/test_ffn_visual_path_attribution.py\n?? docs/CODEX_CONVERSATION_HANDOFF_20260830.md\n?? scripts/run_ffn_visual_source_attribution.py\n?? scripts/run_ffn_visual_source_audit.py\n?? scripts/train_dhcp_sampler_risk_ev.py\n?? scripts/train_dhcp_two_output_risk_ev.py\n?? scripts/train_jffn_i_r_feature_ablation.py\n?? scripts/train_jffn_normalized_ir_s_ablation.py\n?? scripts/train_sqrt_hall_weight_risk_ev.py\n?? scripts/train_union_topk_irs_ablation.py\n?? scripts/train_union_topk_risk_s_no_ev.py\n?? tests/test_dhcp_sampler_risk_ev.py\n?? tests/test_jffn_i_r_feature_ablation.py\n?? tests/test_jffn_normalized_ir_s_ablation.py\n?? tests/test_sqrt_hall_weight_risk_ev.py\n?? tests/test_two_output_torch_probe.py\n?? tests/test_union_topk_irs_ablation.py\n?? tests/test_union_topk_risk_s_no_ev.py\n?? tests/test_weighted_torch_probe.py\n"
+    }
+  },
+  "schema_version": "tc-fvpa-comprehensive-v1"
+}

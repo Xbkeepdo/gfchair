@@ -1,0 +1,120 @@
+{
+  "completed_shards": [],
+  "created_unix": 1788467035.1963015,
+  "failed_cases": [],
+  "failed_shards": [],
+  "resume_commands": [
+    "/opt/conda/private/envs/vicr/bin/python scripts/run_ffn_visual_source_audit.py --model internvl_2_5_8b --device cuda:1 --num-images 200 --audit-cases 50 --permutations 128 --resume",
+    "/opt/conda/private/envs/vicr/bin/python scripts/run_ffn_visual_source_audit.py --model internvl_2_5_8b --device cuda:1 --num-images 1 --audit-cases 1 --permutations 2 --smoke --resume",
+    "/opt/conda/private/envs/vicr/bin/python scripts/run_ffn_visual_source_attribution.py --model internvl_2_5_8b --device cuda:1 --k 0 --jvp-backend auto --num-images 0 --shard-images 10 --resume",
+    "/opt/conda/private/envs/vicr/bin/python scripts/run_ffn_visual_source_attribution.py --model internvl_2_5_8b --device cuda:1 --k 0 --jvp-backend auto --num-images 1 --shard-images 1 --smoke --resume",
+    "/opt/conda/private/envs/vicr/bin/python scripts/run_ffn_visual_source_counterfactuals.py --model internvl_2_5_8b --device cuda:1 --num-images 100 --bootstrap-resamples 10000 --resume"
+  ],
+  "schema_version": "tc-fvpa-comprehensive-v1",
+  "stages": {
+    "analysis_and_detectors:internvl_2_5_8b": {
+      "details": {
+        "bootstrap_resamples": 10000,
+        "feature_sets": 13,
+        "gate": "PASS",
+        "seeds": [
+          43,
+          44,
+          45
+        ]
+      },
+      "started_unix": 1788476281.3449624,
+      "status": "PASS",
+      "updated_unix": 1788476281.3449624
+    },
+    "audit:internvl_2_5_8b:rank0": {
+      "details": {
+        "already_complete": 0,
+        "elapsed_seconds": 861.3053450940643,
+        "failure": null,
+        "pending_at_start": 200,
+        "requested_images": 200,
+        "stratified_fp32_cases_global": 50
+      },
+      "started_unix": 1788467035.2106943,
+      "status": "PASS",
+      "updated_unix": 1788467898.799985
+    },
+    "audit_smoke:internvl_2_5_8b:rank0": {
+      "details": {
+        "already_complete": 0,
+        "elapsed_seconds": 14.112927042064257,
+        "failure": null,
+        "pending_at_start": 1,
+        "requested_images": 1,
+        "stratified_fp32_cases_global": 1
+      },
+      "started_unix": 1788467977.5189257,
+      "status": "PASS",
+      "updated_unix": 1788467991.705402
+    },
+    "counterfactuals:internvl_2_5_8b:rank0": {
+      "details": {
+        "elapsed_seconds": 131.5738722779788,
+        "failure": null,
+        "frozen_k": 4,
+        "pending_at_start": 68,
+        "requested_images": 100
+      },
+      "started_unix": 1788476288.2655084,
+      "status": "PASS",
+      "updated_unix": 1788476599.0137477
+    },
+    "full_attribution:internvl_2_5_8b:rank0": {
+      "details": {
+        "already_complete": 0,
+        "elapsed_seconds": 5343.814655701979,
+        "failures": [],
+        "lookup": {
+          "duplicate_mentions": 129,
+          "feature_rows": 11759,
+          "maximum_duplicate_error": 0.0,
+          "r_cos_origin": "old_hpre_cos source, hpre_raw_logit_gauss target, sqrt_matched_state OT",
+          "selected_images": 4000,
+          "target_formula": "normalize(dgst_t_attention_support_per_layer * dgst_t_hpre_raw_logit_gauss_gate_per_layer)",
+          "unique_targets": 11630
+        },
+        "model": "internvl_2_5_8b",
+        "pending_at_start": 4000,
+        "rank": 0,
+        "requested_images": 4000,
+        "schema_version": "ffn-visual-source-attribution-v1",
+        "world_size": 1
+      },
+      "started_unix": 1788468088.245686,
+      "status": "PASS",
+      "updated_unix": 1788473439.0577927
+    },
+    "smoke:internvl_2_5_8b:rank0": {
+      "details": {
+        "already_complete": 0,
+        "elapsed_seconds": 7.083566362038255,
+        "failures": [],
+        "lookup": {
+          "duplicate_mentions": 0,
+          "feature_rows": 11759,
+          "maximum_duplicate_error": 0.0,
+          "r_cos_origin": "old_hpre_cos source, hpre_raw_logit_gauss target, sqrt_matched_state OT",
+          "selected_images": 1,
+          "target_formula": "normalize(dgst_t_attention_support_per_layer * dgst_t_hpre_raw_logit_gauss_gate_per_layer)",
+          "unique_targets": 3
+        },
+        "model": "internvl_2_5_8b",
+        "pending_at_start": 1,
+        "rank": 0,
+        "requested_images": 1,
+        "schema_version": "ffn-visual-source-attribution-v1",
+        "world_size": 1
+      },
+      "started_unix": 1788475388.400603,
+      "status": "PASS",
+      "updated_unix": 1788475398.2183743
+    }
+  },
+  "updated_unix": 1788476599.0137477
+}

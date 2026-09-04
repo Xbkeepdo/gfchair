@@ -6,6 +6,7 @@ from features.ffn_visual_interactions import (
     aggregate_region_writes,
     regular_grid_regions,
     sampled_shapley,
+    sampled_vector_shapley,
 )
 
 
@@ -56,6 +57,26 @@ class FFNVisualInteractionsTest(unittest.TestCase):
         self.assertAlmostEqual(float(result.values[2]), 0.0, places=12)
         self.assertLess(abs(float(result.values[0] - 3.0)), 0.2)
         self.assertLess(abs(float(result.values[1] - 4.0)), 0.2)
+
+    def test_sampled_vector_shapley_is_exact_for_additive_game(self):
+        vectors = torch.tensor(
+            [[1.0, 2.0], [-3.0, 0.5], [4.0, -1.0]], dtype=torch.float64
+        )
+
+        def game(mask):
+            return vectors[mask].sum(dim=0)
+
+        result = sampled_vector_shapley(
+            value_from_active_mask=game,
+            region_count=3,
+            permutations=32,
+            seed=9,
+            persist_every=8,
+        )
+        self.assertTrue(torch.equal(result.values, vectors))
+        self.assertEqual(result.completeness_relative_error, 0.0)
+        self.assertEqual(tuple(result.standard_errors.shape), (3, 2))
+        self.assertEqual(tuple(result.running_estimates.shape), (4, 3, 2))
 
 
 if __name__ == "__main__":

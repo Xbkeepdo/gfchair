@@ -249,6 +249,33 @@ class VisualFFNJacobianTest(unittest.TestCase):
             )
         )
 
+    def test_vector_path_only_payload_has_compact_js_ot_statistics(self) -> None:
+        torch.manual_seed(23)
+        layer = _SeparateLayer(output_bias=False).eval()
+        capture, positions, _updates = _capture_for_layer(layer)
+        target = torch.softmax(torch.randn(2, 1, 6), dim=-1)
+        payload = build_jffn_source_payload(
+            model=_TinyModel(layer),
+            captures=[capture],
+            prediction_positions=positions,
+            visual_start=0,
+            visual_end=6,
+            vector_path_integration_points=4,
+            vector_path_chunk_size=2,
+            vector_path_only=True,
+            vector_path_target_distributions=target,
+            vector_path_evidence_strengths=torch.ones(2, 1),
+        )[0]["vector_path"]
+        self.assertEqual(tuple(payload["ffn_path_gross"].shape), (2, 6))
+        self.assertEqual(tuple(payload["path_signed_q"].shape), (2, 6))
+        self.assertTrue(
+            torch.allclose(payload["ffn_distribution"].sum(-1), torch.ones(2))
+        )
+        for family in ("js", "ot"):
+            for name in ("D_EW", "D_WF", "D_EF"):
+                self.assertEqual(tuple(payload[family][name].shape), (2,))
+                self.assertTrue(torch.isfinite(payload[family][name]).all())
+
     def test_adaptive_chunk_obeys_tiny_budget(self) -> None:
         layer = _SeparateLayer().eval()
         chunk = choose_adaptive_jvp_chunk_size(

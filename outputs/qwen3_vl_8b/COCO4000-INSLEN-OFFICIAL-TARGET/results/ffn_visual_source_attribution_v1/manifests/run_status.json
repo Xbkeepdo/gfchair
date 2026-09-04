@@ -1,0 +1,147 @@
+{
+  "completed_shards": [],
+  "created_unix": 1788467613.9443312,
+  "failed_cases": [],
+  "failed_shards": [],
+  "resume_commands": [
+    "/opt/conda/private/envs/vicr/bin/python scripts/run_ffn_visual_source_audit.py --model qwen3_vl_8b --device cuda:0 --num-images 1 --audit-cases 1 --permutations 2 --smoke --resume",
+    "/opt/conda/private/envs/vicr/bin/python scripts/run_ffn_visual_source_audit.py --model qwen3_vl_8b --device cuda:0 --num-images 200 --audit-cases 50 --permutations 128 --resume",
+    "/opt/conda/private/envs/vicr/bin/python scripts/run_ffn_visual_source_attribution.py --model qwen3_vl_8b --device cuda:0 --k 0 --jvp-backend auto --num-images 0 --shard-images 10 --resume",
+    "/opt/conda/private/envs/vicr/bin/python scripts/run_ffn_visual_source_attribution.py --model qwen3_vl_8b --k 0 --jvp-backend auto --num-images 0 --shard-images 10 --resume --device cuda:0 --rank 0 --world-size 2",
+    "/opt/conda/private/envs/vicr/bin/python scripts/run_ffn_visual_source_attribution.py --model qwen3_vl_8b --k 0 --jvp-backend auto --num-images 0 --shard-images 10 --resume --device cuda:1 --rank 1 --world-size 2",
+    "/opt/conda/private/envs/vicr/bin/python scripts/run_ffn_visual_source_attribution.py --model qwen3_vl_8b --device cuda:0 --k 0 --jvp-backend auto --num-images 1 --shard-images 1 --smoke --resume",
+    "/opt/conda/private/envs/vicr/bin/python scripts/run_ffn_visual_source_counterfactuals.py --model qwen3_vl_8b --device cuda:0 --num-images 100 --bootstrap-resamples 10000 --resume"
+  ],
+  "schema_version": "tc-fvpa-comprehensive-v1",
+  "stages": {
+    "analysis_and_detectors:qwen3_vl_8b": {
+      "details": {
+        "bootstrap_resamples": 10000,
+        "feature_sets": 13,
+        "gate": "PASS",
+        "seeds": [
+          43,
+          44,
+          45
+        ]
+      },
+      "started_unix": 1788476420.0296216,
+      "status": "PASS",
+      "updated_unix": 1788476420.0296216
+    },
+    "audit:qwen3_vl_8b:rank0": {
+      "details": {
+        "already_complete": 7,
+        "elapsed_seconds": 1091.2511431348976,
+        "failure": null,
+        "pending_at_start": 193,
+        "requested_images": 200,
+        "stratified_fp32_cases_global": 50
+      },
+      "started_unix": 1788467731.1111386,
+      "status": "PASS",
+      "updated_unix": 1788468954.8130329
+    },
+    "audit_smoke:qwen3_vl_8b:rank0": {
+      "details": {
+        "already_complete": 0,
+        "elapsed_seconds": 78.46932251006365,
+        "failure": null,
+        "pending_at_start": 1,
+        "requested_images": 1,
+        "stratified_fp32_cases_global": 1
+      },
+      "started_unix": 1788467613.9459732,
+      "status": "PASS",
+      "updated_unix": 1788467692.4610362
+    },
+    "counterfactuals:qwen3_vl_8b:rank0": {
+      "details": {
+        "elapsed_seconds": 273.8411261510337,
+        "failure": null,
+        "frozen_k": 4,
+        "pending_at_start": 100,
+        "requested_images": 100
+      },
+      "started_unix": 1788476500.2593784,
+      "status": "PASS",
+      "updated_unix": 1788476774.4796402
+    },
+    "full_attribution:qwen3_vl_8b:rank0": {
+      "details": {
+        "already_complete": 1150,
+        "elapsed_seconds": 1705.1205461439677,
+        "failures": [],
+        "lookup": {
+          "duplicate_mentions": 86,
+          "feature_rows": 14873,
+          "maximum_duplicate_error": 0.0,
+          "r_cos_origin": "old_hpre_cos source, hpre_raw_logit_gauss target, sqrt_matched_state OT",
+          "selected_images": 2000,
+          "target_formula": "normalize(dgst_t_attention_support_per_layer * dgst_t_hpre_raw_logit_gauss_gate_per_layer)",
+          "unique_targets": 7313
+        },
+        "model": "qwen3_vl_8b",
+        "pending_at_start": 850,
+        "rank": 0,
+        "requested_images": 2000,
+        "schema_version": "ffn-visual-source-attribution-v1",
+        "world_size": 2
+      },
+      "started_unix": 1788469024.0662615,
+      "status": "PASS",
+      "updated_unix": 1788475287.9203699
+    },
+    "full_attribution:qwen3_vl_8b:rank1": {
+      "details": {
+        "already_complete": 1150,
+        "elapsed_seconds": 1720.196119739092,
+        "failures": [],
+        "lookup": {
+          "duplicate_mentions": 83,
+          "feature_rows": 14873,
+          "maximum_duplicate_error": 0.0,
+          "r_cos_origin": "old_hpre_cos source, hpre_raw_logit_gauss target, sqrt_matched_state OT",
+          "selected_images": 2000,
+          "target_formula": "normalize(dgst_t_attention_support_per_layer * dgst_t_hpre_raw_logit_gauss_gate_per_layer)",
+          "unique_targets": 7391
+        },
+        "model": "qwen3_vl_8b",
+        "pending_at_start": 850,
+        "rank": 1,
+        "requested_images": 2000,
+        "schema_version": "ffn-visual-source-attribution-v1",
+        "world_size": 2
+      },
+      "started_unix": 1788473587.495114,
+      "status": "PASS",
+      "updated_unix": 1788475321.9135242
+    },
+    "smoke:qwen3_vl_8b:rank0": {
+      "details": {
+        "already_complete": 0,
+        "elapsed_seconds": 7.949335881974548,
+        "failures": [],
+        "lookup": {
+          "duplicate_mentions": 0,
+          "feature_rows": 14873,
+          "maximum_duplicate_error": 0.0,
+          "r_cos_origin": "old_hpre_cos source, hpre_raw_logit_gauss target, sqrt_matched_state OT",
+          "selected_images": 1,
+          "target_formula": "normalize(dgst_t_attention_support_per_layer * dgst_t_hpre_raw_logit_gauss_gate_per_layer)",
+          "unique_targets": 5
+        },
+        "model": "qwen3_vl_8b",
+        "pending_at_start": 1,
+        "rank": 0,
+        "requested_images": 1,
+        "schema_version": "ffn-visual-source-attribution-v1",
+        "world_size": 1
+      },
+      "started_unix": 1788475388.5995536,
+      "status": "PASS",
+      "updated_unix": 1788475400.5897667
+    }
+  },
+  "updated_unix": 1788476774.4796402
+}

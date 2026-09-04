@@ -1,0 +1,263 @@
+{
+  "ae_cosine_minus_ae_paired_image_bootstrap": "NOT_RUN_BY_USER_REQUEST",
+  "alignment": {
+    "duplicate_feature_rows": 512,
+    "feature_key": "dgst_t_hpre_raw_logit_gauss_target_cosine_topk32_hpre_per_layer",
+    "layers": 32,
+    "maximum_duplicate_error": 0.0,
+    "replacement": "ae_cosine",
+    "unique_targets": 14951
+  },
+  "counts": {
+    "mentions": 15463,
+    "processed_images": 4000,
+    "test_mentions": 3146,
+    "train_mentions": 12317,
+    "unique_targets": 14951
+  },
+  "model": "llava_1_5_7b",
+  "protocol": {
+    "batch_size": 256,
+    "bootstrap_resamples_per_direct_AE_comparison": "NOT_RUN_BY_USER_REQUEST",
+    "checkpoint": "minimum_train_loss",
+    "drop_last": false,
+    "dropout": 0.3,
+    "epochs_max": 100,
+    "hidden_sizes": [
+      128,
+      64,
+      32
+    ],
+    "seeds": [
+      43,
+      44,
+      45
+    ],
+    "split": "same fixed image 8:2 split as formal detector",
+    "standardization": "none",
+    "threshold": "train_REAL_F1"
+  },
+  "replacement": {
+    "new": "AE_l * mean hpre target-state cosine over the same target-distribution top32 region",
+    "old": "AE_l=sum_j max(attention_lj * hpre_raw_logit_gauss_gate_lj, 0)",
+    "scope": "replace only the AE block in all 13 formal groups",
+    "unchanged": [
+      "R_cos",
+      "S",
+      "kappa",
+      "JS distances",
+      "OT distances"
+    ]
+  },
+  "status": "EXPLORATORY_AE_TIMES_COSINE_SWAP",
+  "summaries": {
+    "A": {
+      "ae_cosine_minus_ae_auroc": 0.0035142285162974574,
+      "dimensions": 64,
+      "ensemble_auroc": 0.8982928326985304,
+      "formal_ae_ensemble_auroc": 0.894778604182233,
+      "mean_hall_aupr": 0.6738613137933939,
+      "mean_hall_f1": 0.6389483322814522,
+      "mean_hall_precision": 0.6610010602317382,
+      "mean_hall_recall": 0.6187118006582041,
+      "mean_real_aupr": 0.966671339000955,
+      "per_seed_auroc": {
+        "43": 0.8919328430467528,
+        "44": 0.8929624564411028,
+        "45": 0.8939428752663018
+      }
+    },
+    "B": {
+      "ae_cosine_minus_ae_auroc": -0.00759679899619925,
+      "dimensions": 32,
+      "ensemble_auroc": 0.8688877918178435,
+      "formal_ae_ensemble_auroc": 0.8764845908140427,
+      "mean_hall_aupr": 0.6356481074370597,
+      "mean_hall_f1": 0.576357002415458,
+      "mean_hall_precision": 0.6409024160184439,
+      "mean_hall_recall": 0.5237423601316408,
+      "mean_real_aupr": 0.9520474826380786,
+      "per_seed_auroc": {
+        "43": 0.8664726278523445,
+        "44": 0.8635226899821915,
+        "45": 0.8665305038160517
+      }
+    },
+    "C_JS": {
+      "ae_cosine_minus_ae_auroc": -0.004705894609027483,
+      "dimensions": 64,
+      "ensemble_auroc": 0.8864699308324357,
+      "formal_ae_ensemble_auroc": 0.8911758254414632,
+      "mean_hall_aupr": 0.6653959422677596,
+      "mean_hall_f1": 0.6000184610454524,
+      "mean_hall_precision": 0.6547073856338864,
+      "mean_hall_recall": 0.5552421250587681,
+      "mean_real_aupr": 0.9602709781929016,
+      "per_seed_auroc": {
+        "43": 0.8804299952599586,
+        "44": 0.8835807627241753,
+        "45": 0.882528288324161
+      }
+    },
+    "C_OT": {
+      "ae_cosine_minus_ae_auroc": -0.006274333225491313,
+      "dimensions": 64,
+      "ensemble_auroc": 0.8837549693749337,
+      "formal_ae_ensemble_auroc": 0.890029302600425,
+      "mean_hall_aupr": 0.6680430469097695,
+      "mean_hall_f1": 0.592991139055082,
+      "mean_hall_precision": 0.657338982414435,
+      "mean_hall_recall": 0.5401974612129761,
+      "mean_real_aupr": 0.9583068340104534,
+      "per_seed_auroc": {
+        "43": 0.8802245355887983,
+        "44": 0.8768521031835832,
+        "45": 0.8785247185347194
+      }
+    },
+    "D_JS": {
+      "ae_cosine_minus_ae_auroc": -0.004613293067096347,
+      "dimensions": 64,
+      "ensemble_auroc": 0.8809832894729988,
+      "formal_ae_ensemble_auroc": 0.8855965825400951,
+      "mean_hall_aupr": 0.6502934891062638,
+      "mean_hall_f1": 0.6128035249099703,
+      "mean_hall_precision": 0.6449210649574919,
+      "mean_hall_recall": 0.5843911612599907,
+      "mean_real_aupr": 0.9602044543386009,
+      "per_seed_auroc": {
+        "43": 0.8788870220675261,
+        "44": 0.877186336873992,
+        "45": 0.8764353962448916
+      }
+    },
+    "D_OT": {
+      "ae_cosine_minus_ae_auroc": -0.003945404445915512,
+      "dimensions": 64,
+      "ensemble_auroc": 0.8930047058946092,
+      "formal_ae_ensemble_auroc": 0.8969501103405247,
+      "mean_hall_aupr": 0.665213369958882,
+      "mean_hall_f1": 0.6383136381719589,
+      "mean_hall_precision": 0.6405933326606646,
+      "mean_hall_recall": 0.6361071932299013,
+      "mean_real_aupr": 0.963610959312364,
+      "per_seed_auroc": {
+        "43": 0.8805078384311447,
+        "44": 0.8905513437930633,
+        "45": 0.888323408570157
+      }
+    },
+    "E_JS": {
+      "ae_cosine_minus_ae_auroc": 0.0014087009566317032,
+      "dimensions": 64,
+      "ensemble_auroc": 0.8860676928846711,
+      "formal_ae_ensemble_auroc": 0.8846589919280394,
+      "mean_hall_aupr": 0.6614397890490079,
+      "mean_hall_f1": 0.6179479548580233,
+      "mean_hall_precision": 0.6476928560229492,
+      "mean_hall_recall": 0.5914433474377058,
+      "mean_real_aupr": 0.9603852036644956,
+      "per_seed_auroc": {
+        "43": 0.88100875489703,
+        "44": 0.8811462103108344,
+        "45": 0.88188818016556
+      }
+    },
+    "E_OT": {
+      "ae_cosine_minus_ae_auroc": -0.0034962869675482233,
+      "dimensions": 64,
+      "ensemble_auroc": 0.8847157103724724,
+      "formal_ae_ensemble_auroc": 0.8882119973400207,
+      "mean_hall_aupr": 0.6675145128296768,
+      "mean_hall_f1": 0.632420297359626,
+      "mean_hall_precision": 0.6348085471798427,
+      "mean_hall_recall": 0.6304654442877292,
+      "mean_real_aupr": 0.9592853546947279,
+      "per_seed_auroc": {
+        "43": 0.8770893946347824,
+        "44": 0.8809369887020331,
+        "45": 0.8821165008423846
+      }
+    },
+    "F": {
+      "ae_cosine_minus_ae_auroc": 0.00018462432422572395,
+      "dimensions": 96,
+      "ensemble_auroc": 0.9011854733646133,
+      "formal_ae_ensemble_auroc": 0.9010008490403876,
+      "mean_hall_aupr": 0.7093949831015139,
+      "mean_hall_f1": 0.6509834097318647,
+      "mean_hall_precision": 0.6717687529711331,
+      "mean_hall_recall": 0.6318758815232722,
+      "mean_real_aupr": 0.9677111588944557,
+      "per_seed_auroc": {
+        "43": 0.8999891771947868,
+        "44": 0.8966274518428575,
+        "45": 0.89799650776435
+      }
+    },
+    "G_JS": {
+      "ae_cosine_minus_ae_auroc": 0.0022513749882078216,
+      "dimensions": 192,
+      "ensemble_auroc": 0.9048200838854219,
+      "formal_ae_ensemble_auroc": 0.9025687088972141,
+      "mean_hall_aupr": 0.7109051489299564,
+      "mean_hall_f1": 0.6658017045558615,
+      "mean_hall_precision": 0.6588043018111803,
+      "mean_hall_recall": 0.6737188528443818,
+      "mean_real_aupr": 0.9683971115308241,
+      "per_seed_auroc": {
+        "43": 0.9013434747455338,
+        "44": 0.8981519047269035,
+        "45": 0.8999694993671264
+      }
+    },
+    "G_OT": {
+      "ae_cosine_minus_ae_auroc": 0.002023922450838933,
+      "dimensions": 192,
+      "ensemble_auroc": 0.9066142387603433,
+      "formal_ae_ensemble_auroc": 0.9045903163095044,
+      "mean_hall_aupr": 0.7158737196533816,
+      "mean_hall_f1": 0.6752249648387867,
+      "mean_hall_precision": 0.655143610078282,
+      "mean_hall_recall": 0.6976962858486132,
+      "mean_real_aupr": 0.9695520316669959,
+      "per_seed_auroc": {
+        "43": 0.9022017752873108,
+        "44": 0.9014395488452877,
+        "45": 0.9027287359368643
+      }
+    },
+    "H_JS": {
+      "ae_cosine_minus_ae_auroc": 0.0018583971946363187,
+      "dimensions": 224,
+      "ensemble_auroc": 0.907196470955237,
+      "formal_ae_ensemble_auroc": 0.9053380737606007,
+      "mean_hall_aupr": 0.71135859279591,
+      "mean_hall_f1": 0.6675627633903581,
+      "mean_hall_precision": 0.6612784471218206,
+      "mean_hall_recall": 0.6741889985895627,
+      "mean_real_aupr": 0.9702409453356426,
+      "per_seed_auroc": {
+        "43": 0.9011559566231226,
+        "44": 0.9024000004630078,
+        "45": 0.9061853778692733
+      }
+    },
+    "H_OT": {
+      "ae_cosine_minus_ae_auroc": 0.0028584938474958133,
+      "dimensions": 224,
+      "ensemble_auroc": 0.9096770347597252,
+      "formal_ae_ensemble_auroc": 0.9068185409122294,
+      "mean_hall_aupr": 0.715712679319313,
+      "mean_hall_f1": 0.671050579236785,
+      "mean_hall_precision": 0.6530007812530897,
+      "mean_hall_recall": 0.690644099670898,
+      "mean_real_aupr": 0.9711261096640689,
+      "per_seed_auroc": {
+        "43": 0.9050732912266406,
+        "44": 0.9054685840587603,
+        "45": 0.9059069944838418
+      }
+    }
+  }
+}

@@ -26,7 +26,7 @@ from sklearn.metrics import (
     roc_auc_score,
 )
 from torch.optim.lr_scheduler import ReduceLROnPlateau
-from torch.utils.data import DataLoader, Dataset
+from torch.utils.data import DataLoader, Dataset, WeightedRandomSampler
 from tqdm import tqdm
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
@@ -85,9 +85,36 @@ class MatrixDataset(Dataset):
         return self.X[index], self.y[index]
 
 
+class WeightedMatrixDataset(MatrixDataset):
+    def __init__(self, X: np.ndarray, y: np.ndarray, sample_weights: np.ndarray):
+        super().__init__(X, y)
+        weights = np.asarray(sample_weights, dtype=np.float32).reshape(-1)
+        if weights.shape[0] != self.X.shape[0]:
+            raise ValueError(
+                "Sample weights must have one value per training row: "
+                f"{weights.shape[0]} != {self.X.shape[0]}"
+            )
+        if not np.isfinite(weights).all() or np.any(weights <= 0.0):
+            raise ValueError("Sample weights must be finite and strictly positive")
+        self.sample_weights = torch.tensor(weights, dtype=torch.float32)
+
+    def __getitem__(
+        self, index: int
+    ) -> tuple[torch.Tensor, torch.Tensor, torch.Tensor]:
+        return self.X[index], self.y[index], self.sample_weights[index]
+
+
 class DGSTStyleProbe(nn.Module):
-    def __init__(self, input_dim: int, hidden_sizes: Sequence[int], dropout: float):
+    def __init__(
+        self,
+        input_dim: int,
+        hidden_sizes: Sequence[int],
+        dropout: float,
+        output_dim: int = 1,
+    ):
         super().__init__()
+        if int(output_dim) not in (1, 2):
+            raise ValueError(f"Probe output_dim must be 1 or 2, got {output_dim}")
         layers = []
         prev_dim = int(input_dim)
         for hidden_dim in hidden_sizes:
@@ -96,7 +123,7 @@ class DGSTStyleProbe(nn.Module):
             layers.append(nn.ReLU())
             layers.append(nn.Dropout(float(dropout)))
             prev_dim = int(hidden_dim)
-        layers.append(nn.Linear(prev_dim, 1))
+        layers.append(nn.Linear(prev_dim, int(output_dim)))
         self.net = nn.Sequential(*layers)
         self._init_weights()
 
@@ -366,25 +393,71 @@ def train_and_evaluate_probe(
     device: torch.device,
     output_dir: str,
     return_probabilities: bool = False,
+    train_sample_weights: np.ndarray | None = None,
+    train_sampler_weights: np.ndarray | None = None,
+    output_mode: str = "single_logit_bce",
 ) -> dict:
     _set_seed(config.seed)
     os.makedirs(output_dir, exist_ok=True)
 
+    if output_mode not in {"single_logit_bce", "two_logit_cross_entropy"}:
+        raise ValueError(f"Unsupported probe output mode: {output_mode}")
+
+    if train_sample_weights is not None and train_sampler_weights is not None:
+        raise ValueError(
+            "Loss sample weighting and weighted random sampling are mutually exclusive"
+        )
+
     train_targets = _targets_for_positive_class(y_train, config.positive_class)
     test_targets = _targets_for_positive_class(y_test, config.positive_class)
 
+    train_dataset: Dataset
+    if train_sample_weights is None:
+        train_dataset = MatrixDataset(X_train, train_targets)
+    else:
+        train_dataset = WeightedMatrixDataset(
+            X_train, train_targets, train_sample_weights
+        )
+    sampler = None
+    sampler_weights = None
+    if train_sampler_weights is not None:
+        sampler_weights = np.asarray(train_sampler_weights, dtype=np.float64).reshape(-1)
+        if sampler_weights.shape[0] != train_targets.shape[0]:
+            raise ValueError(
+                "Sampler weights must have one value per training row: "
+                f"{sampler_weights.shape[0]} != {train_targets.shape[0]}"
+            )
+        if not np.isfinite(sampler_weights).all() or np.any(sampler_weights <= 0.0):
+            raise ValueError("Sampler weights must be finite and strictly positive")
+        sampler = WeightedRandomSampler(
+            weights=torch.as_tensor(sampler_weights, dtype=torch.double),
+            num_samples=int(train_targets.shape[0]),
+            replacement=True,
+            generator=torch.Generator().manual_seed(config.seed),
+        )
     train_loader = DataLoader(
-        MatrixDataset(X_train, train_targets),
+        train_dataset,
         batch_size=config.batch_size,
-        shuffle=True,
+        shuffle=sampler is None,
+        sampler=sampler,
         drop_last=config.drop_last,
     )
     model = DGSTStyleProbe(
         input_dim=int(X_train.shape[1]),
         hidden_sizes=config.hidden_sizes,
         dropout=config.dropout,
+        output_dim=1 if output_mode == "single_logit_bce" else 2,
     ).to(device)
-    criterion = nn.BCEWithLogitsLoss()
+    if output_mode == "single_logit_bce":
+        criterion: nn.Module = nn.BCEWithLogitsLoss()
+        train_criterion: nn.Module = nn.BCEWithLogitsLoss(
+            reduction="mean" if train_sample_weights is None else "none"
+        )
+    else:
+        criterion = nn.CrossEntropyLoss()
+        train_criterion = nn.CrossEntropyLoss(
+            reduction="mean" if train_sample_weights is None else "none"
+        )
     optimizer = torch.optim.Adam(
         model.parameters(),
         lr=config.learning_rate,
@@ -406,7 +479,14 @@ def train_and_evaluate_probe(
 
     progress = tqdm(range(config.num_epochs), desc="Training torch probe", unit="epoch", leave=False)
     for epoch in progress:
-        train_loss = _train_epoch(model, train_loader, optimizer, criterion, device)
+        train_loss = _train_epoch(
+            model,
+            train_loader,
+            optimizer,
+            train_criterion,
+            device,
+            output_mode=output_mode,
+        )
         improved = train_loss < best_train_loss
         if improved:
             best_train_loss = float(train_loss)
@@ -450,11 +530,18 @@ def train_and_evaluate_probe(
         train_eval_loader,
         criterion,
         device,
+        output_mode=output_mode,
     )
     decision_threshold = _select_f1_threshold(train_targets, train_probs)
     test_dataset = MatrixDataset(X_test, test_targets)
     test_loader = DataLoader(test_dataset, batch_size=config.batch_size)
-    _test_loss, test_probs = _predict_loss_and_probs(model, test_loader, criterion, device)
+    _test_loss, test_probs = _predict_loss_and_probs(
+        model,
+        test_loader,
+        criterion,
+        device,
+        output_mode=output_mode,
+    )
     metrics = _metrics_from_probs(
         test_targets,
         test_probs,
@@ -515,6 +602,33 @@ def train_and_evaluate_probe(
     metrics["threshold_selection"] = config.threshold_selection
     metrics["threshold_reporting"] = list(config.threshold_reporting)
     metrics["split_protocol"] = config.split_protocol
+    metrics["output_mode"] = output_mode
+    metrics["loss"] = (
+        "BCEWithLogitsLoss"
+        if output_mode == "single_logit_bce"
+        else "CrossEntropyLoss"
+    )
+    if train_sample_weights is None:
+        metrics["train_sample_weighting"] = "none"
+    else:
+        weights = np.asarray(train_sample_weights, dtype=np.float64).reshape(-1)
+        metrics["train_sample_weighting"] = "per_row"
+        metrics["train_sample_weight_summary"] = {
+            "minimum": float(weights.min()),
+            "maximum": float(weights.max()),
+            "mean": float(weights.mean()),
+        }
+    if sampler_weights is None:
+        metrics["train_sampling"] = "shuffle_without_replacement"
+    else:
+        metrics["train_sampling"] = "weighted_random_replacement"
+        metrics["train_sampler_weight_summary"] = {
+            "minimum": float(sampler_weights.min()),
+            "maximum": float(sampler_weights.max()),
+            "mean": float(sampler_weights.mean()),
+            "num_samples_per_epoch": int(train_targets.shape[0]),
+            "replacement": True,
+        }
     if return_probabilities:
         # Used by paired image-level bootstrap experiments.  Ordinary training
         # keeps its historical compact result schema.
@@ -522,7 +636,20 @@ def train_and_evaluate_probe(
         metrics["test_probabilities"] = test_probs.astype(float).tolist()
 
     save_json(history, os.path.join(output_dir, "history.json"))
-    save_json(asdict(config), os.path.join(output_dir, "config.json"))
+    saved_config = asdict(config)
+    saved_config["output_mode"] = metrics["output_mode"]
+    saved_config["loss"] = metrics["loss"]
+    saved_config["train_sample_weighting"] = metrics["train_sample_weighting"]
+    saved_config["train_sampling"] = metrics["train_sampling"]
+    if "train_sample_weight_summary" in metrics:
+        saved_config["train_sample_weight_summary"] = metrics[
+            "train_sample_weight_summary"
+        ]
+    if "train_sampler_weight_summary" in metrics:
+        saved_config["train_sampler_weight_summary"] = metrics[
+            "train_sampler_weight_summary"
+        ]
+    save_json(saved_config, os.path.join(output_dir, "config.json"))
     return metrics
 
 
@@ -532,24 +659,47 @@ def _train_epoch(
     optimizer: torch.optim.Optimizer,
     criterion: nn.Module,
     device: torch.device,
+    output_mode: str = "single_logit_bce",
 ) -> float:
     model.train()
     loss_sum = 0.0
-    row_count = 0
-    for features, labels in loader:
+    normalization_sum = 0.0
+    for batch in loader:
+        if len(batch) == 2:
+            features, labels = batch
+            sample_weights = None
+        elif len(batch) == 3:
+            features, labels, sample_weights = batch
+        else:
+            raise ValueError(f"Unexpected training batch with {len(batch)} fields")
         features = features.to(device)
-        labels = labels.to(device).unsqueeze(1)
+        labels = labels.to(device)
+        targets = (
+            labels.unsqueeze(1)
+            if output_mode == "single_logit_bce"
+            else labels.to(torch.long)
+        )
+        if sample_weights is not None:
+            sample_weights = sample_weights.to(device)
+            if output_mode == "single_logit_bce":
+                sample_weights = sample_weights.unsqueeze(1)
         optimizer.zero_grad()
         logits = model(features)
-        loss = criterion(logits, labels)
+        raw_loss = criterion(logits, targets)
+        if sample_weights is None:
+            loss = raw_loss
+            batch_normalizer = float(targets.shape[0])
+        else:
+            weighted_loss = raw_loss * sample_weights
+            batch_normalizer = float(sample_weights.sum().item())
+            loss = weighted_loss.sum() / sample_weights.sum()
         if not torch.isfinite(loss):
             raise RuntimeError("Torch probe produced a non-finite train loss")
         loss.backward()
         optimizer.step()
-        batch_rows = int(labels.shape[0])
-        loss_sum += float(loss.item()) * batch_rows
-        row_count += batch_rows
-    return loss_sum / max(row_count, 1)
+        loss_sum += float(loss.item()) * batch_normalizer
+        normalization_sum += batch_normalizer
+    return loss_sum / max(normalization_sum, 1.0)
 
 
 def _predict_loss_and_probs(
@@ -557,6 +707,7 @@ def _predict_loss_and_probs(
     loader: DataLoader,
     criterion: nn.Module,
     device: torch.device,
+    output_mode: str = "single_logit_bce",
 ) -> tuple[float, np.ndarray]:
     model.eval()
     loss_sum = 0.0
@@ -565,13 +716,22 @@ def _predict_loss_and_probs(
     with torch.no_grad():
         for features, labels in loader:
             features = features.to(device)
-            labels = labels.to(device).unsqueeze(1)
+            labels = labels.to(device)
+            targets = (
+                labels.unsqueeze(1)
+                if output_mode == "single_logit_bce"
+                else labels.to(torch.long)
+            )
             logits = model(features)
-            loss = criterion(logits, labels)
-            batch_rows = int(labels.shape[0])
+            loss = criterion(logits, targets)
+            batch_rows = int(targets.shape[0])
             loss_sum += float(loss.item()) * batch_rows
             row_count += batch_rows
-            probs.extend(torch.sigmoid(logits).squeeze(1).cpu().tolist())
+            if output_mode == "single_logit_bce":
+                batch_probs = torch.sigmoid(logits).squeeze(1)
+            else:
+                batch_probs = torch.softmax(logits, dim=1)[:, 1]
+            probs.extend(batch_probs.cpu().tolist())
     return loss_sum / max(row_count, 1), np.asarray(probs, dtype=np.float32)
 
 

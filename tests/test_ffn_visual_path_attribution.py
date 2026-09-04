@@ -15,6 +15,8 @@ from features.ffn_visual_path_attribution import (
     scalar_path_attribution,
     signed_mass_statistics,
     source_scaling_autograd_scores,
+    source_scaled_residual,
+    streaming_vector_path_statistics,
     symmetric_directional_differences,
     target_scalar_from_logits,
     vector_path_components,
@@ -137,6 +139,10 @@ class FFNVisualPathAttributionTest(unittest.TestCase):
                 rtol=2e-13,
             )
         )
+        scaled = source_scaled_residual(z, writes, [1, 3], 0.25)
+        self.assertTrue(
+            torch.equal(scaled, z - 0.75 * (writes[1] + writes[3]))
+        )
 
     def test_batched_jvp_matches_finite_difference_for_linear_and_nonlinear_ffn(self) -> None:
         torch.manual_seed(4)
@@ -187,6 +193,69 @@ class FFNVisualPathAttributionTest(unittest.TestCase):
         self.assertLess(scalar_errors[-1], 2e-12)
         self.assertLess(vector_errors[-1], vector_errors[0])
         self.assertLess(scalar_errors[-1], scalar_errors[0])
+
+    def test_streaming_vector_statistics_match_full_components(self) -> None:
+        torch.manual_seed(31)
+        ffn = _NonlinearFFN().eval()
+        z = torch.randn(2, 5, dtype=DTYPE)
+        writes = 0.08 * torch.randn(7, 2, 5, dtype=DTYPE)
+        result = streaming_vector_path_statistics(
+            ffn_map=ffn,
+            z=z,
+            writes=writes,
+            method="gauss_legendre",
+            integration_points=16,
+            token_chunk_size=3,
+            save_components=True,
+        )
+        expected = torch.stack(
+            [
+                vector_path_components(
+                    ffn_map=ffn,
+                    z=z[target],
+                    writes=writes[:, target],
+                    method="gauss_legendre",
+                    integration_points=16,
+                    chunk_size=3,
+                ).components
+                for target in range(2)
+            ],
+            dim=1,
+        )
+        self.assertTrue(torch.allclose(result.components, expected, atol=2e-13, rtol=2e-13))
+        self.assertTrue(torch.allclose(result.ffn_path_gross, expected.norm(dim=-1).T))
+        self.assertTrue(torch.allclose(result.p_ffn.sum(dim=-1), torch.ones(2, dtype=DTYPE)))
+        self.assertLess(float(result.completeness_relative_error.max()), 2e-12)
+
+        unchunked = streaming_vector_path_statistics(
+            ffn_map=ffn,
+            z=z,
+            writes=writes,
+            method="gauss_legendre",
+            integration_points=16,
+        )
+        self.assertIsNone(unchunked.components)
+        self.assertTrue(torch.allclose(unchunked.ffn_path_gross, result.ffn_path_gross))
+        self.assertTrue(torch.allclose(unchunked.path_signed_q, result.path_signed_q))
+
+    def test_streaming_vector_statistics_zero_strength_is_finite(self) -> None:
+        ffn = nn.Linear(5, 5, bias=False, dtype=DTYPE).eval()
+        z = torch.randn(3, 5, dtype=DTYPE)
+        writes = torch.zeros(4, 3, 5, dtype=DTYPE)
+        result = streaming_vector_path_statistics(
+            ffn_map=ffn,
+            z=z,
+            writes=writes,
+            method="gauss_legendre",
+            integration_points=4,
+            token_chunk_size=2,
+        )
+        self.assertTrue(bool(result.gross_degenerate.all()))
+        self.assertTrue(bool(result.net_degenerate.all()))
+        self.assertTrue(torch.isfinite(result.p_ffn).all())
+        self.assertTrue(torch.equal(result.p_ffn, torch.full_like(result.p_ffn, 0.25)))
+        self.assertEqual(float(result.path_signed_q.abs().sum()), 0.0)
+        self.assertEqual(float(result.kappa.abs().sum()), 0.0)
 
     def test_trapezoid_and_gauss_legendre_agree_at_convergence(self) -> None:
         ffn, score, z, writes, _downstream, _target, _competitor = _case()

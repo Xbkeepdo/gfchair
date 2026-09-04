@@ -212,6 +212,9 @@ def collect_matrices(
         "union_topk_s",
         "union_response_sum",
         "union_write_sum",
+        "old_risk",
+        "jffn_risk",
+        "ev",
     )
     stores: dict[str, dict[str, Any]] = {
         split: {
@@ -323,11 +326,17 @@ def collect_matrices(
                 ["sqrt_matched_state"],
                 dtype=np.float32,
             ).reshape(-1)
+            jffn_risk = np.asarray(
+                first_position["risks"]["new_jffn"]["hpre_raw_logit_gauss"]
+                ["sqrt_matched_state"],
+                dtype=np.float32,
+            ).reshape(-1)
             ev = np.asarray(
                 first_position["ev"]["hpre_raw_logit_gauss"], dtype=np.float32
             ).reshape(-1)
             if not (
                 risk.shape
+                == jffn_risk.shape
                 == ev.shape
                 == old_s.shape
                 == all_s.shape
@@ -340,6 +349,9 @@ def collect_matrices(
                 "union_topk_s": union_s,
                 "union_response_sum": union_r,
                 "union_write_sum": union_i,
+                "old_risk": risk,
+                "jffn_risk": jffn_risk,
+                "ev": ev,
                 "x": {
                     "token_all_s": np.concatenate((risk, ev, all_s)).astype(
                         np.float32, copy=False

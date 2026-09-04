@@ -238,6 +238,7 @@ def _extract_one_image(
                     "image_id": image_id,
                     "response_index": response_index,
                     "target_token_id": target_id,
+                    "visual_grid": [int(value) for value in output.visual_grid or ()],
                     "result": output.dgst_t_result,
                 }
             )

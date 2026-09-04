@@ -1,0 +1,199 @@
+{
+  "counts": {
+    "mentions": 8717,
+    "processed_images": 4000,
+    "test_mentions": 1732,
+    "train_mentions": 6985,
+    "unique_targets": 8654
+  },
+  "feature_definitions": {
+    "R_cos": "all-layer old_hpre_cos/hpre_raw_logit_gauss/sqrt_matched_state OT risk",
+    "kappa": "all-layer net_strength/gross_strength",
+    "strength": "all-layer gross_strength",
+    "strength+kappa": "concatenate strength and kappa; no other blocks",
+    "strength+kappa+R_cos": "concatenate strength, kappa, and R_cos; no AE or JS/OT path-distance blocks"
+  },
+  "model": "qwen2_5_vl_7b",
+  "paired_image_bootstrap": {
+    "strength+kappa+R_cos__minus__R_cos": {
+      "auroc_ci95": [
+        0.0372050170263964,
+        0.10485396228640428
+      ],
+      "hall_aupr_ci95": [
+        0.022787549706792625,
+        0.1615522094391083
+      ],
+      "new_minus_baseline_auroc": 0.07074897607128872,
+      "new_minus_baseline_hall_aupr": 0.08933559433226712,
+      "replicates": 10000
+    },
+    "strength+kappa+R_cos__minus__kappa": {
+      "auroc_ci95": [
+        0.045948853938079126,
+        0.1030726836081332
+      ],
+      "hall_aupr_ci95": [
+        0.0054125889912426785,
+        0.12346576922946567
+      ],
+      "new_minus_baseline_auroc": 0.07457305435906125,
+      "new_minus_baseline_hall_aupr": 0.060607348600442756,
+      "replicates": 10000
+    },
+    "strength+kappa+R_cos__minus__strength": {
+      "auroc_ci95": [
+        0.0070552458457499466,
+        0.01847215001665169
+      ],
+      "hall_aupr_ci95": [
+        0.013019713418819847,
+        0.04328683448179861
+      ],
+      "new_minus_baseline_auroc": 0.012721057477590003,
+      "new_minus_baseline_hall_aupr": 0.027631677860513126,
+      "replicates": 10000
+    },
+    "strength+kappa+R_cos__minus__strength+kappa": {
+      "auroc_ci95": [
+        0.000893347360602695,
+        0.011082262979799525
+      ],
+      "hall_aupr_ci95": [
+        -0.014758640875278513,
+        0.015571448997148556
+      ],
+      "new_minus_baseline_auroc": 0.005891338321568296,
+      "new_minus_baseline_hall_aupr": -0.0004221496230108479,
+      "replicates": 10000
+    },
+    "strength+kappa__minus__kappa": {
+      "auroc_ci95": [
+        0.03977624394212814,
+        0.09649795648224015
+      ],
+      "hall_aupr_ci95": [
+        0.0033395812037216996,
+        0.12383292919275808
+      ],
+      "new_minus_baseline_auroc": 0.06868171603749296,
+      "new_minus_baseline_hall_aupr": 0.061029498223453604,
+      "replicates": 10000
+    },
+    "strength+kappa__minus__strength": {
+      "auroc_ci95": [
+        0.001195554982369923,
+        0.012535558637342507
+      ],
+      "hall_aupr_ci95": [
+        0.010766404912310356,
+        0.045152128018605
+      ],
+      "new_minus_baseline_auroc": 0.006829719156021707,
+      "new_minus_baseline_hall_aupr": 0.028053827483523974,
+      "replicates": 10000
+    }
+  },
+  "protocol": {
+    "batch_size": 256,
+    "bootstrap_resamples": 10000,
+    "checkpoint": "minimum_train_loss",
+    "dropout": 0.3,
+    "drop_last": false,
+    "epochs_max": 100,
+    "hidden_sizes": [
+      128,
+      64,
+      32
+    ],
+    "seeds": [
+      43,
+      44,
+      45
+    ],
+    "split": "same fixed image 8:2 split as formal detector",
+    "standardization": "none",
+    "threshold": "train_REAL_F1"
+  },
+  "status": "EXPLORATORY_NOT_PREREGISTERED",
+  "strength_curve": {
+    "cohort": "all formal mentions (train + test), descriptive only",
+    "figure": "outputs/qwen2_5_vl_7b/COCO4000-INSLEN-OFFICIAL-TARGET/results/ffn_visual_source_attribution_v1/figures/strength_real_hall_curve.png",
+    "layers": 28,
+    "n_hall": 916,
+    "n_real": 7801,
+    "table": "outputs/qwen2_5_vl_7b/COCO4000-INSLEN-OFFICIAL-TARGET/results/ffn_visual_source_attribution_v1/tables/strength_real_hall_curve.csv"
+  },
+  "summaries": {
+    "R_cos": {
+      "dimensions": 28,
+      "ensemble_auroc": 0.7988231434346855,
+      "mean_hall_aupr": 0.3060604546072228,
+      "mean_hall_f1": 0.23985801737452728,
+      "mean_hall_precision": 0.4054658239700375,
+      "mean_hall_recall": 0.17122040072859745,
+      "mean_real_aupr": 0.9690916378600111,
+      "per_seed_auroc": {
+        "43": 0.7966288844909637,
+        "44": 0.7864460413381453,
+        "45": 0.7935174111977761
+      }
+    },
+    "kappa": {
+      "dimensions": 28,
+      "ensemble_auroc": 0.794999065146913,
+      "mean_hall_aupr": 0.3311590906133387,
+      "mean_hall_f1": 0.21752346933146882,
+      "mean_hall_precision": 0.5040992812219227,
+      "mean_hall_recall": 0.1493624772313297,
+      "mean_real_aupr": 0.9688916762522527,
+      "per_seed_auroc": {
+        "43": 0.7919510913086886,
+        "44": 0.7853471479925354,
+        "45": 0.7872521316414256
+      }
+    },
+    "strength": {
+      "dimensions": 28,
+      "ensemble_auroc": 0.8568510620283842,
+      "mean_hall_aupr": 0.37265448127348666,
+      "mean_hall_f1": 0.16127394238539325,
+      "mean_hall_precision": 0.4233047440364514,
+      "mean_hall_recall": 0.10200364298724955,
+      "mean_real_aupr": 0.9797036198127701,
+      "per_seed_auroc": {
+        "43": 0.848320968578353,
+        "44": 0.8528400131232208,
+        "45": 0.8581457453601301
+      }
+    },
+    "strength+kappa": {
+      "dimensions": 56,
+      "ensemble_auroc": 0.8636807811844059,
+      "mean_hall_aupr": 0.3970198502761797,
+      "mean_hall_f1": 0.23789551275721676,
+      "mean_hall_precision": 0.4954835462680934,
+      "mean_hall_recall": 0.15664845173041894,
+      "mean_real_aupr": 0.9805603743996935,
+      "per_seed_auroc": {
+        "43": 0.8599166746040985,
+        "44": 0.8548296627120617,
+        "45": 0.8649225483036826
+      }
+    },
+    "strength+kappa+R_cos": {
+      "dimensions": 84,
+      "ensemble_auroc": 0.8695721195059742,
+      "mean_hall_aupr": 0.3988499377882768,
+      "mean_hall_f1": 0.21933517466912048,
+      "mean_hall_precision": 0.46532664790053957,
+      "mean_hall_recall": 0.14389799635701275,
+      "mean_real_aupr": 0.9817799085719555,
+      "per_seed_auroc": {
+        "43": 0.8659949835430579,
+        "44": 0.868559655974064,
+        "45": 0.8654834601558559
+      }
+    }
+  }
+}

@@ -1,0 +1,91 @@
+{
+  "counts": {
+    "mentions": 11759,
+    "processed_images": 4000,
+    "test_mentions": 2381,
+    "train_mentions": 9378,
+    "unique_targets": 11630
+  },
+  "curves": {
+    "kappa": {
+      "cohort": "all formal mentions (train + test), descriptive only",
+      "figure": "outputs/internvl_2_5_8b/COCO4000-INSLEN-OFFICIAL-TARGET/results/ffn_visual_source_attribution_v1/figures/kappa_real_hall_curve.png",
+      "layers": 32,
+      "n_hall": 1766,
+      "n_real": 9993,
+      "table": "outputs/internvl_2_5_8b/COCO4000-INSLEN-OFFICIAL-TARGET/results/ffn_visual_source_attribution_v1/tables/kappa_real_hall_curve.csv"
+    },
+    "net_strength": {
+      "cohort": "all formal mentions (train + test), descriptive only",
+      "figure": "outputs/internvl_2_5_8b/COCO4000-INSLEN-OFFICIAL-TARGET/results/ffn_visual_source_attribution_v1/figures/net_strength_real_hall_curve.png",
+      "layers": 32,
+      "n_hall": 1766,
+      "n_real": 9993,
+      "table": "outputs/internvl_2_5_8b/COCO4000-INSLEN-OFFICIAL-TARGET/results/ffn_visual_source_attribution_v1/tables/net_strength_real_hall_curve.csv"
+    }
+  },
+  "feature_definitions": {
+    "D_OT+strength": "AE + D_WF^OT + gross_strength",
+    "kappa": "net_strength / gross_strength; curve only",
+    "net_strength": "all-layer ||sum_m e_m||_2"
+  },
+  "model": "internvl_2_5_8b",
+  "protocol": {
+    "batch_size": 256,
+    "bootstrap": "NOT_RUN_BY_USER_REQUEST",
+    "checkpoint": "minimum_train_loss",
+    "drop_last": false,
+    "dropout": 0.3,
+    "epochs_max": 100,
+    "hidden_sizes": [
+      128,
+      64,
+      32
+    ],
+    "seeds": [
+      43,
+      44,
+      45
+    ],
+    "split": "same fixed image 8:2 split as formal detector",
+    "standardization": "none",
+    "threshold": "train_REAL_F1"
+  },
+  "status": "EXPLORATORY_NET_STRENGTH_AND_D_OT_PLUS_STRENGTH",
+  "summaries": {
+    "D_OT+strength": {
+      "dimensions": 96,
+      "ensemble_auroc": 0.8605631094923257,
+      "ensemble_auroc_minus_reference": 0.007139671875500686,
+      "mean_hall_aupr": 0.5294724814487702,
+      "mean_hall_f1": 0.4850036282088903,
+      "mean_hall_precision": 0.5763036232232425,
+      "mean_hall_recall": 0.420017873100983,
+      "mean_real_aupr": 0.9681867267706901,
+      "per_seed_auroc": {
+        "43": 0.8547412227764546,
+        "44": 0.8565583510462172,
+        "45": 0.8541791279920532
+      },
+      "reference_ensemble_auroc": 0.853423437616825,
+      "reference_feature": "D_OT"
+    },
+    "net_strength": {
+      "dimensions": 32,
+      "ensemble_auroc": 0.839282281063414,
+      "ensemble_auroc_minus_reference": -0.005035488074511596,
+      "mean_hall_aupr": 0.49446203589375565,
+      "mean_hall_f1": 0.32834980455344304,
+      "mean_hall_precision": 0.6078231292517007,
+      "mean_hall_recall": 0.2287756925826631,
+      "mean_real_aupr": 0.963119999683348,
+      "per_seed_auroc": {
+        "43": 0.8383590303664699,
+        "44": 0.8331786793843393,
+        "45": 0.8321119009217821
+      },
+      "reference_ensemble_auroc": 0.8443177691379256,
+      "reference_feature": "strength"
+    }
+  }
+}

@@ -1,0 +1,95 @@
+{
+  "counts": {
+    "mentions": 8717,
+    "processed_images": 4000,
+    "test_mentions": 1732,
+    "train_mentions": 6985,
+    "unique_targets": 8654
+  },
+  "curve": {
+    "cohort": "all formal mentions (train + test), descriptive only",
+    "figure": "outputs/qwen2_5_vl_7b/COCO4000-INSLEN-OFFICIAL-TARGET/results/ffn_visual_source_attribution_v1/figures/relative_strength_real_hall_curve.png",
+    "layers": 28,
+    "n_hall": 916,
+    "n_real": 7801,
+    "table": "outputs/qwen2_5_vl_7b/COCO4000-INSLEN-OFFICIAL-TARGET/results/ffn_visual_source_attribution_v1/tables/relative_strength_real_hall_curve.csv"
+  },
+  "feature_definitions": {
+    "D_OT+relative_strength": "AE + D_WF^OT + relative_strength",
+    "R": "sum_m ||e_m||_2 (gross FFN path response)",
+    "W": "sum_m ||a_m||_2 (gross visual write energy)",
+    "relative_strength": "R / (R + W), zero when R+W is degenerate"
+  },
+  "model": "qwen2_5_vl_7b",
+  "protocol": {
+    "batch_size": 256,
+    "bootstrap": "NOT_RUN_BY_USER_REQUEST",
+    "calibration": "none; sample-local extraction-time R and W only",
+    "checkpoint": "minimum_train_loss",
+    "drop_last": false,
+    "dropout": 0.3,
+    "epochs_max": 100,
+    "hidden_sizes": [
+      128,
+      64,
+      32
+    ],
+    "seeds": [
+      43,
+      44,
+      45
+    ],
+    "split": "same fixed image 8:2 split as formal detector",
+    "standardization": "none",
+    "threshold": "train_REAL_F1"
+  },
+  "ranges": {
+    "test": {
+      "max": 0.6853604912757874,
+      "min": 0.20445506274700165
+    },
+    "train": {
+      "max": 0.689306378364563,
+      "min": 0.1929529458284378
+    }
+  },
+  "status": "EXPLORATORY_EXTRACTION_NATIVE_RELATIVE_STRENGTH",
+  "summaries": {
+    "D_OT+relative_strength": {
+      "d_ot_ensemble_auroc": 0.8252494999417921,
+      "dimensions": 84,
+      "ensemble_auroc": 0.8574543068505329,
+      "mean_hall_aupr": 0.41172711050396127,
+      "mean_hall_f1": 0.38699022586811066,
+      "mean_hall_precision": 0.45780288199769736,
+      "mean_hall_recall": 0.33515482695810567,
+      "mean_real_aupr": 0.9768726332693559,
+      "per_seed_auroc": {
+        "43": 0.8395986128896838,
+        "44": 0.8448020404491527,
+        "45": 0.8469151612004219
+      },
+      "raw_reference": "D_OT+strength",
+      "raw_reference_ensemble_auroc": 0.8697202849008879,
+      "relative_combo_minus_d_ot_auroc": 0.032204806908740835,
+      "relative_minus_raw_auroc": -0.012265978050355009
+    },
+    "relative_strength": {
+      "dimensions": 28,
+      "ensemble_auroc": 0.8237219852751819,
+      "mean_hall_aupr": 0.3623811293753439,
+      "mean_hall_f1": 0.27509928629663966,
+      "mean_hall_precision": 0.4605798790581399,
+      "mean_hall_recall": 0.19672131147540983,
+      "mean_real_aupr": 0.9731292652861064,
+      "per_seed_auroc": {
+        "43": 0.8208680375493445,
+        "44": 0.8130646600838898,
+        "45": 0.8225119678833868
+      },
+      "raw_reference": "strength",
+      "raw_reference_ensemble_auroc": 0.8568510620283842,
+      "relative_minus_raw_auroc": -0.03312907675320231
+    }
+  }
+}

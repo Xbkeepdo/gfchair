@@ -15,7 +15,14 @@ from scripts.analyze_ffn_visual_source_study import (
 )
 from scripts.analyze_ffn_visual_source_signal_ablation import (
     ae_times_cosine,
+    bounded_strength_matrices,
+    build_union_topk_js_feature_sets,
+    core_signal_matrices,
+    log1p_strength_matrices,
+    net_strength_matrices,
+    relative_strength_matrices,
     swap_ae_for_old_ev,
+    union_topk_js,
 )
 from scripts.run_ffn_visual_source_attribution import (
     formal_image_ids,
@@ -98,6 +105,144 @@ class FFNVisualSourceStudyTest(unittest.TestCase):
         np.testing.assert_allclose(ae_times_cosine(ae, cosine), [[-0.1, 0.4]])
         with self.assertRaisesRegex(ValueError, "same"):
             ae_times_cosine(ae, cosine.T)
+
+    def test_union_topk_js_uses_pairwise_union_and_rebuilds_only_js_groups(self):
+        p = np.array([[0.7, 0.2, 0.1, 0.0]], dtype=np.float32)
+        q = np.array([[0.1, 0.2, 0.3, 0.4]], dtype=np.float32)
+        expected = _js(p[:, [0, 3]].ravel(), q[:, [0, 3]].ravel())
+        actual = float(union_topk_js(p, q, side_top_k=1)[0])
+        self.assertAlmostEqual(actual, expected, places=7)
+        self.assertNotAlmostEqual(actual, _js(p.ravel(), q.ravel()))
+
+        formal = {
+            "A": np.array([[1, 2, 3, 4]], dtype=np.float32),
+            "B": np.array([[3, 4]], dtype=np.float32),
+            "F": np.array([[3, 4, 5, 6, 7, 8]], dtype=np.float32),
+        }
+        distances = {
+            name: np.array([[offset, offset + 1]], dtype=np.float32)
+            for offset, name in enumerate(("D_EW", "D_WF", "D_EF"), 10)
+        }
+        rebuilt = build_union_topk_js_feature_sets(formal, distances)
+        np.testing.assert_array_equal(rebuilt["C_JS"], [[3, 4, 10, 11]])
+        np.testing.assert_array_equal(rebuilt["E_JS"], [[3, 4, 12, 13]])
+        np.testing.assert_array_equal(
+            rebuilt["H_JS"], [[1, 2, 3, 4, 10, 11, 11, 12, 12, 13, 5, 6, 7, 8]]
+        )
+
+    def test_core_signals_preserve_blocks_and_audit_net_identity(self):
+        position = {
+            "r_cos": np.array([0.1, 0.2]), "ae_strength": np.array([0.3, 0.4]),
+            "gross_strength": np.array([0.0, 4.0]), "kappa": np.array([0.0, 0.5]),
+            "js": {name: np.array([0.1, 0.2]) for name in ("D_EW", "D_WF", "D_EF")},
+            "ot": {name: np.array([0.2, 0.3]) for name in ("D_EW", "D_WF", "D_EF")},
+        }
+        data = {}
+        for split in ("train", "test"):
+            data[f"X_{split}"] = {key: value[None] for key, value in build_feature_sets(position).items()}
+            data[f"write_strength_{split}"] = np.array([[1, 3]], dtype=np.float32)
+            data[f"net_strength_{split}"] = np.array([[0, 2]], dtype=np.float32)
+        matrices, audit = core_signal_matrices(data)
+        for split in ("train", "test"):
+            np.testing.assert_allclose(matrices[split]["AE+I"], [[0.3, 0.4, 1, 3]])
+            np.testing.assert_allclose(matrices[split]["AE+I+S"], [[0.3, 0.4, 1, 3, 0, 4]])
+            np.testing.assert_allclose(matrices[split]["AE+N"], [[0.3, 0.4, 0, 2]])
+            np.testing.assert_allclose(matrices[split]["AE+S+N"], [[0.3, 0.4, 0, 4, 0, 2]])
+            np.testing.assert_allclose(matrices[split]["U"], [[0.1, 0.2, 0.3, 0.4, 0, 4, 0, 0.5]])
+            self.assertEqual(audit[split]["zero_gross_entries"], 1)
+            self.assertEqual(audit[split]["n_equals_s_kappa_max_absolute_error"], 0)
+            self.assertEqual(len(matrices[split]), 10)
+        data["net_strength_test"][0, 1] = 3
+        with self.assertRaises(AssertionError):
+            core_signal_matrices(data)
+        data["net_strength_test"][0, 1] = 2
+        data["write_strength_train"][0, 0] = np.nan
+        with self.assertRaisesRegex(ValueError, "finite"):
+            core_signal_matrices(data)
+
+    def test_net_strength_and_d_ot_plus_strength_matrices(self):
+        data = {}
+        for split in ("train", "test"):
+            data[f"X_{split}"] = {
+                "F": np.array([[1, 2, 3, 4, 5, 6]], dtype=np.float32),
+                "D_OT": np.array([[7, 8, 9, 10]], dtype=np.float32),
+            }
+            data[f"net_strength_{split}"] = np.array(
+                [[0.2, 0.3]], dtype=np.float32
+            )
+        matrices = net_strength_matrices(data)
+        np.testing.assert_allclose(
+            matrices["train"]["net_strength"], [[0.2, 0.3]]
+        )
+        np.testing.assert_array_equal(
+            matrices["train"]["D_OT+strength"], [[7, 8, 9, 10, 3, 4]]
+        )
+
+    def test_bounded_strength_uses_train_layer_medians_and_stays_bounded(self):
+        data = {
+            "X_train": {
+                "F": np.array(
+                    [[10, 20, 1, 2, 0.1, 0.2], [10, 20, 3, 6, 0.1, 0.2]],
+                    dtype=np.float32,
+                ),
+                "D_OT": np.array([[7, 8, 9, 10], [7, 8, 9, 10]], dtype=np.float32),
+            },
+            "X_test": {
+                "F": np.array([[10, 20, 2, 4, 0.1, 0.2]], dtype=np.float32),
+                "D_OT": np.array([[7, 8, 9, 10]], dtype=np.float32),
+            },
+        }
+        matrices, tau = bounded_strength_matrices(data)
+        np.testing.assert_allclose(tau, [2, 4])
+        np.testing.assert_allclose(
+            matrices["train"]["bounded_strength"], [[1 / 3, 1 / 3], [0.6, 0.6]]
+        )
+        np.testing.assert_allclose(
+            matrices["test"]["D_OT+bounded_strength"],
+            [[7, 8, 9, 10, 0.5, 0.5]],
+        )
+        self.assertTrue(np.all(matrices["test"]["bounded_strength"] < 1.0))
+
+    def test_relative_strength_is_extraction_local_and_bounded(self):
+        data = {}
+        for split in ("train", "test"):
+            data[f"X_{split}"] = {
+                "F": np.array(
+                    [[10, 20, 1, 3, 0.1, 0.2], [10, 20, 0, 1, 0.1, 0.2]],
+                    dtype=np.float32,
+                ),
+                "D_OT": np.array([[7, 8, 9, 10], [7, 8, 9, 10]], dtype=np.float32),
+            }
+            data[f"write_strength_{split}"] = np.array(
+                [[3, 1], [0, 0]], dtype=np.float32
+            )
+        matrices = relative_strength_matrices(data)
+        np.testing.assert_allclose(
+            matrices["train"]["relative_strength"], [[0.25, 0.75], [0, 1]]
+        )
+        np.testing.assert_allclose(
+            matrices["test"]["D_OT+relative_strength"][:, :4],
+            data["X_test"]["D_OT"],
+        )
+        self.assertTrue(np.all(matrices["test"]["relative_strength"] < 1.0))
+
+    def test_log1p_strength_is_plain_elementwise_transform(self):
+        data = {}
+        for split in ("train", "test"):
+            data[f"X_{split}"] = {
+                "F": np.array(
+                    [[10, 20, 0, 1, 0.1, 0.2], [10, 20, 3, 8, 0.1, 0.2]],
+                    dtype=np.float32,
+                ),
+                "D_OT": np.array([[7, 8, 9, 10], [7, 8, 9, 10]], dtype=np.float32),
+            }
+        matrices = log1p_strength_matrices(data)
+        np.testing.assert_allclose(
+            matrices["train"]["log1p_strength"], np.log1p([[0, 1], [3, 8]])
+        )
+        np.testing.assert_array_equal(
+            matrices["test"]["D_OT+log1p_strength"][:, :4], data["X_test"]["D_OT"]
+        )
 
     def test_gate_is_any_model_or_distance_with_positive_lower_bound(self):
         def model(low):

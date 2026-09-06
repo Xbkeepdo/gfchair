@@ -1,0 +1,75 @@
+{
+  "bootstrap": "NOT_RUN_BY_USER_REQUEST",
+  "cohort": "all formal mentions (train + test), descriptive only",
+  "counts": {
+    "mentions": 8717,
+    "processed_images": 4000,
+    "test_mentions": 1732,
+    "train_mentions": 6985,
+    "unique_targets": 8654
+  },
+  "curve": {
+    "cohort": "all formal mentions (train + test), descriptive only",
+    "figure": "outputs/qwen2_5_vl_7b/COCO4000-INSLEN-OFFICIAL-TARGET/results/ffn_visual_source_attribution_v1/figures/d_js_union_topk_real_hall_curve.png",
+    "layers": 28,
+    "n_hall": 916,
+    "n_real": 7801,
+    "table": "outputs/qwen2_5_vl_7b/COCO4000-INSLEN-OFFICIAL-TARGET/results/ffn_visual_source_attribution_v1/tables/d_js_union_topk_real_hall_curve.csv"
+  },
+  "definition": "D_WF^JS = JS(P_WRITE, P_FFN); detector D_JS = AE + D_WF^JS",
+  "elapsed_seconds": 39.23525429004803,
+  "hall_median_above_real_layers": 10,
+  "hall_minus_real_median_by_layer": [
+    4.995876224711537e-06,
+    -0.0013514538295567036,
+    -0.00010804343037307262,
+    6.515323184430599e-05,
+    0.000134936417452991,
+    2.2921478375792503e-05,
+    -3.103661583736539e-06,
+    -7.144029950723052e-06,
+    0.00012003997107967734,
+    0.0008725823136046529,
+    9.879667777568102e-05,
+    -0.00012046535266563296,
+    -0.00012296420754864812,
+    -0.00010257831308990717,
+    -0.00020877760834991932,
+    1.4282704796642065e-05,
+    -0.00011341198114678264,
+    -3.414909588173032e-05,
+    1.785391941666603e-05,
+    -0.00038855127058923244,
+    -0.0004559973021969199,
+    5.809275899082422e-05,
+    -0.00010620662942528725,
+    -0.0011165011674165726,
+    -0.00010933633893728256,
+    -0.00042314763413742185,
+    -0.00017919600941240788,
+    -0.000161618459969759
+  ],
+  "mean_layer_median_hall_minus_real": -0.00013224967759534984,
+  "mean_of_layer_medians": {
+    "HALL": 0.0015674722620003325,
+    "REAL": 0.0016997219395956822
+  },
+  "model": "qwen2_5_vl_7b",
+  "ranges": {
+    "test": {
+      "max": 0.05759262293577194,
+      "min": 2.9257304049679078e-05
+    },
+    "train": {
+      "max": 0.05929313227534294,
+      "min": 2.698009120649658e-05
+    }
+  },
+  "real_median_above_hall_layers": 18,
+  "support": "pairwise Top32 union, renormalized; natural-log JS divergence",
+  "theoretical_range": [
+    0.0,
+    0.6931471805599453
+  ],
+  "weighting": "one observation per formal mention, matching detector cohort"
+}

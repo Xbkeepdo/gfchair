@@ -1,0 +1,131 @@
+{
+  "alignment": {
+    "maximum_possible_union_size": 64,
+    "side_top_k": 32,
+    "unique_targets": 11630
+  },
+  "counts": {
+    "mentions": 11759,
+    "processed_images": 4000,
+    "test_mentions": 2381,
+    "train_mentions": 9378,
+    "unique_targets": 11630
+  },
+  "model": "internvl_2_5_8b",
+  "protocol": {
+    "batch_size": 256,
+    "bootstrap": "NOT_RUN_BY_USER_REQUEST",
+    "checkpoint": "minimum_train_loss",
+    "drop_last": false,
+    "dropout": 0.3,
+    "epochs_max": 100,
+    "hidden_sizes": [
+      128,
+      64,
+      32
+    ],
+    "seeds": [
+      43,
+      44,
+      45
+    ],
+    "split": "same fixed image 8:2 split as formal detector",
+    "standardization": "none",
+    "threshold": "train_REAL_F1"
+  },
+  "replacement": {
+    "new": "pairwise JS after selecting Top-32 from each marginal, taking their union, and renormalizing both marginals on that union",
+    "old": "JS on every visual token",
+    "scope": "replace only D_EW/D_WF/D_EF in C_JS/D_JS/E_JS/G_JS/H_JS",
+    "unchanged": [
+      "AE",
+      "R_cos",
+      "S",
+      "kappa",
+      "OT groups"
+    ]
+  },
+  "status": "EXPLORATORY_UNION_TOP32_JS",
+  "summaries": {
+    "C_JS": {
+      "dimensions": 64,
+      "ensemble_auroc": 0.8562138844087457,
+      "full_support_js_ensemble_auroc": 0.853729185136131,
+      "mean_hall_aupr": 0.4772929753290876,
+      "mean_hall_f1": 0.4565097266829928,
+      "mean_hall_precision": 0.5049025566458382,
+      "mean_hall_recall": 0.42180518319928506,
+      "mean_real_aupr": 0.9657198682285805,
+      "per_seed_auroc": {
+        "43": 0.8539948783952662,
+        "44": 0.8366427053181376,
+        "45": 0.8474306527242237
+      },
+      "union_topk_js_minus_full_js_auroc": 0.002484699272614632
+    },
+    "D_JS": {
+      "dimensions": 64,
+      "ensemble_auroc": 0.8483258654390481,
+      "full_support_js_ensemble_auroc": 0.8541544278649477,
+      "mean_hall_aupr": 0.48798263652249996,
+      "mean_hall_f1": 0.426565613911873,
+      "mean_hall_precision": 0.5497538407409734,
+      "mean_hall_recall": 0.3512064343163539,
+      "mean_real_aupr": 0.9633634988746643,
+      "per_seed_auroc": {
+        "43": 0.8459720100829924,
+        "44": 0.8380799856872777,
+        "45": 0.8359664558922486
+      },
+      "union_topk_js_minus_full_js_auroc": -0.005828562425899575
+    },
+    "E_JS": {
+      "dimensions": 64,
+      "ensemble_auroc": 0.8498279001954648,
+      "full_support_js_ensemble_auroc": 0.8537478771242109,
+      "mean_hall_aupr": 0.47831281146707866,
+      "mean_hall_f1": 0.44366187569018617,
+      "mean_hall_precision": 0.5260146628298884,
+      "mean_hall_recall": 0.39052725647899916,
+      "mean_real_aupr": 0.9637935087635663,
+      "per_seed_auroc": {
+        "43": 0.8455641242002501,
+        "44": 0.8298728677782169,
+        "45": 0.8436555387030965
+      },
+      "union_topk_js_minus_full_js_auroc": -0.003919976928746016
+    },
+    "G_JS": {
+      "dimensions": 192,
+      "ensemble_auroc": 0.876180933104045,
+      "full_support_js_ensemble_auroc": 0.8742169392136548,
+      "mean_hall_aupr": 0.559500400549693,
+      "mean_hall_f1": 0.5215632031315387,
+      "mean_hall_precision": 0.572843555765568,
+      "mean_hall_recall": 0.4798927613941018,
+      "mean_real_aupr": 0.9714693515883059,
+      "per_seed_auroc": {
+        "43": 0.8690539450775984,
+        "44": 0.8724358597780459,
+        "45": 0.869488533800455
+      },
+      "union_topk_js_minus_full_js_auroc": 0.0019639938903901477
+    },
+    "H_JS": {
+      "dimensions": 224,
+      "ensemble_auroc": 0.8748925210685409,
+      "full_support_js_ensemble_auroc": 0.8795935560706237,
+      "mean_hall_aupr": 0.5367418884348657,
+      "mean_hall_f1": 0.49667005203019826,
+      "mean_hall_precision": 0.5341796575908854,
+      "mean_hall_recall": 0.4647006255585344,
+      "mean_real_aupr": 0.9725980421704196,
+      "per_seed_auroc": {
+        "43": 0.869106015615821,
+        "44": 0.8662915362677974,
+        "45": 0.8737763423517726
+      },
+      "union_topk_js_minus_full_js_auroc": -0.004701035002082854
+    }
+  }
+}

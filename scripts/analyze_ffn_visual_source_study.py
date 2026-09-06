@@ -494,6 +494,12 @@ def _detector_matrices(model: str) -> dict[str, Any]:
                 "target_key": target_key,
                 "image_id": int(mention["image_id"]),
                 "label": int(mention["label"]),
+                "net_strength": np.asarray(
+                    by_target[target_key]["net_strength"], dtype=np.float32
+                ).reshape(-1),
+                "write_strength": np.asarray(
+                    by_target[target_key]["write_mag"], dtype=np.float32
+                ).sum(axis=-1),
                 "features": build_feature_sets(by_target[target_key]),
             }
         )
@@ -514,7 +520,9 @@ def _detector_matrices(model: str) -> dict[str, Any]:
         )
     layer_count = len(next(iter(by_target.values()))["r_cos"])
     for target_key, position in by_target.items():
-        for field in ("attention_evidence", "p_write", "p_ffn", "path_signed_q"):
+        for field in (
+            "attention_evidence", "write_mag", "p_write", "p_ffn", "path_signed_q"
+        ):
             values = torch.as_tensor(position[field])
             if int(values.shape[0]) != layer_count or not bool(torch.isfinite(values).all()):
                 raise AssertionError(f"Invalid all-layer {field} for {target_key}")
@@ -537,6 +545,10 @@ def _detector_matrices(model: str) -> dict[str, Any]:
         },
         "y_train": np.asarray([row["label"] for row in train], dtype=np.int32),
         "y_test": np.asarray([row["label"] for row in test], dtype=np.int32),
+        "net_strength_train": np.stack([row["net_strength"] for row in train]),
+        "net_strength_test": np.stack([row["net_strength"] for row in test]),
+        "write_strength_train": np.stack([row["write_strength"] for row in train]),
+        "write_strength_test": np.stack([row["write_strength"] for row in test]),
         "train_target_keys": [row["target_key"] for row in train],
         "test_target_keys": [row["target_key"] for row in test],
         "test_image_ids": np.asarray([row["image_id"] for row in test], dtype=np.int64),

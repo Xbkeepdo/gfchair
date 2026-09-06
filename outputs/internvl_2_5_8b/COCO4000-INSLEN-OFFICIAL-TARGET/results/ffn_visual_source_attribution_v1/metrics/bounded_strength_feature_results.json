@@ -1,0 +1,118 @@
+{
+  "calibration_table": "outputs/internvl_2_5_8b/COCO4000-INSLEN-OFFICIAL-TARGET/results/ffn_visual_source_attribution_v1/tables/bounded_strength_calibration.csv",
+  "counts": {
+    "mentions": 11759,
+    "processed_images": 4000,
+    "test_mentions": 2381,
+    "train_mentions": 9378,
+    "unique_targets": 11630
+  },
+  "curve": {
+    "cohort": "all formal mentions (train + test), descriptive only",
+    "figure": "outputs/internvl_2_5_8b/COCO4000-INSLEN-OFFICIAL-TARGET/results/ffn_visual_source_attribution_v1/figures/bounded_strength_real_hall_curve.png",
+    "layers": 32,
+    "n_hall": 1766,
+    "n_real": 9993,
+    "table": "outputs/internvl_2_5_8b/COCO4000-INSLEN-OFFICIAL-TARGET/results/ffn_visual_source_attribution_v1/tables/bounded_strength_real_hall_curve.csv"
+  },
+  "feature_definitions": {
+    "D_OT+bounded_strength": "AE + D_WF^OT + bounded_strength",
+    "bounded_strength": "S_raw / (S_raw + train-layer-median(S_raw) + eps)"
+  },
+  "model": "internvl_2_5_8b",
+  "protocol": {
+    "batch_size": 256,
+    "bootstrap": "NOT_RUN_BY_USER_REQUEST",
+    "calibration": "per-model, per-layer median from training mentions only",
+    "checkpoint": "minimum_train_loss",
+    "drop_last": false,
+    "dropout": 0.3,
+    "epochs_max": 100,
+    "hidden_sizes": [
+      128,
+      64,
+      32
+    ],
+    "seeds": [
+      43,
+      44,
+      45
+    ],
+    "split": "same fixed image 8:2 split as formal detector",
+    "standardization": "none beyond bounded-strength transform",
+    "threshold": "train_REAL_F1"
+  },
+  "status": "EXPLORATORY_BOUNDED_STRENGTH",
+  "summaries": {
+    "D_OT+bounded_strength": {
+      "bounded_combo_minus_d_ot_auroc": 0.014705254050820793,
+      "bounded_minus_raw_auroc": 0.007565582175320107,
+      "d_ot_ensemble_auroc": 0.853423437616825,
+      "dimensions": 96,
+      "ensemble_auroc": 0.8681286916676458,
+      "mean_hall_aupr": 0.5240035302849808,
+      "mean_hall_f1": 0.5074761145762238,
+      "mean_hall_precision": 0.545100366556118,
+      "mean_hall_recall": 0.47542448614834676,
+      "mean_real_aupr": 0.9696615636605168,
+      "per_seed_auroc": {
+        "43": 0.8560249618149387,
+        "44": 0.8635658438631533,
+        "45": 0.8594722984736657
+      },
+      "raw_reference": "D_OT+strength",
+      "raw_reference_ensemble_auroc": 0.8605631094923257
+    },
+    "bounded_strength": {
+      "bounded_minus_raw_auroc": 0.01063440607542998,
+      "dimensions": 32,
+      "ensemble_auroc": 0.8549521752133555,
+      "mean_hall_aupr": 0.5108210025011157,
+      "mean_hall_f1": 0.45221088267854476,
+      "mean_hall_precision": 0.5594351227333038,
+      "mean_hall_recall": 0.3798033958891868,
+      "mean_real_aupr": 0.9667575846720741,
+      "per_seed_auroc": {
+        "43": 0.8453898881685056,
+        "44": 0.8493312273693431,
+        "45": 0.8530956602544246
+      },
+      "raw_reference": "strength",
+      "raw_reference_ensemble_auroc": 0.8443177691379256
+    }
+  },
+  "tau_train_median": [
+    0.5932196378707886,
+    0.26914745569229126,
+    0.1238146722316742,
+    0.3126910924911499,
+    0.9923688173294067,
+    2.386429786682129,
+    1.9400826692581177,
+    4.888286113739014,
+    2.1546268463134766,
+    6.99693489074707,
+    3.9282946586608887,
+    6.357297897338867,
+    9.569961547851562,
+    3.7176835536956787,
+    6.066661357879639,
+    13.569982528686523,
+    9.694793701171875,
+    6.490203857421875,
+    11.441877365112305,
+    16.277816772460938,
+    9.654370307922363,
+    6.88661003112793,
+    2.8645272254943848,
+    2.0925796031951904,
+    8.14941120147705,
+    6.245793342590332,
+    3.9039080142974854,
+    1.89678955078125,
+    6.877601623535156,
+    12.146272659301758,
+    8.441001892089844,
+    12.440889358520508
+  ]
+}

@@ -1,0 +1,75 @@
+{
+  "bootstrap": "NOT_RUN_BY_USER_REQUEST",
+  "cohort": "all formal mentions (train + test), descriptive only",
+  "counts": {
+    "mentions": 11759,
+    "processed_images": 4000,
+    "test_mentions": 2381,
+    "train_mentions": 9378,
+    "unique_targets": 11630
+  },
+  "curve": {
+    "cohort": "all formal mentions (train + test), descriptive only",
+    "figure": "outputs/internvl_2_5_8b/COCO4000-INSLEN-OFFICIAL-TARGET/results/ffn_visual_source_attribution_v1/figures/d_ot_real_hall_curve.png",
+    "layers": 32,
+    "n_hall": 1766,
+    "n_real": 9993,
+    "table": "outputs/internvl_2_5_8b/COCO4000-INSLEN-OFFICIAL-TARGET/results/ffn_visual_source_attribution_v1/tables/d_ot_real_hall_curve.csv"
+  },
+  "definition": "D_WF^OT = OT(P_WRITE, P_FFN); detector D_OT = AE + D_WF^OT",
+  "elapsed_seconds": 16.966556172119454,
+  "hall_median_above_real_layers": 12,
+  "hall_minus_real_median_by_layer": [
+    0.00021526962518692017,
+    -0.0019175298511981964,
+    -0.0011204313486814499,
+    -0.0005650445818901062,
+    0.002072436735033989,
+    0.000493241474032402,
+    0.003826914355158806,
+    0.0011173300445079803,
+    0.0010433681309223175,
+    -0.00037140585482120514,
+    0.0018626842647790909,
+    -0.0017186123877763748,
+    -0.0026124417781829834,
+    -0.00034516118466854095,
+    -0.0007058018818497658,
+    -0.0023548677563667297,
+    0.00017377827316522598,
+    -0.002879548817873001,
+    -0.006154585629701614,
+    0.00026090070605278015,
+    0.0017446726560592651,
+    -0.0010395906865596771,
+    0.0004091784358024597,
+    -0.0002588517963886261,
+    -0.0016512367874383926,
+    -0.0011408012360334396,
+    -0.0022919336333870888,
+    -0.0011263322085142136,
+    -0.004265055060386658,
+    -0.004712127149105072,
+    -0.002074427902698517,
+    0.005622304975986481
+  ],
+  "mean_layer_median_hall_minus_real": -0.0006394908705260605,
+  "mean_of_layer_medians": {
+    "HALL": 0.020111061836360022,
+    "REAL": 0.020750552706886083
+  },
+  "model": "internvl_2_5_8b",
+  "ranges": {
+    "test": {
+      "max": 0.142189621925354,
+      "min": 0.001903698779642582
+    },
+    "train": {
+      "max": 0.15386943519115448,
+      "min": 0.0013447527308017015
+    }
+  },
+  "real_median_above_hall_layers": 20,
+  "support": "pairwise Top32 union, renormalized; sqrt_matched_state cost",
+  "weighting": "one observation per formal mention, matching detector cohort"
+}

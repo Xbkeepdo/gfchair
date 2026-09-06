@@ -1,0 +1,71 @@
+{
+  "bootstrap": "NOT_RUN_BY_USER_REQUEST",
+  "cohort": "all formal mentions (train + test), descriptive only",
+  "counts": {
+    "mentions": 8717,
+    "processed_images": 4000,
+    "test_mentions": 1732,
+    "train_mentions": 6985,
+    "unique_targets": 8654
+  },
+  "curve": {
+    "cohort": "all formal mentions (train + test), descriptive only",
+    "figure": "outputs/qwen2_5_vl_7b/COCO4000-INSLEN-OFFICIAL-TARGET/results/ffn_visual_source_attribution_v1/figures/d_ot_real_hall_curve.png",
+    "layers": 28,
+    "n_hall": 916,
+    "n_real": 7801,
+    "table": "outputs/qwen2_5_vl_7b/COCO4000-INSLEN-OFFICIAL-TARGET/results/ffn_visual_source_attribution_v1/tables/d_ot_real_hall_curve.csv"
+  },
+  "definition": "D_WF^OT = OT(P_WRITE, P_FFN); detector D_OT = AE + D_WF^OT",
+  "elapsed_seconds": 16.73137507494539,
+  "hall_median_above_real_layers": 12,
+  "hall_minus_real_median_by_layer": [
+    -0.0001824488863348961,
+    -0.0072236210107803345,
+    0.00012869387865066528,
+    0.0009533725678920746,
+    0.0019183401018381119,
+    0.000514814630150795,
+    0.00022634491324424744,
+    2.4709850549697876e-05,
+    0.0014134058728814125,
+    0.005724620074033737,
+    0.0014317892491817474,
+    -0.0008820435032248497,
+    -0.0009556375443935394,
+    -0.0008057514205574989,
+    -0.001669350080192089,
+    0.000498749315738678,
+    -0.0003970228135585785,
+    -6.160791963338852e-05,
+    0.00011196639388799667,
+    -0.0014766678214073181,
+    -0.0027486616745591164,
+    0.00024766474962234497,
+    -0.00026149675250053406,
+    -0.003639236092567444,
+    -0.0015103332698345184,
+    -0.00374444667249918,
+    -0.0011672936379909515,
+    -0.0002873484045267105
+  ],
+  "mean_layer_median_hall_minus_real": -0.0004935177109603371,
+  "mean_of_layer_medians": {
+    "HALL": 0.016675270079368993,
+    "REAL": 0.017168787790329328
+  },
+  "model": "qwen2_5_vl_7b",
+  "ranges": {
+    "test": {
+      "max": 0.1751060038805008,
+      "min": 0.0021696556359529495
+    },
+    "train": {
+      "max": 0.19743581116199493,
+      "min": 0.0019540286157280207
+    }
+  },
+  "real_median_above_hall_layers": 16,
+  "support": "pairwise Top32 union, renormalized; sqrt_matched_state cost",
+  "weighting": "one observation per formal mention, matching detector cohort"
+}

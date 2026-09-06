@@ -1,0 +1,132 @@
+{
+  "alignment": {
+    "maximum_union_size": 63,
+    "mean_union_size": 37.87861104691472,
+    "side_top_k": 32,
+    "unique_targets": 8654
+  },
+  "counts": {
+    "mentions": 8717,
+    "processed_images": 4000,
+    "test_mentions": 1732,
+    "train_mentions": 6985,
+    "unique_targets": 8654
+  },
+  "model": "qwen2_5_vl_7b",
+  "protocol": {
+    "batch_size": 256,
+    "bootstrap": "NOT_RUN_BY_USER_REQUEST",
+    "checkpoint": "minimum_train_loss",
+    "drop_last": false,
+    "dropout": 0.3,
+    "epochs_max": 100,
+    "hidden_sizes": [
+      128,
+      64,
+      32
+    ],
+    "seeds": [
+      43,
+      44,
+      45
+    ],
+    "split": "same fixed image 8:2 split as formal detector",
+    "standardization": "none",
+    "threshold": "train_REAL_F1"
+  },
+  "replacement": {
+    "new": "pairwise JS after selecting Top-32 from each marginal, taking their union, and renormalizing both marginals on that union",
+    "old": "JS on every visual token",
+    "scope": "replace only D_EW/D_WF/D_EF in C_JS/D_JS/E_JS/G_JS/H_JS",
+    "unchanged": [
+      "AE",
+      "R_cos",
+      "S",
+      "kappa",
+      "OT groups"
+    ]
+  },
+  "status": "EXPLORATORY_UNION_TOP32_JS",
+  "summaries": {
+    "C_JS": {
+      "dimensions": 56,
+      "ensemble_auroc": 0.7968687713208239,
+      "full_support_js_ensemble_auroc": 0.7998426624615916,
+      "mean_hall_aupr": 0.3452991904294165,
+      "mean_hall_f1": 0.2720755648551743,
+      "mean_hall_precision": 0.5175876411170529,
+      "mean_hall_recall": 0.18943533697632056,
+      "mean_real_aupr": 0.966731379563566,
+      "per_seed_auroc": {
+        "43": 0.7903494939446214,
+        "44": 0.7662443952911626,
+        "45": 0.7959780150775928
+      },
+      "union_topk_js_minus_full_js_auroc": -0.002973891140767737
+    },
+    "D_JS": {
+      "dimensions": 56,
+      "ensemble_auroc": 0.8158515806072664,
+      "full_support_js_ensemble_auroc": 0.8218311126162834,
+      "mean_hall_aupr": 0.358531163861584,
+      "mean_hall_f1": 0.24623524623524626,
+      "mean_hall_precision": 0.44582690106986783,
+      "mean_hall_recall": 0.17486338797814208,
+      "mean_real_aupr": 0.9717998220243037,
+      "per_seed_auroc": {
+        "43": 0.8075419713758567,
+        "44": 0.8055329191757771,
+        "45": 0.8136079331985734
+      },
+      "union_topk_js_minus_full_js_auroc": -0.005979532009017019
+    },
+    "E_JS": {
+      "dimensions": 56,
+      "ensemble_auroc": 0.8012043729957984,
+      "full_support_js_ensemble_auroc": 0.8054447254883284,
+      "mean_hall_aupr": 0.34942137978921334,
+      "mean_hall_f1": 0.29693254382909556,
+      "mean_hall_precision": 0.5112270027524265,
+      "mean_hall_recall": 0.21129326047358835,
+      "mean_real_aupr": 0.9645450997185764,
+      "per_seed_auroc": {
+        "43": 0.7822321469518498,
+        "44": 0.7740759947366007,
+        "45": 0.7898168040724317
+      },
+      "union_topk_js_minus_full_js_auroc": -0.004240352492529964
+    },
+    "G_JS": {
+      "dimensions": 168,
+      "ensemble_auroc": 0.8712231053350126,
+      "full_support_js_ensemble_auroc": 0.8717663784496961,
+      "mean_hall_aupr": 0.40121681260879516,
+      "mean_hall_f1": 0.19144144144144146,
+      "mean_hall_precision": 0.46666666666666673,
+      "mean_hall_recall": 0.12204007285974498,
+      "mean_real_aupr": 0.9821734835964913,
+      "per_seed_auroc": {
+        "43": 0.8644709966239457,
+        "44": 0.8698120063358343,
+        "45": 0.870041309923201
+      },
+      "union_topk_js_minus_full_js_auroc": -0.0005432731146834957
+    },
+    "H_JS": {
+      "dimensions": 196,
+      "ensemble_auroc": 0.8853164565893032,
+      "full_support_js_ensemble_auroc": 0.8824095926509965,
+      "mean_hall_aupr": 0.4267107066169539,
+      "mean_hall_f1": 0.3641251239321463,
+      "mean_hall_precision": 0.506772100567721,
+      "mean_hall_recall": 0.2950819672131147,
+      "mean_real_aupr": 0.9841678433706537,
+      "per_seed_auroc": {
+        "43": 0.8858491464614928,
+        "44": 0.8826036187633834,
+        "45": 0.87601731418472
+      },
+      "union_topk_js_minus_full_js_auroc": 0.0029068639383067474
+    }
+  }
+}

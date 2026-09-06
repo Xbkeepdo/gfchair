@@ -1,0 +1,79 @@
+{
+  "bootstrap": "NOT_RUN_BY_USER_REQUEST",
+  "cohort": "all formal mentions (train + test), descriptive only",
+  "counts": {
+    "mentions": 15463,
+    "processed_images": 4000,
+    "test_mentions": 3146,
+    "train_mentions": 12317,
+    "unique_targets": 14951
+  },
+  "curve": {
+    "cohort": "all formal mentions (train + test), descriptive only",
+    "figure": "outputs/llava_1_5_7b/COCO4000-INSLEN-OFFICIAL-TARGET/results/ffn_visual_source_attribution_v1/figures/d_js_real_hall_curve.png",
+    "layers": 32,
+    "n_hall": 3487,
+    "n_real": 11976,
+    "table": "outputs/llava_1_5_7b/COCO4000-INSLEN-OFFICIAL-TARGET/results/ffn_visual_source_attribution_v1/tables/d_js_real_hall_curve.csv"
+  },
+  "definition": "D_WF^JS = JS(P_WRITE, P_FFN); detector D_JS = AE + D_WF^JS",
+  "elapsed_seconds": 29.907257125945762,
+  "hall_median_above_real_layers": 9,
+  "hall_minus_real_median_by_layer": [
+    -0.0006721427198499441,
+    0.0009482973255217075,
+    5.997053813189268e-05,
+    -0.00033328623976558447,
+    -0.0005179750733077526,
+    -3.326812293380499e-05,
+    0.00046465802006423473,
+    0.0001311260275542736,
+    -0.00017108215251937509,
+    -0.00027737650088965893,
+    -0.00017189787467941642,
+    -0.0003543947823345661,
+    -0.0002457530936226249,
+    0.0002885800786316395,
+    0.0001927078701555729,
+    -2.937705721706152e-05,
+    -0.0003603582736104727,
+    0.00014368793927133083,
+    -0.0005368026904761791,
+    -0.00023515633074566722,
+    -0.00045507471077144146,
+    -0.00015565170906484127,
+    -0.0004250062629580498,
+    -8.436123607680202e-05,
+    -6.609241245314479e-05,
+    -0.00020854349713772535,
+    -0.00028168095741420984,
+    2.860568929463625e-05,
+    -0.0003489293158054352,
+    -0.00034088187385350466,
+    -5.115894600749016e-05,
+    0.0019297115504741669
+  ],
+  "mean_layer_median_hall_minus_real": -6.777833732485306e-05,
+  "mean_of_layer_medians": {
+    "HALL": 0.002821739433784387,
+    "REAL": 0.00288951777110924
+  },
+  "model": "llava_1_5_7b",
+  "ranges": {
+    "test": {
+      "max": 0.09254775196313858,
+      "min": 6.625481182709336e-05
+    },
+    "train": {
+      "max": 0.10516168922185898,
+      "min": 8.017182699404657e-05
+    }
+  },
+  "real_median_above_hall_layers": 23,
+  "support": "all visual tokens; natural-log JS divergence",
+  "theoretical_range": [
+    0.0,
+    0.6931471805599453
+  ],
+  "weighting": "one observation per formal mention, matching detector cohort"
+}

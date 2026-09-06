@@ -1,0 +1,80 @@
+{
+  "bootstrap": "NOT_RUN_BY_USER_REQUEST",
+  "cohort": "all formal mentions (train + test), descriptive only",
+  "counts": {
+    "mentions": 15463,
+    "processed_images": 4000,
+    "test_mentions": 3146,
+    "train_mentions": 12317,
+    "unique_targets": 14951
+  },
+  "curve": {
+    "cohort": "all formal mentions (train + test), descriptive only",
+    "figure": "outputs/llava_1_5_7b/COCO4000-INSLEN-OFFICIAL-TARGET/results/ffn_visual_source_attribution_v1/figures/d_ef_js_real_hall_curve.png",
+    "layers": 32,
+    "n_hall": 3487,
+    "n_real": 11976,
+    "table": "outputs/llava_1_5_7b/COCO4000-INSLEN-OFFICIAL-TARGET/results/ffn_visual_source_attribution_v1/tables/d_ef_js_real_hall_curve.csv"
+  },
+  "definition": "D_EF^JS = JS(P_FFN, T); detector E_JS = AE + D_EF^JS",
+  "elapsed_seconds": 37.821091999066994,
+  "hall_median_above_real_layers": 28,
+  "hall_minus_real_median_by_layer": [
+    -0.0036555565893650055,
+    0.00030937790870666504,
+    0.0026096180081367493,
+    -0.0033501088619232178,
+    -0.0012290924787521362,
+    0.0013621151447296143,
+    0.021130815148353577,
+    0.01905439794063568,
+    0.02321012318134308,
+    0.021249212324619293,
+    0.01855941116809845,
+    0.005336083471775055,
+    0.017170339822769165,
+    0.006373658776283264,
+    0.007797401398420334,
+    0.012233830988407135,
+    0.017232321202754974,
+    0.009325608611106873,
+    0.016296423971652985,
+    0.004243448376655579,
+    0.00588313490152359,
+    0.0058457255363464355,
+    0.003572452813386917,
+    0.007768601179122925,
+    0.008221350610256195,
+    0.012606382369995117,
+    0.004772301763296127,
+    0.019496753811836243,
+    0.019312463700771332,
+    0.015612009912729263,
+    0.013938505202531815,
+    -0.000821232795715332
+  ],
+  "mean_layer_median_hall_minus_real": 0.009733371203765273,
+  "mean_of_layer_medians": {
+    "HALL": 0.0793699852656573,
+    "REAL": 0.06963661406189203
+  },
+  "model": "llava_1_5_7b",
+  "ranges": {
+    "test": {
+      "max": 0.3299297094345093,
+      "min": 0.006564096547663212
+    },
+    "train": {
+      "max": 0.3867841362953186,
+      "min": 0.0040603503584861755
+    }
+  },
+  "real_median_above_hall_layers": 4,
+  "support": "all visual tokens; natural-log JS divergence",
+  "target_definition": "T = ATTENTION_EVIDENCE = normalize(attention * hpre_raw_logit_gauss_gate)",
+  "theoretical_range": [
+    0.0,
+    0.6931471805599453
+  ],
+  "weighting": "one observation per formal mention, matching detector cohort"
+}

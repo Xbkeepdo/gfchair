@@ -1,0 +1,99 @@
+{
+  "counts": {
+    "mentions": 14873,
+    "processed_images": 4000,
+    "test_mentions": 3027,
+    "train_mentions": 11846,
+    "unique_targets": 14704
+  },
+  "curve": {
+    "cohort": "all formal mentions (train + test), descriptive only",
+    "figure": "outputs/qwen3_vl_8b/COCO4000-INSLEN-OFFICIAL-TARGET/results/ffn_visual_source_attribution_v1/figures/log1p_strength_real_hall_curve.png",
+    "layers": 36,
+    "n_hall": 2593,
+    "n_real": 12280,
+    "table": "outputs/qwen3_vl_8b/COCO4000-INSLEN-OFFICIAL-TARGET/results/ffn_visual_source_attribution_v1/tables/log1p_strength_real_hall_curve.csv"
+  },
+  "feature_definitions": {
+    "D_OT+log1p_strength": "AE + D_WF^OT + log1p_strength",
+    "log1p_strength": "natural-log ln(1 + gross_strength), no tau or standardization"
+  },
+  "model": "qwen3_vl_8b",
+  "protocol": {
+    "batch_size": 256,
+    "bootstrap": "NOT_RUN_BY_USER_REQUEST",
+    "calibration": "none; elementwise natural log1p only",
+    "checkpoint": "minimum_train_loss",
+    "drop_last": false,
+    "dropout": 0.3,
+    "epochs_max": 100,
+    "hidden_sizes": [
+      128,
+      64,
+      32
+    ],
+    "seeds": [
+      43,
+      44,
+      45
+    ],
+    "split": "same fixed image 8:2 split as formal detector",
+    "standardization": "none",
+    "threshold": "train_REAL_F1"
+  },
+  "ranges": {
+    "test": {
+      "max": 4.8784332275390625,
+      "min": 0.009461368434131145
+    },
+    "train": {
+      "max": 5.133055210113525,
+      "min": 0.006146118976175785
+    }
+  },
+  "status": "EXPLORATORY_PLAIN_LOG1P_STRENGTH",
+  "summaries": {
+    "D_OT+log1p_strength": {
+      "bounded_reference": "D_OT+bounded_strength",
+      "bounded_reference_ensemble_auroc": 0.9027418891759977,
+      "d_ot_ensemble_auroc": 0.866949762131891,
+      "dimensions": 108,
+      "ensemble_auroc": 0.8936925589422047,
+      "log1p_combo_minus_d_ot_auroc": 0.026742796810313663,
+      "log1p_minus_bounded_auroc": -0.009049330233793063,
+      "log1p_minus_raw_auroc": 0.0126011441131888,
+      "mean_hall_aupr": 0.6268111253116181,
+      "mean_hall_f1": 0.5594328011537169,
+      "mean_hall_precision": 0.6407063399311159,
+      "mean_hall_recall": 0.5,
+      "mean_real_aupr": 0.9700466620454983,
+      "per_seed_auroc": {
+        "43": 0.8725487699085265,
+        "44": 0.8689548930442487,
+        "45": 0.8876899008702792
+      },
+      "raw_reference": "D_OT+strength",
+      "raw_reference_ensemble_auroc": 0.8810914148290159
+    },
+    "log1p_strength": {
+      "bounded_reference": "bounded_strength",
+      "bounded_reference_ensemble_auroc": 0.8812334256403607,
+      "dimensions": 36,
+      "ensemble_auroc": 0.8774431262136522,
+      "log1p_minus_bounded_auroc": -0.003790299426708499,
+      "log1p_minus_raw_auroc": 0.00705423269397587,
+      "mean_hall_aupr": 0.5801283062605345,
+      "mean_hall_f1": 0.5264158843242304,
+      "mean_hall_precision": 0.5908610692636773,
+      "mean_hall_recall": 0.4760981912144702,
+      "mean_real_aupr": 0.96999857450701,
+      "per_seed_auroc": {
+        "43": 0.8707416051543752,
+        "44": 0.8720559769572023,
+        "45": 0.8736204112756584
+      },
+      "raw_reference": "strength",
+      "raw_reference_ensemble_auroc": 0.8703888935196763
+    }
+  }
+}

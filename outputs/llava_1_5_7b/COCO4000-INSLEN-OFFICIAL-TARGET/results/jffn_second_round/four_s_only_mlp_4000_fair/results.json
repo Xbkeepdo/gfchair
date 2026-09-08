@@ -1,0 +1,420 @@
+{
+  "schema_version": "four-s-only-mlp-v2",
+  "model": "llava_1_5_7b",
+  "cohort_label": "full 3971-image official-target cohort",
+  "definitions": {
+    "all_aggregate_s": "||sum_j J_f(z)a_j|| / (||sum_j a_j|| + eps)",
+    "all_tokenwise_s": "sum_j ||J_f(z)a_j|| / (sum_j ||a_j|| + eps)",
+    "union_tokenwise_s": "sum_{j in U} ||J_f(z)a_j|| / (sum_{j in U} ||a_j|| + eps)",
+    "union_aggregate_s": "||sum_{j in U} J_f(z)a_j|| / (||sum_{j in U} a_j|| + eps)"
+  },
+  "sample_audit": {
+    "train_images": 3174,
+    "test_images": 797,
+    "train_mentions": 12317,
+    "test_mentions": 3146,
+    "test_real": 2437,
+    "test_hall": 709,
+    "base": {
+      "round_one_shards": 80,
+      "round_two_shards": 80,
+      "positions": 14951,
+      "mentions": 15463,
+      "maximum_jffn_distribution_error": 0.00026304518918485176,
+      "maximum_jffn_energy_error": 0.00482940673828125,
+      "target": {
+        "origin": "reconstructed_from_existing_feature_parts",
+        "formula": "normalize(attention_support * hpre_raw_logit_gauss_gate)",
+        "parts": 2,
+        "rows_seen": 15463,
+        "unique_positions": 14951,
+        "duplicate_rows": 512,
+        "maximum_duplicate_error": 0.0,
+        "saved_target_maximum_error": 3.809324189418817e-08
+      },
+      "train_mentions": 12317,
+      "test_mentions": 3146,
+      "train_images": 3174,
+      "test_images": 797,
+      "layers": 32,
+      "input_dimensions": 96,
+      "source": "P_JFFN",
+      "target_gate": "hpre_raw_logit_gauss",
+      "source_top_k": 32,
+      "target_top_k": 32,
+      "union_size_minimum": 32,
+      "union_size_mean": 41.48552981405926,
+      "union_size_maximum": 64,
+      "feature_normalization": "none",
+      "all_finite": true
+    },
+    "aggregate_extraction": {
+      "shards": 80,
+      "images": 3971,
+      "positions": 14951,
+      "mentions": 15463,
+      "maximum_gain_identity_error": 0.0,
+      "union_size_minimum": 32,
+      "union_size_mean": 41.52479976255769,
+      "union_size_maximum": 64
+    }
+  },
+  "training_protocol": {
+    "inputs": {
+      "all_aggregate_s": "S_32 only: ||sum_j J_f(z)a_j|| / (||sum_j a_j|| + eps)",
+      "all_tokenwise_s": "S_32 only: sum_j ||J_f(z)a_j|| / (sum_j ||a_j|| + eps)",
+      "union_tokenwise_s": "S_32 only: sum_{j in U} ||J_f(z)a_j|| / (sum_{j in U} ||a_j|| + eps)",
+      "union_aggregate_s": "S_32 only: ||sum_{j in U} J_f(z)a_j|| / (||sum_{j in U} a_j|| + eps)"
+    },
+    "hidden_sizes": [
+      128,
+      64,
+      32
+    ],
+    "batch_size": 256,
+    "max_epochs": 100,
+    "seeds": [
+      43,
+      44,
+      45
+    ],
+    "feature_normalization": "none",
+    "checkpoint_selection": "minimum_train_loss",
+    "threshold_selection": "train_f1",
+    "split": "full 3971-image official-target cohort"
+  },
+  "comparisons": {
+    "all_aggregate_s": {
+      "name": "All-token aggregate S",
+      "aggregate": {
+        "auroc": {
+          "mean": 0.8644167771615274,
+          "std": 0.0009091717169805545,
+          "values": [
+            0.8634020185978621,
+            0.8656079609545597,
+            0.8642403519321602
+          ]
+        },
+        "accuracy": {
+          "mean": 0.8258105530832803,
+          "std": 0.004613592086687288,
+          "values": [
+            0.8239033693579149,
+            0.8321678321678322,
+            0.821360457724094
+          ]
+        },
+        "real_f1": {
+          "mean": 0.8899225311760581,
+          "std": 0.0031349821560415275,
+          "values": [
+            0.8895534290271132,
+            0.8939333065488148,
+            0.8862808579522461
+          ]
+        },
+        "real_aupr": {
+          "mean": 0.9564917659159899,
+          "std": 0.0006062667356363944,
+          "values": [
+            0.955711186275773,
+            0.9571892374430211,
+            0.9565748740291755
+          ]
+        },
+        "hall_f1": {
+          "mean": 0.5825693135628579,
+          "std": 0.013228233127183705,
+          "values": [
+            0.5658307210031348,
+            0.5981735159817352,
+            0.5837037037037037
+          ]
+        },
+        "hall_aupr": {
+          "mean": 0.6239010663446664,
+          "std": 0.004554140745081012,
+          "values": [
+            0.6174669373853301,
+            0.6273666972942832,
+            0.626869564354386
+          ]
+        }
+      },
+      "seed_ensemble": {
+        "auroc": 0.8684664548020554,
+        "hall_aupr": 0.6315075478750313
+      }
+    },
+    "all_tokenwise_s": {
+      "name": "All-token tokenwise S",
+      "aggregate": {
+        "auroc": {
+          "mean": 0.8798122658073243,
+          "std": 0.0016138083555133269,
+          "values": [
+            0.8788418788158346,
+            0.8820864053412569,
+            0.8785085132648814
+          ]
+        },
+        "accuracy": {
+          "mean": 0.8360881542699724,
+          "std": 0.005034797359829078,
+          "values": [
+            0.8401144310235219,
+            0.8289891926255563,
+            0.8391608391608392
+          ]
+        },
+        "real_f1": {
+          "mean": 0.8973763315383704,
+          "std": 0.0016633815158425547,
+          "values": [
+            0.8988131160732247,
+            0.8950448692937963,
+            0.8982710092480901
+          ]
+        },
+        "real_aupr": {
+          "mean": 0.9623760023252088,
+          "std": 0.000688279428787388,
+          "values": [
+            0.9620022690650187,
+            0.9633412232742413,
+            0.9617845146363664
+          ]
+        },
+        "hall_f1": {
+          "mean": 0.5913021056371737,
+          "std": 0.03729270419694289,
+          "values": [
+            0.619227857683573,
+            0.5385934819897084,
+            0.6160849772382397
+          ]
+        },
+        "hall_aupr": {
+          "mean": 0.6510288576366002,
+          "std": 0.004471318003719809,
+          "values": [
+            0.6459791227899465,
+            0.6568498076619642,
+            0.6502576424578901
+          ]
+        }
+      },
+      "seed_ensemble": {
+        "auroc": 0.8824070381801945,
+        "hall_aupr": 0.6554715474107125
+      }
+    },
+    "union_tokenwise_s": {
+      "name": "Union-TopK tokenwise S",
+      "aggregate": {
+        "auroc": {
+          "mean": 0.8746536847021673,
+          "std": 0.0019570211920923323,
+          "values": [
+            0.8746172228450318,
+            0.8770685592878478,
+            0.8722752719736224
+          ]
+        },
+        "accuracy": {
+          "mean": 0.8276117821572367,
+          "std": 0.0012802549240935074,
+          "values": [
+            0.828353464717101,
+            0.8286713286713286,
+            0.8258105530832803
+          ]
+        },
+        "real_f1": {
+          "mean": 0.8904015999145783,
+          "std": 0.0006058041212356238,
+          "values": [
+            0.890422077922078,
+            0.8911331044233488,
+            0.8896496173983085
+          ]
+        },
+        "real_aupr": {
+          "mean": 0.9610566522569334,
+          "std": 0.0008866206016501528,
+          "values": [
+            0.9612452336177724,
+            0.9620358940351119,
+            0.9598888291179156
+          ]
+        },
+        "hall_f1": {
+          "mean": 0.5962979062453102,
+          "std": 0.007203493140328251,
+          "values": [
+            0.6041055718475073,
+            0.5980611483967189,
+            0.5867269984917044
+          ]
+        },
+        "hall_aupr": {
+          "mean": 0.6253476306942746,
+          "std": 0.006963146961412639,
+          "values": [
+            0.6219656885096487,
+            0.6350479696582881,
+            0.6190292339148867
+          ]
+        }
+      },
+      "seed_ensemble": {
+        "auroc": 0.8775703438931888,
+        "hall_aupr": 0.6301481584185474
+      }
+    },
+    "union_aggregate_s": {
+      "name": "Union-TopK aggregate S",
+      "aggregate": {
+        "auroc": {
+          "mean": 0.8623094168630109,
+          "std": 0.0011079446262772248,
+          "values": [
+            0.8626690195175112,
+            0.8634503450275576,
+            0.8608088860439638
+          ]
+        },
+        "accuracy": {
+          "mean": 0.8219961856325493,
+          "std": 0.003059870539985938,
+          "values": [
+            0.8188175460902734,
+            0.826128417037508,
+            0.8210425937698665
+          ]
+        },
+        "real_f1": {
+          "mean": 0.8872608755134367,
+          "std": 0.0030813848776803355,
+          "values": [
+            0.8833878887070377,
+            0.8909272183449651,
+            0.887467519488307
+          ]
+        },
+        "real_aupr": {
+          "mean": 0.9562445884416381,
+          "std": 0.0006531414724254967,
+          "values": [
+            0.956608267711319,
+            0.95679806759216,
+            0.9553274300214356
+          ]
+        },
+        "hall_f1": {
+          "mean": 0.5762989040365285,
+          "std": 0.012992199128287554,
+          "values": [
+            0.594017094017094,
+            0.5716523101018011,
+            0.5632273079906904
+          ]
+        },
+        "hall_aupr": {
+          "mean": 0.602870420327433,
+          "std": 0.002219734453971687,
+          "values": [
+            0.6024261993544607,
+            0.6057837818918755,
+            0.6004012797359625
+          ]
+        }
+      },
+      "seed_ensemble": {
+        "auroc": 0.8659254106154936,
+        "hall_aupr": 0.6094101382444462
+      }
+    }
+  },
+  "paired_bootstrap": {
+    "all_aggregate_s__versus__all_tokenwise_s": {
+      "replicates": 10000,
+      "new_minus_baseline_auroc": -0.013940583378139082,
+      "auroc_ci95": [
+        -0.021859257085025386,
+        -0.006120247571726962
+      ],
+      "new_minus_baseline_hall_aupr": -0.02396399953568118,
+      "hall_aupr_ci95": [
+        -0.047158796369313666,
+        -0.00011603043477042706
+      ]
+    },
+    "all_aggregate_s__versus__union_tokenwise_s": {
+      "replicates": 10000,
+      "new_minus_baseline_auroc": -0.009103889091133355,
+      "auroc_ci95": [
+        -0.017916734046847762,
+        -0.000573016955781066
+      ],
+      "new_minus_baseline_hall_aupr": 0.0013593894564838394,
+      "hall_aupr_ci95": [
+        -0.025148383905447224,
+        0.027096523342517876
+      ]
+    },
+    "all_aggregate_s__versus__union_aggregate_s": {
+      "replicates": 10000,
+      "new_minus_baseline_auroc": 0.0025410441865618694,
+      "auroc_ci95": [
+        -0.004287709541205947,
+        0.009725828862548852
+      ],
+      "new_minus_baseline_hall_aupr": 0.02209740963058504,
+      "hall_aupr_ci95": [
+        0.00031416779284720316,
+        0.042336952380299636
+      ]
+    },
+    "all_tokenwise_s__versus__union_tokenwise_s": {
+      "replicates": 10000,
+      "new_minus_baseline_auroc": 0.004836694287005727,
+      "auroc_ci95": [
+        -6.340765326084404e-05,
+        0.009667316851303
+      ],
+      "new_minus_baseline_hall_aupr": 0.02532338899216502,
+      "hall_aupr_ci95": [
+        0.011461970582099468,
+        0.03831837684530368
+      ]
+    },
+    "all_tokenwise_s__versus__union_aggregate_s": {
+      "replicates": 10000,
+      "new_minus_baseline_auroc": 0.01648162756470095,
+      "auroc_ci95": [
+        0.009003497415546477,
+        0.024296340326116484
+      ],
+      "new_minus_baseline_hall_aupr": 0.04606140916626622,
+      "hall_aupr_ci95": [
+        0.02033576329287128,
+        0.06960204150420787
+      ]
+    },
+    "union_tokenwise_s__versus__union_aggregate_s": {
+      "replicates": 10000,
+      "new_minus_baseline_auroc": 0.011644933277695224,
+      "auroc_ci95": [
+        0.004930697679626298,
+        0.01845355285328276
+      ],
+      "new_minus_baseline_hall_aupr": 0.0207380201741012,
+      "hall_aupr_ci95": [
+        -0.0017064714816791475,
+        0.042698933105655916
+      ]
+    }
+  }
+}

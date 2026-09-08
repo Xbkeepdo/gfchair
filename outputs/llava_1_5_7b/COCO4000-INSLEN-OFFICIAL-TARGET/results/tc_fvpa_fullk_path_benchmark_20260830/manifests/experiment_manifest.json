@@ -1,0 +1,114 @@
+{
+  "config": {
+    "attribution_mode": "path",
+    "audit_vector_cases": 1,
+    "calibration_cohort": "none during extraction; downstream calibration must be train-image-only",
+    "competitor_rule": "fixed highest non-target token from clean logits",
+    "config": "/home/apulis-dev/userdata/CODEX/test-cocochair/gfchair/configs/model_configs_inslen_official_target.yaml",
+    "device": "cuda:0",
+    "devices": [
+      "cuda:0",
+      "cuda:1"
+    ],
+    "integration_points": [
+      1,
+      4,
+      8,
+      16,
+      32
+    ],
+    "layers": [
+      8,
+      16,
+      24,
+      32
+    ],
+    "max_targets_per_image": 2,
+    "mode": "development",
+    "model": "llava_1_5_7b",
+    "num_images": 2,
+    "num_shards": 2,
+    "output_dir": "/home/apulis-dev/userdata/CODEX/test-cocochair/gfchair/outputs/llava_1_5_7b/COCO4000-INSLEN-OFFICIAL-TARGET/results/tc_fvpa_fullk_path_benchmark_20260830",
+    "path_baseline": "current-block zero visual write: z0=z-sum_m a_m; not a no-image baseline",
+    "quadrature": [
+      "trapezoid",
+      "gauss_legendre"
+    ],
+    "resume": true,
+    "seed": 20260829,
+    "shard_id": 0,
+    "target_protocol": "InsLen official first subtoken, first occurrence; target excluded from prefix",
+    "target_scalars": [
+      "log_probability",
+      "margin",
+      "logit"
+    ]
+  },
+  "created_unix": 1788073407.4111006,
+  "exact_command": [
+    "/opt/conda/private/envs/vicr/bin/python",
+    "scripts/run_tc_fvpa_path_attribution.py",
+    "--model",
+    "llava_1_5_7b",
+    "--device",
+    "cuda:0",
+    "--devices",
+    "cuda:0,cuda:1",
+    "--output-dir",
+    "/home/apulis-dev/userdata/CODEX/test-cocochair/gfchair/outputs/llava_1_5_7b/COCO4000-INSLEN-OFFICIAL-TARGET/results/tc_fvpa_fullk_path_benchmark_20260830",
+    "--seed",
+    "20260829",
+    "--layers",
+    "8,16,24,32",
+    "--target-scalars",
+    "log_probability,margin,logit",
+    "--integration-points",
+    "1,4,8,16,32",
+    "--config",
+    "/home/apulis-dev/userdata/CODEX/test-cocochair/gfchair/configs/model_configs_inslen_official_target.yaml",
+    "--num-shards",
+    "2",
+    "--shard-id",
+    "0",
+    "--resume",
+    "--attribution-mode",
+    "path",
+    "--num-images",
+    "2"
+  ],
+  "repository": {
+    "diff_sha256": "97d271d4369edb1e559975714580b422010ec07b73bf96b4cb48aa6993b8979f",
+    "diff_stat": {
+      "command": [
+        "git",
+        "diff",
+        "--stat"
+      ],
+      "elapsed_seconds": 0.02368307113647461,
+      "exit_code": 0,
+      "output": " README.md                                     |  8 +++\n docs/CURRENT_TASK.md                          | 14 ++++++\n scripts/run_jffn_second_round_logit_causal.py | 70 +++++++++++++++++++++++++--\n 3 files changed, 89 insertions(+), 3 deletions(-)\n"
+    },
+    "revision": {
+      "command": [
+        "git",
+        "rev-parse",
+        "HEAD"
+      ],
+      "elapsed_seconds": 0.02203536033630371,
+      "exit_code": 0,
+      "output": "dd3c1ecec02c37bac23687959a0508b0b53a452f\n"
+    },
+    "status": {
+      "command": [
+        "git",
+        "status",
+        "--short",
+        "--branch"
+      ],
+      "elapsed_seconds": 1.362776517868042,
+      "exit_code": 0,
+      "output": "## main...origin/main\n M README.md\n M docs/CURRENT_TASK.md\n M scripts/run_jffn_second_round_logit_causal.py\n?? docs/TC_FVPA_RUNBOOK.md\n?? features/ffn_visual_interactions.py\n?? features/ffn_visual_path_attribution.py\n?? features/qwen_fp32_suffix.py\n?? features/representation_geometry_controls.py\n?? features/swiglu_visual_mechanism.py\n?? features/tc_fvpa_artifacts.py\n?? run_tc_fvpa_comprehensive.sh\n?? scripts/analyze_tc_fvpa_comprehensive.py\n?? scripts/build_tc_fvpa_reports.py\n?? scripts/load_tc_fvpa_results.py\n?? scripts/run_tc_fvpa_comprehensive.py\n?? scripts/run_tc_fvpa_counterfactuals.py\n?? scripts/run_tc_fvpa_fp32_causal.py\n?? scripts/run_tc_fvpa_path_attribution.py\n?? scripts/run_tc_fvpa_shapley.py\n?? scripts/tc_fvpa_common.py\n?? tests/test_ffn_visual_interactions.py\n?? tests/test_ffn_visual_path_attribution.py\n?? tests/test_load_tc_fvpa_results.py\n?? tests/test_qwen_fp32_suffix.py\n?? tests/test_representation_geometry_controls.py\n?? tests/test_swiglu_visual_mechanism.py\n?? tests/test_tc_fvpa_analysis.py\n?? tests/test_tc_fvpa_artifacts.py\n?? tests/test_tc_fvpa_path_runner.py\n?? tests/test_tc_fvpa_qwen_adapter.py\n"
+    }
+  },
+  "schema_version": "tc-fvpa-comprehensive-v1"
+}

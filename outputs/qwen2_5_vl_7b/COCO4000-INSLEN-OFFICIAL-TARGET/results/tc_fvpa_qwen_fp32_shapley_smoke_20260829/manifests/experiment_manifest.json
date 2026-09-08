@@ -1,0 +1,119 @@
+{
+  "config": {
+    "config": "/home/apulis-dev/userdata/CODEX/test-cocochair/gfchair/configs/model_configs_inslen_official_target.yaml",
+    "device": "cuda:0",
+    "devices": [
+      "cuda:0"
+    ],
+    "etas": [
+      0.0025,
+      0.005,
+      0.01,
+      0.025,
+      0.05,
+      0.1,
+      0.2,
+      0.4
+    ],
+    "integration_points": [
+      1,
+      4,
+      8,
+      16,
+      32
+    ],
+    "layers": [
+      7,
+      14,
+      21,
+      28
+    ],
+    "max_targets_per_image": 2,
+    "mode": "smoke",
+    "model": "qwen2_5_vl_7b",
+    "num_images": 1,
+    "num_shards": 1,
+    "output_dir": "/home/apulis-dev/userdata/CODEX/test-cocochair/gfchair/outputs/qwen2_5_vl_7b/COCO4000-INSLEN-OFFICIAL-TARGET/results/tc_fvpa_qwen_fp32_shapley_smoke_20260829",
+    "requested_layers": [
+      7,
+      14,
+      21,
+      28
+    ],
+    "resume": false,
+    "route": "final_block_true_fp32_downstream",
+    "seed": 20260829,
+    "shard_id": 0,
+    "target_scalars": [
+      "log_probability",
+      "margin",
+      "logit"
+    ]
+  },
+  "created_unix": 1787998954.8986535,
+  "exact_command": [
+    "/opt/conda/private/envs/vicr/bin/python",
+    "scripts/run_tc_fvpa_fp32_causal.py",
+    "--model",
+    "qwen2_5_vl_7b",
+    "--device",
+    "cuda:0",
+    "--devices",
+    "cuda:0",
+    "--output-dir",
+    "/home/apulis-dev/userdata/CODEX/test-cocochair/gfchair/outputs/qwen2_5_vl_7b/COCO4000-INSLEN-OFFICIAL-TARGET/results/tc_fvpa_qwen_fp32_shapley_smoke_20260829",
+    "--seed",
+    "20260829",
+    "--layers",
+    "7,14,21,28",
+    "--target-scalars",
+    "log_probability,margin,logit",
+    "--integration-points",
+    "1,4,8,16,32",
+    "--config",
+    "/home/apulis-dev/userdata/CODEX/test-cocochair/gfchair/configs/model_configs_inslen_official_target.yaml",
+    "--num-shards",
+    "1",
+    "--shard-id",
+    "0",
+    "--no-resume",
+    "--smoke",
+    "--num-images",
+    "1"
+  ],
+  "repository": {
+    "diff_sha256": "3f4416b58249b1d3e7c805831817f0a8983ca0b96141555aa9b70ea10d913e59",
+    "diff_stat": {
+      "command": [
+        "git",
+        "diff",
+        "--stat"
+      ],
+      "elapsed_seconds": 0.03270316123962402,
+      "exit_code": 0,
+      "output": " README.md                                     |  8 ++++\n docs/CURRENT_TASK.md                          | 11 ++++++\n scripts/run_jffn_second_round_logit_causal.py | 56 ++++++++++++++++++++++++++-\n 3 files changed, 74 insertions(+), 1 deletion(-)\n"
+    },
+    "revision": {
+      "command": [
+        "git",
+        "rev-parse",
+        "HEAD"
+      ],
+      "elapsed_seconds": 0.02317667007446289,
+      "exit_code": 0,
+      "output": "dd3c1ecec02c37bac23687959a0508b0b53a452f\n"
+    },
+    "status": {
+      "command": [
+        "git",
+        "status",
+        "--short",
+        "--branch"
+      ],
+      "elapsed_seconds": 0.22923898696899414,
+      "exit_code": 0,
+      "output": "## main...origin/main\n M README.md\n M docs/CURRENT_TASK.md\n M scripts/run_jffn_second_round_logit_causal.py\n?? docs/TC_FVPA_RUNBOOK.md\n?? features/ffn_visual_interactions.py\n?? features/ffn_visual_path_attribution.py\n?? features/representation_geometry_controls.py\n?? features/swiglu_visual_mechanism.py\n?? features/tc_fvpa_artifacts.py\n?? run_tc_fvpa_comprehensive.sh\n?? scripts/analyze_tc_fvpa_comprehensive.py\n?? scripts/build_tc_fvpa_reports.py\n?? scripts/load_tc_fvpa_results.py\n?? scripts/run_tc_fvpa_comprehensive.py\n?? scripts/run_tc_fvpa_counterfactuals.py\n?? scripts/run_tc_fvpa_fp32_causal.py\n?? scripts/run_tc_fvpa_path_attribution.py\n?? scripts/run_tc_fvpa_shapley.py\n?? scripts/tc_fvpa_common.py\n?? tests/test_ffn_visual_interactions.py\n?? tests/test_ffn_visual_path_attribution.py\n?? tests/test_load_tc_fvpa_results.py\n?? tests/test_representation_geometry_controls.py\n?? tests/test_swiglu_visual_mechanism.py\n?? tests/test_tc_fvpa_analysis.py\n?? tests/test_tc_fvpa_artifacts.py\n?? tests/test_tc_fvpa_path_runner.py\n?? tests/test_tc_fvpa_qwen_adapter.py\n"
+    }
+  },
+  "schema_version": "tc-fvpa-comprehensive-v1"
+}

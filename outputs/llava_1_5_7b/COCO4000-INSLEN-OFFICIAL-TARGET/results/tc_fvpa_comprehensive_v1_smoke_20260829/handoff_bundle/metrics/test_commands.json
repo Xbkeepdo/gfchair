@@ -1,0 +1,43 @@
+{
+  "timestamp_utc": "2026-08-29",
+  "commands": [
+    {
+      "command": "CUDA_VISIBLE_DEVICES='' /opt/conda/private/envs/vicr/bin/python -m unittest -v tests.test_visual_ffn_jacobian tests.test_jffn_experiment tests.test_jffn_second_round_analysis tests.test_causal_token_positions tests.test_visual_support_ranges",
+      "status": "PASS",
+      "total": 28,
+      "failures": 0,
+      "errors": 0
+    },
+    {
+      "command": "CUDA_VISIBLE_DEVICES='' /opt/conda/private/envs/vicr/bin/python -m unittest -v tests.test_ffn_visual_path_attribution tests.test_tc_fvpa_artifacts tests.test_load_tc_fvpa_results tests.test_ffn_visual_interactions tests.test_swiglu_visual_mechanism tests.test_representation_geometry_controls tests.test_tc_fvpa_analysis",
+      "status": "PASS",
+      "total": 34,
+      "failures": 0,
+      "errors": 0
+    },
+    {
+      "command": "CUDA_VISIBLE_DEVICES='' /opt/conda/private/envs/vicr/bin/python -m unittest discover -s tests -v",
+      "status": "FAIL",
+      "total": 333,
+      "passed": 309,
+      "failures": 12,
+      "errors": 12,
+      "tc_fvpa_regressions": 0,
+      "error_groups": [
+        "missing NLTK punkt in this runtime search path",
+        "active YAML versus legacy test expectations",
+        "pipeline manifest/provenance behavior outside TC-FVPA"
+      ]
+    },
+    {
+      "command": "/opt/conda/private/envs/vicr/bin/python -m py_compile <all new TC-FVPA modules and launchers>; bash -n run_tc_fvpa_comprehensive.sh",
+      "status": "PASS"
+    },
+    {
+      "command": "/opt/conda/private/envs/vicr/bin/python scripts/run_tc_fvpa_comprehensive.py --model llava_1_5_7b --device cuda:0 --devices cuda:0,cuda:1 --num-shards 2 --layers 8,16,24,32 --target-scalars log_probability,margin,logit --integration-points 1,4,8,16,32 --formal --resume --dry-run",
+      "status": "PASS",
+      "expanded_commands": 9
+    }
+  ]
+}
+

@@ -1,0 +1,109 @@
+{
+  "bootstrap_resamples": 0,
+  "candidates": [
+    "native_k4",
+    "fp32_k4",
+    "fp32_k64"
+  ],
+  "fusion_tolerances": {
+    "AUROC": 0.005,
+    "HALL_AUPR": 0.01
+  },
+  "groups": {
+    "AE": [
+      "AE"
+    ],
+    "AE+a": [
+      "AE",
+      "a"
+    ],
+    "AE+g": [
+      "AE",
+      "g"
+    ],
+    "AE+i": [
+      "AE",
+      "i"
+    ],
+    "AE+i+s": [
+      "AE",
+      "i",
+      "s"
+    ],
+    "AE+n": [
+      "AE",
+      "n"
+    ],
+    "AE+s": [
+      "AE",
+      "s"
+    ],
+    "AE+s+L(N_end)": [
+      "AE",
+      "s",
+      "n_end"
+    ],
+    "AE+s+kappa_end": [
+      "AE",
+      "s",
+      "kappa_end"
+    ],
+    "AE+s+kappa_vec": [
+      "AE",
+      "s",
+      "kappa_vec"
+    ],
+    "AE+s+n": [
+      "AE",
+      "s",
+      "n"
+    ],
+    "H_SK": [
+      "R_cos",
+      "AE",
+      "D_EW",
+      "D_WF",
+      "D_EF",
+      "s",
+      "kappa_vec"
+    ],
+    "H_SN": [
+      "R_cos",
+      "AE",
+      "D_EW",
+      "D_WF",
+      "D_EF",
+      "s",
+      "n"
+    ],
+    "U_SK": [
+      "R_cos",
+      "AE",
+      "s",
+      "kappa_vec"
+    ],
+    "U_SN": [
+      "R_cos",
+      "AE",
+      "s",
+      "n"
+    ],
+    "raw_AE+S+N_vec": [
+      "AE",
+      "S",
+      "N_vec"
+    ]
+  },
+  "independent_images": 2000,
+  "seed": 20260907,
+  "thresholds": {
+    "N_vec_relative_p90": 0.01,
+    "S_relative_p90": 0.01,
+    "closure_max": 0.01,
+    "closure_p90": 0.001,
+    "js_median": 0.005,
+    "kappa_vec_absolute_p90": 0.01,
+    "spearman_median": 0.99,
+    "top32_median": 0.95
+  }
+}

@@ -1,0 +1,419 @@
+{
+  "schema_version": "four-s-only-mlp-500-v1",
+  "model": "llava_1_5_7b",
+  "definitions": {
+    "all_aggregate_s": "||sum_j J_f(z)a_j|| / (||sum_j a_j|| + eps)",
+    "all_tokenwise_s": "sum_j ||J_f(z)a_j|| / (sum_j ||a_j|| + eps)",
+    "union_tokenwise_s": "sum_{j in U} ||J_f(z)a_j|| / (sum_{j in U} ||a_j|| + eps)",
+    "union_aggregate_s": "||sum_{j in U} J_f(z)a_j|| / (||sum_{j in U} a_j|| + eps)"
+  },
+  "sample_audit": {
+    "train_images": 395,
+    "test_images": 105,
+    "train_mentions": 1513,
+    "test_mentions": 404,
+    "test_real": 299,
+    "test_hall": 105,
+    "base": {
+      "round_one_shards": 80,
+      "round_two_shards": 80,
+      "positions": 14951,
+      "mentions": 15463,
+      "maximum_jffn_distribution_error": 0.00026304518918485176,
+      "maximum_jffn_energy_error": 0.00482940673828125,
+      "target": {
+        "origin": "reconstructed_from_existing_feature_parts",
+        "formula": "normalize(attention_support * hpre_raw_logit_gauss_gate)",
+        "parts": 2,
+        "rows_seen": 15463,
+        "unique_positions": 14951,
+        "duplicate_rows": 512,
+        "maximum_duplicate_error": 0.0,
+        "saved_target_maximum_error": 3.809324189418817e-08
+      },
+      "train_mentions": 12317,
+      "test_mentions": 3146,
+      "train_images": 3174,
+      "test_images": 797,
+      "layers": 32,
+      "input_dimensions": 96,
+      "source": "P_JFFN",
+      "target_gate": "hpre_raw_logit_gauss",
+      "source_top_k": 32,
+      "target_top_k": 32,
+      "union_size_minimum": 32,
+      "union_size_mean": 41.48552981405926,
+      "union_size_maximum": 64,
+      "feature_normalization": "none",
+      "all_finite": true
+    },
+    "aggregate_extraction": {
+      "shards": 10,
+      "images": 500,
+      "positions": 1861,
+      "mentions": 1917,
+      "maximum_gain_identity_error": 0.0,
+      "union_size_minimum": 32,
+      "union_size_mean": 41.54204728640516,
+      "union_size_maximum": 64
+    }
+  },
+  "training_protocol": {
+    "inputs": {
+      "all_aggregate_s": "S_32 only: ||sum_j J_f(z)a_j|| / (||sum_j a_j|| + eps)",
+      "all_tokenwise_s": "S_32 only: sum_j ||J_f(z)a_j|| / (sum_j ||a_j|| + eps)",
+      "union_tokenwise_s": "S_32 only: sum_{j in U} ||J_f(z)a_j|| / (sum_{j in U} ||a_j|| + eps)",
+      "union_aggregate_s": "S_32 only: ||sum_{j in U} J_f(z)a_j|| / (||sum_{j in U} a_j|| + eps)"
+    },
+    "hidden_sizes": [
+      128,
+      64,
+      32
+    ],
+    "batch_size": 256,
+    "max_epochs": 100,
+    "seeds": [
+      43,
+      44,
+      45
+    ],
+    "feature_normalization": "none",
+    "checkpoint_selection": "minimum_train_loss",
+    "threshold_selection": "train_f1",
+    "split": "same 500-image fair cohort as Union aggregate comparison"
+  },
+  "comparisons": {
+    "all_aggregate_s": {
+      "name": "All-token aggregate S",
+      "aggregate": {
+        "auroc": {
+          "mean": 0.8260551043159738,
+          "std": 0.004179077373116208,
+          "values": [
+            0.8207994903647078,
+            0.8263417741678611,
+            0.8310240484153527
+          ]
+        },
+        "accuracy": {
+          "mean": 0.7904290429042904,
+          "std": 0.002333685746490258,
+          "values": [
+            0.7871287128712872,
+            0.7920792079207921,
+            0.7920792079207921
+          ]
+        },
+        "real_f1": {
+          "mean": 0.862547721620959,
+          "std": 0.0019250140848467744,
+          "values": [
+            0.8599348534201955,
+            0.8631921824104235,
+            0.864516129032258
+          ]
+        },
+        "real_aupr": {
+          "mean": 0.9258594406639084,
+          "std": 0.0027906799861671604,
+          "values": [
+            0.922533184218646,
+            0.925683042935906,
+            0.929362094837173
+          ]
+        },
+        "hall_f1": {
+          "mean": 0.5589676098559626,
+          "std": 0.005864752396038727,
+          "values": [
+            0.5567010309278351,
+            0.5670103092783505,
+            0.5531914893617021
+          ]
+        },
+        "hall_aupr": {
+          "mean": 0.5597243535886084,
+          "std": 0.0036992149187816277,
+          "values": [
+            0.557756814141077,
+            0.5565101621507135,
+            0.5649060844740347
+          ]
+        }
+      },
+      "seed_ensemble": {
+        "auroc": 0.8317247969421883,
+        "hall_aupr": 0.5649875697712927
+      }
+    },
+    "all_tokenwise_s": {
+      "name": "All-token tokenwise S",
+      "aggregate": {
+        "auroc": {
+          "mean": 0.8518660083877475,
+          "std": 0.01022418869510096,
+          "values": [
+            0.8375218983914636,
+            0.8574613792005096,
+            0.8606147475712693
+          ]
+        },
+        "accuracy": {
+          "mean": 0.8184818481848185,
+          "std": 0.00420711180989504,
+          "values": [
+            0.8143564356435643,
+            0.8168316831683168,
+            0.8242574257425742
+          ]
+        },
+        "real_f1": {
+          "mean": 0.8803089261993792,
+          "std": 0.00257689850542793,
+          "values": [
+            0.8776508972267537,
+            0.8794788273615635,
+            0.88379705400982
+          ]
+        },
+        "real_aupr": {
+          "mean": 0.9302372979909889,
+          "std": 0.0008328219829663402,
+          "values": [
+            0.9296143642945389,
+            0.9296831125473908,
+            0.9314144171310368
+          ]
+        },
+        "hall_f1": {
+          "mean": 0.6245117416816616,
+          "std": 0.010743039660400782,
+          "values": [
+            0.6153846153846154,
+            0.6185567010309279,
+            0.6395939086294417
+          ]
+        },
+        "hall_aupr": {
+          "mean": 0.6334750031543197,
+          "std": 0.034980453282665455,
+          "values": [
+            0.5876271843480763,
+            0.6403075701391248,
+            0.672490254975758
+          ]
+        }
+      },
+      "seed_ensemble": {
+        "auroc": 0.8591813983118332,
+        "hall_aupr": 0.6427466879520035
+      }
+    },
+    "union_tokenwise_s": {
+      "name": "Union-TopK tokenwise S",
+      "aggregate": {
+        "auroc": {
+          "mean": 0.8498380846206933,
+          "std": 0.006390070799235288,
+          "values": [
+            0.8542124542124542,
+            0.8544991240643415,
+            0.8408026755852842
+          ]
+        },
+        "accuracy": {
+          "mean": 0.8028052805280529,
+          "std": 0.013149651361806257,
+          "values": [
+            0.801980198019802,
+            0.8193069306930693,
+            0.7871287128712872
+          ]
+        },
+        "real_f1": {
+          "mean": 0.8712288807828349,
+          "std": 0.007252389549286225,
+          "values": [
+            0.8726114649681529,
+            0.8793388429752066,
+            0.8617363344051447
+          ]
+        },
+        "real_aupr": {
+          "mean": 0.9303717400703445,
+          "std": 0.003635261777498066,
+          "values": [
+            0.934485883928998,
+            0.9309845103684041,
+            0.9256448259136314
+          ]
+        },
+        "hall_f1": {
+          "mean": 0.5778613509425523,
+          "std": 0.04481851806856988,
+          "values": [
+            0.5555555555555556,
+            0.6403940886699507,
+            0.5376344086021505
+          ]
+        },
+        "hall_aupr": {
+          "mean": 0.6209306087093767,
+          "std": 0.010328214562805894,
+          "values": [
+            0.6177032172648544,
+            0.6348810780143417,
+            0.6102075308489338
+          ]
+        }
+      },
+      "seed_ensemble": {
+        "auroc": 0.8549769071508202,
+        "hall_aupr": 0.6272907615626312
+      }
+    },
+    "union_aggregate_s": {
+      "name": "Union-TopK aggregate S",
+      "aggregate": {
+        "auroc": {
+          "mean": 0.8303763868981259,
+          "std": 0.0034430189793204715,
+          "values": [
+            0.8348463131071826,
+            0.8298136645962734,
+            0.8264691829909221
+          ]
+        },
+        "accuracy": {
+          "mean": 0.7904290429042904,
+          "std": 0.001166842873245129,
+          "values": [
+            0.7896039603960396,
+            0.7896039603960396,
+            0.7920792079207921
+          ]
+        },
+        "real_f1": {
+          "mean": 0.8620902848624806,
+          "std": 0.0011632642851575547,
+          "values": [
+            0.8626817447495961,
+            0.8631239935587761,
+            0.8604651162790697
+          ]
+        },
+        "real_aupr": {
+          "mean": 0.9285089044524235,
+          "std": 0.002832246903637241,
+          "values": [
+            0.9302200934492657,
+            0.9307895988353969,
+            0.9245170210726079
+          ]
+        },
+        "hall_f1": {
+          "mean": 0.5626507018092778,
+          "std": 0.021009819007024748,
+          "values": [
+            0.5502645502645502,
+            0.5454545454545454,
+            0.5922330097087378
+          ]
+        },
+        "hall_aupr": {
+          "mean": 0.5492216624907343,
+          "std": 0.012245255946416005,
+          "values": [
+            0.5655669422590107,
+            0.5460031432916861,
+            0.5360949019215062
+          ]
+        }
+      },
+      "seed_ensemble": {
+        "auroc": 0.8359611403089665,
+        "hall_aupr": 0.5544230205797478
+      }
+    }
+  },
+  "paired_bootstrap": {
+    "all_aggregate_s__versus__all_tokenwise_s": {
+      "replicates": 10000,
+      "new_minus_baseline_auroc": -0.027456601369644895,
+      "auroc_ci95": [
+        -0.05406726135939454,
+        -0.0019049267025144357
+      ],
+      "new_minus_baseline_hall_aupr": -0.0777591181807108,
+      "hall_aupr_ci95": [
+        -0.1464007922422717,
+        -0.015498231141807851
+      ]
+    },
+    "all_aggregate_s__versus__union_tokenwise_s": {
+      "replicates": 10000,
+      "new_minus_baseline_auroc": -0.023252110208631938,
+      "auroc_ci95": [
+        -0.0519268906436811,
+        0.0035322368923511246
+      ],
+      "new_minus_baseline_hall_aupr": -0.062303191791338475,
+      "hall_aupr_ci95": [
+        -0.13744196551572999,
+        -1.6684676624461868e-05
+      ]
+    },
+    "all_aggregate_s__versus__union_aggregate_s": {
+      "replicates": 10000,
+      "new_minus_baseline_auroc": -0.00423634336677825,
+      "auroc_ci95": [
+        -0.03142000981962055,
+        0.021974020508871792
+      ],
+      "new_minus_baseline_hall_aupr": 0.010564549191544925,
+      "hall_aupr_ci95": [
+        -0.05680350956472196,
+        0.06140539972008673
+      ]
+    },
+    "all_tokenwise_s__versus__union_tokenwise_s": {
+      "replicates": 10000,
+      "new_minus_baseline_auroc": 0.004204491161012958,
+      "auroc_ci95": [
+        -0.011050353260188538,
+        0.018550455672786233
+      ],
+      "new_minus_baseline_hall_aupr": 0.015455926389372321,
+      "hall_aupr_ci95": [
+        -0.02399644284225706,
+        0.051935304998429827
+      ]
+    },
+    "all_tokenwise_s__versus__union_aggregate_s": {
+      "replicates": 10000,
+      "new_minus_baseline_auroc": 0.023220258002866645,
+      "auroc_ci95": [
+        -0.004707267468216458,
+        0.050957406707344194
+      ],
+      "new_minus_baseline_hall_aupr": 0.08832366737225572,
+      "hall_aupr_ci95": [
+        0.013161519257574953,
+        0.15703799121478004
+      ]
+    },
+    "union_tokenwise_s__versus__union_aggregate_s": {
+      "replicates": 10000,
+      "new_minus_baseline_auroc": 0.019015766841853687,
+      "auroc_ci95": [
+        -0.0022625166971455917,
+        0.040435391960349315
+      ],
+      "new_minus_baseline_hall_aupr": 0.0728677409828834,
+      "hall_aupr_ci95": [
+        0.013322062666896287,
+        0.13325964760924516
+      ]
+    }
+  }
+}

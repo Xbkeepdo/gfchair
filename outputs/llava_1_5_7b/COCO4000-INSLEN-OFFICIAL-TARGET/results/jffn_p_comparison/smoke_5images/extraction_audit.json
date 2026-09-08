@@ -1,0 +1,64 @@
+{
+  "schema_version": "jffn-p-comparison-v1",
+  "model": "llava_1_5_7b",
+  "global_requested_images": 5,
+  "worker_requested_images": 5,
+  "image_shard_rank": 0,
+  "image_shard_world_size": 1,
+  "completed_images": 5,
+  "completed_image_ids": [
+    283,
+    472,
+    599,
+    831,
+    872
+  ],
+  "num_shards": 1,
+  "num_unique_positions": 21,
+  "num_official_mentions": 22,
+  "memory": [
+    {
+      "image_id": 283,
+      "before_bytes": 14126859776,
+      "peak_bytes": 16248748032,
+      "increment_bytes": 2121888256
+    },
+    {
+      "image_id": 472,
+      "before_bytes": 14160414208,
+      "peak_bytes": 15686060032,
+      "increment_bytes": 1525645824
+    },
+    {
+      "image_id": 599,
+      "before_bytes": 14160414208,
+      "peak_bytes": 16268018176,
+      "increment_bytes": 2107603968
+    },
+    {
+      "image_id": 831,
+      "before_bytes": 14160414208,
+      "peak_bytes": 16134329344,
+      "increment_bytes": 1973915136
+    },
+    {
+      "image_id": 872,
+      "before_bytes": 14160414208,
+      "peak_bytes": 16429890560,
+      "increment_bytes": 2269476352
+    }
+  ],
+  "failures": [],
+  "qwen_forward_mode": "shared_caption",
+  "validation": {
+    "num_positions": 21,
+    "all_finite": true,
+    "max_distribution_sum_error": 2.384185791015625e-07,
+    "max_attention_reconstruction_relative_error": 0.0004835460858885199,
+    "min_attention_reconstruction_cosine": 0.9999998211860657,
+    "max_linearity_relative_error": 2.0215106815157924e-06,
+    "max_parallel_chunk_relative_error": 2.4187652343243826e-06,
+    "median_finite_difference_cosine": 1.0,
+    "peak_memory_bytes": 16429890560
+  }
+}

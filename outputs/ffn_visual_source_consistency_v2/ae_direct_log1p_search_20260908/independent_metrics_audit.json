@@ -1,0 +1,22 @@
+{
+  "status": "PASS_INDEPENDENT_FILES_METRICS_SELECTION_SUMMARIES",
+  "date_utc": "2026-09-08",
+  "scope": "Separate Python processes reloaded original labels/features and saved head probabilities, independently reranked candidates/finalists, recomputed both-threshold metrics, ensemble and seed mean/std, and checked file checksums and search-before-selection-before-final timestamps. Same-device checkpoint error values below are verified saved run-time inference records, not a second independent full checkpoint inference pass or new-image confirmation.",
+  "models": {
+    "qwen2_5_vl_7b": {"heads": 183, "files": 612, "metric_reports": 732, "summary_sha256": "8ad2931dec2076a23cbb7aa48c53f240d193864daaf6497bc71d6ae4d53dc312"},
+    "qwen3_vl_8b": {"heads": 183, "files": 612, "metric_reports": 732, "summary_sha256": "fb9be374fa81ce85eb6652e0d8984eddd5107b2a77a26d7ecfeeca07dd87bb88"},
+    "llava_1_5_7b": {"heads": 183, "files": 612, "metric_reports": 732, "summary_sha256": "e91f19ed95ccb31b268fe024c050295cc99277d044d737e429add5f366deeb67"},
+    "internvl_2_5_8b": {"heads": 183, "files": 612, "metric_reports": 732, "summary_sha256": "695344c6a578c08ac325037af1111cf5248dc446281105b4fbadca07f62f2034"}
+  },
+  "totals": {"screening_heads": 576, "additional_validation_seed_heads": 72, "final_heads": 84, "heads": 732, "artifact_files": 2448, "metric_reports": 2928},
+  "checkpoint_record_max_probability_error": 0.0,
+  "all_four_model_image_splits": "original 3200/800; deterministic inner 2560/640; image-disjoint",
+  "global_summary_sha256": "a09f8dfa588ad30ee5ae4e67ddda22adc9b791dc8725baec8151fb985e405244",
+  "global_summary_equals_per_model_summaries": true,
+  "audit_elapsed_seconds": {"qwen2_and_qwen3": 94.09426718996838, "llava": 62.14200307801366, "internvl": 42.38784924894571},
+  "related_unit_tests_passed": 66,
+  "startup_failures": "Two pre-training CUDA-memory-stat initialization failures retained with their protocols in *_startup_failed_cuda_init directories. Zero completed heads in either failed attempt; fixed before all reported fits. No failures in the restarted runs.",
+  "bootstrap_run": false,
+  "independent_2000_image_confirmation_run": false,
+  "old_numerical_fail_and_old_cpu_verification_status_modified": false
+}

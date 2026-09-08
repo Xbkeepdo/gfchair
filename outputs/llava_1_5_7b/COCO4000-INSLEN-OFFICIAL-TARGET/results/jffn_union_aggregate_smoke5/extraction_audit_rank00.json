@@ -1,0 +1,54 @@
+{
+  "schema_version": "jffn-second-round-v1",
+  "model": "llava_1_5_7b",
+  "global_requested_images": 5,
+  "worker_requested_images": 5,
+  "rank": 0,
+  "world_size": 1,
+  "pending_at_start": 5,
+  "worker_complete": true,
+  "failures": [],
+  "peak_memory_bytes": 15218433024,
+  "memory": [
+    {
+      "image_id": 283,
+      "before_bytes": 14126859776,
+      "peak_bytes": 15120749056,
+      "increment_bytes": 993889280
+    },
+    {
+      "image_id": 472,
+      "before_bytes": 14135379456,
+      "peak_bytes": 14828261888,
+      "increment_bytes": 692882432
+    },
+    {
+      "image_id": 599,
+      "before_bytes": 14135379456,
+      "peak_bytes": 15136300032,
+      "increment_bytes": 1000920576
+    },
+    {
+      "image_id": 831,
+      "before_bytes": 14135379456,
+      "peak_bytes": 15074038272,
+      "increment_bytes": 938658816
+    },
+    {
+      "image_id": 872,
+      "before_bytes": 14135379456,
+      "peak_bytes": 15218433024,
+      "increment_bytes": 1083053568
+    }
+  ],
+  "union_aggregate": true,
+  "target_audit": {
+    "formula": "normalize(attention_support * hpre_raw_logit_gauss_gate)",
+    "feature_parts": 2,
+    "rows_seen": 15463,
+    "selected_rows": 22,
+    "unique_positions": 21,
+    "duplicate_rows": 1,
+    "maximum_duplicate_error": 0.0
+  }
+}

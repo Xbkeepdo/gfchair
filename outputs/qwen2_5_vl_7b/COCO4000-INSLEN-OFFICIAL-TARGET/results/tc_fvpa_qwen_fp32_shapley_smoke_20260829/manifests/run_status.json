@@ -1,0 +1,45 @@
+{
+  "completed_shards": [],
+  "created_unix": 1787998955.4905005,
+  "failed_cases": [],
+  "failed_shards": [],
+  "resume_commands": [
+    "/opt/conda/private/envs/vicr/bin/python scripts/run_tc_fvpa_fp32_causal.py --model qwen2_5_vl_7b --device cuda:0 --devices cuda:0 --output-dir /home/apulis-dev/userdata/CODEX/test-cocochair/gfchair/outputs/qwen2_5_vl_7b/COCO4000-INSLEN-OFFICIAL-TARGET/results/tc_fvpa_qwen_fp32_shapley_smoke_20260829 --seed 20260829 --layers 7,14,21,28 --target-scalars log_probability,margin,logit --integration-points 1,4,8,16,32 --config /home/apulis-dev/userdata/CODEX/test-cocochair/gfchair/configs/model_configs_inslen_official_target.yaml --num-shards 1 --shard-id 0 --no-resume --smoke --num-images 1",
+    "/opt/conda/private/envs/vicr/bin/python scripts/run_tc_fvpa_shapley.py --model qwen2_5_vl_7b --device cuda:0 --devices cuda:0 --output-dir /home/apulis-dev/userdata/CODEX/test-cocochair/gfchair/outputs/qwen2_5_vl_7b/COCO4000-INSLEN-OFFICIAL-TARGET/results/tc_fvpa_qwen_fp32_shapley_smoke_20260829 --seed 20260829 --layers 7,14,21,28 --target-scalars log_probability,margin,logit --integration-points 1,4,8,16,32 --config /home/apulis-dev/userdata/CODEX/test-cocochair/gfchair/configs/model_configs_inslen_official_target.yaml --num-shards 1 --shard-id 0 --no-resume --smoke --num-images 1"
+  ],
+  "schema_version": "tc-fvpa-comprehensive-v1",
+  "stages": {
+    "fp32_causal:qwen2_5_vl_7b:shard0": {
+      "details": {
+        "blocked_layers": [
+          7,
+          14,
+          21,
+          28
+        ],
+        "failures": 0,
+        "measured_rows": 432,
+        "peak_gpu_memory_bytes": 21764888064,
+        "route": "FP32 final-block FFN + final norm + LM head"
+      },
+      "started_unix": 1787998955.610164,
+      "status": "BLOCKED",
+      "updated_unix": 1787998966.3002203
+    },
+    "shapley:qwen2_5_vl_7b:shard0": {
+      "details": {
+        "blocked_layers": [
+          7,
+          14,
+          21
+        ],
+        "failures": 0,
+        "measured_rows": 6
+      },
+      "started_unix": 1787999159.9137192,
+      "status": "BLOCKED",
+      "updated_unix": 1787999170.6535404
+    }
+  },
+  "updated_unix": 1787999170.6535404
+}

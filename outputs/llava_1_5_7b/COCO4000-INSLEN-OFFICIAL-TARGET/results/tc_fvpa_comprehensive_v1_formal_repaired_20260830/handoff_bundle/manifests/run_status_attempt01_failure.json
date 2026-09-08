@@ -1,0 +1,35 @@
+{
+  "completed_shards": [],
+  "created_unix": 1788099912.046524,
+  "failed_cases": [],
+  "failed_shards": [],
+  "resume_commands": [
+    "/opt/conda/private/envs/vicr/bin/python scripts/run_tc_fvpa_path_attribution.py --model llava_1_5_7b --device cuda:0 --devices cuda:0,cuda:1 --output-dir /home/apulis-dev/userdata/CODEX/test-cocochair/gfchair/outputs/llava_1_5_7b/COCO4000-INSLEN-OFFICIAL-TARGET/results/tc_fvpa_comprehensive_v1_formal_repaired_20260830 --seed 20260829 --layers 8,16,24,32 --target-scalars log_probability,margin,logit --integration-points 1,4,8,16,32 --config /home/apulis-dev/userdata/CODEX/test-cocochair/gfchair/configs/model_configs_inslen_official_target.yaml --num-shards 2 --shard-id 0 --resume --formal --attribution-mode local --audit-vector-cases 0 --num-images 500",
+    "/opt/conda/private/envs/vicr/bin/python scripts/run_tc_fvpa_path_attribution.py --model llava_1_5_7b --device cuda:1 --devices cuda:0,cuda:1 --output-dir /home/apulis-dev/userdata/CODEX/test-cocochair/gfchair/outputs/llava_1_5_7b/COCO4000-INSLEN-OFFICIAL-TARGET/results/tc_fvpa_comprehensive_v1_formal_repaired_20260830 --seed 20260829 --layers 8,16,24,32 --target-scalars log_probability,margin,logit --integration-points 1,4,8,16,32 --config /home/apulis-dev/userdata/CODEX/test-cocochair/gfchair/configs/model_configs_inslen_official_target.yaml --num-shards 2 --shard-id 1 --resume --formal --attribution-mode local --audit-vector-cases 0 --num-images 500"
+  ],
+  "schema_version": "tc-fvpa-comprehensive-v1",
+  "stages": {
+    "local_riesz:llava_1_5_7b:shard0": {
+      "details": {
+        "elapsed_seconds": 652.2098416090012,
+        "failed_cases": 0,
+        "images": 250,
+        "measured_cases": 1728,
+        "peak_gpu_memory_bytes": 19712743936
+      },
+      "started_unix": 1788099912.073102,
+      "status": "PASS",
+      "updated_unix": 1788100570.6341183
+    },
+    "local_riesz:llava_1_5_7b:shard1": {
+      "details": {
+        "error": "ValueError('Duplicate case inside shard: llava_1_5_7b:449731:9:8')",
+        "traceback": "Traceback (most recent call last):\n  File \"/home/apulis-dev/userdata/CODEX/test-cocochair/gfchair/scripts/run_tc_fvpa_path_attribution.py\", line 1685, in main\n    write_case_shard(\n  File \"/home/apulis-dev/userdata/CODEX/test-cocochair/gfchair/features/tc_fvpa_artifacts.py\", line 346, in write_case_shard\n    raise ValueError(f\"Duplicate case inside shard: {key}\")\nValueError: Duplicate case inside shard: llava_1_5_7b:449731:9:8\n"
+      },
+      "started_unix": 1788099929.420408,
+      "status": "FAIL",
+      "updated_unix": 1788100639.4833858
+    }
+  },
+  "updated_unix": 1788100639.4833858
+}

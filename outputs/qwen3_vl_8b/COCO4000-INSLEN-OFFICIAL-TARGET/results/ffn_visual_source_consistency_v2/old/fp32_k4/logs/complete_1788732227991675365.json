@@ -1,0 +1,25 @@
+{
+  "command": [
+    "scripts/analyze_ffn_visual_source_consistency.py",
+    "extract-old",
+    "--model",
+    "qwen3_vl_8b",
+    "--candidate",
+    "fp32_k4",
+    "--device",
+    "cuda:1",
+    "--smoke"
+  ],
+  "count": 1,
+  "elapsed_seconds": 37.457368405070156,
+  "lookup": {
+    "duplicate_mentions": 0,
+    "feature_rows": 14873,
+    "maximum_duplicate_error": 0.0,
+    "r_cos_origin": "old_hpre_cos source, hpre_raw_logit_gauss target, sqrt_matched_state OT",
+    "selected_images": 1,
+    "target_formula": "normalize(dgst_t_attention_support_per_layer * dgst_t_hpre_raw_logit_gauss_gate_per_layer)",
+    "unique_targets": 4
+  },
+  "status": "COMPLETE_ASSIGNED_IMAGES"
+}

@@ -1,0 +1,38 @@
+{
+  "completed_shards": [],
+  "created_unix": 1788084110.8733108,
+  "failed_cases": [],
+  "failed_shards": [],
+  "resume_commands": [
+    "/opt/conda/private/envs/vicr/bin/python scripts/run_tc_fvpa_path_attribution.py --model qwen3_vl_8b --device cuda:1 --devices cuda:0,cuda:1 --output-dir /home/apulis-dev/userdata/CODEX/test-cocochair/gfchair/outputs/qwen3_vl_8b/COCO4000-INSLEN-OFFICIAL-TARGET/results/tc_fvpa_fullk_path_optimized_safe_prevalidated_20260830 --seed 20260829 --layers 9,18,27,36 --target-scalars log_probability,margin,logit --integration-points 1,4,8,16,32 --config /home/apulis-dev/userdata/CODEX/test-cocochair/gfchair/configs/model_configs_inslen_official_target.yaml --num-shards 2 --shard-id 1 --resume --attribution-mode path --num-images 2 --path-batch-size 1",
+    "/opt/conda/private/envs/vicr/bin/python scripts/run_tc_fvpa_path_attribution.py --model qwen3_vl_8b --device cuda:0 --devices cuda:0,cuda:1 --output-dir /home/apulis-dev/userdata/CODEX/test-cocochair/gfchair/outputs/qwen3_vl_8b/COCO4000-INSLEN-OFFICIAL-TARGET/results/tc_fvpa_fullk_path_optimized_safe_prevalidated_20260830 --seed 20260829 --layers 9,18,27,36 --target-scalars log_probability,margin,logit --integration-points 1,4,8,16,32 --config /home/apulis-dev/userdata/CODEX/test-cocochair/gfchair/configs/model_configs_inslen_official_target.yaml --num-shards 2 --shard-id 0 --resume --attribution-mode path --num-images 2 --path-batch-size 1"
+  ],
+  "schema_version": "tc-fvpa-comprehensive-v1",
+  "stages": {
+    "path_attribution:qwen3_vl_8b:shard0": {
+      "details": {
+        "elapsed_seconds": 199.89286387898028,
+        "failed_cases": 0,
+        "images": 1,
+        "measured_cases": 8,
+        "peak_gpu_memory_bytes": 22800781824
+      },
+      "started_unix": 1788084134.0936484,
+      "status": "PASS",
+      "updated_unix": 1788084341.028878
+    },
+    "path_attribution:qwen3_vl_8b:shard1": {
+      "details": {
+        "elapsed_seconds": 112.20180329598952,
+        "failed_cases": 0,
+        "images": 1,
+        "measured_cases": 4,
+        "peak_gpu_memory_bytes": 22359154176
+      },
+      "started_unix": 1788084110.923861,
+      "status": "PASS",
+      "updated_unix": 1788084230.0768282
+    }
+  },
+  "updated_unix": 1788084341.028878
+}

@@ -1,0 +1,25 @@
+{
+  "candidate": "fp32_k4",
+  "command": [
+    "/opt/conda/private/envs/vicr/bin/python",
+    "-u",
+    "/home/apulis-dev/userdata/CODEX/test-cocochair/gfchair/scripts/analyze_ffn_visual_source_consistency.py",
+    "extract-old",
+    "--config",
+    "configs/model_configs_inslen_official_target.yaml",
+    "--model",
+    "qwen2_5_vl_7b",
+    "--device",
+    "cuda:0",
+    "--candidate",
+    "fp32_k4"
+  ],
+  "environment": {
+    "MKL_NUM_THREADS": "1",
+    "OMP_NUM_THREADS": "1"
+  },
+  "model": "qwen2_5_vl_7b",
+  "stage": "extract-old",
+  "started_unix_ns": 1788734321254379162,
+  "status": "WAITING_FOR_EXISTING_WORKER"
+}

@@ -1,0 +1,30 @@
+{
+  "completed_shards": [],
+  "created_unix": 1787960511.6825135,
+  "failed_cases": [],
+  "failed_shards": [],
+  "resume_commands": [
+    "/opt/conda/private/envs/vicr/bin/python scripts/run_tc_fvpa_path_attribution.py --model qwen2_5_vl_7b --device cuda:0 --devices cuda:0 --smoke --num-images 1 --max-targets-per-image 1 --layers 32 --target-scalars log_probability,margin,logit --integration-points 1,4 --quadrature trapezoid,gauss_legendre",
+    "/opt/conda/private/envs/vicr/bin/python scripts/build_tc_fvpa_reports.py --model qwen2_5_vl_7b --device cuda:0 --devices cuda:0 --layers 32 --target-scalars log_probability,margin,logit --integration-points 1,4"
+  ],
+  "schema_version": "tc-fvpa-comprehensive-v1",
+  "stages": {
+    "path_attribution:qwen2_5_vl_7b:shard0": {
+      "details": {
+        "error": "qwen2_5_vl_7b path extraction is BLOCKED: the Qwen causal-prefix branch-replacement adapter has not passed real-model parity."
+      },
+      "started_unix": 1787960512.030787,
+      "status": "BLOCKED",
+      "updated_unix": 1787960512.6211154
+    },
+    "reports:qwen2_5_vl_7b": {
+      "details": {
+        "reports": 22
+      },
+      "started_unix": 1787960861.0983613,
+      "status": "PASS",
+      "updated_unix": 1787961493.633072
+    }
+  },
+  "updated_unix": 1787961493.633072
+}

@@ -1,0 +1,12 @@
+{
+  "command": [
+    "scripts/train_ffn_ae_log1p_search.py",
+    "--models",
+    "qwen2_5_vl_7b",
+    "llava_1_5_7b",
+    "--device",
+    "cuda:0"
+  ],
+  "model": "qwen2_5_vl_7b",
+  "traceback": "Traceback (most recent call last):\n  File \"/home/apulis-dev/userdata/CODEX/test-cocochair/gfchair/scripts/train_ffn_ae_log1p_search.py\", line 360, in main\n    run_model(model,args.device)\n  File \"/home/apulis-dev/userdata/CODEX/test-cocochair/gfchair/scripts/train_ffn_ae_log1p_search.py\", line 249, in run_model\n    result = run_head(family,config,43,inner,root/'search'/family/f'trial{index:02d}'/'seed43',signature,device)\n  File \"/home/apulis-dev/userdata/CODEX/test-cocochair/gfchair/scripts/train_ffn_ae_log1p_search.py\", line 167, in run_head\n    torch.cuda.reset_peak_memory_stats(device)\n  File \"/opt/conda/private/envs/vicr/lib/python3.9/site-packages/torch/cuda/memory.py\", line 376, in reset_peak_memory_stats\n    return torch._C._cuda_resetPeakMemoryStats(device)\nRuntimeError: Invalid device argument \n"
+}

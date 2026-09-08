@@ -1,0 +1,23 @@
+{
+  "command": [
+    "/home/apulis-dev/userdata/CODEX/test-cocochair/gfchair/scripts/analyze_ffn_visual_source_consistency.py",
+    "verify-detectors",
+    "--config",
+    "configs/model_configs_inslen_official_target.yaml",
+    "--production-after-subset",
+    "--train-despite-known-failure",
+    "--model",
+    "internvl_2_5_8b",
+    "--device",
+    "cuda:1",
+    "--rank",
+    "0",
+    "--world-size",
+    "1",
+    "--candidate",
+    "fp32_k4"
+  ],
+  "stage": "verify-detectors",
+  "status": "FAIL",
+  "traceback": "Traceback (most recent call last):\n  File \"/home/apulis-dev/userdata/CODEX/test-cocochair/gfchair/scripts/analyze_ffn_visual_source_consistency.py\", line 1663, in main\n    {'extract-old':extract_old,'train':train,'generate-new':generate_new,'merge-new':merge_new,\n  File \"/home/apulis-dev/userdata/CODEX/test-cocochair/gfchair/scripts/analyze_ffn_visual_source_consistency.py\", line 1299, in verify_detectors\n    raise ValueError('Independent detector checkpoint recomputation failed')\nValueError: Independent detector checkpoint recomputation failed\n"
+}

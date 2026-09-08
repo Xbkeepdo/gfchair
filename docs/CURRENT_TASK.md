@@ -1,5 +1,184 @@
 # Current Task
 
+## 2026-09-08：截至目前全部实验结果发布快照
+
+- 用户随后缩减为不上传图片，并再次明确“代码也传”：最终提交仅包含代码/测试、结果文档、CSV/JSON表格和说明，不新增PNG/PDF图表；本地文件与旧Git历史不删除。传输中的图片队列已停止，尚未更新main；已传输但未引用的临时Git对象不加入最终提交。
+- 用户明确确认“包含最新§5.19，上传截至目前全部结果”，覆盖此前不提交/上传的执行边界。目标为现有`Xbkeepdo/gfchair`的main，远端当前`9b00af17e7f5094203069527ab969095e4ce8673`；相邻token-detector不混入。
+- 按Ponytail复用Git与已连接GitHub应用，不引入发布框架或依赖。终端HTTPS无可用凭据，SSH亦无认证agent；原生dry-run返回缺少Password。GitHub应用已确认账号与仓库push权限，将通过Git数据API创建单个快照并以非force方式更新main，不读取auth.json或用户私钥。
+- 补齐§5.14–5.19代码/测试、图表/紧凑指标/协议/状态/门控，以及原正式cohort历史结果和四模型baseline对比；排除原始特征、完整向量、预测张量、checkpoint、逐epoch日志和凭据。保留本地全部artifact、旧数值FAIL/CPU复核状态及无关未提交文件。新增`docs/EXPERIMENT_RESULTS_INDEX.md`与本次发布清单，主报告更新发布范围。
+- 发布前回归命令 `OMP_NUM_THREADS=1 MKL_NUM_THREADS=1 /opt/conda/private/envs/vicr/bin/python -m unittest tests.test_ffn_ae_log1p_search tests.test_ffn_consistency_alternative_heads tests.test_ffn_visual_source_consistency tests.test_ffn_visual_source_study tests.test_ffn_visual_path_attribution tests.test_ffn_write_comparison`：69/69 PASS，19.539秒（不含导入），日志`/tmp/gfchair_publish_regression_20260908.log`。发布清单、敏感信息检查、staged diff与远端commit/tree一致性需在发布时核对；远端是否成功以实际commit及分支复查为准。
+
+## 2026-09-08：AE + log1p(原始 S) 单独扩大调参（完成）
+
+- 用户要求S直接用log(1+S)、针对AE+S单独调参、多试参数并参考论文。严格定义新输入为concat(全AE,log1p(raw S))，不除tau、不使用AE32、不额外标准化；现有local-FP32 K4紧凑特征和全部旧结果保留。按Ponytail新增薄入口 `scripts/train_ffn_ae_log1p_search.py`，复用旧数据校验、图片split、DGSTStyleProbe/训练器、checkpoint推理及指标函数，不修改已封存旧脚本。
+- 四模型/三分类器(one_hidden、three_hidden、XGBoost)各48组候选：12固定锚点+36确定性随机候选，随机seed20260908。原3200/800划分不变；3200内按同一seed分2560/640，同图mention不跨分区。先seed43筛48组，内部验证前三补seed44/45，再按三seed平均内部AUROC、HALL-AUPR及固定index选参。每模型三类均封存selection后才运行原800图最终评估。共576初筛+72复核=648搜索头；最终3类×2变换×3seed×4模型=72头，另12个原固定三隐藏层参数direct-log控制，总计732个新头。
+- 单隐藏宽度32/64/128/256/512；三隐藏为[w,w/2,w/4]，与单隐藏相同48候选预算。扩展lr 1e-5至1e-2、dropout 0至.5、weight_decay 0或1e-6至1e-3。XGBoost扩展深度2/3/4/5/6/8、树数150/300/600/1000（锚点含100）、lr .001至.3（锚点含.03/.1）、min_child_weight1至100、lambda .01至100、alpha0或1e-5至10、行列采样.5至1。MLP仍Adam/batch256/最多100epochs/minimum-train-loss checkpoint；树模型hist/CPU4线程/固定候选树数，不加类别权重。
+- 配对对照是用direct-log选定的同一参数，另训旧log1p(S/tau)输入；tau仅来自完整3200训练mentions，不独立优化scaled。另用原[128,64,32]/dropout.3/lr.001/wd1e-5训练direct-log，与旧固定scaled头对照，以分开变换与调参因素。全部仅探索性旧800图结果，不做bootstrap、不启动独立2000图、保留旧数值FAIL及InternVL旧CPU复核状态。
+- 文献已查主文和作者配置：Gorishniy等NeurIPS2021，验证集选参、100次MLP配置搜索、lr/宽度/dropout/weight_decay、多seed评价；Grinsztajn等NeurIPS2022约400次随机搜索并纳入默认配置；Bergstra/Bengio JMLR2012随机搜索基准。URL封存到protocol/新汇总报告。本轮48而非100/400；保留原Adam、BatchNorm、训练损失checkpoint，不照搬论文AdamW、quantile预处理或验证早停，不声称完整复现论文。
+- 新产物单独写各模型v2 `production_k4/ae_direct_log1p_search_20260908/`；总汇总为 `outputs/ffn_visual_source_consistency_v2/ae_direct_log1p_search_20260908/`。新单测检查直接log无tau、图片隔离、48候选/排名、三类真实小训练/weight_decay生效/同设备恢复及错误指纹拒绝、648搜索和84最终任务顺序。实际测试和启动状态随后记录；不把脚本完成写成实验完成。不提交、不上传。
+- 实际新增4/4测试PASS，8.354秒（不含环境导入），命令 `OMP_NUM_THREADS=1 MKL_NUM_THREADS=1 /opt/conda/private/envs/vicr/bin/python -m unittest tests.test_ffn_ae_log1p_search`，日志 `/tmp/gfchair_direct_log_tests_20260908.log`。py_compile与git diff --check通过；另起含旧相关套件的完整回归，日志 `/tmp/gfchair_direct_log_regression_20260908.log`，状态待检查。
+- 09:27:52 UTC（服务器CST显示17:27:52）启动两路screen：`420993.gfchair-log1p-qwen2-llava-20260908`（worker420994）及 `421004.gfchair-log1p-qwen3-intern-20260908`（worker421005）。命令前缀 `OMP_NUM_THREADS=1 MKL_NUM_THREADS=1 /opt/conda/private/envs/vicr/bin/python -u scripts/train_ffn_ae_log1p_search.py`，分别传 `--models qwen2_5_vl_7b llava_1_5_7b --device cuda:0`、`--models qwen3_vl_8b internvl_2_5_8b --device cuda:1`；日志 `outputs/ae_direct_log1p_qwen2_llava_20260908.log` 与 `outputs/ae_direct_log1p_qwen3_intern_20260908.log`。启动时两卡空闲，无其他VLM任务；先导入环境和验证已有特征，后训练，尚不能报告新检测成绩。
+- 首次启动Qwen2/Qwen3均在首头优化前失败：`torch.cuda.reset_peak_memory_stats(device)`不会自动初始化CUDA allocator，报`RuntimeError: Invalid device argument / did you call init?`。两路screen已退出，检查均0个result.pt、1个failure记录；不是训练数值失败。修复为统计前创建该设备的零元素tensor触发初始化，并新增双GPU实际小训练/reload测试。两个首次协议/失败目录完整移到同级 `ae_direct_log1p_search_20260908_startup_failed_cuda_init/`；未删除或改写旧结果。首轮日志原样保留，重启使用新日志名，修复后新协议绑定新源码SHA。
+- 首次完整回归65/65 PASS，19.102秒（不含导入），但当时没有GPU路径测试，因此未覆盖上述初始化错误；不把这次CPU测试通过当作GPU已验证。修复后的新增测试/完整回归另行记录。
+- 修复后5/5新增测试PASS（8.680秒），明确在cuda:0和cuda:1各做真实训练、峰值显存统计及同设备reload，概率最大差均0。完整相关回归66/66 PASS（19.597秒），日志 `/tmp/gfchair_direct_log_regression_cuda_20260908.log`。09:30:27 UTC重启screen `421533.gfchair-log1p-qwen2-llava-r1-20260908`（worker421535）与 `421536.gfchair-log1p-qwen3-intern-r1-20260908`（worker421538）；训练命令不变，新日志为 `outputs/ae_direct_log1p_qwen2_llava_r1_20260908.log` 和 `outputs/ae_direct_log1p_qwen3_intern_r1_20260908.log`。09:31已观察到Qwen2首个真实搜索结果，修复后训练开始；尚未完成全部搜索。
+- 09:59 UTC进度：Qwen2/Qwen3各162搜索+21最终头完成，均有summary/verification且无修复后failure；GPU0已转LLaVA（92/162搜索），GPU1已转InternVL（44/162搜索）。仅两个模型完成，不把四模型阶段写成完成。
+- 已完成的Qwen2直接log单隐藏/三隐藏/XGBoost ensemble AUROC分别87.867/87.347/85.613%，HALL-AUPR44.951/45.566/43.320%；原固定三隐藏scaled基线88.198/47.011%。固定旧三隐藏参数只改direct-log为88.214/45.774%，AUROC几乎不变但HALL-AUPR下降。Qwen3直接log单隐藏/三隐藏/XGBoost为88.927/89.755/89.025% AUROC、65.089/64.433/62.975% HALL-AUPR；其同参数新三隐藏scaled为90.214/66.214%。均不反向修改已选参数。
+- 独立Python进程已从原输入重建Qwen2/Qwen3直接log矩阵指纹并验证图片隔离；训练集raw S范围分别[.0590083,305.8301]/[.00616821,168.4061]，log1p后[.0573329,5.726294]/[.00614926,5.132299]。另从原标签+保存概率独立复算两个模型共1464份双阈值指标、366个头的候选配置/前三/多seed选型/全部ensemble与mean/std、1224个artifact SHA，均PASS，94.094秒；核对文件时序为所有搜索先于selection、selection先于最终result。训练保存时同设备checkpoint复算记录最大误差均0；独立指标进程没有冒充又做全量权重推理或独立新图确认。
+- 四模型全部完成：576初筛+72追加seed复核=648搜索头；84最终头；总732记录齐全。两路screen正常退出，10:12:43.790 UTC生成总报告，修复后启动至汇总2536.790秒（42分17秒）。Qwen2/LLaVA/Qwen3/InternVL主流程分别832.574/1430.475/1406.675/1124.566秒，含输入读取与逐头校验，不含最初模块导入；两路并行不能把四者相加作墙钟时间。相应纯fit累计777.382/1346.864/1326.085/1062.305秒。PyTorch峰值allocated分别22.121/22.175/22.230/22.175 MiB，不含CUDA上下文和缓存；运行期间nvidia-smi约495 MiB/卡，退出后两卡0MiB/0%。
+- LLaVA的旧固定scaled/固定direct/调参单隐藏direct/调参三隐藏direct/XGBoost direct分别为AUROC 90.646/90.496/89.813/90.258/89.583%，HALL-AUPR72.298/71.928/70.325/71.644/69.409%。InternVL对应AUROC86.388/86.381/85.230/86.381/85.267%，HALL-AUPR55.221/54.615/52.926/54.615/51.026%；InternVL三隐藏选回原配置，因此固定direct与tuned direct重合。所有精确配置与逐seed指标保留，不按这些测试成绩改选型。
+- 全量独立验收完成：2448个artifact SHA、732个头、2928份双阈值报告、全部候选/多seed选型、seed均值std/ensemble均PASS，最大同设备checkpoint复算记录误差0。Qwen2+Qwen3/LLaVA/InternVL独立指标进程耗时94.094/62.142/42.388秒；总summary与四模型来源逐项一致，SHA256为 `a09f8dfa588ad30ee5ae4e67ddda22adc9b791dc8725baec8151fb985e405244`。总目录新增 `independent_metrics_audit.json`，明确独立指标核验与训练保存时checkpoint推理复算的区别。
+- 总目录 `outputs/ffn_visual_source_consistency_v2/ae_direct_log1p_search_20260908/` 已有summary.md/summary.json/independent_metrics_audit.json；各模型有protocol、三类shortlist、selection、162搜索+21最终result、checkpoint和verification。主报告§5.19补齐四模型结果、同参数scaled对照、参数选择及论文实践。结论：原参数只改direct-log时四模型HALL-AUPR均下降；48组专门调参亦没有使direct-log的三类头超过原固定三隐藏scaled基线的两项ensemble指标。本轮更支持保留原log1p(S/tau)，但只报告探索性点估计，不宣称显著性或全局最优。
+- 旧实验、数值gate和CPU失败状态均未改写；首次启动两份失败与协议已完整保留，修复后0失败。66项相关单测、最终py_compile、git diff --check通过；不提交、不上传，不做bootstrap或独立2000图确认，不自动替换生产特征。
+
+## 2026-09-08：单隐藏层 MLP 与 XGBoost 小规模调参（完成）
+
+- 用户明确“bootstrap”指XGBoost/boosting，且“单层MLP”指一个隐藏层。按Ponytail新增薄脚本 `scripts/train_ffn_consistency_alternative_heads.py`，复用现有v2紧凑特征、共同尺度、16组拼接、DGSTStyleProbe/训练器、阈值与汇总函数。环境已有XGBoost2.1.4/sklearn1.6.1/torch2.8，无新依赖、VLM forward、bootstrap CI或独立2000图实验。全部旧代码和旧实验不覆盖、不提交、不上传。
+- 固定U_SN调参基准，四模型各进行12个单隐藏层MLP候选及12个XGBoost候选，搜索seed43。原3200训练图片按seed20260908固定划分2560/640内部训练/验证，同图所有mentions只在一侧；内部S/I尺度仅拟合2560图对应mentions。内部验证AUROC选参，精确平局按HALL-AUPR再按候选顺序。两类搜索均封存到selection.json后，才开始原800测试图评估；测试指标不进入选择函数。
+- MLP候选为hidden[32,64,128]×dropout[0,.3]×lr[3e-4,1e-3]，保留BatchNorm和既有Adam/lr调度、weight_decay1e-5、batch256、最多100epochs/minimum-train-loss checkpoint。XGBoost为max_depth[2,3,5]×lr[.03,.1]×trees[100,300]，hist/CPU4线程、subsample=.8、colsample_bytree=.8、min_child_weight5、lambda1、alpha0，无类别加权。参数选择后按每模型/分类器一套参数迁移全部16组，并在原3200图上按seeds43/44/45重新训练；最终S/N尺度仍为原完整训练集尺度。
+- 本轮新增96个搜索头、384个最终头，复用192个旧三隐藏层固定头对照。新头调过参、旧头固定参数，不能把成绩差全部解释为隐藏层数量影响；U_SN上选参也不等于每个特征组都单独最优。新头在原计算设备/FP32/固定batch256复核训练和测试概率（绝对误差≤1e-7），保留旧InternVL CPU复核FAIL和原K4数值FAIL例外，不擅自改变旧gate。
+- 新增5个测试覆盖12候选、图片隔离、内层尺度无验证/测试泄漏、只按内部验证选参、两类真实小训练的checkpoint/指标复核及恢复不重训/指纹拒绝、两类搜索先封存再评估和16组调度。命令 `OMP_NUM_THREADS=1 MKL_NUM_THREADS=1 /opt/conda/private/envs/vicr/bin/python -m unittest tests.test_ffn_consistency_alternative_heads`，日志 `/tmp/gfchair_alternative_heads_tests_20260908.log`，5/5 PASS（2.201秒，不含环境导入）；py_compile和git diff --check通过。
+- 独立产物根为各模型v2 `production_k4/head_search_20260908/`，总体表/JSON/Markdown位于 `outputs/ffn_visual_source_consistency_v2/head_search_20260908/`。自动resume验证内容/指纹/checksum，保留不完整attempt；已完成head和汇总不重写。正式启动与完成状态在后续条目追加，不把测试通过当作真实实验完成。
+- 08:36:59 UTC（服务器CST显示16:36:59）实际启动两路screen，PPID均为1：`412240.gfchair-heads-qwen2-llava-20260908`（worker412241，cuda:0）和 `412249.gfchair-heads-qwen3-intern-20260908`（worker412250，cuda:1）。命令前缀均为 `OMP_NUM_THREADS=1 MKL_NUM_THREADS=1 /opt/conda/private/envs/vicr/bin/python -u scripts/train_ffn_consistency_alternative_heads.py`，分别加 `--models qwen2_5_vl_7b llava_1_5_7b --device cuda:0` 与 `--models qwen3_vl_8b internvl_2_5_8b --device cuda:1`。日志为 `outputs/alternative_heads_qwen2_llava_20260908.log` 和 `outputs/alternative_heads_qwen3_intern_20260908.log`。启动后首先读取旧特征并检查输入指纹，不能将环境/特征加载等待写成已完成训练。
+- 全部96搜索头及384最终头完成，两路screen正常退出，无failure文件。四模型内部图片划分完全相同且2560/640/800互斥。总报告于09:04:34 UTC生成，启动至汇总约27分35秒；逐模型主流程Qwen2/LLaVA/Qwen3/InternVL耗时568.095/945.886/913.789/715.783秒（含读取、训练及逐头复核，不含首次环境导入；两路并行，不能相加当总墙钟）。
+- 选定单隐藏层MLP为：Qwen2 hidden64/dropout0/lr3e-4；LLaVA hidden128/dropout.3/lr3e-4；Qwen3 hidden128/dropout.3/lr1e-3；InternVL hidden64/dropout.3/lr1e-3。XGBoost四模型均depth5/trees300；Qwen2/LLaVA lr.03，Qwen3/InternVL lr.1。所有参数在内部验证上选定，未因最终测试成绩重新修改；候选范围和转移到其他组的局限完整记录。
+- U_SN的ensemble AUROC，旧三隐藏层/新单隐藏层/XGBoost分别为：Qwen2 .891296/.890580/.871018；LLaVA .904150/.904249/.899342；Qwen3 .906117/.901468/.895458；InternVL .882044/.875344/.860684。单隐藏层在Qwen2 H_SN提高到.896602（旧.880095），Qwen3 H_SK提高到.912141（旧.905339），但在64个同特征组对照中仅16个AUROC高于旧头；XGBoost仅1/64个提高，部分HALL-AUPR仍有正增量。不据此宣称浅层或树模型普遍更好，也不把调参收益完全归因于深度。
+- 新增+相关回归61/61 PASS，11.375秒（不含导入），日志 `/tmp/gfchair_alternative_heads_regression_20260908.log`。所有384个最终头在保存后同设备/同batch重新加载复算，训练/测试最大概率差为0；真实小模型的resume不重训/不改SHA及mtime已由新增单测覆盖。
+- 另起独立Python进程复核1440个产物SHA、96条搜索配置/选型、384个最终头的1536份训练/测试×双阈值报告、seed/ensemble汇总及384行总CSV，全部PASS。核验记录为总目录 `independent_metrics_audit.json`；该独立进程从保存概率重算指标并核对已有checkpoint复算记录，不冒充又做了一次全量特征/权重推理或新图独立确认。诊断耗时289.542秒包含等待总汇总生成。
+- 总目录保存 `summary.md`、`summary.json`、`groups.csv`，各模型保存protocol、selection、全部search/final checkpoint及verification。主报告新增§5.18，旧K4数值FAIL、旧InternVL严格CPU复核状态和全部旧产物保持不变；未提交或上传。
+
+## 2026-09-08：InternVL checkpoint 复算超差只读诊断（完成，未修改验收规则）
+
+- 当前192/192头均训练完成；Qwen2.5/LLaVA/Qwen3各48头独立验收PASS。InternVL原验收因CPU复算概率超过绝对阈值1e-5而退出，跨模型联合汇总未执行。本次用户仅要求查明“差多少、为什么”，不重训、不覆盖预测/checkpoint、不放宽门槛、不改原失败状态，也不启动独立2000图确认。
+- 按Ponytail复用现有函数，在 `OMP_NUM_THREADS=1 MKL_NUM_THREADS=1 /opt/conda/private/envs/vicr/bin/python -u -i` 内调用 `load_training_data('internvl_2_5_8b','fp32_k4',True)` 与 `checkpoint_probabilities()`，扫描全部48头的训练/测试预测；数据加载56.02秒，加载加CPU概率扫描58.64秒（不含初次环境导入）。当前特征、mention顺序、标签及协议重建的训练fingerprint与原manifest完全相同，全部48头artifact SHA256通过。
+- 共复算564432个概率（48×[9378训练mentions+2381测试mentions]），仅1个超过1e-5：`H_SK/seed44/train`，行2847，image183364，mention `183364:2`，target `183364:101`，词keyboard，label0。保存的REAL概率为 `.6065546870231628`，CPU复算为 `.6065648198127747`，绝对差 `1.0132789611816406e-5`，比门槛高约1.328%；该头训练集平均绝对差 `1.0486591763645061e-7`。所有头测试集最大概率差 `6.318092346191406e-6`，没有测试概率超差。
+- 同一故障checkpoint、同一特征的隔离对照：CPU FP32改回原固定batch256仍出现完全相同的最大差；原cuda:1 FP32+固定batch256复算训练/测试均与保存概率逐元素相同（最大差0）；GPU改为CPU复核用的均分batch，最大差仅 `1.7881393432617188e-7`，故障样本仍完全复现。说明这次超差主要来自跨CPU/GPU FP32运算，不是批次划分或权重/特征改变。所有模型均eval，未启用AMP；matmul TF32为False。
+- 同权重/输入临时CPU FP64参考（仅内存转换，无文件改动）：该样本概率 `.6065573237977084`；相对保存GPU值差 `2.6367745455946334e-6`。逐层追踪该样本，首Linear的CPU/GPU最大分量差 `6.556510925292969e-7`，首BatchNorm后 `5.170702934265137e-6`，末logit差 `4.26173210144043e-5`；经过sigmoid得到上述概率差。FP64仅为诊断参考，不替换原预测。
+- 48头测试集按原阈值复算的分类翻转均为0，REAL/HALL P/R/F1保持不变；跨全部头测试AUROC最大绝对变化 `1.3351420057317043e-6`，REAL-AUPR `7.974826073953167e-7`，HALL-AUPR `3.916974185669275e-6`。故障头测试AUROC仍为 `.8624363137263279`、HALL-AUPR仍为 `.5432015915187369`，REAL-AUPR只差 `1.2324496201365776e-8`，不声称全部指标逐位相同。
+- 另外21个头在固定保存的train-F1阈值下各有1个训练样本翻转，均不是测试翻转；故障头对应训练行5705恰等于原阈值 `.7825173735618591`，CPU概率为 `.7825140953063965`，不是行2847的超差样本。重新用CPU训练概率选阈值时该头得到后一个值，测试分类仍不变。诊断未更新任何阈值。下一步如需继续验收，应显式区分同设备重现与跨设备数值一致性，不能直接把原CPU FAIL标成PASS。
+
+## 2026-09-08：保留原 K4，按用户授权继续探索性训练（执行中）
+
+- 用户在获知两个K4闭合误差尾部案例及K64诊断结果后要求“就先这样吧，先训练把”。本次明确按保留现有K4特征执行：不替换两个case、不删除case、不做自适应K64、不改变原数值阈值，不把 `FAIL_NUMERICAL_OLD_COHORT` 改成PASS；先运行旧cohort训练及验证，暂不执行独立2000图确认。
+- 按Ponytail复用现有16组拼接、train-only共同尺度、MLP及恢复实现，仅新增显式 `--train-despite-known-failure` 和 `train-only` 队列。例外只允许当前已诊断的Qwen2.5第23层最大误差 `.010615984949452763`；绑定原失败gate的SHA256，其他模型/层失败、缺失cohort或指纹改变均拒绝。没有取消源shard checksum、mention对齐、finite、split、checkpoint复算或训练阈值检查。
+- 探索性例外记录单独保存到 `outputs/ffn_visual_source_consistency_v2/exploratory_training_20260908/numerical_exception.json`；四模型产物分别写入原v2 `production_k4/exploratory_training_20260908/training/fp32_k4/`，与正式训练目录分开。manifest、训练指纹和summary显式携带原数值FAIL及用户例外来源；跨模型汇总也注明探索性质。正常入口仍要求原数值PASS，例外入口禁止freeze/generate/evaluate独立确认。
+- 原4000图、3200/800划分、16组、seeds43/44/45、MLP[128,64,32]、dropout.3、batch256、最多100epochs、minimum-train-loss checkpoint和train-REAL-F1阈值不变；S和N_vec共用训练集逐层tau的log1p，I单独训练中位数；不新增bootstrap、标准化、加权或重采样。
+- 新增例外保留FAIL/拒绝指纹变化测试与仅训练队列禁止提取/封存/独立生成测试；相关完整56/56 PASS（9.934秒，不含导入），日志 `/tmp/gfchair_exploratory_training_tests_final_20260908.log`。合成48头训练/CPU复核/resume测试同时覆盖例外元数据；`py_compile`、`git diff --check` PASS，四模型原 `extract_old()` 源码指纹逐一匹配旧manifest。另对新目录自动创建的训练队列做定向检查，日志 `/tmp/gfchair_training_queue_check_20260908.log`。
+- 已启动独立screen：`screen -dmS gfchair-train-k4-exploratory-20260908 bash -lc 'cd /home/apulis-dev/userdata/CODEX/test-cocochair/gfchair && exec env OMP_NUM_THREADS=1 MKL_NUM_THREADS=1 /opt/conda/private/envs/vicr/bin/python -u scripts/analyze_ffn_visual_source_consistency.py train-only --production-after-subset --train-despite-known-failure --resume > outputs/consistency_v2_exploratory_training_20260908.log 2>&1'`。会话394084，协调进程394085；GPU0按Qwen2→LLaVA，GPU1按Qwen3→InternVL，各模型48头后独立CPU复核，全部完成再汇总，不自动进入独立确认。当前启动/运行不代表192头已完成。
+- 实际worker为394200（Qwen2，cuda:0）和394201（Qwen3，cuda:1），workflow为 `outputs/ffn_visual_source_consistency_v2/workflow_runs/1788850053990256501/`。两个模型均已通过特征读取/校验，写入带数值例外的训练manifest并开始epoch优化；首次检查Qwen2已有2个完成头、Qwen3正在第一个头的后期epoch。MLP每卡显存约495MiB，低于VLM提取时是正常现象。新目录自动创建的队列定向测试也PASS（1项，0.012秒）；原gate仍为FAIL，未启动任何新VLM任务。
+
+## 2026-09-08：全量 K4 验收停止，定点复核两个 Qwen2.5 案例
+
+- 四模型旧4000图K4-only提取全部完成，均有4000个shard和对应sidecar。Qwen3/LLaVA/InternVL全量数值验收PASS；Qwen2.5第23层失败，四模型总门控为 `FAIL_NUMERICAL_OLD_COHORT`。队列于2026-09-07 20:39:41 UTC按预设上限自动停止，screen已退出，训练0/192、独立确认未开始，禁止把子集PASS或提取完成写成全量PASS。
+- 逐条只读复核Qwen2.5全部242312个target-layer，发现且仅发现两个闭合相对误差超过1%的case：`248069:17:23 = .010615984949452763`，`546325:30:23 = .010395158690002427`。它们的κ_vec、finite和差异界检查均正常，没有OOM/缺失shard导致的失败。原门控文件为 `outputs/ffn_visual_source_consistency_v2/old_validation_fp32_k4.json`。
+- 用户同意只对上述两case做局部FP32 K4/K64对照。按Ponytail新增薄诊断入口 `scripts/diagnose_ffn_visual_source_tail.py`，复用未修改的生产 `_extract_one_image()`、完整caption因果query-row捕获、local_fp32、streaming及原OOM分块回退；只在第23层额外计算K64，不切换为截断prefix审计，不重跑4000图、不调整门槛、不开始训练。
+- 诊断先检查生产核心函数/依赖/输入checksum；保持原目标batch计算，在同次捕获的同一z/writes上比较K4/K64。保存两case的完整分量、component_sum、端点、S/N_vec/κ_vec、分布差异及原K4重现检查。独立输出为模型v2根下 `diagnostics/tail_k4_k64_20260908/`，原shard和失败gate的checksum/mtime不得改变。
+- 新增snapshot/重现判断的合成检查；运行相关完整单测命令 `OMP_NUM_THREADS=1 MKL_NUM_THREADS=1 /opt/conda/private/envs/vicr/bin/python -m unittest tests.test_ffn_visual_source_consistency tests.test_ffn_visual_source_study tests.test_ffn_visual_path_attribution`，日志 `/tmp/gfchair_tail_diagnostic_tests_20260908.log`。诊断代码的 `py_compile` 与当前 `git diff --check` 已通过，实际运行结果待后续记录。
+- 实际运行已完成：`screen -dmS gfchair-tail-20260908 bash -lc 'cd /home/apulis-dev/userdata/CODEX/test-cocochair/gfchair && exec env OMP_NUM_THREADS=1 MKL_NUM_THREADS=1 /opt/conda/private/envs/vicr/bin/python -u scripts/diagnose_ffn_visual_source_tail.py --device cuda:0 > outputs/consistency_v2_tail_diagnostic_20260908.log 2>&1'`。只加载一个Qwen2.5模型，顺序复核两图；screen已随正常完成退出。上述单测最终54/54 PASS，11.976秒（不含导入）。
+- 两个case的S、N_end、N_vec、κ_vec、P_FFN及闭合相对误差均完全复现原K4，重现差异为0；同一case的K4/K64端点向量逐元素相同。K64闭合相对误差分别降至 `5.314491046890357e-7 / 7.064114137168922e-7`，绝对误差由 `.7252963/.6163259` 降至 `3.630921e-5/4.188293e-5`。支持这两个异常主要来自K4求积不足，不是输入改变或局部FP32未启用；K64仍是数值参考，不称真值。
+- 相对K64，K4的S差异为 `.3515%/.3818%`，N_vec为 `.5274%/.5656%`，κ_vec绝对差为 `.00117472/.00114873`；P_FFN Spearman为 `.999999708/.999999599`，Top32 overlap均1。单图复核耗时9.412/5.376秒，不含模型加载；最大allocated显存16.83 GiB，chunk256，无OOM重试或诊断失败。
+- 额外CPU验收直接从保存的完整分量重算component_sum/S/N_vec，component_sum相对误差≤1.14e-7、S相对差≤1.61e-7（FP32归约顺序），全部通过。禁止模型加载后调用同一main做resume，完成产物checksum/mtime均未改写；验收记录为诊断目录 `verification.json`。原生产shard、manifest及失败gate的checksum/mtime亦保持不变。
+- 主报告§5.16已新增日期化复核结果，诊断 `summary.json` 状态为 `COMPLETE_TARGETED_DIAGNOSTIC`。这仅代表两case诊断完成，正式总gate仍FAIL，未替换生产特征、未开始训练、未擅自选择自适应K或全量K64；继续实验需要用户确认数值复算协议。未提交、未上传，保留全部无关改动。
+
+## 2026-09-07 15:45 UTC：v1 P_FFN/P_WRITE、S_FFN/S_WRITE 与 R_amp 对照（完成）
+
+- 按用户确认的方案只读取四模型 v1 正式 COCO4000 compact shard，不占 GPU、不重跑 VLM、不训练检测器或做 bootstrap；正在执行的 v2 screen/GPU 流程未修改。新增独立 `scripts/analyze_ffn_write_comparison.py`，逐 shard 释放原始张量；`S_WRITE=sum_m||a_m||`（旧 I，不是 `||sum_m a_m||`），`S_FFN=sum_m||e_m||`（gross_strength），`R_amp=0.5*sum_m|P_FFN-P_WRITE|`（TV）。
+- 四模型按 mention 等权、REAL/HALL 分开的跨层中位数平均 `R_amp` 为：Qwen2 `.04835/.04609`、LLaVA `.05082/.04886`、Qwen3 `.05435/.05324`、InternVL `.04712/.04589`。HALL 中位数更高仅 `8/28、10/32、14/36、10/32` 层，不支持幻觉有更强 FFN 空间重分配；但末层 REAL/HALL 达 `.1056/.0985、.2402/.2479、.3970/.4008、.1187/.1378`，不能外推成所有层近似相同。
+- P 的 Spearman 跨层中位数平均为 `.9836–.9950`、Top32 overlap `.9375–.9590`，确认大部分空间排序继承 WRITE。Top1 agreement 的跨层类内 rate 为 REAL `.8657/.8750/.8720/.8781`、HALL `.8858/.8947/.8838/.8935`（模型顺序同上）；HALL 的最高点反而略稳定，但不是更高全排序相似度。
+- `S_WRITE–S_FFN` 每层全 mention Spearman 跨层平均为 Qwen2/LLaVA/Qwen3/InternVL `.9614/.9452/.9633/.9753`，log-Pearson为 `.9707/.9536/.9683/.9813`。gross gain 的 REAL/HALL 跨层中位数平均为 `.63525/.63177、.52094/.51418、.65421/.63776、.56228/.55701`；FFN response 主要随 WRITE magnitude 变化，但层间比例明显变化，不能解释成 Jacobian≈I。
+- 总产物为 `outputs/ffn_write_ffn_comparison_summary.json` 及两张四模型总图；各模型 v1 根下保存完整逐层 CSV、相关表、分布/强度/固定差值图和 JSON。覆盖每模型4000图、合计50812 mentions；归一化最大误差2.45e-7，signed差值和最大2.02e-16，TV正负质量恒等误差2.23e-16，无越界或零WRITE强度。新JS/S_FFN与既有曲线最大差2.20e-7/2.71e-6。
+- 新手算测试覆盖TV、正负迁移质量、Spearman、Top-K、非法输入及二元Top1使用均值汇总；新增3/3、相关完整23/23 PASS，`py_compile`通过。产物已目视检查；结果写入主报告§5.17。遵循Ponytail复用既有正式shard和依赖，未改旧分析脚本或增加依赖；未提交、未上传。
+
+## 2026-09-07 13:01 UTC：续跑双卡 LLaVA，改用 screen 托管
+
+- 用户再次要求“继续2卡提取”。实时检查发现上一组交互长任务的协调进程698397及worker698430/698431均已退出，两卡显存为0；实际已完成372/500张。此前没有持续运行到本次检查时刻，不能沿用旧RUNNING状态报告进度。现有日志没有数值失败或Python traceback，退出原因未从日志确定；原workflow另存 `INTERRUPTED_NO_LIVE_PROCESSES_RESUME_IN_SCREEN`，不伪造正常完成。
+- 使用机器上已有的 `screen` 托管，未安装依赖：`screen -dmS gfchair-llava-dual-20260907 bash -lc 'cd /home/apulis-dev/userdata/CODEX/test-cocochair/gfchair && exec env OMP_NUM_THREADS=1 MKL_NUM_THREADS=1 /opt/conda/private/envs/vicr/bin/python -u scripts/analyze_ffn_visual_source_consistency.py llava-dual-subset --resume > outputs/consistency_v2_llava_dual_screen_20260907.log 2>&1'`。
+- 已确认screen会话 `215712.gfchair-llava-dual-20260907` 为Detached、父进程为PID1，协调进程215713。继续原500图清单的rank0/1两份分片，所有完成shard保留；当前数值提取核心 `extract_old()` 的SHA256与四模型旧manifest逐一核对，全部一致。仅任务托管方式改变，没有更换计算方法。
+- 13:06:47 UTC复核：cuda:0/1 worker为216031/216032，GPU利用率95%/89%，显存15913/15555 MiB；两条rank分别新增完整图片50811/50746，总计374/500，确认实际恢复产出。新workflow为 `outputs/ffn_visual_source_consistency_v2/workflow_runs/1788786186057847579/`。本次环境/权重冷读取较慢，不能把启动等待误记为GPU提取时间。后续检查先核对这个screen及PID，禁止再与它并行启动重叠任务。
+- 数值验收未完成前不宣称LLaVA PASS；其余三模型已验收结果保持。双卡500图完成后汇总四模型gate，通过后才按既定授权继续4000图K4-only，未授权全量K64重启。
+
+## 2026-09-07 12:33 UTC：LLaVA 剩余数值子集改为双 GPU（执行中）
+
+- 用户要求两卡同时完成当前 LLaVA 提取并回报验证结果。先停止旧子集协调进程 644148，再计划中断单卡 LLaVA 进程 644360；停止后核实两卡空闲。已完成 367/500 张全部保留，剩余133张按固定清单 `rank/world_size=0/2、1/2` 分成66/67张，无结果筛选、重复分配或第501张计算。
+- 按 Ponytail 只扩展既有分片边界与队列，未改冻结的 `extract_old()` 数值实现及依赖指纹。双rank分别写完成状态，之后汇总核验完整500张；新增双rank恢复/无重复/边界单测，相关完整测试53/53 PASS（9.739秒，不含导入），`py_compile` 和 `git diff --check` PASS，日志 `/tmp/gfchair_consistency_dual_tests_20260907.log`。
+- 启动命令：`OMP_NUM_THREADS=1 MKL_NUM_THREADS=1 /opt/conda/private/envs/vicr/bin/python -u scripts/analyze_ffn_visual_source_consistency.py llava-dual-subset --resume > outputs/consistency_v2_llava_dual_subset_20260907.log 2>&1`；长任务session57629，协调进程698397，cuda:0/1 worker为698430/698431，workflow为 `outputs/ffn_visual_source_consistency_v2/workflow_runs/1788784409103190401/`。原workflow保留过程记录并新增 `CANCELLED_FOR_USER_DUAL_GPU_RESHARD` 说明，不把计划中断算作数值失败。
+- Qwen2.5 1007图、Qwen3 873图以及InternVL 500图已经分别完成子集数值验收并PASS。InternVL共有1469个唯一目标、47008个target-layer，闭合相对误差P90 `4.062403e-5`、最大 `.003571673`；S/N_vec相对FP32 K64差异P90低于1.15e-7，所有层及κ边界通过。LLaVA尚待补齐并验收，不能提前宣称四模型子集gate已通过。
+- 当前双卡仍计算局部FP32 K4特征及额外FP32 K64参考；后续K4-only仅取消额外K64，不改当前K4特征公式/精度。它与v1的差异是局部FP32数值路径、真实 `component_sum` 的N_vec/κ_vec及并列端点诊断，并非整模型FP32。4000图和3200/800划分不变，所有子集PASS后才接续获准的K4-only队列。
+- 尚未完成完整4000图K4-only、192个训练头或独立2000图确认。未提交、未上传、未运行bootstrap。
+
+## 2026-09-07 范围修订：子集数值验证后，4000图仅计算K4（执行中）
+
+- 用户明确要求Qwen系列先用已完成图片验证，LLaVA/InternVL各500图；随后确认“仅缩减数值验证，验证通过后4000图只算K4，仍用原3200/800训练划分”。不缩减训练cohort，不拿子集训练代替原实验；原16组×3seeds×4模型、train-only共同尺度、独立2000图确认和不做bootstrap均保持。
+- 先按精确PID停止旧全量队列560825，再向两条Qwen提取任务556303/556313发送SIGINT；两卡显存已释放。日志中的KeyboardInterrupt是用户范围变更导致的计划中断，不是数值失败。已完成shard和sidecar全部保留，无孤立半成品或删除；旧workflow新增 `CANCELLED_BY_USER_SCOPE_AMENDMENT` 状态说明，原过程记录不改写。
+- 子集清单已封存到 `outputs/ffn_visual_source_consistency_v2/numerical_subset_20260907/selection.json`：Qwen2.5为1007图，Qwen3为873图，均为停止时完整落盘的全部图；LLaVA/InternVL为原定image-ID处理顺序前500图（含已有smoke），不依据标签或结果筛选。不宣称这个处理顺序前缀是额外随机抽样。
+- 按Ponytail复用原数值计算、逐图保存、`gate_group`及训练代码，不新增依赖；保持被冻结的 `extract_old()` 数值函数源码与原指纹不变。新增薄子集边界适配，在请求集合结束后停止，不计算第501图；Qwen仅读取已有结果，不再新增JVP。
+- 所有子集通过后，完整4000图仍逐条检查闭合误差、κ边界、finite及轨迹对齐；取消尚未处理图片逐条K64参考。不以缩减后的子集报告冒充原定4000图K64逐条验收。
+- 新正式产物放在各模型v2根下的 `production_k4/`，保留原 `old/fp32_k4/` K4+K64参考产物。已有K4特征复用到新namespace时逐文件保存父路径、原checksum/fingerprint与 `original_included_k64_reference=true`，不冒充原先没计算过K64；源文件不改写。仅剩余图片运行新K4提取。
+- 已启动修订队列命令 `OMP_NUM_THREADS=1 MKL_NUM_THREADS=1 /opt/conda/private/envs/vicr/bin/python -u scripts/analyze_ffn_visual_source_consistency.py subset-pipeline --resume > outputs/consistency_v2_subset_pipeline_20260907.log 2>&1`（长任务session43631）。先完成子集数值验收，再进入带 `--production-after-subset` 的K4-only全量队列；原全量K64 CLI在检测到修订清单后拒绝意外重启。任何子集或完整K4数值失败均停止后续训练，不擅自升级为全量K64。
+- Qwen子集数值验收已完成且通过：Qwen2.5为1007 processed images、2135唯一目标、2148 mentions（59780个target-layer）；Qwen3为873图、3138唯一目标、3171 mentions（112968个target-layer）。全部层及整体 `gate_group` 均PASS，κ_vec范围检查全部通过，无case遗漏或源文件checksum/mtime改变。
+- Qwen2.5/Qwen3闭合相对误差P90为 `1.061384e-5 / 3.139963e-5`，最大为 `.003739372 / .001384320`；相对FP32 K64的median Spearman与Top32 overlap均1，median JS约 `3.99e-16 / 4.89e-16`，S/N_vec相对差P90均低于1.24e-7，κ_vec绝对差P90低于6.20e-8。完整逐层及最差case结果见子目录 `{model}_validation.json`，这是数值子集验证，不是检测成绩。
+- 修订队列已运行到LLaVA cuda:0、InternVL cuda:1的500图任务，真实VLM PID644360/644391；父队列PID644148，workflow为 `workflow_runs/1788763847833252110/`。两模型各最多一个VLM；Qwen没有继续增加图片。
+- 新增集合边界停止/恢复测试和K4复用父指纹测试均通过；相关完整测试52/52 PASS，耗时10.317秒（不含环境导入），日志 `outputs/consistency_v2_subset_tests_final_20260907.log`，`py_compile`、`git diff --check` PASS。临时复用测试仅复制synthetic/指定smoke产物，不据此写正式全cohort完成标记。
+- Qwen两模型各用真实已完成smoke文件做production复用预检，在临时目录创建带父指纹的副本，再禁止模型加载调用原 `extract_old()`；K4-only manifest指纹与原计算函数完全匹配，完成副本checksum/mtime不变。预检PASS记录为 `numerical_subset_20260907/qwen_production_reuse_preflight.json`，未提前启动正式生产或训练。
+- 外层500图边界复用原提取函数，因此内层日志的 `pending=3999` 仍描述原4000图manifest，而不是新执行上限；真实上限来自不可变子集清单，边界测试验证不会计算第501图，子集完成后写独立500图状态。当前最后一次检查LLaVA/InternVL为6/13个完整shard，两卡正常忙碌，Qwen固定1007/873未增加。
+- 当前不是整轮实验完成：LLaVA/InternVL子集、完整4000图K4-only提取、192个探针和独立2000图仍待执行/验收。本节修订优先于下面保留的旧全量K64执行过程记录；未提交或上传。
+
+## 2026-09-07 第七点：双净量、联合尺度与独立确认（执行中）
+
+- 起点为 `9b00af17`，保留此前 AE32/cosine 未提交代码、报告、测试与全部 v1 artifacts；不提交、不上传。按 Ponytail 复用 capture、streaming JVP、OT 和 trainer，不新增依赖，不改旧分析脚本的 checksum。
+- 严格先数值门控：固定 seed20260907 的异常/匹配正常及20图全层样本，同次捕获比较 native K4/K64 与局部 FP32 K4/K64。从真实 `component_sum` 保存 N_vec，保留 N_end、两种 kappa 及闭合误差；不裁剪、不从旧误差反解。
+- 四模型共同候选顺序 native K4 → 局部 FP32 K4 → 局部 FP32 K64，按用户阈值冻结；最高候选不通过则停止训练和独立确认，明确报告数值阶段未完成，不放宽阈值。
+- 通过后才补算旧4000图、按同一训练尺度构造16组×3seeds×4模型，再封存后运行共享新2000图的独立评估。不做 bootstrap、AE32/cosine、JS 扩展、Shapley 或因果重跑；融合容差固定 AUROC .005 / HALL-AUPR .01，不作显著性或统计非劣声称。
+- 初始只读检查：两张 RTX4090 各24GB且空闲；每卡最多一个 VLM。正式 Python 为 `/opt/conda/private/envs/vicr/bin/python`。代码和结果统一使用独立 `ffn_visual_source_consistency_v2` 命名，随后记录实际命令、耗时、显存及失败。
+- 已新增双净量审计 CLI、数值门控/共同尺度/16组薄适配代码，以及独立测试。最初8项新测试通过，与既有路径和研究测试合计41项通过；随后增加 cohort ID/checksum 隔离、融合全模型双容差和 checkpoint 复算测试，新测试11项通过。`py_compile` 和 `git diff --check` 通过。
+- 冻结审计清单：Qwen2/Qwen3旧唯一异常数28/2421，分别选28/100个异常及等量正常，加20图全层，最终616/920个去重case；LLaVA旧唯一异常0，InternVL为76（清单均已保存）。原50-case完整向量四模型均复核了两种净量，不能把该子集当作异常尾部覆盖。
+- 已完成 Qwen2/Qwen3 各1图全层smoke以及全部冻结审计（包含smoke），两进程退出0，无跳过；smoke主流程约180.9/176.2秒（含首次权重加载），随后恢复主流程805.5/803.8秒。实际全量审计命令为 `OMP_NUM_THREADS=1 MKL_NUM_THREADS=1 /opt/conda/private/envs/vicr/bin/python -u scripts/run_ffn_visual_source_consistency.py audit --model MODEL --device CUDA`；Qwen2 cuda:0、Qwen3 cuda:1；日志 `outputs/consistency_v2_qwen{2,3}_audit_20260907.log`。LLaVA/InternVL随后各占一张卡，先 `--smoke` 再恢复全部audit。
+- 独立 cohort 准备已完成：`analyze_ffn_visual_source_consistency.py prepare-independent` 扫描本仓库及相邻仓库448份可识别COCO/POPE使用记录，排除4451个已用ID（含额外451个POPE图），从36053张本地候选固定选2000张并校验ID/JPEG checksum隔离。清单为 `outputs/ffn_visual_source_consistency_v2/independent_cohort.json`；此时没有生成新caption、查看新标签或评估检测器。
+- 四模型数值审计全部完成：Qwen2/LLaVA/Qwen3/InternVL分别616/640/920/792个case，共2968×4条件=11872条。LLaVA/InternVL首次smoke主流程164.07/164.83秒，随后恢复全部audit898.82/512.53秒；四进程均退出0，无跳过和未解释失败。`audit_gate.json` 正式状态为 `PASS_AUDIT`，共同选定局部FP32 K4；native K4与native K64均未通过，局部FP32 K4的闭合P90/max分别为 `1.624e-5/1.123e-4、1.856e-5/1.114e-4、1.093e-4/8.361e-4、1.524e-4/1.116e-3`，所有要求的分组及全层检查通过。K64 FP32只作参考，不称真值。
+- 四模型旧cohort各1图全层提取smoke已完成，候选FP32 K4，同次捕获额外逐case FP32 K64参考，P_FFN相关OT重新计算。Qwen2/LLaVA/Qwen3/InternVL单图约32.36/67.79/37.41/36.04秒，均退出0。Qwen2/Qwen3审计及全量smoke恢复时禁止模型加载，完成文件checksum与mtime不变；审计恢复证明保存于 `outputs/ffn_visual_source_consistency_v2/qwen_audit_resume_verification.json`。
+- 已按严格全量K64参考口径启动Qwen2 cuda:0和Qwen3 cuda:1旧4000图补算，每卡一个VLM。命令：`OMP_NUM_THREADS=1 MKL_NUM_THREADS=1 /opt/conda/private/envs/vicr/bin/python -u scripts/analyze_ffn_visual_source_consistency.py extract-old --model MODEL --candidate fp32_k4 --device CUDA`；日志为 `outputs/consistency_v2_qwen{2,3}_full_fp32k4_ref64_20260907.log`。已向用户说明逐case额外K64导致工作量约17倍、完整任务可能多日；在没有范围调整回复时不省略参考验收。旧cohort必须通过后才能开始192个检测器；目前未训练、未生成新2000图。
+- 审计脚本全文件checksum已冻结，不改其代码；后续全量适配和训练/独立确认入口放在新的分析CLI，以免破坏已完成审计的可恢复性。全量适配自身函数及实际数值依赖单独指纹化；原v1源文件均未修改。
+- 开发期间第一次全量smoke发现provenance缺少数值实现指纹，停止该开发版本并保留到精确的 `old/fp32_k4_pre_code_fingerprint_smoke/`（Qwen2已完成1图、Qwen3收到SIGINT退出130）。Qwen2停止请求因其已退出返回NoSuchProcess，不是实验失败。随后加入代码指纹，在独立canonical目录重跑四模型smoke全部退出0；没有删除或覆盖这些开发产物。
+- 最新联合验证命令 `python -m unittest tests.test_ffn_visual_source_consistency tests.test_ffn_visual_source_study tests.test_ffn_visual_path_attribution` 为46/46 PASS（13项新测试）；`git diff --check`通过。一次只读检索包含不存在的 `evaluation/` 目录报错，随后直接定位 `coco-labeling/coco_chair.py`，没有影响实验。
+- 后续实现与验收：增加双GPU普通进程队列 `analyze_ffn_visual_source_consistency.py pipeline --resume`，严格按“全量数值验收→16×3×4训练→CPU复算→封存→新2000图生成/标注→AE/R_cos与v2提取→独立checkpoint复算→本地报告”顺序衔接；每卡至多一个VLM。预设候选用尽仍不通过时硬停止，无跳过、放宽阈值或提前训练。每次命令的退出码、耗时、日志checksum写入 `outputs/ffn_visual_source_consistency_v2/workflow_runs/`；只有完整验收通过才追加主报告与中文终末记录，不把进程启动当完成。
+- 合成小数据集成测试实际训练48个两epoch CPU探针，核验train/test checkpoint预测、两阈值指标、ensemble和train-only阈值，再禁止trainer调用验证恢复不改checksum/mtime；这些全部位于临时测试目录，已清理，不属于正式检测结果。加上零目标图片、紧凑轨迹与双净量一致性、独立阶段封存前拒绝、最高候选失败停止等测试，终末相关测试为50/50 PASS；`py_compile`与`git diff --check` PASS。
+- 四模型全审计恢复验收全部PASS，Qwen两模型记录见前述文件；LLaVA/InternVL保存为 `llava_internvl_audit_resume_verification.json`，检查1280/1584个数据及sidecar文件。四模型全层提取smoke的实际记录和恢复验收为 `full_smoke_resume_verification.json`；数据shard内Qwen2/LLaVA/Qwen3/InternVL单图耗时32.359/67.697/37.411/35.903秒，峰值显存16.524/14.433/17.614/17.492GiB，OOM重试均0。前面的67.79/36.04秒为控制台整体值，与shard实际单图计时口径略有差别。
+- 队列首次尝试 `nohup ... &` 返回PID560587，但复查发现该进程没有持续运行、没有产生workflow记录（运行器回收短命shell派生任务）；不能据此宣称后台启动成功。随后改为与正在运行的全量worker相同的长任务会话机制，命令 `OMP_NUM_THREADS=1 MKL_NUM_THREADS=1 /opt/conda/private/envs/vicr/bin/python -u scripts/analyze_ffn_visual_source_consistency.py pipeline --resume >> outputs/consistency_v2_pipeline_20260907.log 2>&1`，必须以真实进程及workflow状态文件验收启动。
+- 队列先等正在执行的Qwen2/Qwen3全量worker锁释放，校验恢复后依次跑LLaVA/InternVL，不会另起VLM抢占同一GPU。当前数值计算函数和审计脚本指纹保持不变；修改的是后续验收/队列逻辑。服务器或运行器中断后，可用同一命令从已完成的逐图shard恢复，不依赖未完成进程的内存状态。
+- 队列启动已再次真实核验：Python PID560825持续运行，长任务session43396；`workflow_runs/1788734321233811355/` 已产生Qwen2/Qwen3两个 `WAITING_FOR_EXISTING_WORKER` 记录，正常等待现有PID556303/556313（session39590/31396）。GPU上仍只有这两个全量VLM进程；旧4000图完成数以各模型 `old/fp32_k4/shards/image_*.pt` 和sidecar为准，不以进程存在当作完成。
+- 当前交接状态仍为**执行中，不是实验全部完成**：Qwen2/Qwen3旧4000图只完成前几十张，LLaVA/InternVL全量待队列调度；正式192头与新2000图尚未开始。逐case K64参考使旧cohort补算本身预计需要数日；若后续失败，队列保留失败记录并停止后续依赖阶段。没有提交或上传任何v2结果。
+- 开发期间一次只读 `rg` 把公式 `S_{net}` 当正则报错 `repetition quantifier expects a valid decimal`；改用多个字面检索项后继续，不影响数据或实验。
+
+## 2026-09-07 AE32×平均 cosine 检测消融（完成）
+
+- 按新请求定义 `X=AE32*C32`，`AE32` 为原始视觉 token AE 最大32项的总和；`C32` 为相同 Top32(T)/Top32(AE) 集合内、预测位置与视觉 token hpre 状态余弦的无权算术平均，精确复用旧 `dgst_t_hpre_raw_logit_gauss_target_cosine_topk32_hpre_per_layer`。保留 cosine 正负号，不取绝对值、不截断负值，不改为逐 token AE×cos 的加权和。
+- 沿用 Ponytail 最小增量，在既有未提交 Top32 AE 成果上新增独立 `scripts/analyze_ffn_visual_source_top32_ae_cosine.py`；复用 Top32、20组矩阵、AE替换、trainer、resume与CSV实现，不改旧脚本或原产物checksum。无新依赖、VLM forward或bootstrap，不提交/上传。
+- 四模型各20组×seeds43/44/45，共240个新训练头；直接对照上一轮AE32，并补充原全AE及13正式组的全AE×cosine旧结果。固定原3200/800图片split、MLP[128,64,32]、dropout.3、batch256、最多100epochs、minimum-train-loss checkpoint、train-REAL-F1及固定0.5，不标准化/加权/重采样，S/I/N/kappa/R_cos/JS/OT全部保持原值。
+- 输入先核验当前AE32矩阵与旧baseline fingerprint完全一致，再比较原始attention×gate直接Top32求和，以及 `AE32*C32 = full_AE*old_EV`（old_EV=M32*C32）的实际数值误差。恢复校验cohort/feature SHA256，完成后不重训或重写。输出独立命名为 `metrics/top32_ae_cosine_*`、`tables/top32_ae_cosine_*`。
+- 运行前两张RTX4090空闲，主机可用内存约459GiB；采用四个互不重叠的单模型进程，两卡各运行两个小MLP任务，保留每个训练头原协议，不修改trainer来并行同一产物。
+- 启动前定向单测20/20 PASS、py_compile、git diff --check通过。命令为 `OMP_NUM_THREADS=1 MKL_NUM_THREADS=1 /opt/conda/private/envs/vicr/bin/python -u scripts/analyze_ffn_visual_source_top32_ae_cosine.py --models MODEL --training-device CUDA`；Qwen2/Qwen3使用cuda:0，LLaVA/InternVL使用cuda:1。逐模型日志 `outputs/top32_ae_cosine_MODEL_20260907.log`，不复用上轮日志。
+- 四模型全部完成20组×3seed，共240个新checkpoint；单独X的ensemble AUROC（顺序Qwen2/LLaVA/Qwen3/InternVL）为 `.80173/.87244/.85497/.84770`，相对AE32为 `-.00134/+.00394/-.00347/+.00030`。80个组×模型点差仅20个为正，各模型为6/5/4/5；X+S、F、U、H_JS、H_OT的四模型集成分数均下降，不支持普遍乘cosine。逐seed方向并非全部一致，不做显著性或机制断言；全部20组及另13组全AE×C32对照写入主报告5.15。
+- 原始attention×gate直接Top32总和与上轮AE32最大绝对误差分别 `1.79e-7/2.98e-7/2.98e-7/2.38e-7`；乘积恒等式最大误差均小于1.8e-7。X实际范围为 `[-.016727,.593118]/[-.002277,.417609]/[-.008076,.628776]/[-.008606,.570178]`；负值条目773/1625/1376/4270来自有符号cosine，AE32本身仍非负。
+- 独立重读真实compact和features.pkl，再从CPU复算每模型159个新旧checkpoint（60新+60AE32+39全AE×C32），共636个，预测最大误差 `1.67e-6/3.04e-6/3.28e-6/2.38e-6`。每模型resume禁止trainer调用并验证完成产物hash/mtime不变；全局独立验收 `outputs/ffn_visual_source_top32_ae_cosine_audit.json` 为PASS。80行组汇总、960行seed×threshold双版本指标完整有限；7个非正式组合无全AE×C32旧对照，CSV相应字段预期留空。
+- 四训练进程均退出0，单模型主流程耗时506.2/913.8/891.5/699.6秒（含读取、校验、训练，不含初始导入），四进程并行不能累加当墙钟耗时。两卡显存已释放；终末单测20/20 PASS、py_compile、git diff --check通过。跨模型汇总为 `outputs/ffn_visual_source_top32_ae_cosine_summary.json`，仍未提交/上传，之前Top32脚本及其checksum保持不变。
+- 失败记录：训练和独立验收无失败；首次 `scripts/analyze_ffn_visual_source_top32_ae_cosine.py --summarize-only` 提前于LLaVA最终JSON落盘，报 `FileNotFoundError: .../llava_1_5_7b/.../metrics/top32_ae_cosine_feature_results.json`，未输出不完整总表。确认四模型JSON及训练退出0后，原命令重跑退出0，没有修改或重训旧/新实验。只读rg无匹配返回1属于正常检索。
+- 终末只读核验将主报告80个主对照与52个次要对照单元自动对照JSON，全部通过；跨模型汇总与逐模型JSON完全一致，764条结果内artifact checksum再次逐字节通过。同期修正本记录两个手工抄录的5位小数末位，未改任何实验产物。
+
+## 2026-09-07 全量 AE / Top-32 AE 曲线与检测消融（完成）
+
+- 当前基线为已上传的 `9b00af1`；除无关交接文件外工作树干净。本轮只做用户新增的 AE 曲线与替换消融，不提交/上传新成果、不更改旧实验。
+- `AE32=AE*sum(Top32(T))=sum_{j in Top32(T)} attention_j*gate_j`，按 T/AE 贡献排序，不按原始 attention 排序；视觉 token 不足 32 时全取，不重新归一化选中区域，不乘 cosine。直接读取保存的 AE/T；零 AE 返回零，保留 FP32 T 的数值归一化误差。
+- 遵循 Ponytail，新增独立 `scripts/analyze_ffn_visual_source_top32_ae.py`，复用现有矩阵、core/net 特征拼接、AE 替换、median/IQR 绘图和 MLP trainer；不修改旧分析脚本、无新增依赖或 VLM forward、不做 bootstrap。四模型各训练 20 组×3 seeds（13 正式组 + AE+I、AE+S、AE+I+S、AE+N、AE+S+N、U、D_OT+strength），只替换 AE，所有其余轨迹不变。
+- 原始 S/I/N、不标准化/重采样/加权，固定原图片 3200/800 split、seeds 43/44/45、原 MLP `[128,64,32]`、dropout .3、batch 256、最多100 epochs、minimum-train-loss checkpoint、train-REAL-F1 和固定0.5双阈值。JS 沿用全 token support，OT 沿用双方 Top-32 union；Top32AE 不改变距离定义。
+- 输出使用独立 `top32_ae_feature_*` 和 `ae/ae_top32_real_hall_curve`，恢复先校验 cohort/features SHA256，完成后核验产物 checksum 并直接返回，不重训/覆盖。训练前两张 RTX 4090 均空闲；新增单测检查 TopK 原始总量、退化值、20组仅 AE block 被替换和错误 cohort 恢复拒绝。
+- 启动前 `19/19` 定向单测、`py_compile`、`git diff --check` 通过。命令：`OMP_NUM_THREADS=1 MKL_NUM_THREADS=1 /opt/conda/private/envs/vicr/bin/python -u scripts/analyze_ffn_visual_source_top32_ae.py --models qwen2_5_vl_7b,qwen3_vl_8b --training-device cuda:0`；另一路 `--models llava_1_5_7b,internvl_2_5_8b --training-device cuda:1`。日志为 `outputs/top32_ae_{qwen,llava_intern}_20260907.log`；完成后使用同脚本 `--summarize-only` 汇总。
+- 四模型曲线已生成并逐图检查：全 AE 的 REAL 中位数更高层数为 Qwen2/LLaVA/Qwen3/InternVL `19/28、32/32、36/36、29/32`，Top32 AE 为 `10/28、27/32、26/36、28/32`。全部正式 train+test mentions、mention 等权，中位数/IQR（不是CI），不是检测器输出概率。
+- 四模型最终均完成60个新训练头，共240个；复用240个全AE旧对照。独立对全部480个新旧 checkpoint 在当前特征上复算CPU预测，最大概率差分别 `2.03e-6/2.50e-6/3.28e-6/2.98e-6`。逐token直接加权求Top32与 `AE*mass32` 的FP32结果完全一致；恢复时trainer被禁止调用，完成产物hash/mtime均未变化。独立验收为 `outputs/ffn_visual_source_top32_ae_audit.json`，状态PASS。
+- 全部80行组汇总、960行双版本×seed×threshold指标、512行曲线统计完整有限；两张总图与八张单图已目视检查，报告80组数字及delta自动对照JSON全部通过。本轮无训练/验收失败；终末19/19单测、py_compile、git diff --check通过。两训练进程退出0，GPU已释放。
+- Top32 AE单独ensemble AUROC为Qwen2/LLaVA/Qwen3/InternVL `.80307/.86850/.85844/.84740`，相对全AE `+.01537/−.00798/+.01000/+.01278`；AE32+S为 `.87292/.89704/.87911/.85981`，相对原AE+S `+.00588/−.00195/+.00019/+.00551`。F32在Qwen2/InternVL提高、LLaVA/Qwen3下降；U32为 `.88483/.90610/.88836/.87582`。完整H_OT32为 `.89117/.90923/.89506/.88198`，仅LLaVA的ensemble提高，Qwen2近乎不变、另两模型下降。因此Top32乘法不是单纯归一化，也不能普遍替换全AE；A32/E_JS32虽四模型点差均正，仍不能在未做bootstrap时称显著。
+- 共80个点差中50个为正（各模型17/7/11/15）。主报告5.14给出公式、完整20组对照、两图及边界；跨模型汇总为 `outputs/ffn_visual_source_top32_ae_summary.json`，总图为 `outputs/ffn_visual_source_{ae,ae_top32}_real_hall.{png,pdf}`，逐模型结果使用前述独立命名，不覆盖旧研究。原代码文件checksum不变；本轮新代码/报告尚未提交或上传。
+- 单模型主流程耗时 `548.7/927.2/919.8/707.6` 秒，含读取、验证、绘图和60个训练头，不含初始模块导入；两条GPU队列并行，不能相加当墙钟总时长。恢复不改写首次完成耗时。运行/测试无失败；只读 `rg` 查询无匹配返回1属于正常检索结果。
+- 补充图片元信息只读检查时系统未安装 `file` 命令，改用已有 Pillow 确认两张总图均为2160×1350且内容未裁切。报告四舍五入数字与JSON逐项对照，并修正交接记录中少数手工抄录的末位；未改实验产物。
+
 ## 2026-09-07 GitHub 增量发布
 
 - 用户要求上传到 GitHub；本次在 `main` 的 `d6f0728` 上发布后续代码及结果，远端为 `Xbkeepdo/gfchair`。提交前 `git ls-remote origin refs/heads/main` 确认远端与本地基线一致，不需要强制推送或改写历史。

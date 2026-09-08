@@ -1,0 +1,1040 @@
+{
+  "model": "internvl_2_5_8b",
+  "seed": 44,
+  "trainer": "native_paper",
+  "configured_methods": [
+    "svar",
+    "metatoken"
+  ],
+  "feature_path": "/home/apulis-dev/userdata/CODEX/test-cocochair/gfchair/outputs/internvl_2_5_8b/COCO4000-INSLEN-OFFICIAL-TARGET/baseline/features.pkl",
+  "split_path": "/home/apulis-dev/userdata/CODEX/test-cocochair/gfchair/outputs/internvl_2_5_8b/COCO4000-INSLEN-OFFICIAL-TARGET/image_splits.json",
+  "stored_label_semantics": {
+    "0": "hallucination",
+    "1": "real"
+  },
+  "detector_target_semantics": {
+    "0": "real",
+    "1": "hallucination"
+  },
+  "headline_positive_class": "real",
+  "label_protocol": "shared_inslen_unique_detected_word_exact_response_offsets",
+  "counts": {
+    "train": 9378,
+    "val": 0,
+    "test": 2381
+  },
+  "image_split_counts": {
+    "train": 3200,
+    "val": 0,
+    "test": 800
+  },
+  "methods": {
+    "svar": {
+      "paper_config": {
+        "hidden_dim": 248,
+        "learning_rate": 0.001,
+        "epochs": 50,
+        "early_stopping_patience": null,
+        "positive_class": "real",
+        "selection_protocol": "fixed_last_epoch_train_f1_threshold",
+        "layer_start": 5,
+        "layer_end_exclusive": 19
+      },
+      "input_dim": 448,
+      "threshold": 0.36960357427597046,
+      "threshold_score_class": "real",
+      "test_metrics": {
+        "threshold": 0.36960357427597046,
+        "threshold_score_class": "real",
+        "headline_positive_class": "real",
+        "stored_label_semantics": {
+          "0": "hallucination",
+          "1": "real"
+        },
+        "detector_target_semantics": {
+          "0": "real",
+          "1": "hallucination"
+        },
+        "accuracy": 0.8601427971440572,
+        "confusion_matrix_hallucination_positive": [
+          [
+            1858,
+            150
+          ],
+          [
+            183,
+            190
+          ]
+        ],
+        "hallucination_positive": {
+          "precision": 0.5588235294117647,
+          "recall": 0.5093833780160858,
+          "f1": 0.5329593267882188,
+          "auc": 0.8811182882411374,
+          "aupr": 0.5704150904291289
+        },
+        "real_positive": {
+          "precision": 0.9103380695737384,
+          "recall": 0.9252988047808764,
+          "f1": 0.917757470980489,
+          "auc": 0.8811182882411372,
+          "aupr": 0.9750932653031442
+        }
+      },
+      "threshold_reports": {
+        "fixed_0.5": {
+          "threshold": 0.5,
+          "train_metrics": {
+            "threshold": 0.5,
+            "threshold_score_class": "real",
+            "headline_positive_class": "real",
+            "stored_label_semantics": {
+              "0": "hallucination",
+              "1": "real"
+            },
+            "detector_target_semantics": {
+              "0": "real",
+              "1": "hallucination"
+            },
+            "accuracy": 0.9373000639795266,
+            "confusion_matrix_hallucination_positive": [
+              [
+                7593,
+                392
+              ],
+              [
+                196,
+                1197
+              ]
+            ],
+            "hallucination_positive": {
+              "precision": 0.7533039647577092,
+              "recall": 0.8592964824120602,
+              "f1": 0.8028169014084507,
+              "auc": 0.9753590386856907,
+              "aupr": 0.9013025793100764
+            },
+            "real_positive": {
+              "precision": 0.9748363076133008,
+              "recall": 0.9509079524107702,
+              "f1": 0.9627234689996196,
+              "auc": 0.9753590386856907,
+              "aupr": 0.9954148009240509
+            }
+          },
+          "test_metrics": {
+            "threshold": 0.5,
+            "threshold_score_class": "real",
+            "headline_positive_class": "real",
+            "stored_label_semantics": {
+              "0": "hallucination",
+              "1": "real"
+            },
+            "detector_target_semantics": {
+              "0": "real",
+              "1": "hallucination"
+            },
+            "accuracy": 0.8517429651406971,
+            "confusion_matrix_hallucination_positive": [
+              [
+                1799,
+                209
+              ],
+              [
+                144,
+                229
+              ]
+            ],
+            "hallucination_positive": {
+              "precision": 0.5228310502283106,
+              "recall": 0.613941018766756,
+              "f1": 0.5647348951911221,
+              "auc": 0.8811182882411374,
+              "aupr": 0.5704150904291289
+            },
+            "real_positive": {
+              "precision": 0.925887802367473,
+              "recall": 0.8959163346613546,
+              "f1": 0.9106555302455075,
+              "auc": 0.8811182882411372,
+              "aupr": 0.9750932653031442
+            }
+          }
+        },
+        "train_f1": {
+          "threshold": 0.36960357427597046,
+          "train_metrics": {
+            "threshold": 0.36960357427597046,
+            "threshold_score_class": "real",
+            "headline_positive_class": "real",
+            "stored_label_semantics": {
+              "0": "hallucination",
+              "1": "real"
+            },
+            "detector_target_semantics": {
+              "0": "real",
+              "1": "hallucination"
+            },
+            "accuracy": 0.9465770953294945,
+            "confusion_matrix_hallucination_positive": [
+              [
+                7796,
+                189
+              ],
+              [
+                312,
+                1081
+              ]
+            ],
+            "hallucination_positive": {
+              "precision": 0.8511811023622047,
+              "recall": 0.7760229720028715,
+              "f1": 0.811866316184754,
+              "auc": 0.9753590386856907,
+              "aupr": 0.9013025793100764
+            },
+            "real_positive": {
+              "precision": 0.9615194869264924,
+              "recall": 0.9763306199123356,
+              "f1": 0.9688684521220406,
+              "auc": 0.9753590386856907,
+              "aupr": 0.9954148009240509
+            }
+          },
+          "test_metrics": {
+            "threshold": 0.36960357427597046,
+            "threshold_score_class": "real",
+            "headline_positive_class": "real",
+            "stored_label_semantics": {
+              "0": "hallucination",
+              "1": "real"
+            },
+            "detector_target_semantics": {
+              "0": "real",
+              "1": "hallucination"
+            },
+            "accuracy": 0.8601427971440572,
+            "confusion_matrix_hallucination_positive": [
+              [
+                1858,
+                150
+              ],
+              [
+                183,
+                190
+              ]
+            ],
+            "hallucination_positive": {
+              "precision": 0.5588235294117647,
+              "recall": 0.5093833780160858,
+              "f1": 0.5329593267882188,
+              "auc": 0.8811182882411374,
+              "aupr": 0.5704150904291289
+            },
+            "real_positive": {
+              "precision": 0.9103380695737384,
+              "recall": 0.9252988047808764,
+              "f1": 0.917757470980489,
+              "auc": 0.8811182882411372,
+              "aupr": 0.9750932653031442
+            }
+          }
+        }
+      },
+      "history": [
+        {
+          "epoch": 1.0,
+          "train_loss": 0.3511036495063581,
+          "train_monitor_loss": 0.32511845231056213
+        },
+        {
+          "epoch": 2.0,
+          "train_loss": 0.3194409225414805,
+          "train_monitor_loss": 0.30581849813461304
+        },
+        {
+          "epoch": 3.0,
+          "train_loss": 0.30596169654508026,
+          "train_monitor_loss": 0.3039432466030121
+        },
+        {
+          "epoch": 4.0,
+          "train_loss": 0.30386324941503756,
+          "train_monitor_loss": 0.29123327136039734
+        },
+        {
+          "epoch": 5.0,
+          "train_loss": 0.2990353918653362,
+          "train_monitor_loss": 0.28533124923706055
+        },
+        {
+          "epoch": 6.0,
+          "train_loss": 0.2875659138686499,
+          "train_monitor_loss": 0.27520689368247986
+        },
+        {
+          "epoch": 7.0,
+          "train_loss": 0.28346961137338156,
+          "train_monitor_loss": 0.27223366498947144
+        },
+        {
+          "epoch": 8.0,
+          "train_loss": 0.2888688931152934,
+          "train_monitor_loss": 0.2722330093383789
+        },
+        {
+          "epoch": 9.0,
+          "train_loss": 0.2796972528302751,
+          "train_monitor_loss": 0.27275267243385315
+        },
+        {
+          "epoch": 10.0,
+          "train_loss": 0.2767587391798999,
+          "train_monitor_loss": 0.2649305462837219
+        },
+        {
+          "epoch": 11.0,
+          "train_loss": 0.270887853283131,
+          "train_monitor_loss": 0.26532620191574097
+        },
+        {
+          "epoch": 12.0,
+          "train_loss": 0.2695251329466194,
+          "train_monitor_loss": 0.2817830443382263
+        },
+        {
+          "epoch": 13.0,
+          "train_loss": 0.26428456726122873,
+          "train_monitor_loss": 0.2619677186012268
+        },
+        {
+          "epoch": 14.0,
+          "train_loss": 0.26419008393347465,
+          "train_monitor_loss": 0.25350096821784973
+        },
+        {
+          "epoch": 15.0,
+          "train_loss": 0.25744622877995377,
+          "train_monitor_loss": 0.24749119579792023
+        },
+        {
+          "epoch": 16.0,
+          "train_loss": 0.25819675411496845,
+          "train_monitor_loss": 0.2454376518726349
+        },
+        {
+          "epoch": 17.0,
+          "train_loss": 0.2565442053284369,
+          "train_monitor_loss": 0.2473021149635315
+        },
+        {
+          "epoch": 18.0,
+          "train_loss": 0.25962662428212,
+          "train_monitor_loss": 0.24625930190086365
+        },
+        {
+          "epoch": 19.0,
+          "train_loss": 0.25724866383132483,
+          "train_monitor_loss": 0.24339914321899414
+        },
+        {
+          "epoch": 20.0,
+          "train_loss": 0.24713150534753492,
+          "train_monitor_loss": 0.243586003780365
+        },
+        {
+          "epoch": 21.0,
+          "train_loss": 0.24492215284076677,
+          "train_monitor_loss": 0.2332560420036316
+        },
+        {
+          "epoch": 22.0,
+          "train_loss": 0.2420502692765119,
+          "train_monitor_loss": 0.23310725390911102
+        },
+        {
+          "epoch": 23.0,
+          "train_loss": 0.24236258950565948,
+          "train_monitor_loss": 0.2674022316932678
+        },
+        {
+          "epoch": 24.0,
+          "train_loss": 0.24057069331245992,
+          "train_monitor_loss": 0.23485031723976135
+        },
+        {
+          "epoch": 25.0,
+          "train_loss": 0.23488552147383188,
+          "train_monitor_loss": 0.22253574430942535
+        },
+        {
+          "epoch": 26.0,
+          "train_loss": 0.2318365600199255,
+          "train_monitor_loss": 0.24032413959503174
+        },
+        {
+          "epoch": 27.0,
+          "train_loss": 0.22751100902401267,
+          "train_monitor_loss": 0.2233746200799942
+        },
+        {
+          "epoch": 28.0,
+          "train_loss": 0.22596727891945514,
+          "train_monitor_loss": 0.2166309654712677
+        },
+        {
+          "epoch": 29.0,
+          "train_loss": 0.22157523719606553,
+          "train_monitor_loss": 0.21281622350215912
+        },
+        {
+          "epoch": 30.0,
+          "train_loss": 0.21850375473803405,
+          "train_monitor_loss": 0.21541669964790344
+        },
+        {
+          "epoch": 31.0,
+          "train_loss": 0.21694252929463348,
+          "train_monitor_loss": 0.22145548462867737
+        },
+        {
+          "epoch": 32.0,
+          "train_loss": 0.21162542774715004,
+          "train_monitor_loss": 0.21939972043037415
+        },
+        {
+          "epoch": 33.0,
+          "train_loss": 0.20796333103865183,
+          "train_monitor_loss": 0.20141452550888062
+        },
+        {
+          "epoch": 34.0,
+          "train_loss": 0.2086558566764504,
+          "train_monitor_loss": 0.20754137635231018
+        },
+        {
+          "epoch": 35.0,
+          "train_loss": 0.20569899301899938,
+          "train_monitor_loss": 0.1937345713376999
+        },
+        {
+          "epoch": 36.0,
+          "train_loss": 0.20248950484246775,
+          "train_monitor_loss": 0.20685729384422302
+        },
+        {
+          "epoch": 37.0,
+          "train_loss": 0.1980441120788962,
+          "train_monitor_loss": 0.20196835696697235
+        },
+        {
+          "epoch": 38.0,
+          "train_loss": 0.20380142082770666,
+          "train_monitor_loss": 0.20452624559402466
+        },
+        {
+          "epoch": 39.0,
+          "train_loss": 0.1926427911713618,
+          "train_monitor_loss": 0.1926601678133011
+        },
+        {
+          "epoch": 40.0,
+          "train_loss": 0.19517053818317498,
+          "train_monitor_loss": 0.17765992879867554
+        },
+        {
+          "epoch": 41.0,
+          "train_loss": 0.1879948667554679,
+          "train_monitor_loss": 0.17684586346149445
+        },
+        {
+          "epoch": 42.0,
+          "train_loss": 0.18426056580022485,
+          "train_monitor_loss": 0.17372344434261322
+        },
+        {
+          "epoch": 43.0,
+          "train_loss": 0.17966497637534223,
+          "train_monitor_loss": 0.1700703203678131
+        },
+        {
+          "epoch": 44.0,
+          "train_loss": 0.17701262692749806,
+          "train_monitor_loss": 0.1856447011232376
+        },
+        {
+          "epoch": 45.0,
+          "train_loss": 0.17917982392075638,
+          "train_monitor_loss": 0.18375489115715027
+        },
+        {
+          "epoch": 46.0,
+          "train_loss": 0.17442892542501695,
+          "train_monitor_loss": 0.1694049835205078
+        },
+        {
+          "epoch": 47.0,
+          "train_loss": 0.16980401599513634,
+          "train_monitor_loss": 0.16254688799381256
+        },
+        {
+          "epoch": 48.0,
+          "train_loss": 0.16734480221762138,
+          "train_monitor_loss": 0.1494240015745163
+        },
+        {
+          "epoch": 49.0,
+          "train_loss": 0.1613468643607331,
+          "train_monitor_loss": 0.15524430572986603
+        },
+        {
+          "epoch": 50.0,
+          "train_loss": 0.1626256811274152,
+          "train_monitor_loss": 0.15958106517791748
+        }
+      ],
+      "checkpoint": "/home/apulis-dev/userdata/CODEX/test-cocochair/gfchair/outputs/internvl_2_5_8b/COCO4000-INSLEN-OFFICIAL-TARGET/baseline/checkpoints/native_paper/seed44/svar.pt",
+      "train_metrics": {
+        "threshold": 0.36960357427597046,
+        "threshold_score_class": "real",
+        "headline_positive_class": "real",
+        "stored_label_semantics": {
+          "0": "hallucination",
+          "1": "real"
+        },
+        "detector_target_semantics": {
+          "0": "real",
+          "1": "hallucination"
+        },
+        "accuracy": 0.9465770953294945,
+        "confusion_matrix_hallucination_positive": [
+          [
+            7796,
+            189
+          ],
+          [
+            312,
+            1081
+          ]
+        ],
+        "hallucination_positive": {
+          "precision": 0.8511811023622047,
+          "recall": 0.7760229720028715,
+          "f1": 0.811866316184754,
+          "auc": 0.9753590386856907,
+          "aupr": 0.9013025793100764
+        },
+        "real_positive": {
+          "precision": 0.9615194869264924,
+          "recall": 0.9763306199123356,
+          "f1": 0.9688684521220406,
+          "auc": 0.9753590386856907,
+          "aupr": 0.9954148009240509
+        }
+      }
+    },
+    "metatoken": {
+      "lr": {
+        "paper_config": {
+          "classifier": "LogisticRegression(lbfgs)",
+          "standardize": true
+        },
+        "input_dim": 42,
+        "threshold": 0.4881601754590691,
+        "threshold_score_class": "real",
+        "test_metrics": {
+          "threshold": 0.4881601754590691,
+          "threshold_score_class": "real",
+          "headline_positive_class": "real",
+          "stored_label_semantics": {
+            "0": "hallucination",
+            "1": "real"
+          },
+          "detector_target_semantics": {
+            "0": "real",
+            "1": "hallucination"
+          },
+          "accuracy": 0.8555228895422091,
+          "confusion_matrix_hallucination_positive": [
+            [
+              1966,
+              42
+            ],
+            [
+              302,
+              71
+            ]
+          ],
+          "hallucination_positive": {
+            "precision": 0.6283185840707964,
+            "recall": 0.1903485254691689,
+            "f1": 0.29218106995884774,
+            "auc": 0.8348602907405231,
+            "aupr": 0.4866882227615127
+          },
+          "real_positive": {
+            "precision": 0.8668430335097002,
+            "recall": 0.9790836653386454,
+            "f1": 0.9195509822263798,
+            "auc": 0.8348602907405231,
+            "aupr": 0.9616535192119371
+          }
+        },
+        "threshold_reports": {
+          "fixed_0.5": {
+            "threshold": 0.5,
+            "train_metrics": {
+              "threshold": 0.5,
+              "threshold_score_class": "real",
+              "headline_positive_class": "real",
+              "stored_label_semantics": {
+                "0": "hallucination",
+                "1": "real"
+              },
+              "detector_target_semantics": {
+                "0": "real",
+                "1": "hallucination"
+              },
+              "accuracy": 0.8627639155470249,
+              "confusion_matrix_hallucination_positive": [
+                [
+                  7792,
+                  193
+                ],
+                [
+                  1094,
+                  299
+                ]
+              ],
+              "hallucination_positive": {
+                "precision": 0.6077235772357723,
+                "recall": 0.21464465183058148,
+                "f1": 0.31724137931034485,
+                "auc": 0.8442159361077683,
+                "aupr": 0.47983175190558225
+              },
+              "real_positive": {
+                "precision": 0.8768849876209768,
+                "recall": 0.975829680651221,
+                "f1": 0.9237152510224645,
+                "auc": 0.8442159361077686,
+                "aupr": 0.9657841601059272
+              }
+            },
+            "test_metrics": {
+              "threshold": 0.5,
+              "threshold_score_class": "real",
+              "headline_positive_class": "real",
+              "stored_label_semantics": {
+                "0": "hallucination",
+                "1": "real"
+              },
+              "detector_target_semantics": {
+                "0": "real",
+                "1": "hallucination"
+              },
+              "accuracy": 0.8563628727425452,
+              "confusion_matrix_hallucination_positive": [
+                [
+                  1962,
+                  46
+                ],
+                [
+                  296,
+                  77
+                ]
+              ],
+              "hallucination_positive": {
+                "precision": 0.6260162601626016,
+                "recall": 0.2064343163538874,
+                "f1": 0.31048387096774194,
+                "auc": 0.8348602907405231,
+                "aupr": 0.4866882227615127
+              },
+              "real_positive": {
+                "precision": 0.8689105403011514,
+                "recall": 0.9770916334661355,
+                "f1": 0.919831223628692,
+                "auc": 0.8348602907405231,
+                "aupr": 0.9616535192119371
+              }
+            }
+          },
+          "train_f1": {
+            "threshold": 0.4881601754590691,
+            "train_metrics": {
+              "threshold": 0.4881601754590691,
+              "threshold_score_class": "real",
+              "headline_positive_class": "real",
+              "stored_label_semantics": {
+                "0": "hallucination",
+                "1": "real"
+              },
+              "detector_target_semantics": {
+                "0": "real",
+                "1": "hallucination"
+              },
+              "accuracy": 0.8635103433567924,
+              "confusion_matrix_hallucination_positive": [
+                [
+                  7817,
+                  168
+                ],
+                [
+                  1112,
+                  281
+                ]
+              ],
+              "hallucination_positive": {
+                "precision": 0.6258351893095768,
+                "recall": 0.20172290021536252,
+                "f1": 0.30510314875135724,
+                "auc": 0.8442159361077683,
+                "aupr": 0.47983175190558225
+              },
+              "real_positive": {
+                "precision": 0.8754619778250644,
+                "recall": 0.9789605510331872,
+                "f1": 0.9243230459973986,
+                "auc": 0.8442159361077686,
+                "aupr": 0.9657841601059272
+              }
+            },
+            "test_metrics": {
+              "threshold": 0.4881601754590691,
+              "threshold_score_class": "real",
+              "headline_positive_class": "real",
+              "stored_label_semantics": {
+                "0": "hallucination",
+                "1": "real"
+              },
+              "detector_target_semantics": {
+                "0": "real",
+                "1": "hallucination"
+              },
+              "accuracy": 0.8555228895422091,
+              "confusion_matrix_hallucination_positive": [
+                [
+                  1966,
+                  42
+                ],
+                [
+                  302,
+                  71
+                ]
+              ],
+              "hallucination_positive": {
+                "precision": 0.6283185840707964,
+                "recall": 0.1903485254691689,
+                "f1": 0.29218106995884774,
+                "auc": 0.8348602907405231,
+                "aupr": 0.4866882227615127
+              },
+              "real_positive": {
+                "precision": 0.8668430335097002,
+                "recall": 0.9790836653386454,
+                "f1": 0.9195509822263798,
+                "auc": 0.8348602907405231,
+                "aupr": 0.9616535192119371
+              }
+            }
+          }
+        },
+        "checkpoint": "/home/apulis-dev/userdata/CODEX/test-cocochair/gfchair/outputs/internvl_2_5_8b/COCO4000-INSLEN-OFFICIAL-TARGET/baseline/checkpoints/native_paper/seed44/metatoken_lr.pkl",
+        "selection_protocol": "fixed_last_fit_train_f1_threshold",
+        "train_metrics": {
+          "threshold": 0.4881601754590691,
+          "threshold_score_class": "real",
+          "headline_positive_class": "real",
+          "stored_label_semantics": {
+            "0": "hallucination",
+            "1": "real"
+          },
+          "detector_target_semantics": {
+            "0": "real",
+            "1": "hallucination"
+          },
+          "accuracy": 0.8635103433567924,
+          "confusion_matrix_hallucination_positive": [
+            [
+              7817,
+              168
+            ],
+            [
+              1112,
+              281
+            ]
+          ],
+          "hallucination_positive": {
+            "precision": 0.6258351893095768,
+            "recall": 0.20172290021536252,
+            "f1": 0.30510314875135724,
+            "auc": 0.8442159361077683,
+            "aupr": 0.47983175190558225
+          },
+          "real_positive": {
+            "precision": 0.8754619778250644,
+            "recall": 0.9789605510331872,
+            "f1": 0.9243230459973986,
+            "auc": 0.8442159361077686,
+            "aupr": 0.9657841601059272
+          }
+        }
+      },
+      "gb": {
+        "paper_config": {
+          "classifier": "GradientBoostingClassifier(n_estimators=100)",
+          "standardize": true
+        },
+        "input_dim": 42,
+        "threshold": 0.543460315467498,
+        "threshold_score_class": "real",
+        "test_metrics": {
+          "threshold": 0.543460315467498,
+          "threshold_score_class": "real",
+          "headline_positive_class": "real",
+          "stored_label_semantics": {
+            "0": "hallucination",
+            "1": "real"
+          },
+          "detector_target_semantics": {
+            "0": "real",
+            "1": "hallucination"
+          },
+          "accuracy": 0.862662746745065,
+          "confusion_matrix_hallucination_positive": [
+            [
+              1936,
+              72
+            ],
+            [
+              255,
+              118
+            ]
+          ],
+          "hallucination_positive": {
+            "precision": 0.6210526315789474,
+            "recall": 0.3163538873994638,
+            "f1": 0.4191829484902309,
+            "auc": 0.853445467459919,
+            "aupr": 0.530145928221451
+          },
+          "real_positive": {
+            "precision": 0.8836147877681424,
+            "recall": 0.9641434262948207,
+            "f1": 0.9221243153131699,
+            "auc": 0.853445467459919,
+            "aupr": 0.9656041824095117
+          }
+        },
+        "threshold_reports": {
+          "fixed_0.5": {
+            "threshold": 0.5,
+            "train_metrics": {
+              "threshold": 0.5,
+              "threshold_score_class": "real",
+              "headline_positive_class": "real",
+              "stored_label_semantics": {
+                "0": "hallucination",
+                "1": "real"
+              },
+              "detector_target_semantics": {
+                "0": "real",
+                "1": "hallucination"
+              },
+              "accuracy": 0.892727660481979,
+              "confusion_matrix_hallucination_positive": [
+                [
+                  7842,
+                  143
+                ],
+                [
+                  863,
+                  530
+                ]
+              ],
+              "hallucination_positive": {
+                "precision": 0.787518573551263,
+                "recall": 0.38047379755922467,
+                "f1": 0.5130687318489835,
+                "auc": 0.9110239002508743,
+                "aupr": 0.69201543094761
+              },
+              "real_positive": {
+                "precision": 0.9008615738081562,
+                "recall": 0.9820914214151534,
+                "f1": 0.9397243858597963,
+                "auc": 0.9110239002508741,
+                "aupr": 0.9822506760554673
+              }
+            },
+            "test_metrics": {
+              "threshold": 0.5,
+              "threshold_score_class": "real",
+              "headline_positive_class": "real",
+              "stored_label_semantics": {
+                "0": "hallucination",
+                "1": "real"
+              },
+              "detector_target_semantics": {
+                "0": "real",
+                "1": "hallucination"
+              },
+              "accuracy": 0.8618227635447291,
+              "confusion_matrix_hallucination_positive": [
+                [
+                  1951,
+                  57
+                ],
+                [
+                  272,
+                  101
+                ]
+              ],
+              "hallucination_positive": {
+                "precision": 0.6392405063291139,
+                "recall": 0.2707774798927614,
+                "f1": 0.3804143126177024,
+                "auc": 0.853445467459919,
+                "aupr": 0.530145928221451
+              },
+              "real_positive": {
+                "precision": 0.877642825011246,
+                "recall": 0.9716135458167331,
+                "f1": 0.922240605057906,
+                "auc": 0.853445467459919,
+                "aupr": 0.9656041824095117
+              }
+            }
+          },
+          "train_f1": {
+            "threshold": 0.543460315467498,
+            "train_metrics": {
+              "threshold": 0.543460315467498,
+              "threshold_score_class": "real",
+              "headline_positive_class": "real",
+              "stored_label_semantics": {
+                "0": "hallucination",
+                "1": "real"
+              },
+              "detector_target_semantics": {
+                "0": "real",
+                "1": "hallucination"
+              },
+              "accuracy": 0.8964597995308168,
+              "confusion_matrix_hallucination_positive": [
+                [
+                  7779,
+                  206
+                ],
+                [
+                  765,
+                  628
+                ]
+              ],
+              "hallucination_positive": {
+                "precision": 0.7529976019184652,
+                "recall": 0.45082555635319455,
+                "f1": 0.5639874270318814,
+                "auc": 0.9110239002508743,
+                "aupr": 0.69201543094761
+              },
+              "real_positive": {
+                "precision": 0.9104634831460674,
+                "recall": 0.9742016280525986,
+                "f1": 0.9412547643535604,
+                "auc": 0.9110239002508741,
+                "aupr": 0.9822506760554673
+              }
+            },
+            "test_metrics": {
+              "threshold": 0.543460315467498,
+              "threshold_score_class": "real",
+              "headline_positive_class": "real",
+              "stored_label_semantics": {
+                "0": "hallucination",
+                "1": "real"
+              },
+              "detector_target_semantics": {
+                "0": "real",
+                "1": "hallucination"
+              },
+              "accuracy": 0.862662746745065,
+              "confusion_matrix_hallucination_positive": [
+                [
+                  1936,
+                  72
+                ],
+                [
+                  255,
+                  118
+                ]
+              ],
+              "hallucination_positive": {
+                "precision": 0.6210526315789474,
+                "recall": 0.3163538873994638,
+                "f1": 0.4191829484902309,
+                "auc": 0.853445467459919,
+                "aupr": 0.530145928221451
+              },
+              "real_positive": {
+                "precision": 0.8836147877681424,
+                "recall": 0.9641434262948207,
+                "f1": 0.9221243153131699,
+                "auc": 0.853445467459919,
+                "aupr": 0.9656041824095117
+              }
+            }
+          }
+        },
+        "checkpoint": "/home/apulis-dev/userdata/CODEX/test-cocochair/gfchair/outputs/internvl_2_5_8b/COCO4000-INSLEN-OFFICIAL-TARGET/baseline/checkpoints/native_paper/seed44/metatoken_gb.pkl",
+        "selection_protocol": "fixed_last_fit_train_f1_threshold",
+        "train_metrics": {
+          "threshold": 0.543460315467498,
+          "threshold_score_class": "real",
+          "headline_positive_class": "real",
+          "stored_label_semantics": {
+            "0": "hallucination",
+            "1": "real"
+          },
+          "detector_target_semantics": {
+            "0": "real",
+            "1": "hallucination"
+          },
+          "accuracy": 0.8964597995308168,
+          "confusion_matrix_hallucination_positive": [
+            [
+              7779,
+              206
+            ],
+            [
+              765,
+              628
+            ]
+          ],
+          "hallucination_positive": {
+            "precision": 0.7529976019184652,
+            "recall": 0.45082555635319455,
+            "f1": 0.5639874270318814,
+            "auc": 0.9110239002508743,
+            "aupr": 0.69201543094761
+          },
+          "real_positive": {
+            "precision": 0.9104634831460674,
+            "recall": 0.9742016280525986,
+            "f1": 0.9412547643535604,
+            "auc": 0.9110239002508741,
+            "aupr": 0.9822506760554673
+          }
+        }
+      }
+    }
+  },
+  "split_protocol": "strict_82_no_validation",
+  "checkpoint_selection": "last_epoch",
+  "threshold_selection": "train_f1",
+  "threshold_reporting": [
+    "fixed_0.5",
+    "train_f1"
+  ]
+}

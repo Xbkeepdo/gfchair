@@ -1,0 +1,101 @@
+{
+  "config": {
+    "attribution_mode": "path",
+    "audit_vector_cases": 0,
+    "calibration_cohort": "none during extraction; downstream calibration must be train-image-only",
+    "competitor_rule": "fixed highest non-target token from clean logits",
+    "config": "/home/apulis-dev/userdata/CODEX/test-cocochair/gfchair/configs/model_configs_inslen_official_target.yaml",
+    "device": "cuda:0",
+    "devices": [
+      "cuda:0",
+      "cuda:1"
+    ],
+    "integration_points": [
+      1,
+      4
+    ],
+    "layers": [
+      28
+    ],
+    "max_targets_per_image": 1,
+    "mode": "smoke",
+    "model": "qwen2_5_vl_7b",
+    "num_images": 1,
+    "num_shards": 1,
+    "output_dir": "/home/apulis-dev/userdata/CODEX/test-cocochair/gfchair/outputs/qwen2_5_vl_7b/COCO4000-INSLEN-OFFICIAL-TARGET/results/tc_fvpa_qwen_repair_smoke_20260829",
+    "path_baseline": "current-block zero visual write: z0=z-sum_m a_m; not a no-image baseline",
+    "quadrature": [
+      "trapezoid",
+      "gauss_legendre"
+    ],
+    "resume": false,
+    "seed": 20260829,
+    "shard_id": 0,
+    "target_protocol": "InsLen official first subtoken, first occurrence; target excluded from prefix",
+    "target_scalars": [
+      "log_probability",
+      "margin",
+      "logit"
+    ]
+  },
+  "created_unix": 1787997734.3047285,
+  "exact_command": [
+    "/opt/conda/private/envs/vicr/bin/python",
+    "scripts/run_tc_fvpa_path_attribution.py",
+    "--model",
+    "qwen2_5_vl_7b",
+    "--device",
+    "cuda:0",
+    "--output-dir",
+    "outputs/qwen2_5_vl_7b/COCO4000-INSLEN-OFFICIAL-TARGET/results/tc_fvpa_qwen_repair_smoke_20260829",
+    "--smoke",
+    "--no-resume",
+    "--num-images",
+    "1",
+    "--max-targets-per-image",
+    "1",
+    "--layers",
+    "28",
+    "--integration-points",
+    "1,4",
+    "--attribution-mode",
+    "path",
+    "--audit-vector-cases",
+    "0"
+  ],
+  "repository": {
+    "diff_sha256": "3f4416b58249b1d3e7c805831817f0a8983ca0b96141555aa9b70ea10d913e59",
+    "diff_stat": {
+      "command": [
+        "git",
+        "diff",
+        "--stat"
+      ],
+      "elapsed_seconds": 0.025949954986572266,
+      "exit_code": 0,
+      "output": " README.md                                     |  8 ++++\n docs/CURRENT_TASK.md                          | 11 ++++++\n scripts/run_jffn_second_round_logit_causal.py | 56 ++++++++++++++++++++++++++-\n 3 files changed, 74 insertions(+), 1 deletion(-)\n"
+    },
+    "revision": {
+      "command": [
+        "git",
+        "rev-parse",
+        "HEAD"
+      ],
+      "elapsed_seconds": 0.014893770217895508,
+      "exit_code": 0,
+      "output": "dd3c1ecec02c37bac23687959a0508b0b53a452f\n"
+    },
+    "status": {
+      "command": [
+        "git",
+        "status",
+        "--short",
+        "--branch"
+      ],
+      "elapsed_seconds": 0.3266141414642334,
+      "exit_code": 0,
+      "output": "## main...origin/main\n M README.md\n M docs/CURRENT_TASK.md\n M scripts/run_jffn_second_round_logit_causal.py\n?? docs/TC_FVPA_RUNBOOK.md\n?? features/ffn_visual_interactions.py\n?? features/ffn_visual_path_attribution.py\n?? features/representation_geometry_controls.py\n?? features/swiglu_visual_mechanism.py\n?? features/tc_fvpa_artifacts.py\n?? run_tc_fvpa_comprehensive.sh\n?? scripts/analyze_tc_fvpa_comprehensive.py\n?? scripts/build_tc_fvpa_reports.py\n?? scripts/load_tc_fvpa_results.py\n?? scripts/run_tc_fvpa_comprehensive.py\n?? scripts/run_tc_fvpa_counterfactuals.py\n?? scripts/run_tc_fvpa_fp32_causal.py\n?? scripts/run_tc_fvpa_path_attribution.py\n?? scripts/run_tc_fvpa_shapley.py\n?? scripts/tc_fvpa_common.py\n?? tests/test_ffn_visual_interactions.py\n?? tests/test_ffn_visual_path_attribution.py\n?? tests/test_load_tc_fvpa_results.py\n?? tests/test_representation_geometry_controls.py\n?? tests/test_swiglu_visual_mechanism.py\n?? tests/test_tc_fvpa_analysis.py\n?? tests/test_tc_fvpa_artifacts.py\n?? tests/test_tc_fvpa_path_runner.py\n?? tests/test_tc_fvpa_qwen_adapter.py\n"
+    }
+  },
+  "schema_version": "tc-fvpa-comprehensive-v1"
+}

@@ -1,0 +1,148 @@
+{
+  "protocol": "jffn_second_round_scalar_incremental_v1",
+  "model": "llava_1_5_7b",
+  "primary_layers_one_based": [
+    16,
+    32
+  ],
+  "sample_counts": {
+    "all_mentions": 15463,
+    "train_mentions": 12317,
+    "test_mentions": 3146,
+    "train_images": 3174,
+    "test_images": 797,
+    "test_real": 2437,
+    "test_hall": 709
+  },
+  "models": {
+    "C1_I": {
+      "auroc": 0.5735123128218989,
+      "hall_aupr": 0.24700041979041018,
+      "input_dimensions": 1,
+      "standardization_fit": "train_only",
+      "class_weight": "balanced"
+    },
+    "C2_S": {
+      "auroc": 0.5522472368568028,
+      "hall_aupr": 0.2535596514097571,
+      "input_dimensions": 1,
+      "standardization_fit": "train_only",
+      "class_weight": "balanced"
+    },
+    "C3_R": {
+      "auroc": 0.6721954610196703,
+      "hall_aupr": 0.2914674636986404,
+      "input_dimensions": 1,
+      "standardization_fit": "train_only",
+      "class_weight": "balanced"
+    },
+    "C4_I_S": {
+      "auroc": 0.5966832442718712,
+      "hall_aupr": 0.2527575358673302,
+      "input_dimensions": 2,
+      "standardization_fit": "train_only",
+      "class_weight": "balanced"
+    },
+    "C5_I_S_D": {
+      "auroc": 0.6233102388946153,
+      "hall_aupr": 0.28717623833407985,
+      "input_dimensions": 3,
+      "standardization_fit": "train_only",
+      "class_weight": "balanced"
+    },
+    "C6_old_risk": {
+      "auroc": 0.7990830132310242,
+      "hall_aupr": 0.5028254698015737,
+      "input_dimensions": 17,
+      "standardization_fit": "train_only",
+      "class_weight": "balanced"
+    },
+    "C7_old_risk_I": {
+      "auroc": 0.7989823090541736,
+      "hall_aupr": 0.5013934714752292,
+      "input_dimensions": 18,
+      "standardization_fit": "train_only",
+      "class_weight": "balanced"
+    },
+    "C8_old_risk_S": {
+      "auroc": 0.7986032214918918,
+      "hall_aupr": 0.506223693426882,
+      "input_dimensions": 18,
+      "standardization_fit": "train_only",
+      "class_weight": "balanced"
+    },
+    "C9_old_risk_I_S_D": {
+      "auroc": 0.8008233434596977,
+      "hall_aupr": 0.5074171502220042,
+      "input_dimensions": 20,
+      "standardization_fit": "train_only",
+      "class_weight": "balanced"
+    },
+    "old_risk_I_S": {
+      "auroc": 0.7980788652607052,
+      "hall_aupr": 0.5025114668227741,
+      "input_dimensions": 19,
+      "standardization_fit": "train_only",
+      "class_weight": "balanced"
+    }
+  },
+  "residualized_R": {
+    "auroc": 0.751067377460669,
+    "hall_aupr": 0.40644818165311336,
+    "beta0": -0.2550057786014406,
+    "beta1": 0.7001893866702187,
+    "train_residual_mean": 9.893486984075439e-17,
+    "test_residual_mean_real": 0.018924024247357497,
+    "test_residual_mean_hall": -0.07427104151098649
+  },
+  "paired_bootstrap": {
+    "C4_I_S_minus_C1_I": {
+      "replicates_requested": 10000,
+      "replicates_valid": 10000,
+      "auroc_difference": 0.0231709314499724,
+      "auroc_ci95": [
+        -0.0029980103784815297,
+        0.04916633657156514
+      ],
+      "hall_aupr_difference": 0.005757116076920005,
+      "hall_aupr_ci95": [
+        -0.011879672750859412,
+        0.02168696877626175
+      ]
+    },
+    "old_I_S_minus_old_I": {
+      "replicates_requested": 10000,
+      "replicates_valid": 10000,
+      "auroc_difference": -0.0009034437934684059,
+      "auroc_ci95": [
+        -0.0032815388266795587,
+        0.0015824205141319928
+      ],
+      "hall_aupr_difference": 0.0011179953475449755,
+      "hall_aupr_ci95": [
+        -0.005903078146232769,
+        0.00829697504547429
+      ]
+    },
+    "C9_old_I_S_D_minus_C7_old_I": {
+      "replicates_requested": 10000,
+      "replicates_valid": 10000,
+      "auroc_difference": 0.001841034405524189,
+      "auroc_ci95": [
+        -0.0022078602116938433,
+        0.005867852049590781
+      ],
+      "hall_aupr_difference": 0.0060236787467750075,
+      "hall_aupr_ci95": [
+        -0.004982788116930142,
+        0.017208235096037073
+      ]
+    }
+  },
+  "leakage_audit": {
+    "image_overlap": 0,
+    "standardization": "train_only",
+    "regression": "train_only",
+    "labels_used_for_layer_selection": false
+  }
+}

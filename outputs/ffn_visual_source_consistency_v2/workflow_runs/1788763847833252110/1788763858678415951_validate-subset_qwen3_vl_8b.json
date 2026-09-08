@@ -1,0 +1,28 @@
+{
+  "candidate": "fp32_k4",
+  "command": [
+    "/opt/conda/private/envs/vicr/bin/python",
+    "-u",
+    "/home/apulis-dev/userdata/CODEX/test-cocochair/gfchair/scripts/analyze_ffn_visual_source_consistency.py",
+    "validate-subset",
+    "--config",
+    "configs/model_configs_inslen_official_target.yaml",
+    "--model",
+    "qwen3_vl_8b",
+    "--device",
+    "cuda:1",
+    "--candidate",
+    "fp32_k4"
+  ],
+  "elapsed_seconds": 55.38598788389936,
+  "environment": {
+    "MKL_NUM_THREADS": "1",
+    "OMP_NUM_THREADS": "1"
+  },
+  "log_sha256": "c66f7c95ae08a81e76dbb9436e7efcaea62bf3d6b2353d9cf34716f4bb7b88e2",
+  "model": "qwen3_vl_8b",
+  "returncode": 0,
+  "stage": "validate-subset",
+  "started_unix_ns": 1788763858678415951,
+  "status": "PASS_COMMAND"
+}

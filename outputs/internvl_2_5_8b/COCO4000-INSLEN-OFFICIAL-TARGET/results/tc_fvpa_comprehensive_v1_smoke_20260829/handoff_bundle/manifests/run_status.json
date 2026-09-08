@@ -1,0 +1,101 @@
+{
+  "completed_shards": [],
+  "created_unix": 1787959544.2380319,
+  "failed_cases": [],
+  "failed_shards": [],
+  "resume_commands": [
+    "/opt/conda/private/envs/vicr/bin/python scripts/run_tc_fvpa_path_attribution.py --model internvl_2_5_8b --device cuda:1 --devices cuda:1 --num-shards 1 --shard-id 0 --output-dir outputs/internvl_2_5_8b/COCO4000-INSLEN-OFFICIAL-TARGET/results/tc_fvpa_comprehensive_v1_smoke_20260829 --smoke --num-images 1 --max-targets-per-image 1 --layers 32 --target-scalars log_probability,margin,logit --integration-points 1,4 --quadrature trapezoid,gauss_legendre --audit-vector-cases 1",
+    "/opt/conda/private/envs/vicr/bin/python scripts/run_tc_fvpa_fp32_causal.py --model internvl_2_5_8b --device cuda:1 --devices cuda:1 --num-shards 1 --shard-id 0 --output-dir outputs/internvl_2_5_8b/COCO4000-INSLEN-OFFICIAL-TARGET/results/tc_fvpa_comprehensive_v1_smoke_20260829 --path-result-dir outputs/internvl_2_5_8b/COCO4000-INSLEN-OFFICIAL-TARGET/results/tc_fvpa_comprehensive_v1_smoke_20260829 --smoke --num-images 1 --max-targets-per-image 1 --layers 32 --target-scalars log_probability,margin,logit --integration-points 1,4 --logit-batch-size 64",
+    "/opt/conda/private/envs/vicr/bin/python scripts/analyze_tc_fvpa_comprehensive.py --model internvl_2_5_8b --device cuda:1 --devices cuda:1 --output-dir outputs/internvl_2_5_8b/COCO4000-INSLEN-OFFICIAL-TARGET/results/tc_fvpa_comprehensive_v1_smoke_20260829 --smoke --layers 32 --target-scalars log_probability,margin,logit --integration-points 1,4",
+    "/opt/conda/private/envs/vicr/bin/python scripts/run_tc_fvpa_counterfactuals.py --model internvl_2_5_8b --device cuda:1 --devices cuda:1 --output-dir outputs/internvl_2_5_8b/COCO4000-INSLEN-OFFICIAL-TARGET/results/tc_fvpa_comprehensive_v1_smoke_20260829 --smoke --layers 32 --target-scalars log_probability,margin,logit --integration-points 1,4",
+    "/opt/conda/private/envs/vicr/bin/python scripts/build_tc_fvpa_reports.py --model internvl_2_5_8b --device cuda:1 --devices cuda:1 --output-dir outputs/internvl_2_5_8b/COCO4000-INSLEN-OFFICIAL-TARGET/results/tc_fvpa_comprehensive_v1_smoke_20260829 --smoke --layers 32 --target-scalars log_probability,margin,logit --integration-points 1,4",
+    "/opt/conda/private/envs/vicr/bin/python scripts/build_tc_fvpa_reports.py --model internvl_2_5_8b --device cuda:0 --devices cuda:0 --output-dir outputs/internvl_2_5_8b/COCO4000-INSLEN-OFFICIAL-TARGET/results/tc_fvpa_comprehensive_v1_smoke_20260829 --smoke --layers 32 --target-scalars log_probability,margin,logit --integration-points 1,4"
+  ],
+  "schema_version": "tc-fvpa-comprehensive-v1",
+  "stages": {
+    "analysis:internvl_2_5_8b": {
+      "details": {
+        "case_rows": 1,
+        "parquet": {
+          "case_layer": {
+            "error": "ModuleNotFoundError(\"No module named 'pandas'\")",
+            "rows": 1,
+            "status": "BLOCKED"
+          },
+          "path_convergence": {
+            "error": "ModuleNotFoundError(\"No module named 'pandas'\")",
+            "rows": 12,
+            "status": "BLOCKED"
+          },
+          "spatial_metrics": {
+            "error": "ModuleNotFoundError(\"No module named 'pandas'\")",
+            "rows": 0,
+            "status": "BLOCKED"
+          },
+          "token_scores_sample": {
+            "error": "ModuleNotFoundError(\"No module named 'pandas'\")",
+            "rows": 5376,
+            "status": "BLOCKED"
+          }
+        },
+        "required_case_rows": 1
+      },
+      "started_unix": 1787960192.2067668,
+      "status": "PASS",
+      "updated_unix": 1787960192.2067668
+    },
+    "counterfactuals:internvl_2_5_8b": {
+      "details": {
+        "blocked_or_not_run": [
+          "fixed_qk",
+          "activation_patching",
+          "pixel_counterfactual"
+        ],
+        "family_status": {
+          "activation_patching": "NOT_RUN",
+          "fixed_qk": "NOT_RUN",
+          "frozen_write": "PASS",
+          "pixel_counterfactual": "NOT_RUN"
+        },
+        "important_estimand_note": "Frozen-write effects condition on the observed clean attention decomposition and are not complete image-patch effects.",
+        "model": "internvl_2_5_8b",
+        "resume_command": "/opt/conda/private/envs/vicr/bin/python scripts/run_tc_fvpa_counterfactuals.py --model internvl_2_5_8b --device cuda:1 --devices cuda:1 --output-dir outputs/internvl_2_5_8b/COCO4000-INSLEN-OFFICIAL-TARGET/results/tc_fvpa_comprehensive_v1_smoke_20260829 --smoke --layers 32 --target-scalars log_probability,margin,logit --integration-points 1,4",
+        "rows": 33
+      },
+      "started_unix": 1787960194.9156775,
+      "status": "BLOCKED",
+      "updated_unix": 1787960194.9156775
+    },
+    "fp32_causal:internvl_2_5_8b:shard0": {
+      "details": {
+        "blocked_layers": [],
+        "failures": 0,
+        "measured_rows": 336,
+        "route": "FP32 final-block FFN + final norm + LM head"
+      },
+      "started_unix": 1787960153.9959462,
+      "status": "PASS",
+      "updated_unix": 1787960165.3341722
+    },
+    "path_attribution:internvl_2_5_8b:shard0": {
+      "details": {
+        "elapsed_seconds": 248.02784807799617,
+        "failed_cases": 0,
+        "images": 1,
+        "measured_cases": 1
+      },
+      "started_unix": 1787959544.3214247,
+      "status": "PASS",
+      "updated_unix": 1787959793.478947
+    },
+    "reports:internvl_2_5_8b": {
+      "details": {
+        "reports": 22
+      },
+      "started_unix": 1787960197.8349283,
+      "status": "PASS",
+      "updated_unix": 1787961484.0001807
+    }
+  },
+  "updated_unix": 1787961484.0001807
+}

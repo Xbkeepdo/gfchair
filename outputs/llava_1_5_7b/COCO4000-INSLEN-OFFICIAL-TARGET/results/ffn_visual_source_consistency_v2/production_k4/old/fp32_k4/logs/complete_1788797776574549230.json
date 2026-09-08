@@ -1,0 +1,32 @@
+{
+  "command": [
+    "/home/apulis-dev/userdata/CODEX/test-cocochair/gfchair/scripts/analyze_ffn_visual_source_consistency.py",
+    "extract-old",
+    "--config",
+    "configs/model_configs_inslen_official_target.yaml",
+    "--production-after-subset",
+    "--model",
+    "llava_1_5_7b",
+    "--device",
+    "cuda:0",
+    "--rank",
+    "0",
+    "--world-size",
+    "1",
+    "--candidate",
+    "fp32_k4",
+    "--no-full-reference"
+  ],
+  "count": 3500,
+  "elapsed_seconds": 15314.570956631098,
+  "lookup": {
+    "duplicate_mentions": 456,
+    "feature_rows": 15463,
+    "maximum_duplicate_error": 0.0,
+    "r_cos_origin": "old_hpre_cos source, hpre_raw_logit_gauss target, sqrt_matched_state OT",
+    "selected_images": 3500,
+    "target_formula": "normalize(dgst_t_attention_support_per_layer * dgst_t_hpre_raw_logit_gauss_gate_per_layer)",
+    "unique_targets": 13116
+  },
+  "status": "COMPLETE_ASSIGNED_IMAGES"
+}

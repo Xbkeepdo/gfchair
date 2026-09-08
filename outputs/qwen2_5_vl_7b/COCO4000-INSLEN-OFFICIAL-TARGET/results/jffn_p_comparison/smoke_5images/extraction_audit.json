@@ -1,0 +1,64 @@
+{
+  "schema_version": "jffn-p-comparison-v1",
+  "model": "qwen2_5_vl_7b",
+  "global_requested_images": 5,
+  "worker_requested_images": 5,
+  "image_shard_rank": 0,
+  "image_shard_world_size": 1,
+  "completed_images": 5,
+  "completed_image_ids": [
+    283,
+    472,
+    599,
+    831,
+    872
+  ],
+  "num_shards": 1,
+  "num_unique_positions": 12,
+  "num_official_mentions": 13,
+  "memory": [
+    {
+      "image_id": 283,
+      "before_bytes": 16618448896,
+      "peak_bytes": 18426814976,
+      "increment_bytes": 1808366080
+    },
+    {
+      "image_id": 472,
+      "before_bytes": 16618448896,
+      "peak_bytes": 18063809024,
+      "increment_bytes": 1445360128
+    },
+    {
+      "image_id": 599,
+      "before_bytes": 16618448896,
+      "peak_bytes": 18524160000,
+      "increment_bytes": 1905711104
+    },
+    {
+      "image_id": 831,
+      "before_bytes": 16618448896,
+      "peak_bytes": 18194866688,
+      "increment_bytes": 1576417792
+    },
+    {
+      "image_id": 872,
+      "before_bytes": 16618448896,
+      "peak_bytes": 19016499712,
+      "increment_bytes": 2398050816
+    }
+  ],
+  "failures": [],
+  "qwen_forward_mode": "prefix_fallback",
+  "validation": {
+    "num_positions": 12,
+    "all_finite": true,
+    "max_distribution_sum_error": 2.384185791015625e-07,
+    "max_attention_reconstruction_relative_error": 0.006186475045979023,
+    "min_attention_reconstruction_cosine": 0.9999925494194031,
+    "max_linearity_relative_error": 1.1585301535887993e-06,
+    "max_parallel_chunk_relative_error": 2.002878090934246e-06,
+    "median_finite_difference_cosine": 1.0,
+    "peak_memory_bytes": 19016499712
+  }
+}

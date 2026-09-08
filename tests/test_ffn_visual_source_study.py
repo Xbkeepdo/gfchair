@@ -28,6 +28,10 @@ from scripts.run_ffn_visual_source_attribution import (
     formal_image_ids,
     resolve_frozen_settings,
 )
+from scripts.analyze_ffn_visual_source_top32_ae import (
+    ae_replacement_matrices, checked_progress, topk_ae,
+)
+from scripts.analyze_ffn_visual_source_top32_ae_cosine import cosine_replacement_matrices
 from scripts.run_ffn_visual_source_counterfactuals import (
     _balanced_targets,
     _bootstrap_mean_differences,
@@ -37,6 +41,80 @@ from scripts.run_ffn_visual_source_counterfactuals import (
 
 
 class FFNVisualSourceStudyTest(unittest.TestCase):
+    def test_top32_ae_preserves_unnormalized_selected_evidence(self):
+        # u=(.06,.12,.02), AE=.2, T=(.3,.6,.1): top2 AE=.18, not .2 or .9.
+        value, mass = topk_ae([.2], [[.3, .6, .1]], k=2)
+        np.testing.assert_allclose(value, [.18])
+        np.testing.assert_allclose(mass, [.9])
+        np.testing.assert_allclose(topk_ae([.2], [[.3, .6, .1]])[0], [.2])
+        np.testing.assert_array_equal(topk_ae([0], [[.5, .5]])[0], [0])
+        for ae, p, k in (([.2], [[.3, .6, .1]], 0), ([.2], [[np.nan]], 32),
+                         ([-.2], [[1]], 32), ([.2], [[]], 32)):
+            with self.assertRaises(ValueError):
+                topk_ae(ae, p, k)
+        with self.assertRaises(AssertionError):
+            topk_ae([.2], [[.2, .2]])
+
+    def test_top32_ae_replaces_only_ae_in_all_twenty_groups(self):
+        position = {"r_cos": [.2, .3], "ae_strength": [.6, .7],
+                    "gross_strength": [2., 3.], "kappa": [.5, .6],
+                    "js": {name: [.1, .2] for name in ("D_EW", "D_WF", "D_EF")},
+                    "ot": {name: [.3, .4] for name in ("D_EW", "D_WF", "D_EF")}}
+        formal = {key: value[None, :] for key, value in build_feature_sets(position).items()}
+        data = {f"X_{s}": formal for s in ("train", "test")}
+        for split in ("train", "test"):
+            data[f"write_strength_{split}"] = np.array([[1., 1.5]], dtype=np.float32)
+            data[f"net_strength_{split}"] = np.array([[1., 1.8]], dtype=np.float32)
+        new_ae = {s: np.array([[.2, .4]], dtype=np.float32) for s in ("train", "test")}
+        original, replaced = ae_replacement_matrices(data, new_ae)
+        self.assertEqual(len(replaced["train"]), 20)
+        for split in ("train", "test"):
+            for spec in original[split]:
+                start = 2 if spec in {"A", "U"} or spec.startswith("H_") else 0
+                expected = original[split][spec].copy()
+                expected[:, start:start+2] = new_ae[split]
+                np.testing.assert_array_equal(replaced[split][spec], expected)
+        np.testing.assert_allclose(formal["B"], [[.6, .7]])
+
+    def test_top32_ae_cosine_preserves_sign_and_other_twenty_group_blocks(self):
+        keys = ("B", "A", "F", "C_JS", "D_JS", "E_JS", "G_JS", "H_JS",
+                "C_OT", "D_OT", "E_OT", "G_OT", "H_OT", "AE+I", "AE+S",
+                "AE+I+S", "AE+N", "AE+S+N", "U", "D_OT+strength")
+        groups = {}
+        for key in keys:
+            groups[key] = np.array([[.2, .4, 9., 8.]], dtype=np.float32)
+            if key in {"A", "U"} or key.startswith("H_"):
+                groups[key] = np.array([[9., 8., .2, .4]], dtype=np.float32)
+        groups["B"] = np.array([[.2, .4]], dtype=np.float32)
+        data = {s: groups for s in ("train", "test")}
+        cosine = {s: np.array([[-.5, .25]], dtype=np.float32) for s in ("train", "test")}
+        result = cosine_replacement_matrices(data, cosine)
+        for split in ("train", "test"):
+            for key in keys:
+                expected = groups[key].copy()
+                start = 2 if key in {"A", "U"} or key.startswith("H_") else 0
+                expected[:, start:start+2] = [[-.1, .1]]
+                np.testing.assert_array_equal(result[split][key], expected)
+            np.testing.assert_array_equal(groups["B"], [[np.float32(.2), np.float32(.4)]])
+        cosine["test"] = np.array([[0., 0.]], dtype=np.float32)
+        np.testing.assert_array_equal(cosine_replacement_matrices(data, cosine)["test"]["B"], [[0., 0.]])
+        for invalid in (1.1, np.nan, np.inf):
+            cosine["test"] = np.array([[invalid, .2]], dtype=np.float32)
+            with self.assertRaises(ValueError):
+                cosine_replacement_matrices(data, cosine)
+
+    def test_top32_ae_resume_rejects_changed_cohort_without_writing(self):
+        import torch
+        with tempfile.TemporaryDirectory() as directory:
+            path = Path(directory) / "progress.pt"
+            progress = checked_progress(path, "original")
+            torch.save(progress, path)
+            before = path.read_bytes(), path.stat().st_mtime_ns
+            self.assertEqual(checked_progress(path, "original"), progress)
+            with self.assertRaisesRegex(AssertionError, "cohort/features"):
+                checked_progress(path, "changed")
+            self.assertEqual((path.read_bytes(), path.stat().st_mtime_ns), before)
+
     def test_formal_image_manifest_keeps_images_without_targets(self):
         labels = {1: {"object_token_spans": []}, 2: {"object_token_spans": [1]}}
         generations = {1: {"response_token_ids": [3]}, 2: {"response_token_ids": [4]}}

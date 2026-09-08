@@ -1,0 +1,41 @@
+{
+  "completed_shards": [],
+  "created_unix": 1788072391.4701688,
+  "failed_cases": [],
+  "failed_shards": [],
+  "resume_commands": [
+    "/opt/conda/private/envs/vicr/bin/python scripts/run_tc_fvpa_fp32_causal.py --model qwen2_5_vl_7b --devices cuda:0,cuda:1 --output-dir /home/apulis-dev/userdata/CODEX/test-cocochair/gfchair/outputs/qwen2_5_vl_7b/COCO4000-INSLEN-OFFICIAL-TARGET/results/tc_fvpa_fp32_microbatch_benchmark_20260830 --seed 20260829 --layers 7,14,21,28 --target-scalars log_probability,margin,logit --integration-points 1,4,8,16,32 --config configs/model_configs_inslen_official_target.yaml --num-shards 2 --no-resume --num-images 4 --max-targets-per-image 2 --logit-batch-size 32 --path-result-dir /home/apulis-dev/userdata/CODEX/test-cocochair/gfchair/outputs/qwen2_5_vl_7b/COCO4000-INSLEN-OFFICIAL-TARGET/results/tc_fvpa_comprehensive_v1_formal_repaired_20260829 --device cuda:0 --shard-id 0",
+    "/opt/conda/private/envs/vicr/bin/python scripts/run_tc_fvpa_fp32_causal.py --model qwen2_5_vl_7b --devices cuda:0,cuda:1 --output-dir /home/apulis-dev/userdata/CODEX/test-cocochair/gfchair/outputs/qwen2_5_vl_7b/COCO4000-INSLEN-OFFICIAL-TARGET/results/tc_fvpa_fp32_microbatch_benchmark_20260830 --seed 20260829 --layers 7,14,21,28 --target-scalars log_probability,margin,logit --integration-points 1,4,8,16,32 --config configs/model_configs_inslen_official_target.yaml --num-shards 2 --no-resume --num-images 4 --max-targets-per-image 2 --logit-batch-size 32 --path-result-dir /home/apulis-dev/userdata/CODEX/test-cocochair/gfchair/outputs/qwen2_5_vl_7b/COCO4000-INSLEN-OFFICIAL-TARGET/results/tc_fvpa_comprehensive_v1_formal_repaired_20260829 --device cuda:1 --shard-id 1",
+    "/opt/conda/private/envs/vicr/bin/python scripts/run_tc_fvpa_fp32_causal.py --model qwen2_5_vl_7b --devices cuda:0,cuda:1 --output-dir outputs/qwen2_5_vl_7b/COCO4000-INSLEN-OFFICIAL-TARGET/results/tc_fvpa_fp32_microbatch_benchmark_20260830 --seed 20260829 --layers 7,14,21,28 --target-scalars log_probability,margin,logit --integration-points 1,4,8,16,32 --config configs/model_configs_inslen_official_target.yaml --num-shards 2 --resume --num-images 4 --max-targets-per-image 2 --logit-batch-size 32 --device cuda:0 --shard-id 0"
+  ],
+  "schema_version": "tc-fvpa-comprehensive-v1",
+  "stages": {
+    "fp32_causal:qwen2_5_vl_7b:shard0": {
+      "details": {
+        "blocked_layers": [],
+        "failures": 0,
+        "measured_rows": 4128,
+        "path": "/home/apulis-dev/userdata/CODEX/test-cocochair/gfchair/outputs/qwen2_5_vl_7b/COCO4000-INSLEN-OFFICIAL-TARGET/results/tc_fvpa_fp32_microbatch_benchmark_20260830/shards/fp32_causal_rank00_shard_00000.pt",
+        "query_microbatch_size": 32,
+        "resumed_existing": true
+      },
+      "started_unix": 1788072391.524035,
+      "status": "PASS",
+      "updated_unix": 1788074529.6014566
+    },
+    "fp32_causal:qwen2_5_vl_7b:shard1": {
+      "details": {
+        "blocked_layers": [],
+        "failures": 0,
+        "measured_rows": 4128,
+        "peak_gpu_memory_bytes": 21741905920,
+        "query_microbatch_size": 32,
+        "route": "Qwen FP32 current FFN + exact causal query-row downstream decoder + final norm + LM head; final-block exact suffix for other models"
+      },
+      "started_unix": 1788072410.3249,
+      "status": "PASS",
+      "updated_unix": 1788072432.1341166
+    }
+  },
+  "updated_unix": 1788074529.6014566
+}

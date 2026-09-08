@@ -1,0 +1,17 @@
+{
+  "blocked_or_not_run": [
+    "fixed_qk",
+    "activation_patching",
+    "pixel_counterfactual"
+  ],
+  "family_status": {
+    "activation_patching": "NOT_RUN",
+    "fixed_qk": "NOT_RUN",
+    "frozen_write": "PASS",
+    "pixel_counterfactual": "NOT_RUN"
+  },
+  "important_estimand_note": "Frozen-write effects condition on the observed clean attention decomposition and are not complete image-patch effects.",
+  "model": "internvl_2_5_8b",
+  "resume_command": "/opt/conda/private/envs/vicr/bin/python scripts/run_tc_fvpa_counterfactuals.py --model internvl_2_5_8b --device cuda:1 --devices cuda:1 --output-dir outputs/internvl_2_5_8b/COCO4000-INSLEN-OFFICIAL-TARGET/results/tc_fvpa_comprehensive_v1_smoke_20260829 --smoke --layers 32 --target-scalars log_probability,margin,logit --integration-points 1,4",
+  "rows": 33
+}

@@ -1,0 +1,230 @@
+{
+  "protocol": "completed_models_full_cohort_jffn_diagnostic_v1",
+  "models": {
+    "llava_1_5_7b": {
+      "audit": {
+        "positions": 14951,
+        "mentions": 15463,
+        "feature_rows": 15418,
+        "duplicate_mentions": 489,
+        "conflict_targets": [
+          "79689:20",
+          "81004:5",
+          "115243:4",
+          "149550:31",
+          "246252:11",
+          "252220:5",
+          "445002:40",
+          "489899:10",
+          "508115:42",
+          "509014:5",
+          "61531:5",
+          "123964:4",
+          "151589:7",
+          "212074:12",
+          "254750:12",
+          "260382:9",
+          "309499:11",
+          "325736:10",
+          "421060:10",
+          "449731:9",
+          "476735:32",
+          "520209:17"
+        ],
+        "all_formal_rows_validation_computed": false,
+        "formal_validation_true_count": 0,
+        "attention_reconstruction_relative_error": {
+          "count": 477728,
+          "mean": 0.0011565339738067093,
+          "std": 0.0006635649942601674,
+          "median": 0.0008603626047261059,
+          "q10": 0.0006421233410947025,
+          "q90": 0.0021143031772226095
+        },
+        "attention_reconstruction_cosine": {
+          "count": 477728,
+          "mean": 0.9999991339932753,
+          "std": 1.2038185671223301e-06,
+          "median": 0.9999996423721313,
+          "q10": 0.9999977946281433,
+          "q90": 0.9999998211860657
+        },
+        "train_mentions": 12284,
+        "test_mentions": 3134
+      },
+      "auxiliary_detection": {
+        "old_hpre_risk": {
+          "auroc": 0.8009576399669279,
+          "hall_aupr": 0.5027124285420725
+        },
+        "new_jffn_risk": {
+          "auroc": 0.7479948718338811,
+          "hall_aupr": 0.44685956552702694
+        },
+        "old_plus_new_risk": {
+          "auroc": 0.8270659973446352,
+          "hall_aupr": 0.5472722784998749
+        },
+        "jffn_diagnostics_I_R_S_D": {
+          "auroc": 0.8678145551210568,
+          "hall_aupr": 0.606566506320916
+        },
+        "old_risk_plus_jffn_diagnostics": {
+          "auroc": 0.8795249600203161,
+          "hall_aupr": 0.6266461487847691
+        }
+      },
+      "univariate_detection": {
+        "input_norm": {
+          "raw_higher_means_hall": {
+            "auroc": 0.4264297747269884,
+            "hall_aupr": 0.18080329434543443
+          },
+          "inverted_higher_means_hall": {
+            "auroc": 0.5735702252730117,
+            "hall_aupr": 0.24581282674926505
+          },
+          "best_orientation_auroc": 0.5735702252730117
+        },
+        "response_norm": {
+          "raw_higher_means_hall": {
+            "auroc": 0.3266201207377678,
+            "hall_aupr": 0.15811274905160483
+          },
+          "inverted_higher_means_hall": {
+            "auroc": 0.6733798792622322,
+            "hall_aupr": 0.2907088923668555
+          },
+          "best_orientation_auroc": 0.6733798792622322
+        },
+        "gain": {
+          "raw_higher_means_hall": {
+            "auroc": 0.447076728810475,
+            "hall_aupr": 0.19513787939379684
+          },
+          "inverted_higher_means_hall": {
+            "auroc": 0.552923271189525,
+            "hall_aupr": 0.25288133030500637
+          },
+          "best_orientation_auroc": 0.552923271189525
+        },
+        "direction_cosine": {
+          "raw_higher_means_hall": {
+            "auroc": 0.42595610397467987,
+            "hall_aupr": 0.186630765648854
+          },
+          "inverted_higher_means_hall": {
+            "auroc": 0.5740438960253202,
+            "hall_aupr": 0.2557851035995875
+          },
+          "best_orientation_auroc": 0.5740438960253202
+        }
+      }
+    },
+    "internvl_2_5_8b": {
+      "audit": {
+        "positions": 11630,
+        "mentions": 11759,
+        "feature_rows": 11745,
+        "duplicate_mentions": 122,
+        "conflict_targets": [
+          "61531:5",
+          "83573:5",
+          "150212:5",
+          "326058:26",
+          "210081:5",
+          "447088:5",
+          "516846:5"
+        ],
+        "all_formal_rows_validation_computed": false,
+        "formal_validation_true_count": 0,
+        "attention_reconstruction_relative_error": {
+          "count": 371936,
+          "mean": 0.012087277149350638,
+          "std": 0.007127813107407249,
+          "median": 0.009153529070317745,
+          "q10": 0.0065569509752094746,
+          "q90": 0.02328033745288849
+        },
+        "attention_reconstruction_cosine": {
+          "count": 371936,
+          "mean": 0.9999023879421737,
+          "std": 0.0001301692073302354,
+          "median": 0.9999584555625916,
+          "q10": 0.99973064661026,
+          "q90": 0.9999786019325256
+        },
+        "train_mentions": 9366,
+        "test_mentions": 2379
+      },
+      "auxiliary_detection": {
+        "old_hpre_risk": {
+          "auroc": 0.6722867812119945,
+          "hall_aupr": 0.2930565631040767
+        },
+        "new_jffn_risk": {
+          "auroc": 0.6649535764608816,
+          "hall_aupr": 0.25139535941690866
+        },
+        "old_plus_new_risk": {
+          "auroc": 0.7132790609211844,
+          "hall_aupr": 0.31527143699730104
+        },
+        "jffn_diagnostics_I_R_S_D": {
+          "auroc": 0.8365853919882561,
+          "hall_aupr": 0.46981571180029075
+        },
+        "old_risk_plus_jffn_diagnostics": {
+          "auroc": 0.8449552908904855,
+          "hall_aupr": 0.47187107550060986
+        }
+      },
+      "univariate_detection": {
+        "input_norm": {
+          "raw_higher_means_hall": {
+            "auroc": 0.3398334324487948,
+            "hall_aupr": 0.11555960777306871
+          },
+          "inverted_higher_means_hall": {
+            "auroc": 0.6601665675512052,
+            "hall_aupr": 0.2974967005875012
+          },
+          "best_orientation_auroc": 0.6601665675512052
+        },
+        "response_norm": {
+          "raw_higher_means_hall": {
+            "auroc": 0.321308216939636,
+            "hall_aupr": 0.11021239275637362
+          },
+          "inverted_higher_means_hall": {
+            "auroc": 0.678691783060364,
+            "hall_aupr": 0.30276114800075027
+          },
+          "best_orientation_auroc": 0.678691783060364
+        },
+        "gain": {
+          "raw_higher_means_hall": {
+            "auroc": 0.537832639525103,
+            "hall_aupr": 0.21088345600386618
+          },
+          "inverted_higher_means_hall": {
+            "auroc": 0.46216736047489704,
+            "hall_aupr": 0.1648681300612949
+          },
+          "best_orientation_auroc": 0.537832639525103
+        },
+        "direction_cosine": {
+          "raw_higher_means_hall": {
+            "auroc": 0.6182501031336559,
+            "hall_aupr": 0.22481027055228264
+          },
+          "inverted_higher_means_hall": {
+            "auroc": 0.38174989686634414,
+            "hall_aupr": 0.1177582506887486
+          },
+          "best_orientation_auroc": 0.6182501031336559
+        }
+      }
+    }
+  }
+}

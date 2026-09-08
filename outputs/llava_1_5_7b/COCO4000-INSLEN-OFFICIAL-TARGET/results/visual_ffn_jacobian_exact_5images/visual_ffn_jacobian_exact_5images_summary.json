@@ -1,0 +1,227 @@
+{
+  "protocol": "llava_exact_visual_token_jvp_v1",
+  "audit": {
+    "image_ids": [
+      408805,
+      459408,
+      163155,
+      246746,
+      521804
+    ],
+    "model_allocated_bytes": 14126859776,
+    "model_reserved_bytes": 14147387392,
+    "primary_chunk_size": null,
+    "comparison_chunk_size": 64,
+    "forward_peaks": [
+      {
+        "image_id": 408805,
+        "before_bytes": 14127549440,
+        "peak_bytes": 14818686976,
+        "increment_bytes": 691137536
+      },
+      {
+        "image_id": 459408,
+        "before_bytes": 14136110592,
+        "peak_bytes": 14832127488,
+        "increment_bytes": 696016896
+      },
+      {
+        "image_id": 163155,
+        "before_bytes": 14136093184,
+        "peak_bytes": 14776070656,
+        "increment_bytes": 639977472
+      },
+      {
+        "image_id": 246746,
+        "before_bytes": 14136084992,
+        "peak_bytes": 14781504000,
+        "increment_bytes": 645419008
+      },
+      {
+        "image_id": 521804,
+        "before_bytes": 14136086016,
+        "peak_bytes": 14805222400,
+        "increment_bytes": 669136384
+      }
+    ],
+    "failures": []
+  },
+  "num_rows": 448,
+  "num_unique_targets": 14,
+  "num_image_layers": 160,
+  "total_primary_jvp_seconds": 0.9215851644985378,
+  "overall": {
+    "jvp_seconds_layer": {
+      "mean": 0.006851890318752599,
+      "median": 0.0052686347626149654,
+      "min": 0.0040983776561915874,
+      "max": 0.11289227986708283
+    },
+    "jvp_memory_before_mib": {
+      "mean": 13771.651105608258,
+      "median": 13772.35205078125,
+      "min": 13505.48828125,
+      "max": 14049.6484375
+    },
+    "jvp_peak_allocated_mib": {
+      "mean": 13985.64266531808,
+      "median": 13984.47021484375,
+      "min": 13635.5673828125,
+      "max": 14374.14306640625
+    },
+    "jvp_increment_mib": {
+      "mean": 213.99155970982142,
+      "median": 195.11865234375,
+      "min": 130.0791015625,
+      "max": 326.19775390625
+    },
+    "attention_reconstruction_relative_error": {
+      "mean": 0.0008341833827866399,
+      "median": 0.0007608442683704197,
+      "min": 0.00021366894361563027,
+      "max": 0.0015822284622117877
+    },
+    "attention_reconstruction_cosine": {
+      "mean": 0.9999996295997075,
+      "median": 0.9999997019767761,
+      "min": 0.9999988675117493,
+      "max": 1.0000001192092896
+    },
+    "component_sum_relative_error": {
+      "mean": 0.00030069642671800727,
+      "median": 0.000298345839837566,
+      "min": 0.00019445468205958605,
+      "max": 0.00038502985262311995
+    },
+    "response_sum_relative_error": {
+      "mean": 0.0007906475288369361,
+      "median": 0.0007053724548313767,
+      "min": 0.00029363794601522386,
+      "max": 0.004360256716609001
+    },
+    "visual_input_norm": {
+      "mean": 2.9979481049647023,
+      "median": 0.9714619815349579,
+      "min": 0.11250006407499313,
+      "max": 166.59512329101562
+    },
+    "visual_response_norm": {
+      "mean": 1.1052169546684516,
+      "median": 0.39708682894706726,
+      "min": 0.06821123510599136,
+      "max": 46.23436737060547
+    },
+    "visual_gain": {
+      "mean": 0.47527319648569183,
+      "median": 0.45140986144542694,
+      "min": 0.1602357029914856,
+      "max": 1.2740371227264404
+    },
+    "response_input_cosine": {
+      "mean": -0.1955482626383725,
+      "median": -0.1926446259021759,
+      "min": -0.4788197875022888,
+      "max": 0.1623542755842209
+    },
+    "p_normalized_entropy": {
+      "mean": 0.7872387721602406,
+      "median": 0.7903651893138885,
+      "min": 0.4265521168708801,
+      "max": 0.9881449341773987
+    },
+    "p_top32_mass": {
+      "mean": 0.5139553105192525,
+      "median": 0.5221345722675323,
+      "min": 0.11255893111228943,
+      "max": 0.9056470990180969
+    },
+    "p_max_over_uniform": {
+      "mean": 48.28554399364761,
+      "median": 41.50870132446289,
+      "min": 2.965250253677368,
+      "max": 195.216064453125
+    },
+    "local_fd_relative_error": {
+      "mean": 0.1890257365677306,
+      "median": 0.15164342522621155,
+      "min": 0.006943848449736834,
+      "max": 1.1645021438598633
+    },
+    "local_fd_cosine": {
+      "mean": 0.9673630951438099,
+      "median": 0.9884382784366608,
+      "min": 0.07251821458339691,
+      "max": 0.9999779462814331
+    },
+    "delete_relative_error": {
+      "mean": 0.10109743419369417,
+      "median": 0.06342432275414467,
+      "min": 0.024899212643504143,
+      "max": 0.7873080968856812
+    },
+    "delete_cosine": {
+      "mean": 0.989985047839582,
+      "median": 0.9980394244194031,
+      "min": 0.6203680038452148,
+      "max": 0.9999414682388306
+    }
+  },
+  "by_label": {
+    "real": {
+      "visual_input_norm": 2.7255266993306577,
+      "visual_response_norm": 1.0398694769117154,
+      "visual_gain": 0.4687140614001287,
+      "response_input_cosine": -0.19677940001646574,
+      "p_normalized_entropy": 0.788738937013679,
+      "p_top32_mass": 0.5119690229184926,
+      "n_target_layers": 288
+    },
+    "hall": {
+      "visual_input_norm": 3.4883066351059826,
+      "visual_response_norm": 1.222842414630577,
+      "visual_gain": 0.4870796396397054,
+      "response_input_cosine": -0.19333221535780468,
+      "p_normalized_entropy": 0.7845384754240513,
+      "p_top32_mass": 0.5175306282006205,
+      "n_target_layers": 160
+    }
+  },
+  "chunk_comparison": [
+    {
+      "image_id": 408805,
+      "layer": 1,
+      "primary_chunk_size": "all576",
+      "comparison_chunk_size": 64,
+      "primary_seconds": 0.11289227986708283,
+      "comparison_seconds": 0.015977553091943264,
+      "primary_increment_mib": 326.19775390625,
+      "comparison_increment_mib": 119.9853515625,
+      "max_abs_delta": 1.9073486328125e-06,
+      "relative_l2_delta": 0.0024591446854174137
+    },
+    {
+      "image_id": 408805,
+      "layer": 16,
+      "primary_chunk_size": "all576",
+      "comparison_chunk_size": 64,
+      "primary_seconds": 0.007577858865261078,
+      "comparison_seconds": 0.015555988997220993,
+      "primary_increment_mib": 326.19775390625,
+      "comparison_increment_mib": 119.8544921875,
+      "max_abs_delta": 1.52587890625e-05,
+      "relative_l2_delta": 0.0008516652742400765
+    },
+    {
+      "image_id": 408805,
+      "layer": 32,
+      "primary_chunk_size": "all576",
+      "comparison_chunk_size": 64,
+      "primary_seconds": 0.007562384009361267,
+      "comparison_seconds": 0.01562725193798542,
+      "primary_increment_mib": 326.19775390625,
+      "comparison_increment_mib": 119.8544921875,
+      "max_abs_delta": 0.00048828125,
+      "relative_l2_delta": 0.000566133123356849
+    }
+  ]
+}

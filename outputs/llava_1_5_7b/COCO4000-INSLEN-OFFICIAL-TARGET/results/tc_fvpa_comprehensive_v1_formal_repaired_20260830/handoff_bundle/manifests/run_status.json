@@ -1,0 +1,204 @@
+{
+  "completed_shards": [],
+  "created_unix": 1788099912.046524,
+  "failed_cases": [],
+  "failed_shards": [],
+  "resume_commands": [
+    "/opt/conda/private/envs/vicr/bin/python scripts/run_tc_fvpa_path_attribution.py --model llava_1_5_7b --device cuda:0 --devices cuda:0,cuda:1 --output-dir /home/apulis-dev/userdata/CODEX/test-cocochair/gfchair/outputs/llava_1_5_7b/COCO4000-INSLEN-OFFICIAL-TARGET/results/tc_fvpa_comprehensive_v1_formal_repaired_20260830 --seed 20260829 --layers 8,16,24,32 --target-scalars log_probability,margin,logit --integration-points 1,4,8,16,32 --config /home/apulis-dev/userdata/CODEX/test-cocochair/gfchair/configs/model_configs_inslen_official_target.yaml --num-shards 2 --shard-id 0 --resume --formal --attribution-mode local --audit-vector-cases 0 --num-images 500",
+    "/opt/conda/private/envs/vicr/bin/python scripts/run_tc_fvpa_path_attribution.py --model llava_1_5_7b --device cuda:1 --devices cuda:0,cuda:1 --output-dir /home/apulis-dev/userdata/CODEX/test-cocochair/gfchair/outputs/llava_1_5_7b/COCO4000-INSLEN-OFFICIAL-TARGET/results/tc_fvpa_comprehensive_v1_formal_repaired_20260830 --seed 20260829 --layers 8,16,24,32 --target-scalars log_probability,margin,logit --integration-points 1,4,8,16,32 --config /home/apulis-dev/userdata/CODEX/test-cocochair/gfchair/configs/model_configs_inslen_official_target.yaml --num-shards 2 --shard-id 1 --resume --formal --attribution-mode local --audit-vector-cases 0 --num-images 500",
+    "/opt/conda/private/envs/vicr/bin/python scripts/run_tc_fvpa_path_attribution.py --model llava_1_5_7b --device cuda:0 --devices cuda:0,cuda:1 --output-dir /home/apulis-dev/userdata/CODEX/test-cocochair/gfchair/outputs/llava_1_5_7b/COCO4000-INSLEN-OFFICIAL-TARGET/results/tc_fvpa_comprehensive_v1_formal_repaired_20260830 --seed 20260829 --layers 8,16,24,32 --target-scalars log_probability,margin,logit --integration-points 1,4,8,16,32 --config /home/apulis-dev/userdata/CODEX/test-cocochair/gfchair/configs/model_configs_inslen_official_target.yaml --num-shards 2 --shard-id 0 --resume --formal --attribution-mode path --num-images 200",
+    "/opt/conda/private/envs/vicr/bin/python scripts/run_tc_fvpa_path_attribution.py --model llava_1_5_7b --device cuda:1 --devices cuda:0,cuda:1 --output-dir /home/apulis-dev/userdata/CODEX/test-cocochair/gfchair/outputs/llava_1_5_7b/COCO4000-INSLEN-OFFICIAL-TARGET/results/tc_fvpa_comprehensive_v1_formal_repaired_20260830 --seed 20260829 --layers 8,16,24,32 --target-scalars log_probability,margin,logit --integration-points 1,4,8,16,32 --config /home/apulis-dev/userdata/CODEX/test-cocochair/gfchair/configs/model_configs_inslen_official_target.yaml --num-shards 2 --shard-id 1 --resume --formal --attribution-mode path --num-images 200",
+    "/opt/conda/private/envs/vicr/bin/python scripts/run_tc_fvpa_fp32_causal.py --model llava_1_5_7b --device cuda:1 --devices cuda:0,cuda:1 --output-dir /home/apulis-dev/userdata/CODEX/test-cocochair/gfchair/outputs/llava_1_5_7b/COCO4000-INSLEN-OFFICIAL-TARGET/results/tc_fvpa_comprehensive_v1_formal_repaired_20260830 --seed 20260829 --layers 8,16,24,32 --target-scalars log_probability,margin,logit --integration-points 1,4,8,16,32 --config /home/apulis-dev/userdata/CODEX/test-cocochair/gfchair/configs/model_configs_inslen_official_target.yaml --num-shards 2 --shard-id 1 --resume --formal --num-images 100",
+    "/opt/conda/private/envs/vicr/bin/python scripts/run_tc_fvpa_fp32_causal.py --model llava_1_5_7b --device cuda:0 --devices cuda:0,cuda:1 --output-dir /home/apulis-dev/userdata/CODEX/test-cocochair/gfchair/outputs/llava_1_5_7b/COCO4000-INSLEN-OFFICIAL-TARGET/results/tc_fvpa_comprehensive_v1_formal_repaired_20260830 --seed 20260829 --layers 8,16,24,32 --target-scalars log_probability,margin,logit --integration-points 1,4,8,16,32 --config /home/apulis-dev/userdata/CODEX/test-cocochair/gfchair/configs/model_configs_inslen_official_target.yaml --num-shards 2 --shard-id 0 --resume --formal --num-images 100",
+    "/opt/conda/private/envs/vicr/bin/python scripts/run_tc_fvpa_shapley.py --model llava_1_5_7b --device cuda:1 --devices cuda:0,cuda:1 --output-dir /home/apulis-dev/userdata/CODEX/test-cocochair/gfchair/outputs/llava_1_5_7b/COCO4000-INSLEN-OFFICIAL-TARGET/results/tc_fvpa_comprehensive_v1_formal_repaired_20260830 --seed 20260829 --layers 8,16,24,32 --target-scalars log_probability,margin,logit --integration-points 1,4,8,16,32 --config /home/apulis-dev/userdata/CODEX/test-cocochair/gfchair/configs/model_configs_inslen_official_target.yaml --num-shards 2 --shard-id 1 --resume --formal --num-images 50",
+    "/opt/conda/private/envs/vicr/bin/python scripts/run_tc_fvpa_shapley.py --model llava_1_5_7b --device cuda:0 --devices cuda:0,cuda:1 --output-dir /home/apulis-dev/userdata/CODEX/test-cocochair/gfchair/outputs/llava_1_5_7b/COCO4000-INSLEN-OFFICIAL-TARGET/results/tc_fvpa_comprehensive_v1_formal_repaired_20260830 --seed 20260829 --layers 8,16,24,32 --target-scalars log_probability,margin,logit --integration-points 1,4,8,16,32 --config /home/apulis-dev/userdata/CODEX/test-cocochair/gfchair/configs/model_configs_inslen_official_target.yaml --num-shards 2 --shard-id 0 --resume --formal --num-images 50",
+    "/opt/conda/private/envs/vicr/bin/python scripts/analyze_tc_fvpa_comprehensive.py --model llava_1_5_7b --device cuda:0 --devices cuda:0,cuda:1 --output-dir /home/apulis-dev/userdata/CODEX/test-cocochair/gfchair/outputs/llava_1_5_7b/COCO4000-INSLEN-OFFICIAL-TARGET/results/tc_fvpa_comprehensive_v1_formal_repaired_20260830 --seed 20260829 --layers 8,16,24,32 --target-scalars log_probability,margin,logit --integration-points 1,4,8,16,32 --config /home/apulis-dev/userdata/CODEX/test-cocochair/gfchair/configs/model_configs_inslen_official_target.yaml --num-shards 2 --shard-id 0 --resume --formal",
+    "/opt/conda/private/envs/vicr/bin/python scripts/run_tc_fvpa_counterfactuals.py --model llava_1_5_7b --device cuda:0 --devices cuda:0,cuda:1 --output-dir /home/apulis-dev/userdata/CODEX/test-cocochair/gfchair/outputs/llava_1_5_7b/COCO4000-INSLEN-OFFICIAL-TARGET/results/tc_fvpa_comprehensive_v1_formal_repaired_20260830 --seed 20260829 --layers 8,16,24,32 --target-scalars log_probability,margin,logit --integration-points 1,4,8,16,32 --config /home/apulis-dev/userdata/CODEX/test-cocochair/gfchair/configs/model_configs_inslen_official_target.yaml --num-shards 2 --shard-id 0 --resume --formal",
+    "/opt/conda/private/envs/vicr/bin/python scripts/build_tc_fvpa_reports.py --model llava_1_5_7b --device cuda:0 --devices cuda:0,cuda:1 --output-dir /home/apulis-dev/userdata/CODEX/test-cocochair/gfchair/outputs/llava_1_5_7b/COCO4000-INSLEN-OFFICIAL-TARGET/results/tc_fvpa_comprehensive_v1_formal_repaired_20260830 --seed 20260829 --layers 8,16,24,32 --target-scalars log_probability,margin,logit --integration-points 1,4,8,16,32 --config /home/apulis-dev/userdata/CODEX/test-cocochair/gfchair/configs/model_configs_inslen_official_target.yaml --num-shards 2 --shard-id 0 --resume --formal"
+  ],
+  "schema_version": "tc-fvpa-comprehensive-v1",
+  "stages": {
+    "analysis:llava_1_5_7b": {
+      "details": {
+        "case_rows": 3656,
+        "cohort_case_counts": {
+          "local": 3656,
+          "path": 1420
+        },
+        "cohort_image_counts": {
+          "local": 500,
+          "path": 200
+        },
+        "formal_requirements": {
+          "local_images": 500,
+          "path_case_rows": 800
+        },
+        "parquet": {
+          "case_layer": {
+            "error": "ModuleNotFoundError(\"No module named 'pandas'\")",
+            "rows": 3656,
+            "status": "BLOCKED"
+          },
+          "path_convergence": {
+            "error": "ModuleNotFoundError(\"No module named 'pandas'\")",
+            "rows": 42600,
+            "status": "BLOCKED"
+          },
+          "spatial_metrics": {
+            "error": "ModuleNotFoundError(\"No module named 'pandas'\")",
+            "rows": 57464,
+            "status": "BLOCKED"
+          },
+          "token_scores_sample": {
+            "error": "ModuleNotFoundError(\"No module named 'pandas'\")",
+            "rows": 76032,
+            "status": "BLOCKED"
+          }
+        }
+      },
+      "started_unix": 1788116896.2769587,
+      "status": "PASS",
+      "updated_unix": 1788116896.2769587
+    },
+    "counterfactuals:llava_1_5_7b": {
+      "details": {
+        "blocked_or_not_run": [
+          "fixed_qk",
+          "activation_patching",
+          "pixel_counterfactual"
+        ],
+        "family_status": {
+          "activation_patching": "NOT_RUN",
+          "fixed_qk": "NOT_RUN",
+          "frozen_write": "PASS",
+          "pixel_counterfactual": "NOT_RUN"
+        },
+        "important_estimand_note": "Frozen-write effects condition on the observed clean attention decomposition and are not complete image-patch effects.",
+        "model": "llava_1_5_7b",
+        "resume_command": "/opt/conda/private/envs/vicr/bin/python scripts/run_tc_fvpa_counterfactuals.py --model llava_1_5_7b --device cuda:0 --devices cuda:0,cuda:1 --output-dir /home/apulis-dev/userdata/CODEX/test-cocochair/gfchair/outputs/llava_1_5_7b/COCO4000-INSLEN-OFFICIAL-TARGET/results/tc_fvpa_comprehensive_v1_formal_repaired_20260830 --seed 20260829 --layers 8,16,24,32 --target-scalars log_probability,margin,logit --integration-points 1,4,8,16,32 --config /home/apulis-dev/userdata/CODEX/test-cocochair/gfchair/configs/model_configs_inslen_official_target.yaml --num-shards 2 --shard-id 0 --resume --formal",
+        "rows": 46830
+      },
+      "started_unix": 1788116902.9451456,
+      "status": "BLOCKED",
+      "updated_unix": 1788116902.9451456
+    },
+    "fp32_causal:llava_1_5_7b:shard0": {
+      "details": {
+        "blocked_layers": [
+          8,
+          16,
+          24
+        ],
+        "failures": 0,
+        "measured_rows": 30072,
+        "peak_gpu_memory_bytes": 16196274176,
+        "query_microbatch_size": 32,
+        "route": "Qwen FP32 current FFN + exact causal query-row downstream decoder + final norm + LM head; final-block exact suffix for other models"
+      },
+      "started_unix": 1788116663.0855823,
+      "status": "BLOCKED",
+      "updated_unix": 1788116693.600787
+    },
+    "fp32_causal:llava_1_5_7b:shard1": {
+      "details": {
+        "blocked_layers": [
+          8,
+          16,
+          24
+        ],
+        "failures": 0,
+        "measured_rows": 30072,
+        "peak_gpu_memory_bytes": 16194316288,
+        "query_microbatch_size": 32,
+        "route": "Qwen FP32 current FFN + exact causal query-row downstream decoder + final norm + LM head; final-block exact suffix for other models"
+      },
+      "started_unix": 1788116663.0648942,
+      "status": "BLOCKED",
+      "updated_unix": 1788116696.5813735
+    },
+    "local_riesz:llava_1_5_7b:shard0": {
+      "details": {
+        "case_shard": "/home/apulis-dev/userdata/CODEX/test-cocochair/gfchair/outputs/llava_1_5_7b/COCO4000-INSLEN-OFFICIAL-TARGET/results/tc_fvpa_comprehensive_v1_formal_repaired_20260830/shards/local_case_rank00_shard_00000.pt",
+        "resumed_existing": true
+      },
+      "started_unix": 1788099912.073102,
+      "status": "PASS",
+      "updated_unix": 1788101465.3882535
+    },
+    "local_riesz:llava_1_5_7b:shard1": {
+      "details": {
+        "elapsed_seconds": 501.32527816598304,
+        "failed_cases": 0,
+        "images": 250,
+        "measured_cases": 1928,
+        "peak_gpu_memory_bytes": 19714390528
+      },
+      "started_unix": 1788099929.420408,
+      "status": "PASS",
+      "updated_unix": 1788101942.0701203
+    },
+    "path_attribution:llava_1_5_7b:shard0": {
+      "details": {
+        "elapsed_seconds": 13084.36337183998,
+        "failed_cases": 0,
+        "images": 100,
+        "measured_cases": 692,
+        "peak_gpu_memory_bytes": 19738516992
+      },
+      "started_unix": 1788102028.2114375,
+      "status": "PASS",
+      "updated_unix": 1788115118.299566
+    },
+    "path_attribution:llava_1_5_7b:shard1": {
+      "details": {
+        "elapsed_seconds": 14487.874464110006,
+        "failed_cases": 0,
+        "images": 100,
+        "measured_cases": 728,
+        "peak_gpu_memory_bytes": 19749444096
+      },
+      "started_unix": 1788102058.285163,
+      "status": "PASS",
+      "updated_unix": 1788116551.8144248
+    },
+    "reports:llava_1_5_7b": {
+      "details": {
+        "reports": 22
+      },
+      "started_unix": 1788116908.5808904,
+      "status": "PASS",
+      "updated_unix": 1788344655.5906303
+    },
+    "shapley:llava_1_5_7b:shard0": {
+      "details": {
+        "failures": 0,
+        "measured_rows": 150,
+        "not_in_scope_layers": [
+          8,
+          16,
+          24
+        ],
+        "scope": "preregistered final-decoder-layer subset"
+      },
+      "started_unix": 1788116809.027839,
+      "status": "PASS",
+      "updated_unix": 1788116840.110733
+    },
+    "shapley:llava_1_5_7b:shard1": {
+      "details": {
+        "failures": 0,
+        "measured_rows": 150,
+        "not_in_scope_layers": [
+          8,
+          16,
+          24
+        ],
+        "scope": "preregistered final-decoder-layer subset"
+      },
+      "started_unix": 1788116778.7869534,
+      "status": "PASS",
+      "updated_unix": 1788116798.178806
+    }
+  },
+  "updated_unix": 1788344655.5906303
+}

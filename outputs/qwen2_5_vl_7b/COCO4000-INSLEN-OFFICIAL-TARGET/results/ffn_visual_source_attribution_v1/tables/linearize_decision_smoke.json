@@ -1,0 +1,84 @@
+{
+  "accepted": false,
+  "checks": [
+    {
+      "kind": "synthetic",
+      "metrics": {
+        "linearize": {
+          "increment_bytes": 1878528,
+          "seconds": 0.9631543509894982,
+          "status": "PASS"
+        },
+        "relative_l2_error": 0.0,
+        "vmap_jvp": {
+          "increment_bytes": 1511424,
+          "seconds": 0.017811884987168014,
+          "status": "PASS"
+        }
+      },
+      "model": "qwen2_5_vl_7b",
+      "passed": false
+    },
+    {
+      "case_id": "qwen2_5_vl_7b:393547:4:7",
+      "kind": "real_fp32",
+      "metrics": {
+        "linearize": {
+          "error": "OutOfMemoryError('CUDA out of memory. Tried to allocate 260.00 MiB. GPU 0 has a total capacity of 23.53 GiB of which 1.62 MiB is free. Including non-PyTorch memory, this process has 23.52 GiB memory in use. Of the allocated memory 23.05 GiB is allocated by PyTorch, and 11.03 MiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://pytorch.org/docs/stable/notes/cuda.html#environment-variables)')",
+          "status": "FAIL"
+        },
+        "vmap_jvp": {
+          "increment_bytes": 288219648,
+          "seconds": 0.08076893293764442,
+          "status": "PASS"
+        }
+      },
+      "model": "qwen2_5_vl_7b",
+      "passed": false
+    },
+    {
+      "kind": "synthetic",
+      "metrics": {
+        "linearize": {
+          "increment_bytes": 1780736,
+          "seconds": 1.034860988962464,
+          "status": "PASS"
+        },
+        "relative_l2_error": 0.0,
+        "vmap_jvp": {
+          "increment_bytes": 1511424,
+          "seconds": 0.017808714066632092,
+          "status": "PASS"
+        }
+      },
+      "model": "llava_1_5_7b",
+      "passed": false
+    },
+    {
+      "case_id": "llava_1_5_7b:253441:102:8",
+      "kind": "real_fp32",
+      "metrics": {
+        "linearize": {
+          "increment_bytes": 5077677568,
+          "seconds": 3.944134915014729,
+          "status": "PASS"
+        },
+        "relative_l2_error": 0.0,
+        "vmap_jvp": {
+          "increment_bytes": 207127040,
+          "seconds": 0.13141061400528997,
+          "status": "PASS"
+        }
+      },
+      "model": "llava_1_5_7b",
+      "passed": false
+    }
+  ],
+  "criteria": {
+    "minimum_runtime_reduction": 0.1,
+    "peak_memory_must_not_increase": true,
+    "relative_l2_max": 0.005,
+    "required": "FP32 synthetic and real cases for both primary models"
+  },
+  "selected_backend": "vmap_jvp"
+}

@@ -1,0 +1,25 @@
+{
+  "completed_shards": [],
+  "created_unix": 1788000494.5666988,
+  "failed_cases": [],
+  "failed_shards": [],
+  "resume_commands": [
+    "/opt/conda/private/envs/vicr/bin/python scripts/run_tc_fvpa_fp32_causal.py --model qwen2_5_vl_7b --device cuda:0 --output-dir outputs/qwen2_5_vl_7b/COCO4000-INSLEN-OFFICIAL-TARGET/results/tc_fvpa_qwen_lower_fp32_smoke_20260829 --smoke --no-resume --num-images 1 --max-targets-per-image 1 --layers 21 --path-result-dir outputs/qwen2_5_vl_7b/COCO4000-INSLEN-OFFICIAL-TARGET/results/tc_fvpa_qwen_repair_multilayer_smoke_20260829"
+  ],
+  "schema_version": "tc-fvpa-comprehensive-v1",
+  "stages": {
+    "fp32_causal:qwen2_5_vl_7b:shard0": {
+      "details": {
+        "blocked_layers": [],
+        "failures": 0,
+        "measured_rows": 336,
+        "peak_gpu_memory_bytes": 22610381312,
+        "route": "Qwen FP32 current FFN + exact causal query-row downstream decoder + final norm + LM head; final-block exact suffix for other models"
+      },
+      "started_unix": 1788000494.6326044,
+      "status": "PASS",
+      "updated_unix": 1788000515.417031
+    }
+  },
+  "updated_unix": 1788000515.417031
+}

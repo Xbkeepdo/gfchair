@@ -1,0 +1,94 @@
+{
+  "config": {
+    "audit_vector_cases": 1,
+    "config": "/home/apulis-dev/userdata/CODEX/test-cocochair/gfchair/configs/model_configs_inslen_official_target.yaml",
+    "device": "cuda:1",
+    "devices": [
+      "cuda:1"
+    ],
+    "integration_points": [
+      1,
+      4
+    ],
+    "layers": [
+      32
+    ],
+    "max_targets_per_image": 1,
+    "mode": "smoke",
+    "model": "qwen3_vl_8b",
+    "num_images": 1,
+    "num_shards": 1,
+    "output_dir": "/home/apulis-dev/userdata/CODEX/test-cocochair/gfchair/outputs/qwen3_vl_8b/COCO4000-INSLEN-OFFICIAL-TARGET/results/tc_fvpa_comprehensive_v1",
+    "quadrature": [
+      "trapezoid",
+      "gauss_legendre"
+    ],
+    "resume": true,
+    "seed": 20260829,
+    "shard_id": 0,
+    "target_scalars": [
+      "log_probability",
+      "margin",
+      "logit"
+    ]
+  },
+  "created_unix": 1787960604.909614,
+  "exact_command": [
+    "/opt/conda/private/envs/vicr/bin/python",
+    "scripts/run_tc_fvpa_path_attribution.py",
+    "--model",
+    "qwen3_vl_8b",
+    "--device",
+    "cuda:1",
+    "--devices",
+    "cuda:1",
+    "--smoke",
+    "--num-images",
+    "1",
+    "--max-targets-per-image",
+    "1",
+    "--layers",
+    "32",
+    "--target-scalars",
+    "log_probability,margin,logit",
+    "--integration-points",
+    "1,4",
+    "--quadrature",
+    "trapezoid,gauss_legendre"
+  ],
+  "repository": {
+    "diff_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "diff_stat": {
+      "command": [
+        "git",
+        "diff",
+        "--stat"
+      ],
+      "elapsed_seconds": 0.01117563247680664,
+      "exit_code": 0,
+      "output": ""
+    },
+    "revision": {
+      "command": [
+        "git",
+        "rev-parse",
+        "HEAD"
+      ],
+      "elapsed_seconds": 0.02495551109313965,
+      "exit_code": 0,
+      "output": "dd3c1ecec02c37bac23687959a0508b0b53a452f\n"
+    },
+    "status": {
+      "command": [
+        "git",
+        "status",
+        "--short",
+        "--branch"
+      ],
+      "elapsed_seconds": 0.19924330711364746,
+      "exit_code": 0,
+      "output": "## main...origin/main\n?? features/ffn_visual_interactions.py\n?? features/ffn_visual_path_attribution.py\n?? features/representation_geometry_controls.py\n?? features/swiglu_visual_mechanism.py\n?? features/tc_fvpa_artifacts.py\n?? run_tc_fvpa_comprehensive.sh\n?? scripts/analyze_tc_fvpa_comprehensive.py\n?? scripts/build_tc_fvpa_reports.py\n?? scripts/load_tc_fvpa_results.py\n?? scripts/run_tc_fvpa_comprehensive.py\n?? scripts/run_tc_fvpa_counterfactuals.py\n?? scripts/run_tc_fvpa_fp32_causal.py\n?? scripts/run_tc_fvpa_path_attribution.py\n?? scripts/run_tc_fvpa_shapley.py\n?? scripts/tc_fvpa_common.py\n?? tests/test_ffn_visual_interactions.py\n?? tests/test_ffn_visual_path_attribution.py\n?? tests/test_load_tc_fvpa_results.py\n?? tests/test_representation_geometry_controls.py\n?? tests/test_swiglu_visual_mechanism.py\n?? tests/test_tc_fvpa_analysis.py\n?? tests/test_tc_fvpa_artifacts.py\n"
+    }
+  },
+  "schema_version": "tc-fvpa-comprehensive-v1"
+}

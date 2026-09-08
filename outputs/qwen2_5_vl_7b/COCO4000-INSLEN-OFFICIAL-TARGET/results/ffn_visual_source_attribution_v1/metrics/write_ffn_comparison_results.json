@@ -1,0 +1,151 @@
+{
+  "artifacts": {
+    "curve_csv": "outputs/qwen2_5_vl_7b/COCO4000-INSLEN-OFFICIAL-TARGET/results/ffn_visual_source_attribution_v1/tables/write_ffn_comparison_real_hall_curve.csv",
+    "fixed_maps": "outputs/qwen2_5_vl_7b/COCO4000-INSLEN-OFFICIAL-TARGET/results/ffn_visual_source_attribution_v1/figures/write_ffn_fixed_difference_maps.png",
+    "strength_correlation_csv": "outputs/qwen2_5_vl_7b/COCO4000-INSLEN-OFFICIAL-TARGET/results/ffn_visual_source_attribution_v1/tables/write_ffn_strength_correlation_by_layer.csv",
+    "strength_relationship": "outputs/qwen2_5_vl_7b/COCO4000-INSLEN-OFFICIAL-TARGET/results/ffn_visual_source_attribution_v1/figures/write_ffn_strength_relationship.png"
+  },
+  "audit": {
+    "hall_mentions": 916,
+    "layers": 28,
+    "mentions": 8717,
+    "normalization_error_max": 2.1250616555335e-07,
+    "processed_images": 4000,
+    "real_mentions": 7801,
+    "shards": 401,
+    "signed_delta_sum_abs_max": 1.0408340855860843e-16,
+    "tv_negative_mass_error_max": 1.1102230246251565e-16,
+    "tv_out_of_range_count": 0,
+    "tv_pair_identity_error_max": 1.1102230246251565e-16,
+    "tv_positive_mass_error_max": 8.326672684688674e-17,
+    "unique_targets": 8654,
+    "zero_write_strength_count": 0
+  },
+  "cohort": "all formal v1 COCO4000 train+test mentions; mention-weighted",
+  "definitions": {
+    "P_FFN": "||e_m||_2 / sum_k ||e_k||_2",
+    "P_WRITE": "||a_m||_2 / sum_k ||a_k||_2",
+    "R_amp": "0.5 * sum_m |P_FFN_m - P_WRITE_m| = total variation",
+    "S_FFN": "sum_m ||e_m||_2 = saved gross_strength",
+    "S_WRITE": "sum_m ||a_m||_2 = sum_m saved write_mag_m",
+    "delta_ff": "P_FFN - P_WRITE",
+    "gross_gain": "S_FFN / (S_WRITE + epsilon)"
+  },
+  "elapsed_seconds": 35.4296531539876,
+  "fixed_examples": {
+    "HALL": {
+      "mention_id": "1342:4",
+      "target_key": "1342:42"
+    },
+    "REAL": {
+      "mention_id": "283:0",
+      "target_key": "283:4"
+    }
+  },
+  "model": "qwen2_5_vl_7b",
+  "status": "DESCRIPTIVE_ONLY_NO_TRAINING_NO_BOOTSTRAP",
+  "strength_correlations": {
+    "ALL": {
+      "mean_layer_pearson_log": 0.9706728233336366,
+      "mean_layer_spearman": 0.9613996302551471
+    },
+    "HALL": {
+      "mean_layer_pearson_log": 0.9730396920423926,
+      "mean_layer_spearman": 0.9666563184234755
+    },
+    "REAL": {
+      "mean_layer_pearson_log": 0.9695492336863403,
+      "mean_layer_spearman": 0.9597828688405762
+    }
+  },
+  "summaries": {
+    "gross_gain": {
+      "hall_above_real_layers": 13,
+      "layers": 28,
+      "mean_layer_hall_minus_real": -0.0034782717160310667,
+      "mean_of_layer_statistic": {
+        "HALL": 0.6317689920917635,
+        "REAL": 0.6352472638077946
+      },
+      "real_above_hall_layers": 15,
+      "summary_statistic": "median"
+    },
+    "js": {
+      "hall_above_real_layers": 7,
+      "layers": 28,
+      "mean_layer_hall_minus_real": -0.0001935182517735509,
+      "mean_of_layer_statistic": {
+        "HALL": 0.0019619737668147602,
+        "REAL": 0.0021554920185883108
+      },
+      "real_above_hall_layers": 21,
+      "summary_statistic": "median"
+    },
+    "r_amp": {
+      "hall_above_real_layers": 8,
+      "layers": 28,
+      "mean_layer_hall_minus_real": -0.002257464357575342,
+      "mean_of_layer_statistic": {
+        "HALL": 0.04609094584862799,
+        "REAL": 0.048348410206203334
+      },
+      "real_above_hall_layers": 20,
+      "summary_statistic": "median"
+    },
+    "s_ffn": {
+      "hall_above_real_layers": 0,
+      "layers": 28,
+      "mean_layer_hall_minus_real": -2.7350570942674364,
+      "mean_of_layer_statistic": {
+        "HALL": 16.326484470495156,
+        "REAL": 19.061541564762592
+      },
+      "real_above_hall_layers": 28,
+      "summary_statistic": "median"
+    },
+    "s_write": {
+      "hall_above_real_layers": 0,
+      "layers": 28,
+      "mean_layer_hall_minus_real": -5.263600274974676,
+      "mean_of_layer_statistic": {
+        "HALL": 27.792300788923804,
+        "REAL": 33.05590106389848
+      },
+      "real_above_hall_layers": 28,
+      "summary_statistic": "median"
+    },
+    "spearman": {
+      "hall_above_real_layers": 7,
+      "layers": 28,
+      "mean_layer_hall_minus_real": 0.0002554923179675174,
+      "mean_of_layer_statistic": {
+        "HALL": 0.9944909979968674,
+        "REAL": 0.9942355056788996
+      },
+      "real_above_hall_layers": 21,
+      "summary_statistic": "median"
+    },
+    "top1_agreement": {
+      "hall_above_real_layers": 23,
+      "layers": 28,
+      "mean_layer_hall_minus_real": 0.02003872969882534,
+      "mean_of_layer_statistic": {
+        "HALL": 0.8857610729881472,
+        "REAL": 0.8657223432893218
+      },
+      "real_above_hall_layers": 5,
+      "summary_statistic": "mean"
+    },
+    "top32_overlap": {
+      "hall_above_real_layers": 2,
+      "layers": 28,
+      "mean_layer_hall_minus_real": 0.0,
+      "mean_of_layer_statistic": {
+        "HALL": 0.9497767857142857,
+        "REAL": 0.9497767857142857
+      },
+      "real_above_hall_layers": 2,
+      "summary_statistic": "median"
+    }
+  }
+}

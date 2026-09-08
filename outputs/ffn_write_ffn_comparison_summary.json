@@ -1,0 +1,610 @@
+{
+  "elapsed_seconds": 219.8436565170996,
+  "models": {
+    "internvl_2_5_8b": {
+      "artifacts": {
+        "curve_csv": "outputs/internvl_2_5_8b/COCO4000-INSLEN-OFFICIAL-TARGET/results/ffn_visual_source_attribution_v1/tables/write_ffn_comparison_real_hall_curve.csv",
+        "fixed_maps": "outputs/internvl_2_5_8b/COCO4000-INSLEN-OFFICIAL-TARGET/results/ffn_visual_source_attribution_v1/figures/write_ffn_fixed_difference_maps.png",
+        "strength_correlation_csv": "outputs/internvl_2_5_8b/COCO4000-INSLEN-OFFICIAL-TARGET/results/ffn_visual_source_attribution_v1/tables/write_ffn_strength_correlation_by_layer.csv",
+        "strength_relationship": "outputs/internvl_2_5_8b/COCO4000-INSLEN-OFFICIAL-TARGET/results/ffn_visual_source_attribution_v1/figures/write_ffn_strength_relationship.png"
+      },
+      "audit": {
+        "hall_mentions": 1766,
+        "layers": 32,
+        "mentions": 11759,
+        "normalization_error_max": 2.4417840904789045e-07,
+        "processed_images": 4000,
+        "real_mentions": 9993,
+        "shards": 400,
+        "signed_delta_sum_abs_max": 1.3010426069826053e-16,
+        "tv_negative_mass_error_max": 1.1102230246251565e-16,
+        "tv_out_of_range_count": 0,
+        "tv_pair_identity_error_max": 1.1102230246251565e-16,
+        "tv_positive_mass_error_max": 8.326672684688674e-17,
+        "unique_targets": 11630,
+        "zero_write_strength_count": 0
+      },
+      "cohort": "all formal v1 COCO4000 train+test mentions; mention-weighted",
+      "definitions": {
+        "P_FFN": "||e_m||_2 / sum_k ||e_k||_2",
+        "P_WRITE": "||a_m||_2 / sum_k ||a_k||_2",
+        "R_amp": "0.5 * sum_m |P_FFN_m - P_WRITE_m| = total variation",
+        "S_FFN": "sum_m ||e_m||_2 = saved gross_strength",
+        "S_WRITE": "sum_m ||a_m||_2 = sum_m saved write_mag_m",
+        "delta_ff": "P_FFN - P_WRITE",
+        "gross_gain": "S_FFN / (S_WRITE + epsilon)"
+      },
+      "elapsed_seconds": 39.27117851306684,
+      "fixed_examples": {
+        "HALL": {
+          "mention_id": "599:4",
+          "target_key": "599:12"
+        },
+        "REAL": {
+          "mention_id": "283:0",
+          "target_key": "283:10"
+        }
+      },
+      "model": "internvl_2_5_8b",
+      "status": "DESCRIPTIVE_ONLY_NO_TRAINING_NO_BOOTSTRAP",
+      "strength_correlations": {
+        "ALL": {
+          "mean_layer_pearson_log": 0.9812602279936276,
+          "mean_layer_spearman": 0.9752572913294053
+        },
+        "HALL": {
+          "mean_layer_pearson_log": 0.9824231430413835,
+          "mean_layer_spearman": 0.9800344658871967
+        },
+        "REAL": {
+          "mean_layer_pearson_log": 0.9797349455349613,
+          "mean_layer_spearman": 0.9729811963508153
+        }
+      },
+      "summaries": {
+        "gross_gain": {
+          "hall_above_real_layers": 16,
+          "layers": 32,
+          "mean_layer_hall_minus_real": -0.0052638308264588915,
+          "mean_of_layer_statistic": {
+            "HALL": 0.557013222324988,
+            "REAL": 0.5622770531514469
+          },
+          "real_above_hall_layers": 16,
+          "summary_statistic": "median"
+        },
+        "js": {
+          "hall_above_real_layers": 12,
+          "layers": 32,
+          "mean_layer_hall_minus_real": -1.5130859892755795e-05,
+          "mean_of_layer_statistic": {
+            "HALL": 0.0019680410210609475,
+            "REAL": 0.0019831718809537034
+          },
+          "real_above_hall_layers": 20,
+          "summary_statistic": "median"
+        },
+        "r_amp": {
+          "hall_above_real_layers": 10,
+          "layers": 32,
+          "mean_layer_hall_minus_real": -0.0012262771781536917,
+          "mean_of_layer_statistic": {
+            "HALL": 0.04589271646506421,
+            "REAL": 0.0471189936432179
+          },
+          "real_above_hall_layers": 22,
+          "summary_statistic": "median"
+        },
+        "s_ffn": {
+          "hall_above_real_layers": 0,
+          "layers": 32,
+          "mean_layer_hall_minus_real": -1.7011935415212065,
+          "mean_of_layer_statistic": {
+            "HALL": 4.45291731855832,
+            "REAL": 6.154110860079527
+          },
+          "real_above_hall_layers": 32,
+          "summary_statistic": "median"
+        },
+        "s_write": {
+          "hall_above_real_layers": 0,
+          "layers": 32,
+          "mean_layer_hall_minus_real": -4.20085260087756,
+          "mean_of_layer_statistic": {
+            "HALL": 10.693574102617909,
+            "REAL": 14.89442670349547
+          },
+          "real_above_hall_layers": 32,
+          "summary_statistic": "median"
+        },
+        "spearman": {
+          "hall_above_real_layers": 4,
+          "layers": 32,
+          "mean_layer_hall_minus_real": -0.0007876762238212369,
+          "mean_of_layer_statistic": {
+            "HALL": 0.9941731137524319,
+            "REAL": 0.9949607899762531
+          },
+          "real_above_hall_layers": 28,
+          "summary_statistic": "median"
+        },
+        "top1_agreement": {
+          "hall_above_real_layers": 27,
+          "layers": 32,
+          "mean_layer_hall_minus_real": 0.015442562341770598,
+          "mean_of_layer_statistic": {
+            "HALL": 0.8935447338618348,
+            "REAL": 0.8781021715200641
+          },
+          "real_above_hall_layers": 5,
+          "summary_statistic": "mean"
+        },
+        "top32_overlap": {
+          "hall_above_real_layers": 1,
+          "layers": 32,
+          "mean_layer_hall_minus_real": -0.00244140625,
+          "mean_of_layer_statistic": {
+            "HALL": 0.95654296875,
+            "REAL": 0.958984375
+          },
+          "real_above_hall_layers": 3,
+          "summary_statistic": "median"
+        }
+      }
+    },
+    "llava_1_5_7b": {
+      "artifacts": {
+        "curve_csv": "outputs/llava_1_5_7b/COCO4000-INSLEN-OFFICIAL-TARGET/results/ffn_visual_source_attribution_v1/tables/write_ffn_comparison_real_hall_curve.csv",
+        "fixed_maps": "outputs/llava_1_5_7b/COCO4000-INSLEN-OFFICIAL-TARGET/results/ffn_visual_source_attribution_v1/figures/write_ffn_fixed_difference_maps.png",
+        "strength_correlation_csv": "outputs/llava_1_5_7b/COCO4000-INSLEN-OFFICIAL-TARGET/results/ffn_visual_source_attribution_v1/tables/write_ffn_strength_correlation_by_layer.csv",
+        "strength_relationship": "outputs/llava_1_5_7b/COCO4000-INSLEN-OFFICIAL-TARGET/results/ffn_visual_source_attribution_v1/figures/write_ffn_strength_relationship.png"
+      },
+      "audit": {
+        "hall_mentions": 3487,
+        "layers": 32,
+        "mentions": 15463,
+        "normalization_error_max": 1.819696535676485e-07,
+        "processed_images": 4000,
+        "real_mentions": 11976,
+        "shards": 401,
+        "signed_delta_sum_abs_max": 1.3877787807814457e-16,
+        "tv_negative_mass_error_max": 1.1102230246251565e-16,
+        "tv_out_of_range_count": 0,
+        "tv_pair_identity_error_max": 1.1102230246251565e-16,
+        "tv_positive_mass_error_max": 1.1102230246251565e-16,
+        "unique_targets": 14951,
+        "zero_write_strength_count": 0
+      },
+      "cohort": "all formal v1 COCO4000 train+test mentions; mention-weighted",
+      "definitions": {
+        "P_FFN": "||e_m||_2 / sum_k ||e_k||_2",
+        "P_WRITE": "||a_m||_2 / sum_k ||a_k||_2",
+        "R_amp": "0.5 * sum_m |P_FFN_m - P_WRITE_m| = total variation",
+        "S_FFN": "sum_m ||e_m||_2 = saved gross_strength",
+        "S_WRITE": "sum_m ||a_m||_2 = sum_m saved write_mag_m",
+        "delta_ff": "P_FFN - P_WRITE",
+        "gross_gain": "S_FFN / (S_WRITE + epsilon)"
+      },
+      "elapsed_seconds": 81.35028215195052,
+      "fixed_examples": {
+        "HALL": {
+          "mention_id": "599:3",
+          "target_key": "599:94"
+        },
+        "REAL": {
+          "mention_id": "283:0",
+          "target_key": "283:6"
+        }
+      },
+      "model": "llava_1_5_7b",
+      "status": "DESCRIPTIVE_ONLY_NO_TRAINING_NO_BOOTSTRAP",
+      "strength_correlations": {
+        "ALL": {
+          "mean_layer_pearson_log": 0.95359600765042,
+          "mean_layer_spearman": 0.945169993721949
+        },
+        "HALL": {
+          "mean_layer_pearson_log": 0.939319841046028,
+          "mean_layer_spearman": 0.9202327783189914
+        },
+        "REAL": {
+          "mean_layer_pearson_log": 0.9514232418179469,
+          "mean_layer_spearman": 0.9432409431488455
+        }
+      },
+      "summaries": {
+        "gross_gain": {
+          "hall_above_real_layers": 8,
+          "layers": 32,
+          "mean_layer_hall_minus_real": -0.00675350925508273,
+          "mean_of_layer_statistic": {
+            "HALL": 0.5141817317047028,
+            "REAL": 0.5209352409597856
+          },
+          "real_above_hall_layers": 24,
+          "summary_statistic": "median"
+        },
+        "js": {
+          "hall_above_real_layers": 9,
+          "layers": 32,
+          "mean_layer_hall_minus_real": -6.778706699377636e-05,
+          "mean_of_layer_statistic": {
+            "HALL": 0.0028217304770136046,
+            "REAL": 0.002889517544007381
+          },
+          "real_above_hall_layers": 23,
+          "summary_statistic": "median"
+        },
+        "r_amp": {
+          "hall_above_real_layers": 10,
+          "layers": 32,
+          "mean_layer_hall_minus_real": -0.0019600690206284977,
+          "mean_of_layer_statistic": {
+            "HALL": 0.04886303369609472,
+            "REAL": 0.05082310271672321
+          },
+          "real_above_hall_layers": 22,
+          "summary_statistic": "median"
+        },
+        "s_ffn": {
+          "hall_above_real_layers": 9,
+          "layers": 32,
+          "mean_layer_hall_minus_real": -0.5027583381161094,
+          "mean_of_layer_statistic": {
+            "HALL": 3.710528484545648,
+            "REAL": 4.2132868226617575
+          },
+          "real_above_hall_layers": 23,
+          "summary_statistic": "median"
+        },
+        "s_write": {
+          "hall_above_real_layers": 9,
+          "layers": 32,
+          "mean_layer_hall_minus_real": -0.10979487748276284,
+          "mean_of_layer_statistic": {
+            "HALL": 10.415809364828739,
+            "REAL": 10.525604242311502
+          },
+          "real_above_hall_layers": 23,
+          "summary_statistic": "median"
+        },
+        "spearman": {
+          "hall_above_real_layers": 12,
+          "layers": 32,
+          "mean_layer_hall_minus_real": -0.00201994078335967,
+          "mean_of_layer_statistic": {
+            "HALL": 0.9836466874222518,
+            "REAL": 0.9856666282056114
+          },
+          "real_above_hall_layers": 20,
+          "summary_statistic": "median"
+        },
+        "top1_agreement": {
+          "hall_above_real_layers": 27,
+          "layers": 32,
+          "mean_layer_hall_minus_real": 0.01965754814643148,
+          "mean_of_layer_statistic": {
+            "HALL": 0.8947071264697448,
+            "REAL": 0.8750495783233133
+          },
+          "real_above_hall_layers": 5,
+          "summary_statistic": "mean"
+        },
+        "top32_overlap": {
+          "hall_above_real_layers": 1,
+          "layers": 32,
+          "mean_layer_hall_minus_real": -0.0048828125,
+          "mean_of_layer_statistic": {
+            "HALL": 0.9375,
+            "REAL": 0.9423828125
+          },
+          "real_above_hall_layers": 6,
+          "summary_statistic": "median"
+        }
+      }
+    },
+    "qwen2_5_vl_7b": {
+      "artifacts": {
+        "curve_csv": "outputs/qwen2_5_vl_7b/COCO4000-INSLEN-OFFICIAL-TARGET/results/ffn_visual_source_attribution_v1/tables/write_ffn_comparison_real_hall_curve.csv",
+        "fixed_maps": "outputs/qwen2_5_vl_7b/COCO4000-INSLEN-OFFICIAL-TARGET/results/ffn_visual_source_attribution_v1/figures/write_ffn_fixed_difference_maps.png",
+        "strength_correlation_csv": "outputs/qwen2_5_vl_7b/COCO4000-INSLEN-OFFICIAL-TARGET/results/ffn_visual_source_attribution_v1/tables/write_ffn_strength_correlation_by_layer.csv",
+        "strength_relationship": "outputs/qwen2_5_vl_7b/COCO4000-INSLEN-OFFICIAL-TARGET/results/ffn_visual_source_attribution_v1/figures/write_ffn_strength_relationship.png"
+      },
+      "audit": {
+        "hall_mentions": 916,
+        "layers": 28,
+        "mentions": 8717,
+        "normalization_error_max": 2.1250616555335e-07,
+        "processed_images": 4000,
+        "real_mentions": 7801,
+        "shards": 401,
+        "signed_delta_sum_abs_max": 1.0408340855860843e-16,
+        "tv_negative_mass_error_max": 1.1102230246251565e-16,
+        "tv_out_of_range_count": 0,
+        "tv_pair_identity_error_max": 1.1102230246251565e-16,
+        "tv_positive_mass_error_max": 8.326672684688674e-17,
+        "unique_targets": 8654,
+        "zero_write_strength_count": 0
+      },
+      "cohort": "all formal v1 COCO4000 train+test mentions; mention-weighted",
+      "definitions": {
+        "P_FFN": "||e_m||_2 / sum_k ||e_k||_2",
+        "P_WRITE": "||a_m||_2 / sum_k ||a_k||_2",
+        "R_amp": "0.5 * sum_m |P_FFN_m - P_WRITE_m| = total variation",
+        "S_FFN": "sum_m ||e_m||_2 = saved gross_strength",
+        "S_WRITE": "sum_m ||a_m||_2 = sum_m saved write_mag_m",
+        "delta_ff": "P_FFN - P_WRITE",
+        "gross_gain": "S_FFN / (S_WRITE + epsilon)"
+      },
+      "elapsed_seconds": 35.4296531539876,
+      "fixed_examples": {
+        "HALL": {
+          "mention_id": "1342:4",
+          "target_key": "1342:42"
+        },
+        "REAL": {
+          "mention_id": "283:0",
+          "target_key": "283:4"
+        }
+      },
+      "model": "qwen2_5_vl_7b",
+      "status": "DESCRIPTIVE_ONLY_NO_TRAINING_NO_BOOTSTRAP",
+      "strength_correlations": {
+        "ALL": {
+          "mean_layer_pearson_log": 0.9706728233336366,
+          "mean_layer_spearman": 0.9613996302551471
+        },
+        "HALL": {
+          "mean_layer_pearson_log": 0.9730396920423926,
+          "mean_layer_spearman": 0.9666563184234755
+        },
+        "REAL": {
+          "mean_layer_pearson_log": 0.9695492336863403,
+          "mean_layer_spearman": 0.9597828688405762
+        }
+      },
+      "summaries": {
+        "gross_gain": {
+          "hall_above_real_layers": 13,
+          "layers": 28,
+          "mean_layer_hall_minus_real": -0.0034782717160310667,
+          "mean_of_layer_statistic": {
+            "HALL": 0.6317689920917635,
+            "REAL": 0.6352472638077946
+          },
+          "real_above_hall_layers": 15,
+          "summary_statistic": "median"
+        },
+        "js": {
+          "hall_above_real_layers": 7,
+          "layers": 28,
+          "mean_layer_hall_minus_real": -0.0001935182517735509,
+          "mean_of_layer_statistic": {
+            "HALL": 0.0019619737668147602,
+            "REAL": 0.0021554920185883108
+          },
+          "real_above_hall_layers": 21,
+          "summary_statistic": "median"
+        },
+        "r_amp": {
+          "hall_above_real_layers": 8,
+          "layers": 28,
+          "mean_layer_hall_minus_real": -0.002257464357575342,
+          "mean_of_layer_statistic": {
+            "HALL": 0.04609094584862799,
+            "REAL": 0.048348410206203334
+          },
+          "real_above_hall_layers": 20,
+          "summary_statistic": "median"
+        },
+        "s_ffn": {
+          "hall_above_real_layers": 0,
+          "layers": 28,
+          "mean_layer_hall_minus_real": -2.7350570942674364,
+          "mean_of_layer_statistic": {
+            "HALL": 16.326484470495156,
+            "REAL": 19.061541564762592
+          },
+          "real_above_hall_layers": 28,
+          "summary_statistic": "median"
+        },
+        "s_write": {
+          "hall_above_real_layers": 0,
+          "layers": 28,
+          "mean_layer_hall_minus_real": -5.263600274974676,
+          "mean_of_layer_statistic": {
+            "HALL": 27.792300788923804,
+            "REAL": 33.05590106389848
+          },
+          "real_above_hall_layers": 28,
+          "summary_statistic": "median"
+        },
+        "spearman": {
+          "hall_above_real_layers": 7,
+          "layers": 28,
+          "mean_layer_hall_minus_real": 0.0002554923179675174,
+          "mean_of_layer_statistic": {
+            "HALL": 0.9944909979968674,
+            "REAL": 0.9942355056788996
+          },
+          "real_above_hall_layers": 21,
+          "summary_statistic": "median"
+        },
+        "top1_agreement": {
+          "hall_above_real_layers": 23,
+          "layers": 28,
+          "mean_layer_hall_minus_real": 0.02003872969882534,
+          "mean_of_layer_statistic": {
+            "HALL": 0.8857610729881472,
+            "REAL": 0.8657223432893218
+          },
+          "real_above_hall_layers": 5,
+          "summary_statistic": "mean"
+        },
+        "top32_overlap": {
+          "hall_above_real_layers": 2,
+          "layers": 28,
+          "mean_layer_hall_minus_real": 0.0,
+          "mean_of_layer_statistic": {
+            "HALL": 0.9497767857142857,
+            "REAL": 0.9497767857142857
+          },
+          "real_above_hall_layers": 2,
+          "summary_statistic": "median"
+        }
+      }
+    },
+    "qwen3_vl_8b": {
+      "artifacts": {
+        "curve_csv": "outputs/qwen3_vl_8b/COCO4000-INSLEN-OFFICIAL-TARGET/results/ffn_visual_source_attribution_v1/tables/write_ffn_comparison_real_hall_curve.csv",
+        "fixed_maps": "outputs/qwen3_vl_8b/COCO4000-INSLEN-OFFICIAL-TARGET/results/ffn_visual_source_attribution_v1/figures/write_ffn_fixed_difference_maps.png",
+        "strength_correlation_csv": "outputs/qwen3_vl_8b/COCO4000-INSLEN-OFFICIAL-TARGET/results/ffn_visual_source_attribution_v1/tables/write_ffn_strength_correlation_by_layer.csv",
+        "strength_relationship": "outputs/qwen3_vl_8b/COCO4000-INSLEN-OFFICIAL-TARGET/results/ffn_visual_source_attribution_v1/figures/write_ffn_strength_relationship.png"
+      },
+      "audit": {
+        "hall_mentions": 2593,
+        "layers": 36,
+        "mentions": 14873,
+        "normalization_error_max": 2.1523010218515992e-07,
+        "processed_images": 4000,
+        "real_mentions": 12280,
+        "shards": 400,
+        "signed_delta_sum_abs_max": 2.0122792321330962e-16,
+        "tv_negative_mass_error_max": 2.220446049250313e-16,
+        "tv_out_of_range_count": 0,
+        "tv_pair_identity_error_max": 2.220446049250313e-16,
+        "tv_positive_mass_error_max": 2.220446049250313e-16,
+        "unique_targets": 14704,
+        "zero_write_strength_count": 0
+      },
+      "cohort": "all formal v1 COCO4000 train+test mentions; mention-weighted",
+      "definitions": {
+        "P_FFN": "||e_m||_2 / sum_k ||e_k||_2",
+        "P_WRITE": "||a_m||_2 / sum_k ||a_k||_2",
+        "R_amp": "0.5 * sum_m |P_FFN_m - P_WRITE_m| = total variation",
+        "S_FFN": "sum_m ||e_m||_2 = saved gross_strength",
+        "S_WRITE": "sum_m ||a_m||_2 = sum_m saved write_mag_m",
+        "delta_ff": "P_FFN - P_WRITE",
+        "gross_gain": "S_FFN / (S_WRITE + epsilon)"
+      },
+      "elapsed_seconds": 62.16835645888932,
+      "fixed_examples": {
+        "HALL": {
+          "mention_id": "831:4",
+          "target_key": "831:264"
+        },
+        "REAL": {
+          "mention_id": "283:0",
+          "target_key": "283:41"
+        }
+      },
+      "model": "qwen3_vl_8b",
+      "status": "DESCRIPTIVE_ONLY_NO_TRAINING_NO_BOOTSTRAP",
+      "strength_correlations": {
+        "ALL": {
+          "mean_layer_pearson_log": 0.9683384513469827,
+          "mean_layer_spearman": 0.9632572504182632
+        },
+        "HALL": {
+          "mean_layer_pearson_log": 0.9642584978998949,
+          "mean_layer_spearman": 0.9587683891486586
+        },
+        "REAL": {
+          "mean_layer_pearson_log": 0.967614955799414,
+          "mean_layer_spearman": 0.9621906482657371
+        }
+      },
+      "summaries": {
+        "gross_gain": {
+          "hall_above_real_layers": 6,
+          "layers": 36,
+          "mean_layer_hall_minus_real": -0.016445869914547183,
+          "mean_of_layer_statistic": {
+            "HALL": 0.6377595718126818,
+            "REAL": 0.6542054417272289
+          },
+          "real_above_hall_layers": 30,
+          "summary_statistic": "median"
+        },
+        "js": {
+          "hall_above_real_layers": 15,
+          "layers": 36,
+          "mean_layer_hall_minus_real": 6.615542707197082e-06,
+          "mean_of_layer_statistic": {
+            "HALL": 0.004541489412455375,
+            "REAL": 0.004534873869748177
+          },
+          "real_above_hall_layers": 21,
+          "summary_statistic": "median"
+        },
+        "r_amp": {
+          "hall_above_real_layers": 14,
+          "layers": 36,
+          "mean_layer_hall_minus_real": -0.0011092862888545522,
+          "mean_of_layer_statistic": {
+            "HALL": 0.0532449995517045,
+            "REAL": 0.05435428584055905
+          },
+          "real_above_hall_layers": 22,
+          "summary_statistic": "median"
+        },
+        "s_ffn": {
+          "hall_above_real_layers": 0,
+          "layers": 36,
+          "mean_layer_hall_minus_real": -2.6114805293165975,
+          "mean_of_layer_statistic": {
+            "HALL": 11.857613179936177,
+            "REAL": 14.469093709252775
+          },
+          "real_above_hall_layers": 36,
+          "summary_statistic": "median"
+        },
+        "s_write": {
+          "hall_above_real_layers": 0,
+          "layers": 36,
+          "mean_layer_hall_minus_real": -5.03566354443203,
+          "mean_of_layer_statistic": {
+            "HALL": 24.17418147622896,
+            "REAL": 29.20984502066099
+          },
+          "real_above_hall_layers": 36,
+          "summary_statistic": "median"
+        },
+        "spearman": {
+          "hall_above_real_layers": 4,
+          "layers": 36,
+          "mean_layer_hall_minus_real": -0.0009727228522853287,
+          "mean_of_layer_statistic": {
+            "HALL": 0.9912746235073114,
+            "REAL": 0.9922473463595968
+          },
+          "real_above_hall_layers": 32,
+          "summary_statistic": "median"
+        },
+        "top1_agreement": {
+          "hall_above_real_layers": 28,
+          "layers": 36,
+          "mean_layer_hall_minus_real": 0.011801524371903037,
+          "mean_of_layer_statistic": {
+            "HALL": 0.8838111153961521,
+            "REAL": 0.8720095910242489
+          },
+          "real_above_hall_layers": 8,
+          "summary_statistic": "mean"
+        },
+        "top32_overlap": {
+          "hall_above_real_layers": 0,
+          "layers": 36,
+          "mean_layer_hall_minus_real": -0.001736111111111111,
+          "mean_of_layer_statistic": {
+            "HALL": 0.9453125,
+            "REAL": 0.9470486111111112
+          },
+          "real_above_hall_layers": 2,
+          "summary_statistic": "median"
+        }
+      }
+    }
+  },
+  "note": "R_amp is total variation; sum(P_FFN-P_WRITE) is zero by normalization."
+}

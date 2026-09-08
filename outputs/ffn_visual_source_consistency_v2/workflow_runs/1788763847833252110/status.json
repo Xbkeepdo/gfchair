@@ -1,0 +1,13 @@
+{
+  "status": "CANCELLED_FOR_USER_DUAL_GPU_RESHARD",
+  "recorded_utc": "2026-09-07T12:33:00Z",
+  "reason": "User requested both GPUs for the remaining LLaVA numerical subset extraction.",
+  "planned_interruption": true,
+  "stopped_coordinator_pid": 644148,
+  "stopped_llava_worker_pid": 644360,
+  "llava_completed_images_at_reshard": 367,
+  "llava_total_requested_images": 500,
+  "remaining_images_by_rank": [66, 67],
+  "preserved_completed_artifacts": true,
+  "new_command": "OMP_NUM_THREADS=1 MKL_NUM_THREADS=1 /opt/conda/private/envs/vicr/bin/python -u scripts/analyze_ffn_visual_source_consistency.py llava-dual-subset --resume"
+}

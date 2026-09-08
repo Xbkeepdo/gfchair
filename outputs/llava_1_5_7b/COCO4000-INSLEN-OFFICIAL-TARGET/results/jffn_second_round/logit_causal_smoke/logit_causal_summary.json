@@ -1,0 +1,88 @@
+{
+  "protocol": "jffn_second_round_logit_causal_v1",
+  "model": "llava_1_5_7b",
+  "sample": {
+    "images": 1,
+    "image_ids": [
+      395405
+    ],
+    "target_layer_cases": 1,
+    "real_cases": 1,
+    "hall_cases": 0,
+    "intervention_target_layer_cases": 0,
+    "intervention_rows": 0,
+    "layers_one_based": [
+      16
+    ]
+  },
+  "causal_row_audit": {
+    "prefix_excludes_target_all": true,
+    "max_gradient_clean_target_logit_abs_error": 0.0,
+    "max_gradient_clean_margin_abs_error": 0.0
+  },
+  "additivity": {
+    "max_logit_relative_error": 0.0,
+    "max_margin_relative_error": 3.366310465935385e-07
+  },
+  "real_hall": {
+    "a_logit_total": {
+      "real_mean": 0.13454633951187134,
+      "hall_mean": NaN,
+      "hall_auroc_direction_free": NaN
+    },
+    "a_margin_total": {
+      "real_mean": 0.008299789391458035,
+      "hall_mean": NaN,
+      "hall_auroc_direction_free": NaN
+    },
+    "a_margin_positive_mass": {
+      "real_mean": 0.024613071233034134,
+      "hall_mean": NaN,
+      "hall_auroc_direction_free": NaN
+    },
+    "a_margin_negative_mass": {
+      "real_mean": 0.016313279047608376,
+      "hall_mean": NaN,
+      "hall_auroc_direction_free": NaN
+    },
+    "a_margin_cancellation_ratio": {
+      "real_mean": 0.20279818773269653,
+      "hall_mean": NaN,
+      "hall_auroc_direction_free": NaN
+    }
+  },
+  "intervention": [
+    {
+      "eta": 0.05,
+      "count": 0,
+      "pearson": NaN,
+      "spearman": NaN,
+      "sign_accuracy": NaN,
+      "regression_slope": NaN,
+      "mean_absolute_prediction_error": NaN,
+      "mean_relative_error_where_abs_prediction_gt_1e-5": NaN
+    },
+    {
+      "eta": 0.1,
+      "count": 0,
+      "pearson": NaN,
+      "spearman": NaN,
+      "sign_accuracy": NaN,
+      "regression_slope": NaN,
+      "mean_absolute_prediction_error": NaN,
+      "mean_relative_error_where_abs_prediction_gt_1e-5": NaN
+    },
+    {
+      "eta": 0.25,
+      "count": 0,
+      "pearson": NaN,
+      "spearman": NaN,
+      "sign_accuracy": NaN,
+      "regression_slope": NaN,
+      "mean_absolute_prediction_error": NaN,
+      "mean_relative_error_where_abs_prediction_gt_1e-5": NaN
+    }
+  ],
+  "intervention_by_strategy": [],
+  "elapsed_seconds": 3.5989484041929245
+}

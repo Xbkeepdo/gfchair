@@ -1,0 +1,40 @@
+{
+  "completed_shards": [],
+  "created_unix": 1788072693.9514732,
+  "failed_cases": [],
+  "failed_shards": [],
+  "resume_commands": [
+    "/opt/conda/private/envs/vicr/bin/python scripts/run_tc_fvpa_fp32_causal.py --model qwen3_vl_8b --devices cuda:0,cuda:1 --output-dir /home/apulis-dev/userdata/CODEX/test-cocochair/gfchair/outputs/qwen3_vl_8b/COCO4000-INSLEN-OFFICIAL-TARGET/results/tc_fvpa_fp32_microbatch_benchmark_20260830 --seed 20260829 --layers 9,18,27,36 --target-scalars log_probability,margin,logit --integration-points 1,4,8,16,32 --config configs/model_configs_inslen_official_target.yaml --num-shards 2 --no-resume --num-images 2 --max-targets-per-image 2 --logit-batch-size 32 --path-result-dir /home/apulis-dev/userdata/CODEX/test-cocochair/gfchair/outputs/qwen3_vl_8b/COCO4000-INSLEN-OFFICIAL-TARGET/results/tc_fvpa_qwen_repair_multilayer_smoke_20260829 --device cuda:0 --shard-id 0",
+    "/opt/conda/private/envs/vicr/bin/python scripts/run_tc_fvpa_fp32_causal.py --model qwen3_vl_8b --devices cuda:0,cuda:1 --output-dir /home/apulis-dev/userdata/CODEX/test-cocochair/gfchair/outputs/qwen3_vl_8b/COCO4000-INSLEN-OFFICIAL-TARGET/results/tc_fvpa_fp32_microbatch_benchmark_20260830 --seed 20260829 --layers 9,18,27,36 --target-scalars log_probability,margin,logit --integration-points 1,4,8,16,32 --config configs/model_configs_inslen_official_target.yaml --num-shards 2 --no-resume --num-images 2 --max-targets-per-image 2 --logit-batch-size 32 --path-result-dir /home/apulis-dev/userdata/CODEX/test-cocochair/gfchair/outputs/qwen3_vl_8b/COCO4000-INSLEN-OFFICIAL-TARGET/results/tc_fvpa_qwen_repair_multilayer_smoke_20260829 --device cuda:1 --shard-id 1"
+  ],
+  "schema_version": "tc-fvpa-comprehensive-v1",
+  "stages": {
+    "fp32_causal:qwen3_vl_8b:shard0": {
+      "details": {
+        "blocked_layers": [],
+        "failures": 0,
+        "measured_rows": 2688,
+        "peak_gpu_memory_bytes": 22879686144,
+        "query_microbatch_size": 32,
+        "route": "Qwen FP32 current FFN + exact causal query-row downstream decoder + final norm + LM head; final-block exact suffix for other models"
+      },
+      "started_unix": 1788072694.0055695,
+      "status": "PASS",
+      "updated_unix": 1788072711.1221955
+    },
+    "fp32_causal:qwen3_vl_8b:shard1": {
+      "details": {
+        "blocked_layers": [],
+        "failures": 0,
+        "measured_rows": 1344,
+        "peak_gpu_memory_bytes": 22786660352,
+        "query_microbatch_size": 32,
+        "route": "Qwen FP32 current FFN + exact causal query-row downstream decoder + final norm + LM head; final-block exact suffix for other models"
+      },
+      "started_unix": 1788072712.9132478,
+      "status": "PASS",
+      "updated_unix": 1788072726.1558874
+    }
+  },
+  "updated_unix": 1788072726.1558874
+}

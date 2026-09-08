@@ -1,0 +1,1608 @@
+{
+  "title": "qwen2_5_vl_7b union-topK JS + mass x cosine 3-seed Torch MLP summary",
+  "seeds": [
+    43,
+    44,
+    45
+  ],
+  "models": {
+    "qwen2_5_vl_7b": [
+      {
+        "model": "qwen2_5_vl_7b",
+        "model_label": "qwen2_5_vl_7b",
+        "feature_set": "hpre_raw_logit_gauss_source_target_union_topk_js+hpre_raw_logit_gauss_ev_target_dist_mass_x_cosine",
+        "threshold_mode": "fixed_0.5",
+        "threshold_mean": 0.5,
+        "threshold_std": 0.0,
+        "threshold_values": [
+          0.5,
+          0.5,
+          0.5
+        ],
+        "num_seeds": 3,
+        "seeds": [
+          43,
+          44,
+          45
+        ],
+        "precision_mean": 0.9163528541883315,
+        "precision_std": 0.005241541890839072,
+        "precision_values": [
+          0.9134382566585957,
+          0.9237126509853782,
+          0.9119076549210207
+        ],
+        "recall_mean": 0.9604045620830645,
+        "recall_std": 0.01596491240885856,
+        "recall_values": [
+          0.974176888315042,
+          0.9380245319561007,
+          0.9690122659780503
+        ],
+        "f1_mean": 0.9377456869298587,
+        "f1_std": 0.005076778376095783,
+        "f1_values": [
+          0.9428303655107779,
+          0.9308135810377963,
+          0.9395931142410016
+        ],
+        "accuracy_mean": 0.8860662047729022,
+        "accuracy_std": 0.007977052261763954,
+        "accuracy_values": [
+          0.8943418013856813,
+          0.8752886836027713,
+          0.8885681293302541
+        ],
+        "auc_mean": 0.8298702612061839,
+        "auc_std": 0.007469050487931597,
+        "auc_values": [
+          0.8348714312424373,
+          0.8193123009027508,
+          0.8354270514733637
+        ],
+        "aupr_mean": 0.9757427140347638,
+        "aupr_std": 0.0014270039648107357,
+        "aupr_values": [
+          0.9765443886576031,
+          0.9737379755971209,
+          0.9769457778495673
+        ],
+        "headline_positive_class": "real",
+        "real_positive_precision_mean": 0.9163528541883315,
+        "real_positive_precision_std": 0.005241541890839072,
+        "real_positive_precision_values": [
+          0.9134382566585957,
+          0.9237126509853782,
+          0.9119076549210207
+        ],
+        "real_positive_recall_mean": 0.9604045620830645,
+        "real_positive_recall_std": 0.01596491240885856,
+        "real_positive_recall_values": [
+          0.974176888315042,
+          0.9380245319561007,
+          0.9690122659780503
+        ],
+        "real_positive_f1_mean": 0.9377456869298587,
+        "real_positive_f1_std": 0.005076778376095783,
+        "real_positive_f1_values": [
+          0.9428303655107779,
+          0.9308135810377963,
+          0.9395931142410016
+        ],
+        "real_positive_auc_mean": 0.8298702612061839,
+        "real_positive_auc_std": 0.007469050487931597,
+        "real_positive_auc_values": [
+          0.8348714312424373,
+          0.8193123009027508,
+          0.8354270514733637
+        ],
+        "real_positive_aupr_mean": 0.9757427140347638,
+        "real_positive_aupr_std": 0.0014270039648107357,
+        "real_positive_aupr_values": [
+          0.9765443886576031,
+          0.9737379755971209,
+          0.9769457778495673
+        ],
+        "hallucination_positive_precision_mean": 0.44602896007020626,
+        "hallucination_positive_precision_std": 0.042467803441185586,
+        "hallucination_positive_precision_values": [
+          0.5,
+          0.39622641509433965,
+          0.4418604651162791
+        ],
+        "hallucination_positive_recall_mean": 0.2568306010928962,
+        "hallucination_positive_recall_std": 0.06198433343232625,
+        "hallucination_positive_recall_values": [
+          0.2185792349726776,
+          0.3442622950819672,
+          0.20765027322404372
+        ],
+        "hallucination_positive_f1_mean": 0.3183771477260582,
+        "hallucination_positive_f1_std": 0.036473963747051634,
+        "hallucination_positive_f1_values": [
+          0.3041825095057034,
+          0.3684210526315789,
+          0.2825278810408922
+        ],
+        "hallucination_positive_auc_mean": 0.8298702612061839,
+        "hallucination_positive_auc_std": 0.0074690504879316244,
+        "hallucination_positive_auc_values": [
+          0.8348714312424372,
+          0.8193123009027506,
+          0.8354270514733637
+        ],
+        "hallucination_positive_aupr_mean": 0.37650122404940056,
+        "hallucination_positive_aupr_std": 0.0044061319958053164,
+        "hallucination_positive_aupr_values": [
+          0.37422821393897454,
+          0.3826622756040615,
+          0.37261318260516557
+        ],
+        "rank": 1
+      },
+      {
+        "model": "qwen2_5_vl_7b",
+        "model_label": "qwen2_5_vl_7b",
+        "feature_set": "hpre_softmax_prob_gauss_source_target_union_topk_js+hpre_softmax_prob_gauss_ev_target_dist_mass_x_cosine",
+        "threshold_mode": "fixed_0.5",
+        "threshold_mean": 0.5,
+        "threshold_std": 0.0,
+        "threshold_values": [
+          0.5,
+          0.5,
+          0.5
+        ],
+        "num_seeds": 3,
+        "seeds": [
+          43,
+          44,
+          45
+        ],
+        "precision_mean": 0.9155370842221867,
+        "precision_std": 0.0068376899845655845,
+        "precision_values": [
+          0.9088699878493317,
+          0.9249363867684478,
+          0.9128048780487805
+        ],
+        "recall_mean": 0.9569614805250698,
+        "recall_std": 0.01293663728443223,
+        "recall_values": [
+          0.9657843770174306,
+          0.9386701097482246,
+          0.9664299548095545
+        ],
+        "f1_mean": 0.9356893906561469,
+        "f1_std": 0.002949622725605114,
+        "f1_values": [
+          0.9364632237871674,
+          0.9317526433835309,
+          0.9388523047977423
+        ],
+        "accuracy_mean": 0.8824095458044651,
+        "accuracy_std": 0.004251486149802648,
+        "accuracy_values": [
+          0.8827944572748267,
+          0.8770207852193995,
+          0.8874133949191686
+        ],
+        "auc_mean": 0.8258950777339162,
+        "auc_std": 0.008580627171881197,
+        "auc_values": [
+          0.8379335160706538,
+          0.8185538351906924,
+          0.8211978819404023
+        ],
+        "aupr_mean": 0.9747157833294736,
+        "aupr_std": 0.0017262337630990928,
+        "aupr_values": [
+          0.9770188131478494,
+          0.9728629377215074,
+          0.9742655991190641
+        ],
+        "headline_positive_class": "real",
+        "real_positive_precision_mean": 0.9155370842221867,
+        "real_positive_precision_std": 0.0068376899845655845,
+        "real_positive_precision_values": [
+          0.9088699878493317,
+          0.9249363867684478,
+          0.9128048780487805
+        ],
+        "real_positive_recall_mean": 0.9569614805250698,
+        "real_positive_recall_std": 0.01293663728443223,
+        "real_positive_recall_values": [
+          0.9657843770174306,
+          0.9386701097482246,
+          0.9664299548095545
+        ],
+        "real_positive_f1_mean": 0.9356893906561469,
+        "real_positive_f1_std": 0.002949622725605114,
+        "real_positive_f1_values": [
+          0.9364632237871674,
+          0.9317526433835309,
+          0.9388523047977423
+        ],
+        "real_positive_auc_mean": 0.8258950777339162,
+        "real_positive_auc_std": 0.008580627171881197,
+        "real_positive_auc_values": [
+          0.8379335160706538,
+          0.8185538351906924,
+          0.8211978819404023
+        ],
+        "real_positive_aupr_mean": 0.9747157833294736,
+        "real_positive_aupr_std": 0.0017262337630990928,
+        "real_positive_aupr_values": [
+          0.9770188131478494,
+          0.9728629377215074,
+          0.9742655991190641
+        ],
+        "hallucination_positive_precision_mean": 0.4082511796427368,
+        "hallucination_positive_precision_std": 0.02089381554174947,
+        "hallucination_positive_precision_values": [
+          0.38372093023255816,
+          0.40625,
+          0.43478260869565216
+        ],
+        "hallucination_positive_recall_mean": 0.25136612021857924,
+        "hallucination_positive_recall_std": 0.07505791540268311,
+        "hallucination_positive_recall_values": [
+          0.18032786885245902,
+          0.3551912568306011,
+          0.2185792349726776
+        ],
+        "hallucination_positive_f1_mean": 0.3050903323720257,
+        "hallucination_positive_f1_std": 0.05547843219384308,
+        "hallucination_positive_f1_values": [
+          0.24535315985130113,
+          0.37900874635568516,
+          0.2909090909090909
+        ],
+        "hallucination_positive_auc_mean": 0.8258950777339161,
+        "hallucination_positive_auc_std": 0.008580627171881133,
+        "hallucination_positive_auc_values": [
+          0.8379335160706537,
+          0.8185538351906925,
+          0.8211978819404022
+        ],
+        "hallucination_positive_aupr_mean": 0.3541573434837812,
+        "hallucination_positive_aupr_std": 0.008863445678809947,
+        "hallucination_positive_aupr_values": [
+          0.35752931961936923,
+          0.3629266572603908,
+          0.3420160535715835
+        ],
+        "rank": 2
+      },
+      {
+        "model": "qwen2_5_vl_7b",
+        "model_label": "qwen2_5_vl_7b",
+        "feature_set": "hpre_raw_logit_gauss_source_target_union_topk_js",
+        "threshold_mode": "fixed_0.5",
+        "threshold_mean": 0.5,
+        "threshold_std": 0.0,
+        "threshold_values": [
+          0.5,
+          0.5,
+          0.5
+        ],
+        "num_seeds": 3,
+        "seeds": [
+          43,
+          44,
+          45
+        ],
+        "precision_mean": 0.9032005279682206,
+        "precision_std": 0.0013448338328302168,
+        "precision_values": [
+          0.9013505578391074,
+          0.9045077105575327,
+          0.9037433155080213
+        ],
+        "recall_mean": 0.9857972885732731,
+        "recall_std": 0.003801059120433729,
+        "recall_values": [
+          0.9909619109102646,
+          0.9845061329890252,
+          0.9819238218205294
+        ],
+        "f1_mean": 0.9426867648766621,
+        "f1_std": 0.0011553531197413451,
+        "f1_values": [
+          0.9440344403444034,
+          0.9428129829984544,
+          0.9412128712871287
+        ],
+        "accuracy_mean": 0.892802155504234,
+        "accuracy_std": 0.0019052145759452495,
+        "accuracy_values": [
+          0.894919168591224,
+          0.8931870669745958,
+          0.8903002309468823
+        ],
+        "auc_mean": 0.7949285101969541,
+        "auc_std": 0.008059989780789364,
+        "auc_values": [
+          0.8062949126353334,
+          0.788504482003196,
+          0.789986135952333
+        ],
+        "aupr_mean": 0.9694705327182223,
+        "aupr_std": 0.0017966785468017327,
+        "aupr_values": [
+          0.9720112052861528,
+          0.9681715978725757,
+          0.9682287949959383
+        ],
+        "headline_positive_class": "real",
+        "real_positive_precision_mean": 0.9032005279682206,
+        "real_positive_precision_std": 0.0013448338328302168,
+        "real_positive_precision_values": [
+          0.9013505578391074,
+          0.9045077105575327,
+          0.9037433155080213
+        ],
+        "real_positive_recall_mean": 0.9857972885732731,
+        "real_positive_recall_std": 0.003801059120433729,
+        "real_positive_recall_values": [
+          0.9909619109102646,
+          0.9845061329890252,
+          0.9819238218205294
+        ],
+        "real_positive_f1_mean": 0.9426867648766621,
+        "real_positive_f1_std": 0.0011553531197413451,
+        "real_positive_f1_values": [
+          0.9440344403444034,
+          0.9428129829984544,
+          0.9412128712871287
+        ],
+        "real_positive_auc_mean": 0.7949285101969541,
+        "real_positive_auc_std": 0.008059989780789364,
+        "real_positive_auc_values": [
+          0.8062949126353334,
+          0.788504482003196,
+          0.789986135952333
+        ],
+        "real_positive_aupr_mean": 0.9694705327182223,
+        "real_positive_aupr_std": 0.0017966785468017327,
+        "real_positive_aupr_values": [
+          0.9720112052861528,
+          0.9681715978725757,
+          0.9682287949959383
+        ],
+        "hallucination_positive_precision_mean": 0.47469122581566364,
+        "hallucination_positive_precision_std": 0.03628725036321993,
+        "hallucination_positive_precision_values": [
+          0.5172413793103449,
+          0.4782608695652174,
+          0.42857142857142855
+        ],
+        "hallucination_positive_recall_mean": 0.10564663023679417,
+        "hallucination_positive_recall_std": 0.01689183696811604,
+        "hallucination_positive_recall_values": [
+          0.08196721311475409,
+          0.12021857923497267,
+          0.11475409836065574
+        ],
+        "hallucination_positive_f1_mean": 0.1715612182373837,
+        "hallucination_positive_f1_std": 0.02172807672167197,
+        "hallucination_positive_f1_values": [
+          0.14150943396226415,
+          0.19213973799126638,
+          0.1810344827586207
+        ],
+        "hallucination_positive_auc_mean": 0.7949285101969542,
+        "hallucination_positive_auc_std": 0.008059989780789258,
+        "hallucination_positive_auc_values": [
+          0.8062949126353333,
+          0.7885044820031961,
+          0.7899861359523331
+        ],
+        "hallucination_positive_aupr_mean": 0.3266815513113293,
+        "hallucination_positive_aupr_std": 0.0022242078631712348,
+        "hallucination_positive_aupr_values": [
+          0.32433545073101977,
+          0.32604007412079045,
+          0.32966912908217777
+        ],
+        "rank": 3
+      },
+      {
+        "model": "qwen2_5_vl_7b",
+        "model_label": "qwen2_5_vl_7b",
+        "feature_set": "hpre_softmax_prob_gauss_source_target_union_topk_js",
+        "threshold_mode": "fixed_0.5",
+        "threshold_mean": 0.5,
+        "threshold_std": 0.0,
+        "threshold_values": [
+          0.5,
+          0.5,
+          0.5
+        ],
+        "num_seeds": 3,
+        "seeds": [
+          43,
+          44,
+          45
+        ],
+        "precision_mean": 0.9030538086924057,
+        "precision_std": 0.00048597817944956266,
+        "precision_values": [
+          0.9034157832744405,
+          0.9023668639053254,
+          0.9033787788974511
+        ],
+        "recall_mean": 0.9862276737680223,
+        "recall_std": 0.002903106856731653,
+        "recall_values": [
+          0.9903163331181407,
+          0.9845061329890252,
+          0.9838605551969012
+        ],
+        "f1_mean": 0.942808143792972,
+        "f1_std": 0.0014632067983799497,
+        "f1_values": [
+          0.9448721897135818,
+          0.941648656992899,
+          0.9419035846724351
+        ],
+        "accuracy_mean": 0.8929946112394149,
+        "accuracy_std": 0.0025963698158645142,
+        "accuracy_values": [
+          0.8966512702078522,
+          0.890877598152425,
+          0.8914549653579676
+        ],
+        "auc_mean": 0.7914760213122985,
+        "auc_std": 0.0076377334695637775,
+        "auc_values": [
+          0.8021074763552724,
+          0.787813043493599,
+          0.7845075440880245
+        ],
+        "aupr_mean": 0.9685938620319295,
+        "aupr_std": 0.0017104561509537937,
+        "aupr_values": [
+          0.9710121164795598,
+          0.9673344910384423,
+          0.9674349785777865
+        ],
+        "headline_positive_class": "real",
+        "real_positive_precision_mean": 0.9030538086924057,
+        "real_positive_precision_std": 0.00048597817944956266,
+        "real_positive_precision_values": [
+          0.9034157832744405,
+          0.9023668639053254,
+          0.9033787788974511
+        ],
+        "real_positive_recall_mean": 0.9862276737680223,
+        "real_positive_recall_std": 0.002903106856731653,
+        "real_positive_recall_values": [
+          0.9903163331181407,
+          0.9845061329890252,
+          0.9838605551969012
+        ],
+        "real_positive_f1_mean": 0.942808143792972,
+        "real_positive_f1_std": 0.0014632067983799497,
+        "real_positive_f1_values": [
+          0.9448721897135818,
+          0.941648656992899,
+          0.9419035846724351
+        ],
+        "real_positive_auc_mean": 0.7914760213122985,
+        "real_positive_auc_std": 0.0076377334695637775,
+        "real_positive_auc_values": [
+          0.8021074763552724,
+          0.787813043493599,
+          0.7845075440880245
+        ],
+        "real_positive_aupr_mean": 0.9685938620319295,
+        "real_positive_aupr_std": 0.0017104561509537937,
+        "real_positive_aupr_values": [
+          0.9710121164795598,
+          0.9673344910384423,
+          0.9674349785777865
+        ],
+        "hallucination_positive_precision_mean": 0.47727980080921256,
+        "hallucination_positive_precision_std": 0.05802311558928485,
+        "hallucination_positive_precision_values": [
+          0.5588235294117647,
+          0.42857142857142855,
+          0.4444444444444444
+        ],
+        "hallucination_positive_recall_mean": 0.10382513661202186,
+        "hallucination_positive_recall_std": 0.004461729950424731,
+        "hallucination_positive_recall_values": [
+          0.10382513661202186,
+          0.09836065573770492,
+          0.1092896174863388
+        ],
+        "hallucination_positive_f1_mean": 0.17018460128816662,
+        "hallucination_positive_f1_std": 0.007202810686558286,
+        "hallucination_positive_f1_values": [
+          0.17511520737327188,
+          0.16,
+          0.17543859649122806
+        ],
+        "hallucination_positive_auc_mean": 0.7914760213122985,
+        "hallucination_positive_auc_std": 0.007637733469563829,
+        "hallucination_positive_auc_values": [
+          0.8021074763552724,
+          0.7878130434935989,
+          0.7845075440880244
+        ],
+        "hallucination_positive_aupr_mean": 0.3168834816215946,
+        "hallucination_positive_aupr_std": 0.0019490484237688916,
+        "hallucination_positive_aupr_values": [
+          0.3196309616662456,
+          0.3153181699665118,
+          0.3157013132320263
+        ],
+        "rank": 4
+      },
+      {
+        "model": "qwen2_5_vl_7b",
+        "model_label": "qwen2_5_vl_7b",
+        "feature_set": "hpre_softmax_prob_gauss_ev_target_dist_mass_x_cosine",
+        "threshold_mode": "fixed_0.5",
+        "threshold_mean": 0.5,
+        "threshold_std": 0.0,
+        "threshold_values": [
+          0.5,
+          0.5,
+          0.5
+        ],
+        "num_seeds": 3,
+        "seeds": [
+          43,
+          44,
+          45
+        ],
+        "precision_mean": 0.8983907655259215,
+        "precision_std": 0.0018239647220512872,
+        "precision_values": [
+          0.8974358974358975,
+          0.8967930029154519,
+          0.9009433962264151
+        ],
+        "recall_mean": 0.9911771035076393,
+        "recall_std": 0.0033888564123140947,
+        "recall_values": [
+          0.9941897998708844,
+          0.9928986442866365,
+          0.986442866365397
+        ],
+        "f1_mean": 0.9424989824330279,
+        "f1_std": 0.0006494374243372807,
+        "f1_values": [
+          0.9433384379785605,
+          0.9424019607843137,
+          0.9417565485362096
+        ],
+        "accuracy_mean": 0.8918398768283294,
+        "accuracy_std": 0.000981335549190287,
+        "accuracy_values": [
+          0.8931870669745958,
+          0.8914549653579676,
+          0.890877598152425
+        ],
+        "auc_mean": 0.7851448904693198,
+        "auc_std": 0.004915003808294632,
+        "auc_values": [
+          0.7807575484977087,
+          0.782669587641595,
+          0.7920075352686555
+        ],
+        "aupr_mean": 0.9679853274482517,
+        "aupr_std": 0.0010140353907803863,
+        "aupr_values": [
+          0.967640393633124,
+          0.9669523205244867,
+          0.9693632681871445
+        ],
+        "headline_positive_class": "real",
+        "real_positive_precision_mean": 0.8983907655259215,
+        "real_positive_precision_std": 0.0018239647220512872,
+        "real_positive_precision_values": [
+          0.8974358974358975,
+          0.8967930029154519,
+          0.9009433962264151
+        ],
+        "real_positive_recall_mean": 0.9911771035076393,
+        "real_positive_recall_std": 0.0033888564123140947,
+        "real_positive_recall_values": [
+          0.9941897998708844,
+          0.9928986442866365,
+          0.986442866365397
+        ],
+        "real_positive_f1_mean": 0.9424989824330279,
+        "real_positive_f1_std": 0.0006494374243372807,
+        "real_positive_f1_values": [
+          0.9433384379785605,
+          0.9424019607843137,
+          0.9417565485362096
+        ],
+        "real_positive_auc_mean": 0.7851448904693198,
+        "real_positive_auc_std": 0.004915003808294632,
+        "real_positive_auc_values": [
+          0.7807575484977087,
+          0.782669587641595,
+          0.7920075352686555
+        ],
+        "real_positive_aupr_mean": 0.9679853274482517,
+        "real_positive_aupr_std": 0.0010140353907803863,
+        "real_positive_aupr_values": [
+          0.967640393633124,
+          0.9669523205244867,
+          0.9693632681871445
+        ],
+        "hallucination_positive_precision_mean": 0.4023692810457516,
+        "hallucination_positive_precision_std": 0.035970914971815864,
+        "hallucination_positive_precision_values": [
+          0.4375,
+          0.35294117647058826,
+          0.4166666666666667
+        ],
+        "hallucination_positive_recall_mean": 0.051001821493624776,
+        "hallucination_positive_recall_std": 0.022009191208733278,
+        "hallucination_positive_recall_values": [
+          0.03825136612021858,
+          0.03278688524590164,
+          0.08196721311475409
+        ],
+        "hallucination_positive_f1_mean": 0.08911268672127763,
+        "hallucination_positive_f1_std": 0.03411453221305226,
+        "hallucination_positive_f1_values": [
+          0.07035175879396985,
+          0.06,
+          0.136986301369863
+        ],
+        "hallucination_positive_auc_mean": 0.7851448904693198,
+        "hallucination_positive_auc_std": 0.004915003808294716,
+        "hallucination_positive_auc_values": [
+          0.7807575484977086,
+          0.782669587641595,
+          0.7920075352686556
+        ],
+        "hallucination_positive_aupr_mean": 0.2946279593128081,
+        "hallucination_positive_aupr_std": 0.016522307417717062,
+        "hallucination_positive_aupr_values": [
+          0.27668714181926324,
+          0.29063398360231424,
+          0.31656275251684685
+        ],
+        "rank": 5
+      },
+      {
+        "model": "qwen2_5_vl_7b",
+        "model_label": "qwen2_5_vl_7b",
+        "feature_set": "hpre_raw_logit_gauss_ev_target_dist_mass_x_cosine",
+        "threshold_mode": "fixed_0.5",
+        "threshold_mean": 0.5,
+        "threshold_std": 0.0,
+        "threshold_values": [
+          0.5,
+          0.5,
+          0.5
+        ],
+        "num_seeds": 3,
+        "seeds": [
+          43,
+          44,
+          45
+        ],
+        "precision_mean": 0.8984631489059135,
+        "precision_std": 0.001160375012636097,
+        "precision_values": [
+          0.8969132207338381,
+          0.8987712112346401,
+          0.8997050147492626
+        ],
+        "recall_mean": 0.9901011405207661,
+        "recall_std": 0.004094318396909901,
+        "recall_values": [
+          0.9941897998708844,
+          0.9916074887023887,
+          0.9845061329890252
+        ],
+        "f1_mean": 0.9420522166161774,
+        "f1_std": 0.0013128749570439054,
+        "f1_values": [
+          0.9430496019595835,
+          0.9429097605893186,
+          0.94019728729963
+        ],
+        "accuracy_mean": 0.8910700538876059,
+        "accuracy_std": 0.0021773880867946255,
+        "accuracy_values": [
+          0.8926096997690531,
+          0.8926096997690531,
+          0.8879907621247113
+        ],
+        "auc_mean": 0.7843723137672698,
+        "auc_std": 0.0018971418614123462,
+        "auc_values": [
+          0.7867229695167338,
+          0.7820769260619401,
+          0.7843170457231354
+        ],
+        "aupr_mean": 0.9677903719635145,
+        "aupr_std": 0.000496157332813473,
+        "aupr_values": [
+          0.9684848297839128,
+          0.9673562270011586,
+          0.9675300591054717
+        ],
+        "headline_positive_class": "real",
+        "real_positive_precision_mean": 0.8984631489059135,
+        "real_positive_precision_std": 0.001160375012636097,
+        "real_positive_precision_values": [
+          0.8969132207338381,
+          0.8987712112346401,
+          0.8997050147492626
+        ],
+        "real_positive_recall_mean": 0.9901011405207661,
+        "real_positive_recall_std": 0.004094318396909901,
+        "real_positive_recall_values": [
+          0.9941897998708844,
+          0.9916074887023887,
+          0.9845061329890252
+        ],
+        "real_positive_f1_mean": 0.9420522166161774,
+        "real_positive_f1_std": 0.0013128749570439054,
+        "real_positive_f1_values": [
+          0.9430496019595835,
+          0.9429097605893186,
+          0.94019728729963
+        ],
+        "real_positive_auc_mean": 0.7843723137672698,
+        "real_positive_auc_std": 0.0018971418614123462,
+        "real_positive_auc_values": [
+          0.7867229695167338,
+          0.7820769260619401,
+          0.7843170457231354
+        ],
+        "real_positive_aupr_mean": 0.9677903719635145,
+        "real_positive_aupr_std": 0.000496157332813473,
+        "real_positive_aupr_values": [
+          0.9684848297839128,
+          0.9673562270011586,
+          0.9675300591054717
+        ],
+        "hallucination_positive_precision_mean": 0.39537798668233454,
+        "hallucination_positive_precision_std": 0.03421711005568456,
+        "hallucination_positive_precision_values": [
+          0.4,
+          0.43478260869565216,
+          0.35135135135135137
+        ],
+        "hallucination_positive_recall_mean": 0.052823315118397086,
+        "hallucination_positive_recall_std": 0.01566908063213593,
+        "hallucination_positive_recall_values": [
+          0.03278688524590164,
+          0.0546448087431694,
+          0.07103825136612021
+        ],
+        "hallucination_positive_f1_mean": 0.09195841914288516,
+        "hallucination_positive_f1_std": 0.02378335039831941,
+        "hallucination_positive_f1_values": [
+          0.06060606060606061,
+          0.0970873786407767,
+          0.11818181818181818
+        ],
+        "hallucination_positive_auc_mean": 0.7843723137672698,
+        "hallucination_positive_auc_std": 0.0018971418614123026,
+        "hallucination_positive_auc_values": [
+          0.7867229695167338,
+          0.7820769260619402,
+          0.7843170457231353
+        ],
+        "hallucination_positive_aupr_mean": 0.28384130394807444,
+        "hallucination_positive_aupr_std": 0.0007308316752825816,
+        "hallucination_positive_aupr_values": [
+          0.2846425998897674,
+          0.2840060019038643,
+          0.28287531005059163
+        ],
+        "rank": 6
+      },
+      {
+        "model": "qwen2_5_vl_7b",
+        "model_label": "qwen2_5_vl_7b",
+        "feature_set": "hpre_raw_logit_gauss_source_target_union_topk_js+hpre_raw_logit_gauss_ev_target_dist_mass_x_cosine",
+        "threshold_mode": "train_f1",
+        "threshold_mean": 0.5471065739790598,
+        "threshold_std": 0.055945852734996485,
+        "threshold_values": [
+          0.5718053579330444,
+          0.46966198086738586,
+          0.5998523831367493
+        ],
+        "num_seeds": 3,
+        "seeds": [
+          43,
+          44,
+          45
+        ],
+        "precision_mean": 0.9222123706307771,
+        "precision_std": 0.0011703684522882353,
+        "precision_values": [
+          0.9215442092154421,
+          0.9212350346565847,
+          0.9238578680203046
+        ],
+        "recall_mean": 0.946417043253712,
+        "recall_std": 0.0065836275191643225,
+        "recall_values": [
+          0.9554551323434474,
+          0.9438347320852163,
+          0.9399612653324726
+        ],
+        "f1_mean": 0.9341437676940824,
+        "f1_std": 0.0028725285249117925,
+        "f1_values": [
+          0.9381933438985737,
+          0.9323979591836735,
+          0.93184
+        ],
+        "accuracy_mean": 0.8806774441878368,
+        "accuracy_std": 0.004768865162957625,
+        "accuracy_values": [
+          0.8874133949191686,
+          0.8775981524249422,
+          0.8770207852193995
+        ],
+        "auc_mean": 0.8298702612061839,
+        "auc_std": 0.007469050487931597,
+        "auc_values": [
+          0.8348714312424373,
+          0.8193123009027508,
+          0.8354270514733637
+        ],
+        "aupr_mean": 0.9757427140347638,
+        "aupr_std": 0.0014270039648107357,
+        "aupr_values": [
+          0.9765443886576031,
+          0.9737379755971209,
+          0.9769457778495673
+        ],
+        "headline_positive_class": "real",
+        "real_positive_precision_mean": 0.9222123706307771,
+        "real_positive_precision_std": 0.0011703684522882353,
+        "real_positive_precision_values": [
+          0.9215442092154421,
+          0.9212350346565847,
+          0.9238578680203046
+        ],
+        "real_positive_recall_mean": 0.946417043253712,
+        "real_positive_recall_std": 0.0065836275191643225,
+        "real_positive_recall_values": [
+          0.9554551323434474,
+          0.9438347320852163,
+          0.9399612653324726
+        ],
+        "real_positive_f1_mean": 0.9341437676940824,
+        "real_positive_f1_std": 0.0028725285249117925,
+        "real_positive_f1_values": [
+          0.9381933438985737,
+          0.9323979591836735,
+          0.93184
+        ],
+        "real_positive_auc_mean": 0.8298702612061839,
+        "real_positive_auc_std": 0.007469050487931597,
+        "real_positive_auc_values": [
+          0.8348714312424373,
+          0.8193123009027508,
+          0.8354270514733637
+        ],
+        "real_positive_aupr_mean": 0.9757427140347638,
+        "real_positive_aupr_std": 0.0014270039648107357,
+        "real_positive_aupr_values": [
+          0.9765443886576031,
+          0.9737379755971209,
+          0.9769457778495673
+        ],
+        "hallucination_positive_precision_mean": 0.41874236874236875,
+        "hallucination_positive_precision_std": 0.023837840460908095,
+        "hallucination_positive_precision_values": [
+          0.4523809523809524,
+          0.4,
+          0.40384615384615385
+        ],
+        "hallucination_positive_recall_mean": 0.3242258652094718,
+        "hallucination_positive_recall_std": 0.0143424551439195,
+        "hallucination_positive_recall_values": [
+          0.3114754098360656,
+          0.31693989071038253,
+          0.3442622950819672
+        ],
+        "hallucination_positive_f1_mean": 0.3647573304498403,
+        "hallucination_positive_f1_std": 0.007927891167104122,
+        "hallucination_positive_f1_values": [
+          0.36893203883495146,
+          0.35365853658536583,
+          0.37168141592920356
+        ],
+        "hallucination_positive_auc_mean": 0.8298702612061839,
+        "hallucination_positive_auc_std": 0.0074690504879316244,
+        "hallucination_positive_auc_values": [
+          0.8348714312424372,
+          0.8193123009027506,
+          0.8354270514733637
+        ],
+        "hallucination_positive_aupr_mean": 0.37650122404940056,
+        "hallucination_positive_aupr_std": 0.0044061319958053164,
+        "hallucination_positive_aupr_values": [
+          0.37422821393897454,
+          0.3826622756040615,
+          0.37261318260516557
+        ],
+        "rank": 1
+      },
+      {
+        "model": "qwen2_5_vl_7b",
+        "model_label": "qwen2_5_vl_7b",
+        "feature_set": "hpre_softmax_prob_gauss_source_target_union_topk_js+hpre_softmax_prob_gauss_ev_target_dist_mass_x_cosine",
+        "threshold_mode": "train_f1",
+        "threshold_mean": 0.584787646929423,
+        "threshold_std": 0.054150191315412606,
+        "threshold_values": [
+          0.6233806014060974,
+          0.5082085132598877,
+          0.6227738261222839
+        ],
+        "num_seeds": 3,
+        "seeds": [
+          43,
+          44,
+          45
+        ],
+        "precision_mean": 0.9220273446109509,
+        "precision_std": 0.0019814597914936346,
+        "precision_values": [
+          0.9210360075805433,
+          0.9247928616953474,
+          0.920253164556962
+        ],
+        "recall_mean": 0.9388853023455993,
+        "recall_std": 0.0018511567176764734,
+        "recall_values": [
+          0.9412524209167205,
+          0.9367333763718528,
+          0.9386701097482246
+        ],
+        "f1_mean": 0.9303765707479895,
+        "f1_std": 0.0007226100854278294,
+        "f1_values": [
+          0.9310344827586207,
+          0.930724823604875,
+          0.929370405880473
+        ],
+        "accuracy_mean": 0.8743264049268668,
+        "accuracy_std": 0.001360867554246595,
+        "accuracy_values": [
+          0.8752886836027713,
+          0.8752886836027713,
+          0.8724018475750578
+        ],
+        "auc_mean": 0.8258950777339162,
+        "auc_std": 0.008580627171881197,
+        "auc_values": [
+          0.8379335160706538,
+          0.8185538351906924,
+          0.8211978819404023
+        ],
+        "aupr_mean": 0.9747157833294736,
+        "aupr_std": 0.0017262337630990928,
+        "aupr_values": [
+          0.9770188131478494,
+          0.9728629377215074,
+          0.9742655991190641
+        ],
+        "headline_positive_class": "real",
+        "real_positive_precision_mean": 0.9220273446109509,
+        "real_positive_precision_std": 0.0019814597914936346,
+        "real_positive_precision_values": [
+          0.9210360075805433,
+          0.9247928616953474,
+          0.920253164556962
+        ],
+        "real_positive_recall_mean": 0.9388853023455993,
+        "real_positive_recall_std": 0.0018511567176764734,
+        "real_positive_recall_values": [
+          0.9412524209167205,
+          0.9367333763718528,
+          0.9386701097482246
+        ],
+        "real_positive_f1_mean": 0.9303765707479895,
+        "real_positive_f1_std": 0.0007226100854278294,
+        "real_positive_f1_values": [
+          0.9310344827586207,
+          0.930724823604875,
+          0.929370405880473
+        ],
+        "real_positive_auc_mean": 0.8258950777339162,
+        "real_positive_auc_std": 0.008580627171881197,
+        "real_positive_auc_values": [
+          0.8379335160706538,
+          0.8185538351906924,
+          0.8211978819404023
+        ],
+        "real_positive_aupr_mean": 0.9747157833294736,
+        "real_positive_aupr_std": 0.0017262337630990928,
+        "real_positive_aupr_values": [
+          0.9770188131478494,
+          0.9728629377215074,
+          0.9742655991190641
+        ],
+        "hallucination_positive_precision_mean": 0.38767825036713743,
+        "hallucination_positive_precision_std": 0.009769665519107067,
+        "hallucination_positive_precision_values": [
+          0.38926174496644295,
+          0.3987730061349693,
+          0.375
+        ],
+        "hallucination_positive_recall_mean": 0.32786885245901637,
+        "hallucination_positive_recall_std": 0.019448229967270143,
+        "hallucination_positive_recall_values": [
+          0.31693989071038253,
+          0.3551912568306011,
+          0.3114754098360656
+        ],
+        "hallucination_positive_f1_mean": 0.35513954705891115,
+        "hallucination_positive_f1_std": 0.015020943816754973,
+        "hallucination_positive_f1_values": [
+          0.3493975903614458,
+          0.37572254335260113,
+          0.3402985074626866
+        ],
+        "hallucination_positive_auc_mean": 0.8258950777339161,
+        "hallucination_positive_auc_std": 0.008580627171881133,
+        "hallucination_positive_auc_values": [
+          0.8379335160706537,
+          0.8185538351906925,
+          0.8211978819404022
+        ],
+        "hallucination_positive_aupr_mean": 0.3541573434837812,
+        "hallucination_positive_aupr_std": 0.008863445678809947,
+        "hallucination_positive_aupr_values": [
+          0.35752931961936923,
+          0.3629266572603908,
+          0.3420160535715835
+        ],
+        "rank": 2
+      },
+      {
+        "model": "qwen2_5_vl_7b",
+        "model_label": "qwen2_5_vl_7b",
+        "feature_set": "hpre_raw_logit_gauss_source_target_union_topk_js",
+        "threshold_mode": "train_f1",
+        "threshold_mean": 0.5757075548171997,
+        "threshold_std": 0.018062447528254318,
+        "threshold_values": [
+          0.6012463569641113,
+          0.5624851584434509,
+          0.5633911490440369
+        ],
+        "num_seeds": 3,
+        "seeds": [
+          43,
+          44,
+          45
+        ],
+        "precision_mean": 0.9112673170180813,
+        "precision_std": 0.00132637295680038,
+        "precision_values": [
+          0.9113846153846153,
+          0.9095873786407767,
+          0.9128299570288521
+        ],
+        "recall_mean": 0.961265332472563,
+        "recall_std": 0.00483106182927562,
+        "recall_values": [
+          0.9561007101355713,
+          0.9677211103938025,
+          0.959974176888315
+        ],
+        "f1_mean": 0.9355900462022085,
+        "f1_std": 0.0018626646688586364,
+        "f1_values": [
+          0.9332073093887838,
+          0.9377541445104786,
+          0.9358086847073631
+        ],
+        "accuracy_mean": 0.8816397228637413,
+        "accuracy_std": 0.0030912968445360274,
+        "accuracy_values": [
+          0.8775981524249422,
+          0.8851039260969977,
+          0.8822170900692841
+        ],
+        "auc_mean": 0.7949285101969541,
+        "auc_std": 0.008059989780789364,
+        "auc_values": [
+          0.8062949126353334,
+          0.788504482003196,
+          0.789986135952333
+        ],
+        "aupr_mean": 0.9694705327182223,
+        "aupr_std": 0.0017966785468017327,
+        "aupr_values": [
+          0.9720112052861528,
+          0.9681715978725757,
+          0.9682287949959383
+        ],
+        "headline_positive_class": "real",
+        "real_positive_precision_mean": 0.9112673170180813,
+        "real_positive_precision_std": 0.00132637295680038,
+        "real_positive_precision_values": [
+          0.9113846153846153,
+          0.9095873786407767,
+          0.9128299570288521
+        ],
+        "real_positive_recall_mean": 0.961265332472563,
+        "real_positive_recall_std": 0.00483106182927562,
+        "real_positive_recall_values": [
+          0.9561007101355713,
+          0.9677211103938025,
+          0.959974176888315
+        ],
+        "real_positive_f1_mean": 0.9355900462022085,
+        "real_positive_f1_std": 0.0018626646688586364,
+        "real_positive_f1_values": [
+          0.9332073093887838,
+          0.9377541445104786,
+          0.9358086847073631
+        ],
+        "real_positive_auc_mean": 0.7949285101969541,
+        "real_positive_auc_std": 0.008059989780789364,
+        "real_positive_auc_values": [
+          0.8062949126353334,
+          0.788504482003196,
+          0.789986135952333
+        ],
+        "real_positive_aupr_mean": 0.9694705327182223,
+        "real_positive_aupr_std": 0.0017966785468017327,
+        "real_positive_aupr_values": [
+          0.9720112052861528,
+          0.9681715978725757,
+          0.9682287949959383
+        ],
+        "hallucination_positive_precision_mean": 0.3891020461658335,
+        "hallucination_positive_precision_std": 0.017620021291224655,
+        "hallucination_positive_precision_values": [
+          0.3644859813084112,
+          0.40476190476190477,
+          0.39805825242718446
+        ],
+        "hallucination_positive_recall_mean": 0.20765027322404372,
+        "hallucination_positive_recall_std": 0.016086996113529768,
+        "hallucination_positive_recall_values": [
+          0.21311475409836064,
+          0.18579234972677597,
+          0.22404371584699453
+        ],
+        "hallucination_positive_f1_mean": 0.2701201506315803,
+        "hallucination_positive_f1_std": 0.013102324331296,
+        "hallucination_positive_f1_values": [
+          0.2689655172413793,
+          0.2546816479400749,
+          0.2867132867132867
+        ],
+        "hallucination_positive_auc_mean": 0.7949285101969542,
+        "hallucination_positive_auc_std": 0.008059989780789258,
+        "hallucination_positive_auc_values": [
+          0.8062949126353333,
+          0.7885044820031961,
+          0.7899861359523331
+        ],
+        "hallucination_positive_aupr_mean": 0.3266815513113293,
+        "hallucination_positive_aupr_std": 0.0022242078631712348,
+        "hallucination_positive_aupr_values": [
+          0.32433545073101977,
+          0.32604007412079045,
+          0.32966912908217777
+        ],
+        "rank": 3
+      },
+      {
+        "model": "qwen2_5_vl_7b",
+        "model_label": "qwen2_5_vl_7b",
+        "feature_set": "hpre_softmax_prob_gauss_source_target_union_topk_js",
+        "threshold_mode": "train_f1",
+        "threshold_mean": 0.5914497574170431,
+        "threshold_std": 0.027582624060811356,
+        "threshold_values": [
+          0.6114116311073303,
+          0.6104919910430908,
+          0.552445650100708
+        ],
+        "num_seeds": 3,
+        "seeds": [
+          43,
+          44,
+          45
+        ],
+        "precision_mean": 0.9119800914214488,
+        "precision_std": 0.0009790442669539363,
+        "precision_values": [
+          0.910988336402701,
+          0.913312693498452,
+          0.9116392443631932
+        ],
+        "recall_mean": 0.9586830213040671,
+        "recall_std": 0.0055534701530294585,
+        "recall_values": [
+          0.9580374435119432,
+          0.9522272433828276,
+          0.9657843770174306
+        ],
+        "f1_mean": 0.9347386118031613,
+        "f1_std": 0.0023451268104518626,
+        "f1_values": [
+          0.933920704845815,
+          0.9323640960809102,
+          0.9379310344827586
+        ],
+        "accuracy_mean": 0.880292532717475,
+        "accuracy_std": 0.003925342196761185,
+        "accuracy_values": [
+          0.8787528868360277,
+          0.8764434180138568,
+          0.8856812933025404
+        ],
+        "auc_mean": 0.7914760213122985,
+        "auc_std": 0.0076377334695637775,
+        "auc_values": [
+          0.8021074763552724,
+          0.787813043493599,
+          0.7845075440880245
+        ],
+        "aupr_mean": 0.9685938620319295,
+        "aupr_std": 0.0017104561509537937,
+        "aupr_values": [
+          0.9710121164795598,
+          0.9673344910384423,
+          0.9674349785777865
+        ],
+        "headline_positive_class": "real",
+        "real_positive_precision_mean": 0.9119800914214488,
+        "real_positive_precision_std": 0.0009790442669539363,
+        "real_positive_precision_values": [
+          0.910988336402701,
+          0.913312693498452,
+          0.9116392443631932
+        ],
+        "real_positive_recall_mean": 0.9586830213040671,
+        "real_positive_recall_std": 0.0055534701530294585,
+        "real_positive_recall_values": [
+          0.9580374435119432,
+          0.9522272433828276,
+          0.9657843770174306
+        ],
+        "real_positive_f1_mean": 0.9347386118031613,
+        "real_positive_f1_std": 0.0023451268104518626,
+        "real_positive_f1_values": [
+          0.933920704845815,
+          0.9323640960809102,
+          0.9379310344827586
+        ],
+        "real_positive_auc_mean": 0.7914760213122985,
+        "real_positive_auc_std": 0.0076377334695637775,
+        "real_positive_auc_values": [
+          0.8021074763552724,
+          0.787813043493599,
+          0.7845075440880245
+        ],
+        "real_positive_aupr_mean": 0.9685938620319295,
+        "real_positive_aupr_std": 0.0017104561509537937,
+        "real_positive_aupr_values": [
+          0.9710121164795598,
+          0.9673344910384423,
+          0.9674349785777865
+        ],
+        "hallucination_positive_precision_mean": 0.3846786079795789,
+        "hallucination_positive_precision_std": 0.02327363333866085,
+        "hallucination_positive_precision_values": [
+          0.36893203883495146,
+          0.36752136752136755,
+          0.4175824175824176
+        ],
+        "hallucination_positive_recall_mean": 0.2167577413479053,
+        "hallucination_positive_recall_std": 0.012879904939645675,
+        "hallucination_positive_recall_values": [
+          0.20765027322404372,
+          0.23497267759562843,
+          0.20765027322404372
+        ],
+        "hallucination_positive_f1_mean": 0.27659106505821834,
+        "hallucination_positive_f1_std": 0.008563451586119812,
+        "hallucination_positive_f1_values": [
+          0.26573426573426573,
+          0.2866666666666667,
+          0.2773722627737226
+        ],
+        "hallucination_positive_auc_mean": 0.7914760213122985,
+        "hallucination_positive_auc_std": 0.007637733469563829,
+        "hallucination_positive_auc_values": [
+          0.8021074763552724,
+          0.7878130434935989,
+          0.7845075440880244
+        ],
+        "hallucination_positive_aupr_mean": 0.3168834816215946,
+        "hallucination_positive_aupr_std": 0.0019490484237688916,
+        "hallucination_positive_aupr_values": [
+          0.3196309616662456,
+          0.3153181699665118,
+          0.3157013132320263
+        ],
+        "rank": 4
+      },
+      {
+        "model": "qwen2_5_vl_7b",
+        "model_label": "qwen2_5_vl_7b",
+        "feature_set": "hpre_softmax_prob_gauss_ev_target_dist_mass_x_cosine",
+        "threshold_mode": "train_f1",
+        "threshold_mean": 0.5395237803459167,
+        "threshold_std": 0.011038563208274236,
+        "threshold_values": [
+          0.5481478571891785,
+          0.5464808940887451,
+          0.5239425897598267
+        ],
+        "num_seeds": 3,
+        "seeds": [
+          43,
+          44,
+          45
+        ],
+        "precision_mean": 0.9014445548509267,
+        "precision_std": 0.0016788903824601167,
+        "precision_values": [
+          0.9010017678255745,
+          0.8996458087367178,
+          0.9036860879904876
+        ],
+        "recall_mean": 0.9840757477942758,
+        "recall_std": 0.002376879926229207,
+        "recall_values": [
+          0.987088444157521,
+          0.9838605551969012,
+          0.9812782440284055
+        ],
+        "f1_mean": 0.9409460761032951,
+        "f1_std": 0.0009041011423899812,
+        "f1_values": [
+          0.9420825631546519,
+          0.9398704902867715,
+          0.9408851748684618
+        ],
+        "accuracy_mean": 0.8895304080061587,
+        "accuracy_std": 0.0016555668335339804,
+        "accuracy_values": [
+          0.8914549653579676,
+          0.8874133949191686,
+          0.8897228637413395
+        ],
+        "auc_mean": 0.7851448904693198,
+        "auc_std": 0.004915003808294632,
+        "auc_values": [
+          0.7807575484977087,
+          0.782669587641595,
+          0.7920075352686555
+        ],
+        "aupr_mean": 0.9679853274482517,
+        "aupr_std": 0.0010140353907803863,
+        "aupr_values": [
+          0.967640393633124,
+          0.9669523205244867,
+          0.9693632681871445
+        ],
+        "headline_positive_class": "real",
+        "real_positive_precision_mean": 0.9014445548509267,
+        "real_positive_precision_std": 0.0016788903824601167,
+        "real_positive_precision_values": [
+          0.9010017678255745,
+          0.8996458087367178,
+          0.9036860879904876
+        ],
+        "real_positive_recall_mean": 0.9840757477942758,
+        "real_positive_recall_std": 0.002376879926229207,
+        "real_positive_recall_values": [
+          0.987088444157521,
+          0.9838605551969012,
+          0.9812782440284055
+        ],
+        "real_positive_f1_mean": 0.9409460761032951,
+        "real_positive_f1_std": 0.0009041011423899812,
+        "real_positive_f1_values": [
+          0.9420825631546519,
+          0.9398704902867715,
+          0.9408851748684618
+        ],
+        "real_positive_auc_mean": 0.7851448904693198,
+        "real_positive_auc_std": 0.004915003808294632,
+        "real_positive_auc_values": [
+          0.7807575484977087,
+          0.782669587641595,
+          0.7920075352686555
+        ],
+        "real_positive_aupr_mean": 0.9679853274482517,
+        "real_positive_aupr_std": 0.0010140353907803863,
+        "real_positive_aupr_values": [
+          0.967640393633124,
+          0.9669523205244867,
+          0.9693632681871445
+        ],
+        "hallucination_positive_precision_mean": 0.3968922305764411,
+        "hallucination_positive_precision_std": 0.038897953640514474,
+        "hallucination_positive_precision_values": [
+          0.42857142857142855,
+          0.34210526315789475,
+          0.42
+        ],
+        "hallucination_positive_recall_mean": 0.08925318761384333,
+        "hallucination_positive_recall_std": 0.018575663073197763,
+        "hallucination_positive_recall_values": [
+          0.08196721311475409,
+          0.07103825136612021,
+          0.11475409836065574
+        ],
+        "hallucination_positive_f1_mean": 0.14517308281740857,
+        "hallucination_positive_f1_std": 0.026113397255246192,
+        "hallucination_positive_f1_values": [
+          0.13761467889908258,
+          0.11764705882352941,
+          0.18025751072961374
+        ],
+        "hallucination_positive_auc_mean": 0.7851448904693198,
+        "hallucination_positive_auc_std": 0.004915003808294716,
+        "hallucination_positive_auc_values": [
+          0.7807575484977086,
+          0.782669587641595,
+          0.7920075352686556
+        ],
+        "hallucination_positive_aupr_mean": 0.2946279593128081,
+        "hallucination_positive_aupr_std": 0.016522307417717062,
+        "hallucination_positive_aupr_values": [
+          0.27668714181926324,
+          0.29063398360231424,
+          0.31656275251684685
+        ],
+        "rank": 5
+      },
+      {
+        "model": "qwen2_5_vl_7b",
+        "model_label": "qwen2_5_vl_7b",
+        "feature_set": "hpre_raw_logit_gauss_ev_target_dist_mass_x_cosine",
+        "threshold_mode": "train_f1",
+        "threshold_mean": 0.5368737975756327,
+        "threshold_std": 0.003434685544835944,
+        "threshold_values": [
+          0.5412954092025757,
+          0.5364044308662415,
+          0.532921552658081
+        ],
+        "num_seeds": 3,
+        "seeds": [
+          43,
+          44,
+          45
+        ],
+        "precision_mean": 0.900673578297979,
+        "precision_std": 0.0008508503616521225,
+        "precision_values": [
+          0.8994708994708994,
+          0.9012418687167356,
+          0.901307966706302
+        ],
+        "recall_mean": 0.9834301700021518,
+        "recall_std": 0.0037023134353529425,
+        "recall_values": [
+          0.9877340219496449,
+          0.9838605551969012,
+          0.9786959328599096
+        ],
+        "f1_mean": 0.9402294545098631,
+        "f1_std": 0.0013277023463236308,
+        "f1_values": [
+          0.9415384615384615,
+          0.9407407407407408,
+          0.9384091612503869
+        ],
+        "accuracy_mean": 0.8881832178598922,
+        "accuracy_std": 0.002227836201460781,
+        "accuracy_values": [
+          0.8903002309468823,
+          0.8891454965357968,
+          0.8851039260969977
+        ],
+        "auc_mean": 0.7843723137672698,
+        "auc_std": 0.0018971418614123462,
+        "auc_values": [
+          0.7867229695167338,
+          0.7820769260619401,
+          0.7843170457231354
+        ],
+        "aupr_mean": 0.9677903719635145,
+        "aupr_std": 0.000496157332813473,
+        "aupr_values": [
+          0.9684848297839128,
+          0.9673562270011586,
+          0.9675300591054717
+        ],
+        "headline_positive_class": "real",
+        "real_positive_precision_mean": 0.900673578297979,
+        "real_positive_precision_std": 0.0008508503616521225,
+        "real_positive_precision_values": [
+          0.8994708994708994,
+          0.9012418687167356,
+          0.901307966706302
+        ],
+        "real_positive_recall_mean": 0.9834301700021518,
+        "real_positive_recall_std": 0.0037023134353529425,
+        "real_positive_recall_values": [
+          0.9877340219496449,
+          0.9838605551969012,
+          0.9786959328599096
+        ],
+        "real_positive_f1_mean": 0.9402294545098631,
+        "real_positive_f1_std": 0.0013277023463236308,
+        "real_positive_f1_values": [
+          0.9415384615384615,
+          0.9407407407407408,
+          0.9384091612503869
+        ],
+        "real_positive_auc_mean": 0.7843723137672698,
+        "real_positive_auc_std": 0.0018971418614123462,
+        "real_positive_auc_values": [
+          0.7867229695167338,
+          0.7820769260619401,
+          0.7843170457231354
+        ],
+        "real_positive_aupr_mean": 0.9677903719635145,
+        "real_positive_aupr_std": 0.000496157332813473,
+        "real_positive_aupr_values": [
+          0.9684848297839128,
+          0.9673562270011586,
+          0.9675300591054717
+        ],
+        "hallucination_positive_precision_mean": 0.37244689221085764,
+        "hallucination_positive_precision_std": 0.0229793634181574,
+        "hallucination_positive_precision_values": [
+          0.3870967741935484,
+          0.3902439024390244,
+          0.34
+        ],
+        "hallucination_positive_recall_mean": 0.08196721311475409,
+        "hallucination_positive_recall_std": 0.011804627865952386,
+        "hallucination_positive_recall_values": [
+          0.06557377049180328,
+          0.08743169398907104,
+          0.09289617486338798
+        ],
+        "hallucination_positive_f1_mean": 0.13364314078284636,
+        "hallucination_positive_f1_std": 0.01524971852936911,
+        "hallucination_positive_f1_values": [
+          0.11214953271028037,
+          0.14285714285714285,
+          0.1459227467811159
+        ],
+        "hallucination_positive_auc_mean": 0.7843723137672698,
+        "hallucination_positive_auc_std": 0.0018971418614123026,
+        "hallucination_positive_auc_values": [
+          0.7867229695167338,
+          0.7820769260619402,
+          0.7843170457231353
+        ],
+        "hallucination_positive_aupr_mean": 0.28384130394807444,
+        "hallucination_positive_aupr_std": 0.0007308316752825816,
+        "hallucination_positive_aupr_values": [
+          0.2846425998897674,
+          0.2840060019038643,
+          0.28287531005059163
+        ],
+        "rank": 6
+      }
+    ]
+  }
+}

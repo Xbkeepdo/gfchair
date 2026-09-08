@@ -1,0 +1,38 @@
+{
+  "completed_shards": [],
+  "created_unix": 1788076815.9938638,
+  "failed_cases": [],
+  "failed_shards": [],
+  "resume_commands": [
+    "/opt/conda/private/envs/vicr/bin/python scripts/run_tc_fvpa_path_attribution.py --model qwen3_vl_8b --device cuda:1 --devices cuda:0,cuda:1 --output-dir /home/apulis-dev/userdata/CODEX/test-cocochair/gfchair/outputs/qwen3_vl_8b/COCO4000-INSLEN-OFFICIAL-TARGET/results/tc_fvpa_fullk_path_optimized_b2_20260830 --seed 20260829 --layers 9,18,27,36 --target-scalars log_probability,margin,logit --integration-points 1,4,8,16,32 --config /home/apulis-dev/userdata/CODEX/test-cocochair/gfchair/configs/model_configs_inslen_official_target.yaml --num-shards 2 --shard-id 1 --resume --attribution-mode path --num-images 2 --path-batch-size 2",
+    "/opt/conda/private/envs/vicr/bin/python scripts/run_tc_fvpa_path_attribution.py --model qwen3_vl_8b --device cuda:0 --devices cuda:0,cuda:1 --output-dir /home/apulis-dev/userdata/CODEX/test-cocochair/gfchair/outputs/qwen3_vl_8b/COCO4000-INSLEN-OFFICIAL-TARGET/results/tc_fvpa_fullk_path_optimized_b2_20260830 --seed 20260829 --layers 9,18,27,36 --target-scalars log_probability,margin,logit --integration-points 1,4,8,16,32 --config /home/apulis-dev/userdata/CODEX/test-cocochair/gfchair/configs/model_configs_inslen_official_target.yaml --num-shards 2 --shard-id 0 --resume --attribution-mode path --num-images 2 --path-batch-size 2"
+  ],
+  "schema_version": "tc-fvpa-comprehensive-v1",
+  "stages": {
+    "path_attribution:qwen3_vl_8b:shard0": {
+      "details": {
+        "elapsed_seconds": 116.4695945159765,
+        "failed_cases": 2,
+        "images": 1,
+        "measured_cases": 6,
+        "peak_gpu_memory_bytes": 24312392704
+      },
+      "started_unix": 1788076837.2257826,
+      "status": "FAIL",
+      "updated_unix": 1788076962.1174264
+    },
+    "path_attribution:qwen3_vl_8b:shard1": {
+      "details": {
+        "elapsed_seconds": 60.77776227192953,
+        "failed_cases": 1,
+        "images": 1,
+        "measured_cases": 3,
+        "peak_gpu_memory_bytes": 24347795968
+      },
+      "started_unix": 1788076816.0172749,
+      "status": "FAIL",
+      "updated_unix": 1788076883.8497872
+    }
+  },
+  "updated_unix": 1788076962.1174264
+}

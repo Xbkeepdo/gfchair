@@ -1,0 +1,43 @@
+{
+  "model": "llava_1_5_7b",
+  "cohort": "global first 500 images; descriptive curves use all mentions",
+  "train_images": 395,
+  "test_images": 105,
+  "train_mentions": 1513,
+  "test_mentions": 404,
+  "bootstrap_unit": "image",
+  "bootstrap_replicates": 10000,
+  "representative_layer_selection": "maximum abs Cohen d on train only; L16/L24 fixed",
+  "selected_layers": {
+    "all_aggregate": [
+      19,
+      16,
+      24
+    ],
+    "all_tokenwise": [
+      19,
+      16,
+      24
+    ],
+    "union_tokenwise": [
+      19,
+      16,
+      24
+    ],
+    "union_aggregate": [
+      19,
+      16,
+      24
+    ]
+  },
+  "aggregate_audit": {
+    "shards": 10,
+    "images": 500,
+    "positions": 1861,
+    "mentions": 1917,
+    "maximum_gain_identity_error": 0.0,
+    "union_size_minimum": 32,
+    "union_size_mean": 41.54204728640516,
+    "union_size_maximum": 64
+  }
+}

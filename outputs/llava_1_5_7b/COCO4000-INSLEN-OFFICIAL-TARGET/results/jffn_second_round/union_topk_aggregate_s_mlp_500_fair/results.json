@@ -1,0 +1,481 @@
+{
+  "schema_version": "union-topk-aggregate-s-mlp-v2",
+  "model": "llava_1_5_7b",
+  "definition": {
+    "union": "Top32(P_JFFN) union Top32(Q_hpre_raw_logit_gauss)",
+    "union_aggregate_s": "||sum_{j in U} J_f(z)a_j|| / (||sum_{j in U} a_j|| + eps)",
+    "contrast": "Union tokenwise S sums norms; Union aggregate S sums vectors before norms."
+  },
+  "audit": {
+    "base": {
+      "round_one_shards": 80,
+      "round_two_shards": 80,
+      "positions": 14951,
+      "mentions": 15463,
+      "maximum_jffn_distribution_error": 0.00026304518918485176,
+      "maximum_jffn_energy_error": 0.00482940673828125,
+      "target": {
+        "origin": "reconstructed_from_existing_feature_parts",
+        "formula": "normalize(attention_support * hpre_raw_logit_gauss_gate)",
+        "parts": 2,
+        "rows_seen": 15463,
+        "unique_positions": 14951,
+        "duplicate_rows": 512,
+        "maximum_duplicate_error": 0.0,
+        "saved_target_maximum_error": 3.809324189418817e-08
+      },
+      "train_mentions": 12317,
+      "test_mentions": 3146,
+      "train_images": 3174,
+      "test_images": 797,
+      "layers": 32,
+      "input_dimensions": 96,
+      "source": "P_JFFN",
+      "target_gate": "hpre_raw_logit_gauss",
+      "source_top_k": 32,
+      "target_top_k": 32,
+      "union_size_minimum": 32,
+      "union_size_mean": 41.48552981405926,
+      "union_size_maximum": 64,
+      "feature_normalization": "none",
+      "all_finite": true
+    },
+    "aggregate_extraction": {
+      "shards": 10,
+      "images": 500,
+      "positions": 1861,
+      "mentions": 1917,
+      "maximum_gain_identity_error": 0.0,
+      "union_size_minimum": 32,
+      "union_size_mean": 41.54204728640516,
+      "union_size_maximum": 64
+    }
+  },
+  "curve_summary": {
+    "old_aggregate_s": {
+      "hall_higher_layers": 7,
+      "real_higher_layers": 25,
+      "ci_excludes_zero_hall_higher": 2,
+      "ci_excludes_zero_real_higher": 20,
+      "strongest_layer": 7,
+      "strongest_hall_minus_real": -0.06421680976495603,
+      "strongest_cohens_d": -0.707399182138213,
+      "strongest_best_orientation_auroc": 0.7002556428482354
+    },
+    "union_topk_s": {
+      "hall_higher_layers": 4,
+      "real_higher_layers": 28,
+      "ci_excludes_zero_hall_higher": 2,
+      "ci_excludes_zero_real_higher": 25,
+      "strongest_layer": 19,
+      "strongest_hall_minus_real": -0.04911937911176317,
+      "strongest_cohens_d": -0.7750348788505413,
+      "strongest_best_orientation_auroc": 0.7380159620900362
+    },
+    "union_aggregate_s": {
+      "hall_higher_layers": 7,
+      "real_higher_layers": 25,
+      "ci_excludes_zero_hall_higher": 3,
+      "ci_excludes_zero_real_higher": 23,
+      "strongest_layer": 7,
+      "strongest_hall_minus_real": -0.0786608751211001,
+      "strongest_cohens_d": -0.7645009465538574,
+      "strongest_best_orientation_auroc": 0.7153939082179823
+    }
+  },
+  "training_protocol": {
+    "inputs": {
+      "old_risk_ev": "risk_32 + EV_32",
+      "old_risk_ev_old_aggregate_s": "risk_32 + EV_32 + all-token aggregate S_32",
+      "old_risk_ev_token_all_s": "risk_32 + EV_32 + all-token tokenwise S_32",
+      "old_risk_ev_union_tokenwise_s": "risk_32 + EV_32 + Union tokenwise S_32",
+      "union_aggregate_s": "risk_32 + EV_32 + Union aggregate S_32"
+    },
+    "hidden_sizes": [
+      128,
+      64,
+      32
+    ],
+    "batch_size": 256,
+    "max_epochs": 100,
+    "seeds": [
+      43,
+      44,
+      45
+    ],
+    "feature_normalization": "none",
+    "split": "existing image-level 80/20",
+    "all_comparators_retrained_on_same_cohort": true
+  },
+  "comparisons": {
+    "old_risk_ev": {
+      "name": "risk+EV",
+      "aggregate": {
+        "auroc": {
+          "mean": 0.8212454212454213,
+          "std": 0.004099252246683155,
+          "values": [
+            0.8183787227265488,
+            0.8183150183150184,
+            0.8270425226946967
+          ]
+        },
+        "accuracy": {
+          "mean": 0.7838283828382838,
+          "std": 0.011130971586825127,
+          "values": [
+            0.7698019801980198,
+            0.7970297029702971,
+            0.7846534653465347
+          ]
+        },
+        "real_f1": {
+          "mean": 0.8503241672627523,
+          "std": 0.0066070534942729905,
+          "values": [
+            0.8431703204047217,
+            0.8591065292096219,
+            0.8486956521739131
+          ]
+        },
+        "real_aupr": {
+          "mean": 0.9260239684979724,
+          "std": 0.002866464063316169,
+          "values": [
+            0.9277225685392494,
+            0.9219870372621124,
+            0.9283622996925556
+          ]
+        },
+        "hall_f1": {
+          "mean": 0.6104064813727075,
+          "std": 0.030684855344354476,
+          "values": [
+            0.5674418604651162,
+            0.6371681415929203,
+            0.6266094420600858
+          ]
+        },
+        "hall_aupr": {
+          "mean": 0.5492755092393152,
+          "std": 0.018056106605092086,
+          "values": [
+            0.5240625436317534,
+            0.5583799565556109,
+            0.5653840275305813
+          ]
+        }
+      },
+      "seed_ensemble": {
+        "auroc": 0.8264054785793915,
+        "hall_aupr": 0.5531672003562208
+      }
+    },
+    "old_risk_ev_old_aggregate_s": {
+      "name": "risk+EV+all-token aggregate S",
+      "aggregate": {
+        "auroc": {
+          "mean": 0.8297181079789776,
+          "std": 0.005879184388328508,
+          "values": [
+            0.8370122630992197,
+            0.822615066093327,
+            0.8295269947443861
+          ]
+        },
+        "accuracy": {
+          "mean": 0.7912541254125413,
+          "std": 0.001166842873245129,
+          "values": [
+            0.7920792079207921,
+            0.7896039603960396,
+            0.7920792079207921
+          ]
+        },
+        "real_f1": {
+          "mean": 0.8582076851040452,
+          "std": 0.0031273913521350596,
+          "values": [
+            0.8622950819672132,
+            0.8547008547008547,
+            0.8576271186440678
+          ]
+        },
+        "real_aupr": {
+          "mean": 0.9309513361461642,
+          "std": 0.004153551671419683,
+          "values": [
+            0.9328773157326771,
+            0.9251825228849699,
+            0.9347941698208455
+          ]
+        },
+        "hall_f1": {
+          "mean": 0.6030901851858778,
+          "std": 0.019401375161310457,
+          "values": [
+            0.5757575757575758,
+            0.6188340807174888,
+            0.6146788990825688
+          ]
+        },
+        "hall_aupr": {
+          "mean": 0.5703117219662613,
+          "std": 0.013591905840251519,
+          "values": [
+            0.5877821061944952,
+            0.5546339717685701,
+            0.5685190879357188
+          ]
+        }
+      },
+      "seed_ensemble": {
+        "auroc": 0.8358018792801403,
+        "hall_aupr": 0.5724453085194741
+      }
+    },
+    "old_risk_ev_token_all_s": {
+      "name": "risk+EV+all-token tokenwise S",
+      "aggregate": {
+        "auroc": {
+          "mean": 0.8401550140680575,
+          "std": 0.0055306983192248485,
+          "values": [
+            0.8465997770345597,
+            0.8330944417900938,
+            0.840770823379519
+          ]
+        },
+        "accuracy": {
+          "mean": 0.7887788778877889,
+          "std": 0.002333685746490258,
+          "values": [
+            0.7871287128712872,
+            0.7871287128712872,
+            0.7920792079207921
+          ]
+        },
+        "real_f1": {
+          "mean": 0.8569873552482248,
+          "std": 0.0008162987583661439,
+          "values": [
+            0.8566666666666667,
+            0.8561872909698997,
+            0.8581081081081081
+          ]
+        },
+        "real_aupr": {
+          "mean": 0.9288339629528567,
+          "std": 0.0044731936085021275,
+          "values": [
+            0.9347971034840129,
+            0.9240234837658236,
+            0.9276813016087335
+          ]
+        },
+        "hall_f1": {
+          "mean": 0.5960419210419211,
+          "std": 0.010776109202081854,
+          "values": [
+            0.5865384615384616,
+            0.5904761904761905,
+            0.6111111111111112
+          ]
+        },
+        "hall_aupr": {
+          "mean": 0.6154081823043464,
+          "std": 0.003937823684646475,
+          "values": [
+            0.6190112280945775,
+            0.6099292651099792,
+            0.617284053708482
+          ]
+        }
+      },
+      "seed_ensemble": {
+        "auroc": 0.8461538461538461,
+        "hall_aupr": 0.6301713968527038
+      }
+    },
+    "old_risk_ev_union_tokenwise_s": {
+      "name": "risk+EV+Union tokenwise S",
+      "aggregate": {
+        "auroc": {
+          "mean": 0.8456282847587197,
+          "std": 0.004828893143244222,
+          "values": [
+            0.851297977384934,
+            0.8394967351489091,
+            0.8460901417423157
+          ]
+        },
+        "accuracy": {
+          "mean": 0.7945544554455446,
+          "std": 0.003500528619735387,
+          "values": [
+            0.7995049504950495,
+            0.7920792079207921,
+            0.7920792079207921
+          ]
+        },
+        "real_f1": {
+          "mean": 0.8580806906442985,
+          "std": 0.0038148647091613566,
+          "values": [
+            0.863406408094435,
+            0.8561643835616438,
+            0.8546712802768166
+          ]
+        },
+        "real_aupr": {
+          "mean": 0.9376978231082825,
+          "std": 0.005378024927385935,
+          "values": [
+            0.9411087526241042,
+            0.9301051775260766,
+            0.941879539174667
+          ]
+        },
+        "hall_f1": {
+          "mean": 0.6276794742163802,
+          "std": 0.005072897647576338,
+          "values": [
+            0.6232558139534884,
+            0.625,
+            0.6347826086956522
+          ]
+        },
+        "hall_aupr": {
+          "mean": 0.6039866272451556,
+          "std": 0.006384214853120583,
+          "values": [
+            0.6088545971961838,
+            0.5949674733004257,
+            0.6081378112388572
+          ]
+        }
+      },
+      "seed_ensemble": {
+        "auroc": 0.8488294314381272,
+        "hall_aupr": 0.6107134903454106
+      }
+    },
+    "union_aggregate_s": {
+      "name": "risk+EV+Union aggregate S",
+      "aggregate": {
+        "auroc": {
+          "mean": 0.8397621701969529,
+          "std": 0.007118395924318723,
+          "values": [
+            0.8486701704093008,
+            0.8312470138557095,
+            0.839369326325848
+          ]
+        },
+        "accuracy": {
+          "mean": 0.787953795379538,
+          "std": 0.009969509879203451,
+          "values": [
+            0.801980198019802,
+            0.7797029702970297,
+            0.7821782178217822
+          ]
+        },
+        "real_f1": {
+          "mean": 0.8538908219666633,
+          "std": 0.00667783384507588,
+          "values": [
+            0.8625429553264605,
+            0.846286701208981,
+            0.8528428093645485
+          ]
+        },
+        "real_aupr": {
+          "mean": 0.940257310269339,
+          "std": 0.0037417950812231975,
+          "values": [
+            0.9426862952112376,
+            0.9349713844194896,
+            0.9431142511772896
+          ]
+        },
+        "hall_f1": {
+          "mean": 0.6127745972859394,
+          "std": 0.02658179945747014,
+          "values": [
+            0.6460176991150443,
+            0.611353711790393,
+            0.580952380952381
+          ]
+        },
+        "hall_aupr": {
+          "mean": 0.576352922507388,
+          "std": 0.020895995210581716,
+          "values": [
+            0.6056229666657714,
+            0.5581947895889386,
+            0.565241011267454
+          ]
+        }
+      },
+      "seed_ensemble": {
+        "auroc": 0.8447842013059405,
+        "hall_aupr": 0.5766824603681374
+      }
+    }
+  },
+  "paired_bootstrap": {
+    "union_aggregate_s_versus_old_risk_ev": {
+      "replicates": 10000,
+      "new_minus_baseline_auroc": 0.018378722726548946,
+      "auroc_ci95": [
+        -0.004854852863367792,
+        0.043193039551541565
+      ],
+      "new_minus_baseline_hall_aupr": 0.023515260011916617,
+      "hall_aupr_ci95": [
+        -0.03340294099092226,
+        0.07251079582300023
+      ]
+    },
+    "union_aggregate_s_versus_old_risk_ev_old_aggregate_s": {
+      "replicates": 10000,
+      "new_minus_baseline_auroc": 0.008982322025800182,
+      "auroc_ci95": [
+        -0.0061393672311784945,
+        0.025113788199226206
+      ],
+      "new_minus_baseline_hall_aupr": 0.004237151848663356,
+      "hall_aupr_ci95": [
+        -0.032933844506719746,
+        0.04231470960855901
+      ]
+    },
+    "union_aggregate_s_versus_old_risk_ev_token_all_s": {
+      "replicates": 10000,
+      "new_minus_baseline_auroc": -0.0013696448479056933,
+      "auroc_ci95": [
+        -0.019256863131569567,
+        0.019931838152578665
+      ],
+      "new_minus_baseline_hall_aupr": -0.05348893648456643,
+      "hall_aupr_ci95": [
+        -0.09065059920745971,
+        -0.00845720428934042
+      ]
+    },
+    "union_aggregate_s_versus_old_risk_ev_union_tokenwise_s": {
+      "replicates": 10000,
+      "new_minus_baseline_auroc": -0.004045230132186717,
+      "auroc_ci95": [
+        -0.016718226736991866,
+        0.012027586306658625
+      ],
+      "new_minus_baseline_hall_aupr": -0.03403102997727314,
+      "hall_aupr_ci95": [
+        -0.06707104903183111,
+        0.0036622119735866265
+      ]
+    }
+  }
+}

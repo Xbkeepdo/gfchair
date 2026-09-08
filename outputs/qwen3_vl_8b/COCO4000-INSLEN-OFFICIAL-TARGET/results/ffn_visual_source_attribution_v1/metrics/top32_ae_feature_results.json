@@ -1,0 +1,901 @@
+{
+  "artifact_checksums": {
+    "outputs/qwen3_vl_8b/COCO4000-INSLEN-OFFICIAL-TARGET/image_splits.json": "d3ee1c8e521d4f007112e3f3aa38ba1ba4949d623820b6977240d2f3f32ac65d",
+    "outputs/qwen3_vl_8b/COCO4000-INSLEN-OFFICIAL-TARGET/results/ffn_visual_source_attribution_v1/figures/ae_real_hall_curve.png": "8d4569b614418e2c5f24325b52308407c4cf2db6d961ffd9563db21ae7d16ef8",
+    "outputs/qwen3_vl_8b/COCO4000-INSLEN-OFFICIAL-TARGET/results/ffn_visual_source_attribution_v1/figures/ae_top32_real_hall_curve.png": "89896e7b63aec9b70623655cc3803448a5df1808fb45fee05182592757ea78a6",
+    "outputs/qwen3_vl_8b/COCO4000-INSLEN-OFFICIAL-TARGET/results/ffn_visual_source_attribution_v1/metrics/probes_top32_ae_features/A/seed43/config.json": "a4094726ced02e963317da2f13dcb1ffd62e9216a4e516e3cdcc777b03169aa5",
+    "outputs/qwen3_vl_8b/COCO4000-INSLEN-OFFICIAL-TARGET/results/ffn_visual_source_attribution_v1/metrics/probes_top32_ae_features/A/seed43/history.json": "54b633b0725311e0060b65e982e385e70ecd21cc03f7a7eb73176161172ff98a",
+    "outputs/qwen3_vl_8b/COCO4000-INSLEN-OFFICIAL-TARGET/results/ffn_visual_source_attribution_v1/metrics/probes_top32_ae_features/A/seed43/model.pt": "bf4e431d2bb4d1f577bce16653944ba660b4ef65b1ce6e3337a74a910cc684dd",
+    "outputs/qwen3_vl_8b/COCO4000-INSLEN-OFFICIAL-TARGET/results/ffn_visual_source_attribution_v1/metrics/probes_top32_ae_features/A/seed44/config.json": "6a8537607ea5542e4012c435096eaf5fbf3841d480b7c05d1cbfce3939e4fcee",
+    "outputs/qwen3_vl_8b/COCO4000-INSLEN-OFFICIAL-TARGET/results/ffn_visual_source_attribution_v1/metrics/probes_top32_ae_features/A/seed44/history.json": "c652412aa311c2adb959a2484f49f2bb3f24ad28ed3a4a0dae03bdad5ff6ce22",
+    "outputs/qwen3_vl_8b/COCO4000-INSLEN-OFFICIAL-TARGET/results/ffn_visual_source_attribution_v1/metrics/probes_top32_ae_features/A/seed44/model.pt": "4876d3462aa35c163528a41f9654203751309c878b940e46c424f331fac781d9",
+    "outputs/qwen3_vl_8b/COCO4000-INSLEN-OFFICIAL-TARGET/results/ffn_visual_source_attribution_v1/metrics/probes_top32_ae_features/A/seed45/config.json": "ff8d49f600fe17c9d573952b1eda848966090e9489c77bfda10b75fb33079d6d",
+    "outputs/qwen3_vl_8b/COCO4000-INSLEN-OFFICIAL-TARGET/results/ffn_visual_source_attribution_v1/metrics/probes_top32_ae_features/A/seed45/history.json": "8fa8dfcd692a806d53b02ff033f735b029f0f60e9b5fadaf979f58f002616d51",
+    "outputs/qwen3_vl_8b/COCO4000-INSLEN-OFFICIAL-TARGET/results/ffn_visual_source_attribution_v1/metrics/probes_top32_ae_features/A/seed45/model.pt": "468a172dfba43c606d8a35d90edd078fd87b29c65885d6f6974ed3e586cf61b5",
+    "outputs/qwen3_vl_8b/COCO4000-INSLEN-OFFICIAL-TARGET/results/ffn_visual_source_attribution_v1/metrics/probes_top32_ae_features/AE+I+S/seed43/config.json": "a4094726ced02e963317da2f13dcb1ffd62e9216a4e516e3cdcc777b03169aa5",
+    "outputs/qwen3_vl_8b/COCO4000-INSLEN-OFFICIAL-TARGET/results/ffn_visual_source_attribution_v1/metrics/probes_top32_ae_features/AE+I+S/seed43/history.json": "ef1171a69cb02935ed4445f204d1d6d72f5f8cfdd5292a5deb05462819bc15a0",
+    "outputs/qwen3_vl_8b/COCO4000-INSLEN-OFFICIAL-TARGET/results/ffn_visual_source_attribution_v1/metrics/probes_top32_ae_features/AE+I+S/seed43/model.pt": "529a5f6eb27aa54fcc2a6e77ef60f81e4f88e78c7695ce8be462454ae86d40a1",
+    "outputs/qwen3_vl_8b/COCO4000-INSLEN-OFFICIAL-TARGET/results/ffn_visual_source_attribution_v1/metrics/probes_top32_ae_features/AE+I+S/seed44/config.json": "6a8537607ea5542e4012c435096eaf5fbf3841d480b7c05d1cbfce3939e4fcee",
+    "outputs/qwen3_vl_8b/COCO4000-INSLEN-OFFICIAL-TARGET/results/ffn_visual_source_attribution_v1/metrics/probes_top32_ae_features/AE+I+S/seed44/history.json": "0ee9d55280d67ae3e1147266bf8d6b58a4c9addd4766adf9794d4f6207270e9c",
+    "outputs/qwen3_vl_8b/COCO4000-INSLEN-OFFICIAL-TARGET/results/ffn_visual_source_attribution_v1/metrics/probes_top32_ae_features/AE+I+S/seed44/model.pt": "2fec23c552c8ba3e8df06d8080d68451866716cc87b8750708d69e9cd7ee5673",
+    "outputs/qwen3_vl_8b/COCO4000-INSLEN-OFFICIAL-TARGET/results/ffn_visual_source_attribution_v1/metrics/probes_top32_ae_features/AE+I+S/seed45/config.json": "ff8d49f600fe17c9d573952b1eda848966090e9489c77bfda10b75fb33079d6d",
+    "outputs/qwen3_vl_8b/COCO4000-INSLEN-OFFICIAL-TARGET/results/ffn_visual_source_attribution_v1/metrics/probes_top32_ae_features/AE+I+S/seed45/history.json": "7af97135309d36649a89b6bd671c93b73f38ff2699c080fae31a8498f6ad3284",
+    "outputs/qwen3_vl_8b/COCO4000-INSLEN-OFFICIAL-TARGET/results/ffn_visual_source_attribution_v1/metrics/probes_top32_ae_features/AE+I+S/seed45/model.pt": "0962c15e17066c29dc1fbc26d9226076a937bf3179b9fdc99ed752cbd5e7ee96",
+    "outputs/qwen3_vl_8b/COCO4000-INSLEN-OFFICIAL-TARGET/results/ffn_visual_source_attribution_v1/metrics/probes_top32_ae_features/AE+I/seed43/config.json": "a4094726ced02e963317da2f13dcb1ffd62e9216a4e516e3cdcc777b03169aa5",
+    "outputs/qwen3_vl_8b/COCO4000-INSLEN-OFFICIAL-TARGET/results/ffn_visual_source_attribution_v1/metrics/probes_top32_ae_features/AE+I/seed43/history.json": "ecac14aab1a26807a828a99ff123407095dc0ea40c37a598917322fb29d2363e",
+    "outputs/qwen3_vl_8b/COCO4000-INSLEN-OFFICIAL-TARGET/results/ffn_visual_source_attribution_v1/metrics/probes_top32_ae_features/AE+I/seed43/model.pt": "299f72249c9e3fb677eb91817c6246f882519e188afc7431e1b5237be0a19dac",
+    "outputs/qwen3_vl_8b/COCO4000-INSLEN-OFFICIAL-TARGET/results/ffn_visual_source_attribution_v1/metrics/probes_top32_ae_features/AE+I/seed44/config.json": "6a8537607ea5542e4012c435096eaf5fbf3841d480b7c05d1cbfce3939e4fcee",
+    "outputs/qwen3_vl_8b/COCO4000-INSLEN-OFFICIAL-TARGET/results/ffn_visual_source_attribution_v1/metrics/probes_top32_ae_features/AE+I/seed44/history.json": "9617c8fdd0bb1dbbd2dd7717b958d594970f461de7a9236f3fc129333f5dc3c9",
+    "outputs/qwen3_vl_8b/COCO4000-INSLEN-OFFICIAL-TARGET/results/ffn_visual_source_attribution_v1/metrics/probes_top32_ae_features/AE+I/seed44/model.pt": "0a495bda57b96890a4d9a2e621c446e4546c6b76df172975043120ebc2540eb4",
+    "outputs/qwen3_vl_8b/COCO4000-INSLEN-OFFICIAL-TARGET/results/ffn_visual_source_attribution_v1/metrics/probes_top32_ae_features/AE+I/seed45/config.json": "ff8d49f600fe17c9d573952b1eda848966090e9489c77bfda10b75fb33079d6d",
+    "outputs/qwen3_vl_8b/COCO4000-INSLEN-OFFICIAL-TARGET/results/ffn_visual_source_attribution_v1/metrics/probes_top32_ae_features/AE+I/seed45/history.json": "b26d2a5066721e751f1488df9b032f8504b821230c0d472b5adb62b984bc6c3c",
+    "outputs/qwen3_vl_8b/COCO4000-INSLEN-OFFICIAL-TARGET/results/ffn_visual_source_attribution_v1/metrics/probes_top32_ae_features/AE+I/seed45/model.pt": "a12e4871254d639cbe131e962ae94f856d1dccc3d4bc8357e8892d7e98e6825f",
+    "outputs/qwen3_vl_8b/COCO4000-INSLEN-OFFICIAL-TARGET/results/ffn_visual_source_attribution_v1/metrics/probes_top32_ae_features/AE+N/seed43/config.json": "a4094726ced02e963317da2f13dcb1ffd62e9216a4e516e3cdcc777b03169aa5",
+    "outputs/qwen3_vl_8b/COCO4000-INSLEN-OFFICIAL-TARGET/results/ffn_visual_source_attribution_v1/metrics/probes_top32_ae_features/AE+N/seed43/history.json": "99b54ae2258776ead3e2f3bf541153cef3ad4d5f9a4efe5933d63618bf1dc64c",
+    "outputs/qwen3_vl_8b/COCO4000-INSLEN-OFFICIAL-TARGET/results/ffn_visual_source_attribution_v1/metrics/probes_top32_ae_features/AE+N/seed43/model.pt": "0df8ff7262cdc46f42c3394024d9cbfbf368d5ffffed815b2249849b1d81e7b1",
+    "outputs/qwen3_vl_8b/COCO4000-INSLEN-OFFICIAL-TARGET/results/ffn_visual_source_attribution_v1/metrics/probes_top32_ae_features/AE+N/seed44/config.json": "6a8537607ea5542e4012c435096eaf5fbf3841d480b7c05d1cbfce3939e4fcee",
+    "outputs/qwen3_vl_8b/COCO4000-INSLEN-OFFICIAL-TARGET/results/ffn_visual_source_attribution_v1/metrics/probes_top32_ae_features/AE+N/seed44/history.json": "9f68b3d379c91ccdad4012151eb6258c307a4bbf9cc49e85f49d1812df672329",
+    "outputs/qwen3_vl_8b/COCO4000-INSLEN-OFFICIAL-TARGET/results/ffn_visual_source_attribution_v1/metrics/probes_top32_ae_features/AE+N/seed44/model.pt": "97b74956a0fe2be26d461ec7bc0cf0c8c3d2d4e7457c5740d5f00f650915736d",
+    "outputs/qwen3_vl_8b/COCO4000-INSLEN-OFFICIAL-TARGET/results/ffn_visual_source_attribution_v1/metrics/probes_top32_ae_features/AE+N/seed45/config.json": "ff8d49f600fe17c9d573952b1eda848966090e9489c77bfda10b75fb33079d6d",
+    "outputs/qwen3_vl_8b/COCO4000-INSLEN-OFFICIAL-TARGET/results/ffn_visual_source_attribution_v1/metrics/probes_top32_ae_features/AE+N/seed45/history.json": "01f9e214ac1c3c7eb687bdea8f932d5ad19f14c339fd975b3589404e03e79071",
+    "outputs/qwen3_vl_8b/COCO4000-INSLEN-OFFICIAL-TARGET/results/ffn_visual_source_attribution_v1/metrics/probes_top32_ae_features/AE+N/seed45/model.pt": "7cf51ecfe6a081e2b00a94c9bce78774ccc1eaf05727477863af257fbf8a99f3",
+    "outputs/qwen3_vl_8b/COCO4000-INSLEN-OFFICIAL-TARGET/results/ffn_visual_source_attribution_v1/metrics/probes_top32_ae_features/AE+S+N/seed43/config.json": "a4094726ced02e963317da2f13dcb1ffd62e9216a4e516e3cdcc777b03169aa5",
+    "outputs/qwen3_vl_8b/COCO4000-INSLEN-OFFICIAL-TARGET/results/ffn_visual_source_attribution_v1/metrics/probes_top32_ae_features/AE+S+N/seed43/history.json": "b409849febc9d1ed8956c79847b86ee981d4345c490fe3d32900ea41f2c0d340",
+    "outputs/qwen3_vl_8b/COCO4000-INSLEN-OFFICIAL-TARGET/results/ffn_visual_source_attribution_v1/metrics/probes_top32_ae_features/AE+S+N/seed43/model.pt": "387d861b54693bda98c1225d113e481e49f24243849ef458e40925613b5ead9f",
+    "outputs/qwen3_vl_8b/COCO4000-INSLEN-OFFICIAL-TARGET/results/ffn_visual_source_attribution_v1/metrics/probes_top32_ae_features/AE+S+N/seed44/config.json": "6a8537607ea5542e4012c435096eaf5fbf3841d480b7c05d1cbfce3939e4fcee",
+    "outputs/qwen3_vl_8b/COCO4000-INSLEN-OFFICIAL-TARGET/results/ffn_visual_source_attribution_v1/metrics/probes_top32_ae_features/AE+S+N/seed44/history.json": "182a358d0c7306d3b370a771bc9a62a2b6be02a1b237184421d43438b33d891b",
+    "outputs/qwen3_vl_8b/COCO4000-INSLEN-OFFICIAL-TARGET/results/ffn_visual_source_attribution_v1/metrics/probes_top32_ae_features/AE+S+N/seed44/model.pt": "ee2a6b4e9764d0db1d78070d885a0d8c96b0b5f6df4efb7f9f9060fbf801d68a",
+    "outputs/qwen3_vl_8b/COCO4000-INSLEN-OFFICIAL-TARGET/results/ffn_visual_source_attribution_v1/metrics/probes_top32_ae_features/AE+S+N/seed45/config.json": "ff8d49f600fe17c9d573952b1eda848966090e9489c77bfda10b75fb33079d6d",
+    "outputs/qwen3_vl_8b/COCO4000-INSLEN-OFFICIAL-TARGET/results/ffn_visual_source_attribution_v1/metrics/probes_top32_ae_features/AE+S+N/seed45/history.json": "fa9333962012b8db3c86ea3a70f0a9b65a4e2a71058d02b78bada611ee16ef1c",
+    "outputs/qwen3_vl_8b/COCO4000-INSLEN-OFFICIAL-TARGET/results/ffn_visual_source_attribution_v1/metrics/probes_top32_ae_features/AE+S+N/seed45/model.pt": "891b24ddada7949bb7aed8aa54b9bac7413102777998a3ae70013034b1eb6eb6",
+    "outputs/qwen3_vl_8b/COCO4000-INSLEN-OFFICIAL-TARGET/results/ffn_visual_source_attribution_v1/metrics/probes_top32_ae_features/AE+S/seed43/config.json": "a4094726ced02e963317da2f13dcb1ffd62e9216a4e516e3cdcc777b03169aa5",
+    "outputs/qwen3_vl_8b/COCO4000-INSLEN-OFFICIAL-TARGET/results/ffn_visual_source_attribution_v1/metrics/probes_top32_ae_features/AE+S/seed43/history.json": "92372d57bb2955ee10f487a63f33cc121fbbf12c861a263ce0ce202c0b9ded2a",
+    "outputs/qwen3_vl_8b/COCO4000-INSLEN-OFFICIAL-TARGET/results/ffn_visual_source_attribution_v1/metrics/probes_top32_ae_features/AE+S/seed43/model.pt": "018b0199b4e6cef293b0ff7adeff986a4c3cb924f03abe9bea6b19473546b113",
+    "outputs/qwen3_vl_8b/COCO4000-INSLEN-OFFICIAL-TARGET/results/ffn_visual_source_attribution_v1/metrics/probes_top32_ae_features/AE+S/seed44/config.json": "6a8537607ea5542e4012c435096eaf5fbf3841d480b7c05d1cbfce3939e4fcee",
+    "outputs/qwen3_vl_8b/COCO4000-INSLEN-OFFICIAL-TARGET/results/ffn_visual_source_attribution_v1/metrics/probes_top32_ae_features/AE+S/seed44/history.json": "d6c3e136820580946bc846f9c373f381971b9477128181be9778a1ade9242a78",
+    "outputs/qwen3_vl_8b/COCO4000-INSLEN-OFFICIAL-TARGET/results/ffn_visual_source_attribution_v1/metrics/probes_top32_ae_features/AE+S/seed44/model.pt": "2cf7a802472ac84e605f5929b3504d6760563a6f69c3c51138590defab280d62",
+    "outputs/qwen3_vl_8b/COCO4000-INSLEN-OFFICIAL-TARGET/results/ffn_visual_source_attribution_v1/metrics/probes_top32_ae_features/AE+S/seed45/config.json": "ff8d49f600fe17c9d573952b1eda848966090e9489c77bfda10b75fb33079d6d",
+    "outputs/qwen3_vl_8b/COCO4000-INSLEN-OFFICIAL-TARGET/results/ffn_visual_source_attribution_v1/metrics/probes_top32_ae_features/AE+S/seed45/history.json": "51dcb2266a348c67b7421a9568918232b44fd930d7532b937c830e7bb7bf5319",
+    "outputs/qwen3_vl_8b/COCO4000-INSLEN-OFFICIAL-TARGET/results/ffn_visual_source_attribution_v1/metrics/probes_top32_ae_features/AE+S/seed45/model.pt": "d1f04bef2efe96a891e54b79c07ad8ea6027589dd438f65b235f320b6d443164",
+    "outputs/qwen3_vl_8b/COCO4000-INSLEN-OFFICIAL-TARGET/results/ffn_visual_source_attribution_v1/metrics/probes_top32_ae_features/B/seed43/config.json": "a4094726ced02e963317da2f13dcb1ffd62e9216a4e516e3cdcc777b03169aa5",
+    "outputs/qwen3_vl_8b/COCO4000-INSLEN-OFFICIAL-TARGET/results/ffn_visual_source_attribution_v1/metrics/probes_top32_ae_features/B/seed43/history.json": "c8f6d252fd26b53272a76b8665bffd4199c4c6c41307d1ed7b4d188caec01ff8",
+    "outputs/qwen3_vl_8b/COCO4000-INSLEN-OFFICIAL-TARGET/results/ffn_visual_source_attribution_v1/metrics/probes_top32_ae_features/B/seed43/model.pt": "d12b2322d4553b55cc2899a490feae1f15e26e5e294181c5a38568de822423e6",
+    "outputs/qwen3_vl_8b/COCO4000-INSLEN-OFFICIAL-TARGET/results/ffn_visual_source_attribution_v1/metrics/probes_top32_ae_features/B/seed44/config.json": "6a8537607ea5542e4012c435096eaf5fbf3841d480b7c05d1cbfce3939e4fcee",
+    "outputs/qwen3_vl_8b/COCO4000-INSLEN-OFFICIAL-TARGET/results/ffn_visual_source_attribution_v1/metrics/probes_top32_ae_features/B/seed44/history.json": "ef9609ae3b43b3281b4d54a96a8a2b432f8e6e07b207333d22197ec667517f15",
+    "outputs/qwen3_vl_8b/COCO4000-INSLEN-OFFICIAL-TARGET/results/ffn_visual_source_attribution_v1/metrics/probes_top32_ae_features/B/seed44/model.pt": "8e990e98444e9f455f7c515470a193fe95e5bfc2bbed487c8d2a4dcad0a0aa63",
+    "outputs/qwen3_vl_8b/COCO4000-INSLEN-OFFICIAL-TARGET/results/ffn_visual_source_attribution_v1/metrics/probes_top32_ae_features/B/seed45/config.json": "ff8d49f600fe17c9d573952b1eda848966090e9489c77bfda10b75fb33079d6d",
+    "outputs/qwen3_vl_8b/COCO4000-INSLEN-OFFICIAL-TARGET/results/ffn_visual_source_attribution_v1/metrics/probes_top32_ae_features/B/seed45/history.json": "37c33702a0e2e565007719897b273b9d2dc601baff842c835f673dfd32590611",
+    "outputs/qwen3_vl_8b/COCO4000-INSLEN-OFFICIAL-TARGET/results/ffn_visual_source_attribution_v1/metrics/probes_top32_ae_features/B/seed45/model.pt": "1a0de455773425bee5e0176ecd0bbd3754465c0558f2b71389331d488093de1f",
+    "outputs/qwen3_vl_8b/COCO4000-INSLEN-OFFICIAL-TARGET/results/ffn_visual_source_attribution_v1/metrics/probes_top32_ae_features/C_JS/seed43/config.json": "a4094726ced02e963317da2f13dcb1ffd62e9216a4e516e3cdcc777b03169aa5",
+    "outputs/qwen3_vl_8b/COCO4000-INSLEN-OFFICIAL-TARGET/results/ffn_visual_source_attribution_v1/metrics/probes_top32_ae_features/C_JS/seed43/history.json": "00938b64249323ba2627d1e2dbf14bf6d2e9298b35d30cbde8e60217f4ef5d6e",
+    "outputs/qwen3_vl_8b/COCO4000-INSLEN-OFFICIAL-TARGET/results/ffn_visual_source_attribution_v1/metrics/probes_top32_ae_features/C_JS/seed43/model.pt": "bf1d412e709ae259c8d045f0a4aeb9c2e51e957963c55cdba1770b9da951d6d1",
+    "outputs/qwen3_vl_8b/COCO4000-INSLEN-OFFICIAL-TARGET/results/ffn_visual_source_attribution_v1/metrics/probes_top32_ae_features/C_JS/seed44/config.json": "6a8537607ea5542e4012c435096eaf5fbf3841d480b7c05d1cbfce3939e4fcee",
+    "outputs/qwen3_vl_8b/COCO4000-INSLEN-OFFICIAL-TARGET/results/ffn_visual_source_attribution_v1/metrics/probes_top32_ae_features/C_JS/seed44/history.json": "bc9ce507de26ca5fc45081f0e7263b2cbcc0de5c5bc19459cc7f24f98f3f91b9",
+    "outputs/qwen3_vl_8b/COCO4000-INSLEN-OFFICIAL-TARGET/results/ffn_visual_source_attribution_v1/metrics/probes_top32_ae_features/C_JS/seed44/model.pt": "9fab9a89696c5cc4e4472ab1c6ed47be43edbb53ac155e92521e4be3c0f62629",
+    "outputs/qwen3_vl_8b/COCO4000-INSLEN-OFFICIAL-TARGET/results/ffn_visual_source_attribution_v1/metrics/probes_top32_ae_features/C_JS/seed45/config.json": "ff8d49f600fe17c9d573952b1eda848966090e9489c77bfda10b75fb33079d6d",
+    "outputs/qwen3_vl_8b/COCO4000-INSLEN-OFFICIAL-TARGET/results/ffn_visual_source_attribution_v1/metrics/probes_top32_ae_features/C_JS/seed45/history.json": "cc8ea70a8bfb449693d620ed6ffe360277342fd595797069732b409355429b8d",
+    "outputs/qwen3_vl_8b/COCO4000-INSLEN-OFFICIAL-TARGET/results/ffn_visual_source_attribution_v1/metrics/probes_top32_ae_features/C_JS/seed45/model.pt": "51e8b104027505736c1994a6a0e2ca38222d1ede6017b5f412c710e6129daeae",
+    "outputs/qwen3_vl_8b/COCO4000-INSLEN-OFFICIAL-TARGET/results/ffn_visual_source_attribution_v1/metrics/probes_top32_ae_features/C_OT/seed43/config.json": "a4094726ced02e963317da2f13dcb1ffd62e9216a4e516e3cdcc777b03169aa5",
+    "outputs/qwen3_vl_8b/COCO4000-INSLEN-OFFICIAL-TARGET/results/ffn_visual_source_attribution_v1/metrics/probes_top32_ae_features/C_OT/seed43/history.json": "f64f8a299b5e03acf4cefbf530569301f9887c32a5c7740d4d912db8ea69ed32",
+    "outputs/qwen3_vl_8b/COCO4000-INSLEN-OFFICIAL-TARGET/results/ffn_visual_source_attribution_v1/metrics/probes_top32_ae_features/C_OT/seed43/model.pt": "d4409c109f1d06585c5401a58bf90aad400a18080aa83072079eb1e501d1da9a",
+    "outputs/qwen3_vl_8b/COCO4000-INSLEN-OFFICIAL-TARGET/results/ffn_visual_source_attribution_v1/metrics/probes_top32_ae_features/C_OT/seed44/config.json": "6a8537607ea5542e4012c435096eaf5fbf3841d480b7c05d1cbfce3939e4fcee",
+    "outputs/qwen3_vl_8b/COCO4000-INSLEN-OFFICIAL-TARGET/results/ffn_visual_source_attribution_v1/metrics/probes_top32_ae_features/C_OT/seed44/history.json": "ff2fe8605c3d666e70f1291cfffb7c47206de19733ff4937ea31ac2c55bfa896",
+    "outputs/qwen3_vl_8b/COCO4000-INSLEN-OFFICIAL-TARGET/results/ffn_visual_source_attribution_v1/metrics/probes_top32_ae_features/C_OT/seed44/model.pt": "b0cd414647d72480123e096ab1dc47b03efcfea3e19833c148a4c7d66af0147b",
+    "outputs/qwen3_vl_8b/COCO4000-INSLEN-OFFICIAL-TARGET/results/ffn_visual_source_attribution_v1/metrics/probes_top32_ae_features/C_OT/seed45/config.json": "ff8d49f600fe17c9d573952b1eda848966090e9489c77bfda10b75fb33079d6d",
+    "outputs/qwen3_vl_8b/COCO4000-INSLEN-OFFICIAL-TARGET/results/ffn_visual_source_attribution_v1/metrics/probes_top32_ae_features/C_OT/seed45/history.json": "be53235aa7cc022d8ddbcbefa8de6b3fb336e64e2372508affc135dc9119b0fb",
+    "outputs/qwen3_vl_8b/COCO4000-INSLEN-OFFICIAL-TARGET/results/ffn_visual_source_attribution_v1/metrics/probes_top32_ae_features/C_OT/seed45/model.pt": "f1a26eb173932876fa61765df859ee779a24fcdc0605b443f780347d4c099acb",
+    "outputs/qwen3_vl_8b/COCO4000-INSLEN-OFFICIAL-TARGET/results/ffn_visual_source_attribution_v1/metrics/probes_top32_ae_features/D_JS/seed43/config.json": "a4094726ced02e963317da2f13dcb1ffd62e9216a4e516e3cdcc777b03169aa5",
+    "outputs/qwen3_vl_8b/COCO4000-INSLEN-OFFICIAL-TARGET/results/ffn_visual_source_attribution_v1/metrics/probes_top32_ae_features/D_JS/seed43/history.json": "75a796ae19bcf66fcf50363733159694267afc8922013e465fbeca294d0ea227",
+    "outputs/qwen3_vl_8b/COCO4000-INSLEN-OFFICIAL-TARGET/results/ffn_visual_source_attribution_v1/metrics/probes_top32_ae_features/D_JS/seed43/model.pt": "3630fbd9d21b9d1429f1c7530f37ddeecbe7cd898b9ea1bc9192c6e18f0b659d",
+    "outputs/qwen3_vl_8b/COCO4000-INSLEN-OFFICIAL-TARGET/results/ffn_visual_source_attribution_v1/metrics/probes_top32_ae_features/D_JS/seed44/config.json": "6a8537607ea5542e4012c435096eaf5fbf3841d480b7c05d1cbfce3939e4fcee",
+    "outputs/qwen3_vl_8b/COCO4000-INSLEN-OFFICIAL-TARGET/results/ffn_visual_source_attribution_v1/metrics/probes_top32_ae_features/D_JS/seed44/history.json": "8446c4f496761f23931308a385c93bee622ab47e12ec00064f4a5a3556a7018a",
+    "outputs/qwen3_vl_8b/COCO4000-INSLEN-OFFICIAL-TARGET/results/ffn_visual_source_attribution_v1/metrics/probes_top32_ae_features/D_JS/seed44/model.pt": "897713735464c9a5548acc4f44eb48d49000ff28e24a91d745da4f9940cc3a31",
+    "outputs/qwen3_vl_8b/COCO4000-INSLEN-OFFICIAL-TARGET/results/ffn_visual_source_attribution_v1/metrics/probes_top32_ae_features/D_JS/seed45/config.json": "ff8d49f600fe17c9d573952b1eda848966090e9489c77bfda10b75fb33079d6d",
+    "outputs/qwen3_vl_8b/COCO4000-INSLEN-OFFICIAL-TARGET/results/ffn_visual_source_attribution_v1/metrics/probes_top32_ae_features/D_JS/seed45/history.json": "a5782eb00d821d42ea96198ad1dc118ee50a84fcb04fd99d5faddea5ab97c16d",
+    "outputs/qwen3_vl_8b/COCO4000-INSLEN-OFFICIAL-TARGET/results/ffn_visual_source_attribution_v1/metrics/probes_top32_ae_features/D_JS/seed45/model.pt": "fd5c76d5a7ad51e310220c7319ef1535d3ead9e7935ec74e979614233dd7c98f",
+    "outputs/qwen3_vl_8b/COCO4000-INSLEN-OFFICIAL-TARGET/results/ffn_visual_source_attribution_v1/metrics/probes_top32_ae_features/D_OT+strength/seed43/config.json": "a4094726ced02e963317da2f13dcb1ffd62e9216a4e516e3cdcc777b03169aa5",
+    "outputs/qwen3_vl_8b/COCO4000-INSLEN-OFFICIAL-TARGET/results/ffn_visual_source_attribution_v1/metrics/probes_top32_ae_features/D_OT+strength/seed43/history.json": "749983ca5a9ae97205e2cc5157ccd651ebe72fc9f3a7da7812a055054dd2b64f",
+    "outputs/qwen3_vl_8b/COCO4000-INSLEN-OFFICIAL-TARGET/results/ffn_visual_source_attribution_v1/metrics/probes_top32_ae_features/D_OT+strength/seed43/model.pt": "338c32a030a5d0c865435371e8c10992d8e49dd2d936320cae2b97281fc5a16a",
+    "outputs/qwen3_vl_8b/COCO4000-INSLEN-OFFICIAL-TARGET/results/ffn_visual_source_attribution_v1/metrics/probes_top32_ae_features/D_OT+strength/seed44/config.json": "6a8537607ea5542e4012c435096eaf5fbf3841d480b7c05d1cbfce3939e4fcee",
+    "outputs/qwen3_vl_8b/COCO4000-INSLEN-OFFICIAL-TARGET/results/ffn_visual_source_attribution_v1/metrics/probes_top32_ae_features/D_OT+strength/seed44/history.json": "82a38df596a21e45eded7f89c75bc78fcc8d8b80c52aff9403830b26dbaf0a21",
+    "outputs/qwen3_vl_8b/COCO4000-INSLEN-OFFICIAL-TARGET/results/ffn_visual_source_attribution_v1/metrics/probes_top32_ae_features/D_OT+strength/seed44/model.pt": "b9b1416741a06677b80bc7d9f03c17cc92e11198192f98bb88f7e43240f9b801",
+    "outputs/qwen3_vl_8b/COCO4000-INSLEN-OFFICIAL-TARGET/results/ffn_visual_source_attribution_v1/metrics/probes_top32_ae_features/D_OT+strength/seed45/config.json": "ff8d49f600fe17c9d573952b1eda848966090e9489c77bfda10b75fb33079d6d",
+    "outputs/qwen3_vl_8b/COCO4000-INSLEN-OFFICIAL-TARGET/results/ffn_visual_source_attribution_v1/metrics/probes_top32_ae_features/D_OT+strength/seed45/history.json": "d1dab4368519d17c5c3c592b841b5263901ad10102c7224d26ed2c6a4a655847",
+    "outputs/qwen3_vl_8b/COCO4000-INSLEN-OFFICIAL-TARGET/results/ffn_visual_source_attribution_v1/metrics/probes_top32_ae_features/D_OT+strength/seed45/model.pt": "dab5f0455e7e005a91a477d0a510942026c84531369a20b52bdfb772406b8995",
+    "outputs/qwen3_vl_8b/COCO4000-INSLEN-OFFICIAL-TARGET/results/ffn_visual_source_attribution_v1/metrics/probes_top32_ae_features/D_OT/seed43/config.json": "a4094726ced02e963317da2f13dcb1ffd62e9216a4e516e3cdcc777b03169aa5",
+    "outputs/qwen3_vl_8b/COCO4000-INSLEN-OFFICIAL-TARGET/results/ffn_visual_source_attribution_v1/metrics/probes_top32_ae_features/D_OT/seed43/history.json": "b3b97093b695d01ffe9da17fb24dcd3085d98fb5337599763e1e7edbd7965a51",
+    "outputs/qwen3_vl_8b/COCO4000-INSLEN-OFFICIAL-TARGET/results/ffn_visual_source_attribution_v1/metrics/probes_top32_ae_features/D_OT/seed43/model.pt": "fbd95c0cfc0aacfcd76dae86fa2044c8d2a8b8478d049655bfedaaa0a71e1458",
+    "outputs/qwen3_vl_8b/COCO4000-INSLEN-OFFICIAL-TARGET/results/ffn_visual_source_attribution_v1/metrics/probes_top32_ae_features/D_OT/seed44/config.json": "6a8537607ea5542e4012c435096eaf5fbf3841d480b7c05d1cbfce3939e4fcee",
+    "outputs/qwen3_vl_8b/COCO4000-INSLEN-OFFICIAL-TARGET/results/ffn_visual_source_attribution_v1/metrics/probes_top32_ae_features/D_OT/seed44/history.json": "6d438bcad7afdd840b1d0797c6530a73b83be206be4628651faa34252a53d939",
+    "outputs/qwen3_vl_8b/COCO4000-INSLEN-OFFICIAL-TARGET/results/ffn_visual_source_attribution_v1/metrics/probes_top32_ae_features/D_OT/seed44/model.pt": "d2aed3d6e79b58693e62ba3491a77171c40766b69ec24f8cd171725bb9068f8b",
+    "outputs/qwen3_vl_8b/COCO4000-INSLEN-OFFICIAL-TARGET/results/ffn_visual_source_attribution_v1/metrics/probes_top32_ae_features/D_OT/seed45/config.json": "ff8d49f600fe17c9d573952b1eda848966090e9489c77bfda10b75fb33079d6d",
+    "outputs/qwen3_vl_8b/COCO4000-INSLEN-OFFICIAL-TARGET/results/ffn_visual_source_attribution_v1/metrics/probes_top32_ae_features/D_OT/seed45/history.json": "d43ed29b689e9c7d221544610eb0d9a17d9402328d2d571282fab895bb655b0f",
+    "outputs/qwen3_vl_8b/COCO4000-INSLEN-OFFICIAL-TARGET/results/ffn_visual_source_attribution_v1/metrics/probes_top32_ae_features/D_OT/seed45/model.pt": "564f2881f9d722478cc48d06de9ee82e389ee2be77e5fec3fa230e82e8595ea6",
+    "outputs/qwen3_vl_8b/COCO4000-INSLEN-OFFICIAL-TARGET/results/ffn_visual_source_attribution_v1/metrics/probes_top32_ae_features/E_JS/seed43/config.json": "a4094726ced02e963317da2f13dcb1ffd62e9216a4e516e3cdcc777b03169aa5",
+    "outputs/qwen3_vl_8b/COCO4000-INSLEN-OFFICIAL-TARGET/results/ffn_visual_source_attribution_v1/metrics/probes_top32_ae_features/E_JS/seed43/history.json": "af22bc373f648f4a6f18ebc19fd252a62f1982ff266cf47d613e6bfd89f7088c",
+    "outputs/qwen3_vl_8b/COCO4000-INSLEN-OFFICIAL-TARGET/results/ffn_visual_source_attribution_v1/metrics/probes_top32_ae_features/E_JS/seed43/model.pt": "511c79fe9ea51e00727e7c282950df269b6267e0265176a45014221049e173ea",
+    "outputs/qwen3_vl_8b/COCO4000-INSLEN-OFFICIAL-TARGET/results/ffn_visual_source_attribution_v1/metrics/probes_top32_ae_features/E_JS/seed44/config.json": "6a8537607ea5542e4012c435096eaf5fbf3841d480b7c05d1cbfce3939e4fcee",
+    "outputs/qwen3_vl_8b/COCO4000-INSLEN-OFFICIAL-TARGET/results/ffn_visual_source_attribution_v1/metrics/probes_top32_ae_features/E_JS/seed44/history.json": "5e29adde41f8083d52f6e405d16f2450107ec67d8d9d8fcc3e8320b58bcf1b63",
+    "outputs/qwen3_vl_8b/COCO4000-INSLEN-OFFICIAL-TARGET/results/ffn_visual_source_attribution_v1/metrics/probes_top32_ae_features/E_JS/seed44/model.pt": "a0d3259403f4cdcfb87fc1ce3287953419a9b67ceef9f91e00a6ec44b6b3e51c",
+    "outputs/qwen3_vl_8b/COCO4000-INSLEN-OFFICIAL-TARGET/results/ffn_visual_source_attribution_v1/metrics/probes_top32_ae_features/E_JS/seed45/config.json": "ff8d49f600fe17c9d573952b1eda848966090e9489c77bfda10b75fb33079d6d",
+    "outputs/qwen3_vl_8b/COCO4000-INSLEN-OFFICIAL-TARGET/results/ffn_visual_source_attribution_v1/metrics/probes_top32_ae_features/E_JS/seed45/history.json": "b314dac7df486649cbaadfd0ce4bd0a4a56a7b03f40132f858b6253e67ebe987",
+    "outputs/qwen3_vl_8b/COCO4000-INSLEN-OFFICIAL-TARGET/results/ffn_visual_source_attribution_v1/metrics/probes_top32_ae_features/E_JS/seed45/model.pt": "58828e45306e03aa5e1c65207f27b485ee90e44453322f543eb1a2e8b9f1bcea",
+    "outputs/qwen3_vl_8b/COCO4000-INSLEN-OFFICIAL-TARGET/results/ffn_visual_source_attribution_v1/metrics/probes_top32_ae_features/E_OT/seed43/config.json": "a4094726ced02e963317da2f13dcb1ffd62e9216a4e516e3cdcc777b03169aa5",
+    "outputs/qwen3_vl_8b/COCO4000-INSLEN-OFFICIAL-TARGET/results/ffn_visual_source_attribution_v1/metrics/probes_top32_ae_features/E_OT/seed43/history.json": "d893e11a1a4fccb75402a98a205e8066567106a13df2bd5b09e4d9ee2a78acff",
+    "outputs/qwen3_vl_8b/COCO4000-INSLEN-OFFICIAL-TARGET/results/ffn_visual_source_attribution_v1/metrics/probes_top32_ae_features/E_OT/seed43/model.pt": "cc57f2dd28a2a97bfbb81d890441f49106949bb57ee81897eee0711f517014d7",
+    "outputs/qwen3_vl_8b/COCO4000-INSLEN-OFFICIAL-TARGET/results/ffn_visual_source_attribution_v1/metrics/probes_top32_ae_features/E_OT/seed44/config.json": "6a8537607ea5542e4012c435096eaf5fbf3841d480b7c05d1cbfce3939e4fcee",
+    "outputs/qwen3_vl_8b/COCO4000-INSLEN-OFFICIAL-TARGET/results/ffn_visual_source_attribution_v1/metrics/probes_top32_ae_features/E_OT/seed44/history.json": "5a6a555aa78f86eb1f0cf99897692923056856cc6390a4ea23dbde9f3ebe0e9d",
+    "outputs/qwen3_vl_8b/COCO4000-INSLEN-OFFICIAL-TARGET/results/ffn_visual_source_attribution_v1/metrics/probes_top32_ae_features/E_OT/seed44/model.pt": "eda2b5b6360b12be004b5cb8e1ba7fdcbbf8124aeed952e69e109db5452790a4",
+    "outputs/qwen3_vl_8b/COCO4000-INSLEN-OFFICIAL-TARGET/results/ffn_visual_source_attribution_v1/metrics/probes_top32_ae_features/E_OT/seed45/config.json": "ff8d49f600fe17c9d573952b1eda848966090e9489c77bfda10b75fb33079d6d",
+    "outputs/qwen3_vl_8b/COCO4000-INSLEN-OFFICIAL-TARGET/results/ffn_visual_source_attribution_v1/metrics/probes_top32_ae_features/E_OT/seed45/history.json": "3db24d5b599d22b0e01ed10c5b1e919c4f9a55f113e20873ee65f22360d5b045",
+    "outputs/qwen3_vl_8b/COCO4000-INSLEN-OFFICIAL-TARGET/results/ffn_visual_source_attribution_v1/metrics/probes_top32_ae_features/E_OT/seed45/model.pt": "8592ee484736b75158bbee6e248233c178688f13a0b78e18df1e17e5c84ee10a",
+    "outputs/qwen3_vl_8b/COCO4000-INSLEN-OFFICIAL-TARGET/results/ffn_visual_source_attribution_v1/metrics/probes_top32_ae_features/F/seed43/config.json": "a4094726ced02e963317da2f13dcb1ffd62e9216a4e516e3cdcc777b03169aa5",
+    "outputs/qwen3_vl_8b/COCO4000-INSLEN-OFFICIAL-TARGET/results/ffn_visual_source_attribution_v1/metrics/probes_top32_ae_features/F/seed43/history.json": "3439fb57123b0e3ba7c9bd0aafc287f5cebea4a63d05079505645705935f022c",
+    "outputs/qwen3_vl_8b/COCO4000-INSLEN-OFFICIAL-TARGET/results/ffn_visual_source_attribution_v1/metrics/probes_top32_ae_features/F/seed43/model.pt": "505ac419e43e01e71712311658a3a16e99230b6d28cafb2a55f5755729ccd8cc",
+    "outputs/qwen3_vl_8b/COCO4000-INSLEN-OFFICIAL-TARGET/results/ffn_visual_source_attribution_v1/metrics/probes_top32_ae_features/F/seed44/config.json": "6a8537607ea5542e4012c435096eaf5fbf3841d480b7c05d1cbfce3939e4fcee",
+    "outputs/qwen3_vl_8b/COCO4000-INSLEN-OFFICIAL-TARGET/results/ffn_visual_source_attribution_v1/metrics/probes_top32_ae_features/F/seed44/history.json": "f7d286bbe1236934cc91a3577319d735bbf4a6eb8e5f564ad4920c89534b11fb",
+    "outputs/qwen3_vl_8b/COCO4000-INSLEN-OFFICIAL-TARGET/results/ffn_visual_source_attribution_v1/metrics/probes_top32_ae_features/F/seed44/model.pt": "ee725d438ac8d06b5925f4db09d64501ab9687c658db132497fbe4ed3e42db62",
+    "outputs/qwen3_vl_8b/COCO4000-INSLEN-OFFICIAL-TARGET/results/ffn_visual_source_attribution_v1/metrics/probes_top32_ae_features/F/seed45/config.json": "ff8d49f600fe17c9d573952b1eda848966090e9489c77bfda10b75fb33079d6d",
+    "outputs/qwen3_vl_8b/COCO4000-INSLEN-OFFICIAL-TARGET/results/ffn_visual_source_attribution_v1/metrics/probes_top32_ae_features/F/seed45/history.json": "45708d14bc2c23e881584a763a24fcffe44351f2e3ba13667ad216a885c4573f",
+    "outputs/qwen3_vl_8b/COCO4000-INSLEN-OFFICIAL-TARGET/results/ffn_visual_source_attribution_v1/metrics/probes_top32_ae_features/F/seed45/model.pt": "aafefb4f67a8653cb63e35a80c93bb0e7c193474e0328d82f0b6f5e109104d3c",
+    "outputs/qwen3_vl_8b/COCO4000-INSLEN-OFFICIAL-TARGET/results/ffn_visual_source_attribution_v1/metrics/probes_top32_ae_features/G_JS/seed43/config.json": "a4094726ced02e963317da2f13dcb1ffd62e9216a4e516e3cdcc777b03169aa5",
+    "outputs/qwen3_vl_8b/COCO4000-INSLEN-OFFICIAL-TARGET/results/ffn_visual_source_attribution_v1/metrics/probes_top32_ae_features/G_JS/seed43/history.json": "330b316317dcf91bd1f94e3efc3d6596318513c9051b7b32a112c33e66a40aa4",
+    "outputs/qwen3_vl_8b/COCO4000-INSLEN-OFFICIAL-TARGET/results/ffn_visual_source_attribution_v1/metrics/probes_top32_ae_features/G_JS/seed43/model.pt": "0e048613d75ad038b9556a18b59a7bee7fde928c64bb5225c753189865115cee",
+    "outputs/qwen3_vl_8b/COCO4000-INSLEN-OFFICIAL-TARGET/results/ffn_visual_source_attribution_v1/metrics/probes_top32_ae_features/G_JS/seed44/config.json": "6a8537607ea5542e4012c435096eaf5fbf3841d480b7c05d1cbfce3939e4fcee",
+    "outputs/qwen3_vl_8b/COCO4000-INSLEN-OFFICIAL-TARGET/results/ffn_visual_source_attribution_v1/metrics/probes_top32_ae_features/G_JS/seed44/history.json": "f134b34e066d43f4775324873bfc679c40654be168357889045d97bbbba22023",
+    "outputs/qwen3_vl_8b/COCO4000-INSLEN-OFFICIAL-TARGET/results/ffn_visual_source_attribution_v1/metrics/probes_top32_ae_features/G_JS/seed44/model.pt": "6d509840f5b737f52af8a907a1a9f2a49f88423afc430709ca05a57e824feba1",
+    "outputs/qwen3_vl_8b/COCO4000-INSLEN-OFFICIAL-TARGET/results/ffn_visual_source_attribution_v1/metrics/probes_top32_ae_features/G_JS/seed45/config.json": "ff8d49f600fe17c9d573952b1eda848966090e9489c77bfda10b75fb33079d6d",
+    "outputs/qwen3_vl_8b/COCO4000-INSLEN-OFFICIAL-TARGET/results/ffn_visual_source_attribution_v1/metrics/probes_top32_ae_features/G_JS/seed45/history.json": "15f30a9a692b7c1291fa31816ddc1e07c834e274db46ad7fe56df6622c6f1235",
+    "outputs/qwen3_vl_8b/COCO4000-INSLEN-OFFICIAL-TARGET/results/ffn_visual_source_attribution_v1/metrics/probes_top32_ae_features/G_JS/seed45/model.pt": "d9f08d2c12ab115d84256d0f6682fc9cd3cc00e8876602fe7baa843d61a9335c",
+    "outputs/qwen3_vl_8b/COCO4000-INSLEN-OFFICIAL-TARGET/results/ffn_visual_source_attribution_v1/metrics/probes_top32_ae_features/G_OT/seed43/config.json": "a4094726ced02e963317da2f13dcb1ffd62e9216a4e516e3cdcc777b03169aa5",
+    "outputs/qwen3_vl_8b/COCO4000-INSLEN-OFFICIAL-TARGET/results/ffn_visual_source_attribution_v1/metrics/probes_top32_ae_features/G_OT/seed43/history.json": "fcf1ed7c4dbe15f67a32c0856c6462c8e70274547766a2b35be7914933dcdc76",
+    "outputs/qwen3_vl_8b/COCO4000-INSLEN-OFFICIAL-TARGET/results/ffn_visual_source_attribution_v1/metrics/probes_top32_ae_features/G_OT/seed43/model.pt": "d1b0e5ad30aa02732dec345f92656f9d1f924e76d619a2f84c8683420db2675a",
+    "outputs/qwen3_vl_8b/COCO4000-INSLEN-OFFICIAL-TARGET/results/ffn_visual_source_attribution_v1/metrics/probes_top32_ae_features/G_OT/seed44/config.json": "6a8537607ea5542e4012c435096eaf5fbf3841d480b7c05d1cbfce3939e4fcee",
+    "outputs/qwen3_vl_8b/COCO4000-INSLEN-OFFICIAL-TARGET/results/ffn_visual_source_attribution_v1/metrics/probes_top32_ae_features/G_OT/seed44/history.json": "92015702ec145e45ff1b8f5fb837da321a12626d03af5b3139e4a76d8f3009c3",
+    "outputs/qwen3_vl_8b/COCO4000-INSLEN-OFFICIAL-TARGET/results/ffn_visual_source_attribution_v1/metrics/probes_top32_ae_features/G_OT/seed44/model.pt": "60a65b3f43a01db67126ee69885d27e3027104bca6dff577af1233eb079b8ee7",
+    "outputs/qwen3_vl_8b/COCO4000-INSLEN-OFFICIAL-TARGET/results/ffn_visual_source_attribution_v1/metrics/probes_top32_ae_features/G_OT/seed45/config.json": "ff8d49f600fe17c9d573952b1eda848966090e9489c77bfda10b75fb33079d6d",
+    "outputs/qwen3_vl_8b/COCO4000-INSLEN-OFFICIAL-TARGET/results/ffn_visual_source_attribution_v1/metrics/probes_top32_ae_features/G_OT/seed45/history.json": "686d2a3054e02d017ebe6a96a763cd08bf81f5deb5806da8b44b0f9d747de051",
+    "outputs/qwen3_vl_8b/COCO4000-INSLEN-OFFICIAL-TARGET/results/ffn_visual_source_attribution_v1/metrics/probes_top32_ae_features/G_OT/seed45/model.pt": "63aeec79be58acffa96e674abc78479be5a62a6874b47ac7a1f25c9e3a4d6397",
+    "outputs/qwen3_vl_8b/COCO4000-INSLEN-OFFICIAL-TARGET/results/ffn_visual_source_attribution_v1/metrics/probes_top32_ae_features/H_JS/seed43/config.json": "a4094726ced02e963317da2f13dcb1ffd62e9216a4e516e3cdcc777b03169aa5",
+    "outputs/qwen3_vl_8b/COCO4000-INSLEN-OFFICIAL-TARGET/results/ffn_visual_source_attribution_v1/metrics/probes_top32_ae_features/H_JS/seed43/history.json": "bc08d8587e295cf944df6a2195108e490015e1458cbb3f13efe16ba3883a91c7",
+    "outputs/qwen3_vl_8b/COCO4000-INSLEN-OFFICIAL-TARGET/results/ffn_visual_source_attribution_v1/metrics/probes_top32_ae_features/H_JS/seed43/model.pt": "d8ee4a2f276a092e9c30b19d1f7c1bd35f639c8d565e828ac1cd6205947170f7",
+    "outputs/qwen3_vl_8b/COCO4000-INSLEN-OFFICIAL-TARGET/results/ffn_visual_source_attribution_v1/metrics/probes_top32_ae_features/H_JS/seed44/config.json": "6a8537607ea5542e4012c435096eaf5fbf3841d480b7c05d1cbfce3939e4fcee",
+    "outputs/qwen3_vl_8b/COCO4000-INSLEN-OFFICIAL-TARGET/results/ffn_visual_source_attribution_v1/metrics/probes_top32_ae_features/H_JS/seed44/history.json": "149fa8c3f09ba9e966ed0fe5097a0b38a322e95d7826a5051fe49b3c92e4040e",
+    "outputs/qwen3_vl_8b/COCO4000-INSLEN-OFFICIAL-TARGET/results/ffn_visual_source_attribution_v1/metrics/probes_top32_ae_features/H_JS/seed44/model.pt": "5f86c61c922487b5dd534fd792a299d115f0fa5a9a0bf01715b2aae0d910e51f",
+    "outputs/qwen3_vl_8b/COCO4000-INSLEN-OFFICIAL-TARGET/results/ffn_visual_source_attribution_v1/metrics/probes_top32_ae_features/H_JS/seed45/config.json": "ff8d49f600fe17c9d573952b1eda848966090e9489c77bfda10b75fb33079d6d",
+    "outputs/qwen3_vl_8b/COCO4000-INSLEN-OFFICIAL-TARGET/results/ffn_visual_source_attribution_v1/metrics/probes_top32_ae_features/H_JS/seed45/history.json": "b13721b5ef4d1f0f7766f448f603eefc76f3a727844eddc3d7d6fdf362b4dd07",
+    "outputs/qwen3_vl_8b/COCO4000-INSLEN-OFFICIAL-TARGET/results/ffn_visual_source_attribution_v1/metrics/probes_top32_ae_features/H_JS/seed45/model.pt": "da9fc21b21330c4b6f7f82faf6161017b0ab7d37e549080832df01a99fefb8a0",
+    "outputs/qwen3_vl_8b/COCO4000-INSLEN-OFFICIAL-TARGET/results/ffn_visual_source_attribution_v1/metrics/probes_top32_ae_features/H_OT/seed43/config.json": "a4094726ced02e963317da2f13dcb1ffd62e9216a4e516e3cdcc777b03169aa5",
+    "outputs/qwen3_vl_8b/COCO4000-INSLEN-OFFICIAL-TARGET/results/ffn_visual_source_attribution_v1/metrics/probes_top32_ae_features/H_OT/seed43/history.json": "4601984af5b152bd6dffeb89062f553c1fb206b8ac4611708ae1a9c93bb43cef",
+    "outputs/qwen3_vl_8b/COCO4000-INSLEN-OFFICIAL-TARGET/results/ffn_visual_source_attribution_v1/metrics/probes_top32_ae_features/H_OT/seed43/model.pt": "36cc1a0b9cf416bedb922df2908238ebc2d0c8054770f4a308c6dd502d707e20",
+    "outputs/qwen3_vl_8b/COCO4000-INSLEN-OFFICIAL-TARGET/results/ffn_visual_source_attribution_v1/metrics/probes_top32_ae_features/H_OT/seed44/config.json": "6a8537607ea5542e4012c435096eaf5fbf3841d480b7c05d1cbfce3939e4fcee",
+    "outputs/qwen3_vl_8b/COCO4000-INSLEN-OFFICIAL-TARGET/results/ffn_visual_source_attribution_v1/metrics/probes_top32_ae_features/H_OT/seed44/history.json": "37a49b10be2eb3f1519b917547979e15b13eac218a67b28c3ed8d4af3fde6456",
+    "outputs/qwen3_vl_8b/COCO4000-INSLEN-OFFICIAL-TARGET/results/ffn_visual_source_attribution_v1/metrics/probes_top32_ae_features/H_OT/seed44/model.pt": "28806725e6f99afe2476ec1060bed598d98a0b575681e13068f843c5573b560c",
+    "outputs/qwen3_vl_8b/COCO4000-INSLEN-OFFICIAL-TARGET/results/ffn_visual_source_attribution_v1/metrics/probes_top32_ae_features/H_OT/seed45/config.json": "ff8d49f600fe17c9d573952b1eda848966090e9489c77bfda10b75fb33079d6d",
+    "outputs/qwen3_vl_8b/COCO4000-INSLEN-OFFICIAL-TARGET/results/ffn_visual_source_attribution_v1/metrics/probes_top32_ae_features/H_OT/seed45/history.json": "931953131e37db725ef46a45b818ddae8a4237148434a4f7ac8e1ee5628d79e9",
+    "outputs/qwen3_vl_8b/COCO4000-INSLEN-OFFICIAL-TARGET/results/ffn_visual_source_attribution_v1/metrics/probes_top32_ae_features/H_OT/seed45/model.pt": "e569356fc52392e72652ff7b8dac0e21e4d6cdd562077131307a5eb3fb63d003",
+    "outputs/qwen3_vl_8b/COCO4000-INSLEN-OFFICIAL-TARGET/results/ffn_visual_source_attribution_v1/metrics/probes_top32_ae_features/U/seed43/config.json": "a4094726ced02e963317da2f13dcb1ffd62e9216a4e516e3cdcc777b03169aa5",
+    "outputs/qwen3_vl_8b/COCO4000-INSLEN-OFFICIAL-TARGET/results/ffn_visual_source_attribution_v1/metrics/probes_top32_ae_features/U/seed43/history.json": "7f09485f9f7652138031b5b44e4b996def56b1d150f8468ac91aa959479b939f",
+    "outputs/qwen3_vl_8b/COCO4000-INSLEN-OFFICIAL-TARGET/results/ffn_visual_source_attribution_v1/metrics/probes_top32_ae_features/U/seed43/model.pt": "c6f1209bfc9ceeee815a42c43c4ff6aa9e7a475eb491d5110a5a18a4a1dd9b7d",
+    "outputs/qwen3_vl_8b/COCO4000-INSLEN-OFFICIAL-TARGET/results/ffn_visual_source_attribution_v1/metrics/probes_top32_ae_features/U/seed44/config.json": "6a8537607ea5542e4012c435096eaf5fbf3841d480b7c05d1cbfce3939e4fcee",
+    "outputs/qwen3_vl_8b/COCO4000-INSLEN-OFFICIAL-TARGET/results/ffn_visual_source_attribution_v1/metrics/probes_top32_ae_features/U/seed44/history.json": "914ea8247626238089a5a2ad6846c82286b2927415981ddab9b0348a076eb603",
+    "outputs/qwen3_vl_8b/COCO4000-INSLEN-OFFICIAL-TARGET/results/ffn_visual_source_attribution_v1/metrics/probes_top32_ae_features/U/seed44/model.pt": "78bee35e96d1ac24f4e167316e75cf41ed154896a7e88f6b42e172784cbe5c22",
+    "outputs/qwen3_vl_8b/COCO4000-INSLEN-OFFICIAL-TARGET/results/ffn_visual_source_attribution_v1/metrics/probes_top32_ae_features/U/seed45/config.json": "ff8d49f600fe17c9d573952b1eda848966090e9489c77bfda10b75fb33079d6d",
+    "outputs/qwen3_vl_8b/COCO4000-INSLEN-OFFICIAL-TARGET/results/ffn_visual_source_attribution_v1/metrics/probes_top32_ae_features/U/seed45/history.json": "15a2cd894f147e19681fd68dcd0ced4c42b9220d8831dfebd32c1cb5de1f8675",
+    "outputs/qwen3_vl_8b/COCO4000-INSLEN-OFFICIAL-TARGET/results/ffn_visual_source_attribution_v1/metrics/probes_top32_ae_features/U/seed45/model.pt": "bd80c6c13f9b9f11286dda1001200d65ee49afaf920d9002419d960f4e838728",
+    "outputs/qwen3_vl_8b/COCO4000-INSLEN-OFFICIAL-TARGET/results/ffn_visual_source_attribution_v1/metrics/top32_ae_feature_training_progress.pt": "fda8775b370fadda91272c17273c4a93a39829ade743b9d2e1be35ed67f539e8",
+    "outputs/qwen3_vl_8b/COCO4000-INSLEN-OFFICIAL-TARGET/results/ffn_visual_source_attribution_v1/tables/ae_real_hall_curve.csv": "10474dda1c443d337b5fccce09653d37f8c5ee5c7aa435acfb53cd749613a035",
+    "outputs/qwen3_vl_8b/COCO4000-INSLEN-OFFICIAL-TARGET/results/ffn_visual_source_attribution_v1/tables/ae_top32_real_hall_curve.csv": "627daeb2a11f153c6d5cd9c1dc6e6330686cc514bfbd1ec545235264db25e269",
+    "outputs/qwen3_vl_8b/COCO4000-INSLEN-OFFICIAL-TARGET/results/ffn_visual_source_attribution_v1/tables/top32_ae_feature_metrics.csv": "80259a87f358df6cce4034880525bb6929533573463af1eaf82aa180bb07fb30",
+    "outputs/qwen3_vl_8b/COCO4000-INSLEN-OFFICIAL-TARGET/results/ffn_visual_source_attribution_v1/tables/top32_ae_feature_seed_metrics.csv": "e734429ed19e5058f76cc5ced5dbc8393d8bc4a4a5c89365ec6ec5ab98265696",
+    "scripts/analyze_ffn_visual_source_signal_ablation.py": "c2e6563b9ff51c14895618503c96523d201382e9e70baa82336401db82eaf0f2",
+    "scripts/analyze_ffn_visual_source_top32_ae.py": "a5720a24cf3a5cfa1195b614f25abd95168fd70a96ff06af2af754591bbc3e73"
+  },
+  "cohort_feature_sha256": "8630629119ebf513e1f32a2bcdfcb1db4b51280ae5cc35f8181b25ec21d0a26b",
+  "counts": {
+    "mentions": 14873,
+    "processed_images": 4000,
+    "test_mentions": 3027,
+    "train_mentions": 11846,
+    "unique_targets": 14704
+  },
+  "curves": {
+    "ae": {
+      "cohort": "all formal mentions (train + test), descriptive only",
+      "figure": "outputs/qwen3_vl_8b/COCO4000-INSLEN-OFFICIAL-TARGET/results/ffn_visual_source_attribution_v1/figures/ae_real_hall_curve.png",
+      "layers": 36,
+      "n_hall": 2593,
+      "n_real": 12280,
+      "table": "outputs/qwen3_vl_8b/COCO4000-INSLEN-OFFICIAL-TARGET/results/ffn_visual_source_attribution_v1/tables/ae_real_hall_curve.csv"
+    },
+    "ae_top32": {
+      "cohort": "all formal mentions (train + test), descriptive only",
+      "figure": "outputs/qwen3_vl_8b/COCO4000-INSLEN-OFFICIAL-TARGET/results/ffn_visual_source_attribution_v1/figures/ae_top32_real_hall_curve.png",
+      "layers": 36,
+      "n_hall": 2593,
+      "n_real": 12280,
+      "table": "outputs/qwen3_vl_8b/COCO4000-INSLEN-OFFICIAL-TARGET/results/ffn_visual_source_attribution_v1/tables/ae_top32_real_hall_curve.csv"
+    }
+  },
+  "definition": "AE32=sum_{j in Top32(T)} attention_j*gate_j = AE*sum_{Top32(T)}T_j; no selected-support renormalization",
+  "elapsed_seconds": 919.8384543710854,
+  "model": "qwen3_vl_8b",
+  "protocol": {
+    "batch_size": 256,
+    "bootstrap": "NOT_RUN_BY_USER_REQUEST",
+    "checkpoint_selection": "minimum_train_loss",
+    "class_weighting_or_resampling": "none",
+    "drop_last": false,
+    "dropout": 0.3,
+    "early_stopping_patience": 10,
+    "fixed_threshold": 0.5,
+    "hidden_sizes": [
+      128,
+      64,
+      32
+    ],
+    "inference_boundary": "saved features only; no VLM; previously viewed test cohort, exploratory",
+    "learning_rate": 0.001,
+    "lr_factor": 0.5,
+    "lr_patience": 5,
+    "num_epochs": 100,
+    "positive_class": "real",
+    "seed": 43,
+    "seeds": [
+      43,
+      44,
+      45
+    ],
+    "split_protocol": "strict_82_no_validation",
+    "standardization": "none",
+    "strength_transform": "none; raw S/I/N",
+    "threshold_reporting": [
+      "fixed_0.5",
+      "train_f1"
+    ],
+    "threshold_selection": "train_f1",
+    "weight_decay": 1e-05
+  },
+  "ranges": {
+    "test": {
+      "AE": {
+        "max": 0.973841667175293,
+        "median": 0.6462849378585815,
+        "min": 0.11551658064126968
+      },
+      "AE32": {
+        "max": 0.9624075889587402,
+        "median": 0.48175424337387085,
+        "min": 0.0689079761505127
+      },
+      "mass32": {
+        "max": 0.9933616518974304,
+        "median": 0.7548143863677979,
+        "min": 0.23038826882839203
+      }
+    },
+    "train": {
+      "AE": {
+        "max": 0.9760664105415344,
+        "median": 0.6444931030273438,
+        "min": 0.03703921288251877
+      },
+      "AE32": {
+        "max": 0.9619414806365967,
+        "median": 0.48014962673187256,
+        "min": 0.03046698123216629
+      },
+      "mass32": {
+        "max": 0.9933599829673767,
+        "median": 0.7546631097793579,
+        "min": 0.218680739402771
+      }
+    }
+  },
+  "reference_sources": {
+    "A": [
+      "detector_training_progress.pt",
+      "A",
+      "metrics/probes/A"
+    ],
+    "AE+I": [
+      "core_signal_feature_training_progress.pt",
+      "AE+I",
+      "metrics/probes_core_signal_features/AE+I"
+    ],
+    "AE+I+S": [
+      "core_signal_feature_training_progress.pt",
+      "AE+I+S",
+      "metrics/probes_core_signal_features/AE+I+S"
+    ],
+    "AE+N": [
+      "core_signal_feature_training_progress.pt",
+      "AE+N",
+      "metrics/probes_core_signal_features/AE+N"
+    ],
+    "AE+S": [
+      "core_signal_feature_training_progress.pt",
+      "AE+S",
+      "metrics/probes_core_signal_features/AE+S"
+    ],
+    "AE+S+N": [
+      "core_signal_feature_training_progress.pt",
+      "AE+S+N",
+      "metrics/probes_core_signal_features/AE+S+N"
+    ],
+    "B": [
+      "detector_training_progress.pt",
+      "B",
+      "metrics/probes/B"
+    ],
+    "C_JS": [
+      "detector_training_progress.pt",
+      "C_JS",
+      "metrics/probes/C_JS"
+    ],
+    "C_OT": [
+      "detector_training_progress.pt",
+      "C_OT",
+      "metrics/probes/C_OT"
+    ],
+    "D_JS": [
+      "detector_training_progress.pt",
+      "D_JS",
+      "metrics/probes/D_JS"
+    ],
+    "D_OT": [
+      "detector_training_progress.pt",
+      "D_OT",
+      "metrics/probes/D_OT"
+    ],
+    "D_OT+strength": [
+      "net_strength_feature_training_progress.pt",
+      "D_OT+strength",
+      "metrics/probes_net_strength_features/D_OT+strength"
+    ],
+    "E_JS": [
+      "detector_training_progress.pt",
+      "E_JS",
+      "metrics/probes/E_JS"
+    ],
+    "E_OT": [
+      "detector_training_progress.pt",
+      "E_OT",
+      "metrics/probes/E_OT"
+    ],
+    "F": [
+      "detector_training_progress.pt",
+      "F",
+      "metrics/probes/F"
+    ],
+    "G_JS": [
+      "detector_training_progress.pt",
+      "G_JS",
+      "metrics/probes/G_JS"
+    ],
+    "G_OT": [
+      "detector_training_progress.pt",
+      "G_OT",
+      "metrics/probes/G_OT"
+    ],
+    "H_JS": [
+      "detector_training_progress.pt",
+      "H_JS",
+      "metrics/probes/H_JS"
+    ],
+    "H_OT": [
+      "detector_training_progress.pt",
+      "H_OT",
+      "metrics/probes/H_OT"
+    ],
+    "U": [
+      "core_signal_feature_training_progress.pt",
+      "U",
+      "metrics/probes_core_signal_features/U"
+    ]
+  },
+  "status": "EXPLORATORY_TOP32_AE_COMPLETE",
+  "summaries": {
+    "A": {
+      "dimensions": 72,
+      "ensemble_auroc": 0.8794567469027751,
+      "ensemble_hall_aupr": 0.622407341296867,
+      "full_ae_ensemble_auroc": 0.8789157165834669,
+      "full_ae_ensemble_hall_aupr": 0.6114165175117916,
+      "mean_hall_aupr": 0.5962991402509396,
+      "mean_hall_f1": 0.5420387977179485,
+      "mean_hall_precision": 0.6052555691557184,
+      "mean_hall_recall": 0.4909560723514212,
+      "mean_real_aupr": 0.9679914615522893,
+      "mean_seed_auroc": 0.8667075462281209,
+      "per_seed_auroc": {
+        "43": 0.8662319900962896,
+        "44": 0.8688329489779854,
+        "45": 0.8650576996100877
+      },
+      "per_seed_auroc_delta": {
+        "43": 0.018190118517283804,
+        "44": 0.0015019186895490755,
+        "45": -0.009588431058381919
+      },
+      "std_seed_auroc": 0.0015774963652033422,
+      "top32_minus_full_auroc": 0.0005410303193081889
+    },
+    "AE+I": {
+      "dimensions": 72,
+      "ensemble_auroc": 0.8650125494336547,
+      "ensemble_hall_aupr": 0.5891831922096189,
+      "full_ae_ensemble_auroc": 0.8655092013744177,
+      "full_ae_ensemble_hall_aupr": 0.5903365648275053,
+      "mean_hall_aupr": 0.5809057178250822,
+      "mean_hall_f1": 0.49306298302048024,
+      "mean_hall_precision": 0.6312996480197478,
+      "mean_hall_recall": 0.4056847545219638,
+      "mean_real_aupr": 0.9660491075512004,
+      "mean_seed_auroc": 0.8600326521959708,
+      "per_seed_auroc": {
+        "43": 0.8620210608207608,
+        "44": 0.8553704784220746,
+        "45": 0.862706417345077
+      },
+      "per_seed_auroc_delta": {
+        "43": -0.00015320188071688,
+        "44": -0.0005881099904605502,
+        "45": -0.001247225386593498
+      },
+      "std_seed_auroc": 0.0033085068751991407,
+      "top32_minus_full_auroc": -0.0004966519407629821
+    },
+    "AE+I+S": {
+      "dimensions": 108,
+      "ensemble_auroc": 0.8963591206443586,
+      "ensemble_hall_aupr": 0.6581750997348961,
+      "full_ae_ensemble_auroc": 0.8968754534312592,
+      "full_ae_ensemble_hall_aupr": 0.6582526243573452,
+      "mean_hall_aupr": 0.6439707360637269,
+      "mean_hall_f1": 0.5767943178365508,
+      "mean_hall_precision": 0.6379652720507581,
+      "mean_hall_recall": 0.5322997416020671,
+      "mean_real_aupr": 0.9747212751324098,
+      "mean_seed_auroc": 0.8915317821224854,
+      "per_seed_auroc": {
+        "43": 0.8937728259225299,
+        "44": 0.8931561594102231,
+        "45": 0.8876663610347031
+      },
+      "per_seed_auroc_delta": {
+        "43": -1.620775564270538e-05,
+        "44": -0.001534720099777953,
+        "45": -0.0011214223308914084
+      },
+      "std_seed_auroc": 0.0027448350935595544,
+      "top32_minus_full_auroc": -0.000516332786900553
+    },
+    "AE+N": {
+      "dimensions": 72,
+      "ensemble_auroc": 0.8794694815679227,
+      "ensemble_hall_aupr": 0.6067814651121487,
+      "full_ae_ensemble_auroc": 0.8799630463171348,
+      "full_ae_ensemble_hall_aupr": 0.6089322338277806,
+      "mean_hall_aupr": 0.5979884475385612,
+      "mean_hall_f1": 0.5449198473211061,
+      "mean_hall_precision": 0.6099282341301252,
+      "mean_hall_recall": 0.49612403100775193,
+      "mean_real_aupr": 0.9711003195200744,
+      "mean_seed_auroc": 0.8749569079512677,
+      "per_seed_auroc": {
+        "43": 0.8759906025889188,
+        "44": 0.87443388624934,
+        "45": 0.8744462350155441
+      },
+      "per_seed_auroc_delta": {
+        "43": -0.0003403628684949256,
+        "44": -0.0014440338479682069,
+        "45": -4.5536075376717555e-05
+      },
+      "std_seed_auroc": 0.0007309498733101882,
+      "top32_minus_full_auroc": -0.0004935647492121387
+    },
+    "AE+S": {
+      "dimensions": 72,
+      "ensemble_auroc": 0.879113682741673,
+      "ensemble_hall_aupr": 0.6004985869724557,
+      "full_ae_ensemble_auroc": 0.8789188037750177,
+      "full_ae_ensemble_hall_aupr": 0.597914280634984,
+      "mean_hall_aupr": 0.5923067402152173,
+      "mean_hall_f1": 0.5319074190353563,
+      "mean_hall_precision": 0.6207328934601662,
+      "mean_hall_recall": 0.4709302325581395,
+      "mean_real_aupr": 0.9708197528110497,
+      "mean_seed_auroc": 0.8747423481384748,
+      "per_seed_auroc": {
+        "43": 0.8756880578169235,
+        "44": 0.8733973616861005,
+        "45": 0.8751416249124009
+      },
+      "per_seed_auroc_delta": {
+        "43": 0.0003982477100757942,
+        "44": -0.0005186481805636856,
+        "45": 0.0002894242079038989
+      },
+      "std_seed_auroc": 0.0009768618624928119,
+      "top32_minus_full_auroc": 0.00019487896665526527
+    },
+    "AE+S+N": {
+      "dimensions": 108,
+      "ensemble_auroc": 0.8904409744411411,
+      "ensemble_hall_aupr": 0.6355165214036712,
+      "full_ae_ensemble_auroc": 0.8885639619781489,
+      "full_ae_ensemble_hall_aupr": 0.6352226417484604,
+      "mean_hall_aupr": 0.6241734488536735,
+      "mean_hall_f1": 0.5800262269843804,
+      "mean_hall_precision": 0.617322596794832,
+      "mean_hall_recall": 0.5510335917312661,
+      "mean_real_aupr": 0.9731153263879356,
+      "mean_seed_auroc": 0.8845476544033127,
+      "per_seed_auroc": {
+        "43": 0.8807641725246126,
+        "44": 0.886285228714586,
+        "45": 0.8865935619707397
+      },
+      "per_seed_auroc_delta": {
+        "43": -0.0006683769707859222,
+        "44": 0.0012082495932624893,
+        "45": 0.000730892599693167
+      },
+      "std_seed_auroc": 0.002678285358713926,
+      "top32_minus_full_auroc": 0.0018770124629922114
+    },
+    "B": {
+      "dimensions": 36,
+      "ensemble_auroc": 0.8584368314300798,
+      "ensemble_hall_aupr": 0.5586363792514548,
+      "full_ae_ensemble_auroc": 0.8484397333901377,
+      "full_ae_ensemble_hall_aupr": 0.5662655839874434,
+      "mean_hall_aupr": 0.5480439699559766,
+      "mean_hall_f1": 0.45577902575121837,
+      "mean_hall_precision": 0.5927703162676284,
+      "mean_hall_recall": 0.3733850129198966,
+      "mean_real_aupr": 0.9633087824196881,
+      "mean_seed_auroc": 0.8495529232102265,
+      "per_seed_auroc": {
+        "43": 0.8448076525304167,
+        "44": 0.8516944050827521,
+        "45": 0.8521567120175106
+      },
+      "per_seed_auroc_delta": {
+        "43": 0.006190590857591105,
+        "44": 0.009659050565110294,
+        "45": 0.011969813441014665
+      },
+      "std_seed_auroc": 0.0033607169169666065,
+      "top32_minus_full_auroc": 0.009997098039942087
+    },
+    "C_JS": {
+      "dimensions": 72,
+      "ensemble_auroc": 0.8721057579209617,
+      "ensemble_hall_aupr": 0.604461042348842,
+      "full_ae_ensemble_auroc": 0.8650187238167568,
+      "full_ae_ensemble_hall_aupr": 0.604404513024527,
+      "mean_hall_aupr": 0.5832745133911191,
+      "mean_hall_f1": 0.5272220909135266,
+      "mean_hall_precision": 0.5983249686654588,
+      "mean_hall_recall": 0.47157622739018085,
+      "mean_real_aupr": 0.9653304337788174,
+      "mean_seed_auroc": 0.860517855801399,
+      "per_seed_auroc": {
+        "43": 0.8543416718377126,
+        "44": 0.8678685875172496,
+        "45": 0.8593433080492346
+      },
+      "per_seed_auroc_delta": {
+        "43": -0.0016007088191800634,
+        "44": 0.019544623810273443,
+        "45": 0.009927250331101312
+      },
+      "std_seed_auroc": 0.0055844446913972095,
+      "top32_minus_full_auroc": 0.007087034104204859
+    },
+    "C_OT": {
+      "dimensions": 72,
+      "ensemble_auroc": 0.8703641959872686,
+      "ensemble_hall_aupr": 0.6021943242526387,
+      "full_ae_ensemble_auroc": 0.8638818655281104,
+      "full_ae_ensemble_hall_aupr": 0.5900754233026319,
+      "mean_hall_aupr": 0.5821640477783657,
+      "mean_hall_f1": 0.5272658357983017,
+      "mean_hall_precision": 0.5874091914881389,
+      "mean_hall_recall": 0.4786821705426356,
+      "mean_real_aupr": 0.9660424106589792,
+      "mean_seed_auroc": 0.8609657558422527,
+      "per_seed_auroc": {
+        "43": 0.8582187985267922,
+        "44": 0.8663338674174716,
+        "45": 0.8583446015824943
+      },
+      "per_seed_auroc_delta": {
+        "43": 0.027787811150318364,
+        "44": 0.021445176108842,
+        "45": 0.0019576653422613832
+      },
+      "std_seed_auroc": 0.0037961755329283526,
+      "top32_minus_full_auroc": 0.0064823304591581365
+    },
+    "D_JS": {
+      "dimensions": 72,
+      "ensemble_auroc": 0.8682274735350504,
+      "ensemble_hall_aupr": 0.5829643328186881,
+      "full_ae_ensemble_auroc": 0.8548016633788077,
+      "full_ae_ensemble_hall_aupr": 0.5817121300971857,
+      "mean_hall_aupr": 0.5640313936656087,
+      "mean_hall_f1": 0.508138080476911,
+      "mean_hall_precision": 0.5829470656144136,
+      "mean_hall_recall": 0.4528423772609819,
+      "mean_real_aupr": 0.9638954027039897,
+      "mean_seed_auroc": 0.8546354695669803,
+      "per_seed_auroc": {
+        "43": 0.8667776512029242,
+        "44": 0.8514821606636227,
+        "45": 0.8456465968343938
+      },
+      "per_seed_auroc_delta": {
+        "43": 0.021997011598578586,
+        "44": 0.018997805006807256,
+        "45": 0.012743926722421306
+      },
+      "std_seed_auroc": 0.008910214455385528,
+      "top32_minus_full_auroc": 0.013425810156242668
+    },
+    "D_OT": {
+      "dimensions": 72,
+      "ensemble_auroc": 0.8771236018881263,
+      "ensemble_hall_aupr": 0.6134136446026877,
+      "full_ae_ensemble_auroc": 0.866949762131891,
+      "full_ae_ensemble_hall_aupr": 0.6058488708300429,
+      "mean_hall_aupr": 0.590343649830655,
+      "mean_hall_f1": 0.5260589018573119,
+      "mean_hall_precision": 0.5917826389385872,
+      "mean_hall_recall": 0.47351421188630494,
+      "mean_real_aupr": 0.9660982725866191,
+      "mean_seed_auroc": 0.8650192383486818,
+      "per_seed_auroc": {
+        "43": 0.870320203507667,
+        "44": 0.861039333907551,
+        "45": 0.8636981776308275
+      },
+      "per_seed_auroc_delta": {
+        "43": 0.015303980316066723,
+        "44": 0.01406099981785569,
+        "45": 0.014823536130946335
+      },
+      "std_seed_auroc": 0.0039023528115555033,
+      "top32_minus_full_auroc": 0.010173839756235314
+    },
+    "D_OT+strength": {
+      "dimensions": 108,
+      "ensemble_auroc": 0.8803558914419964,
+      "ensemble_hall_aupr": 0.6067575674624436,
+      "full_ae_ensemble_auroc": 0.8810914148290159,
+      "full_ae_ensemble_hall_aupr": 0.6083949635907405,
+      "mean_hall_aupr": 0.5967560175267813,
+      "mean_hall_f1": 0.5159798033456932,
+      "mean_hall_precision": 0.630130009803331,
+      "mean_hall_recall": 0.4373385012919897,
+      "mean_real_aupr": 0.9705451244457154,
+      "mean_seed_auroc": 0.8757217596580215,
+      "per_seed_auroc": {
+        "43": 0.8736952756707695,
+        "44": 0.8742401649795165,
+        "45": 0.8792298383237784
+      },
+      "per_seed_auroc_delta": {
+        "43": -0.005925478283151153,
+        "44": 0.00045034406749833167,
+        "45": 0.003770232681627128
+      },
+      "std_seed_auroc": 0.002490540508075964,
+      "top32_minus_full_auroc": -0.0007355233870194322
+    },
+    "E_JS": {
+      "dimensions": 72,
+      "ensemble_auroc": 0.8779301306808184,
+      "ensemble_hall_aupr": 0.6036521863839963,
+      "full_ae_ensemble_auroc": 0.8645108808066213,
+      "full_ae_ensemble_hall_aupr": 0.5940849101762237,
+      "mean_hall_aupr": 0.5846333780655915,
+      "mean_hall_f1": 0.5234870997798263,
+      "mean_hall_precision": 0.6032034817051062,
+      "mean_hall_recall": 0.4631782945736434,
+      "mean_real_aupr": 0.9676719529942165,
+      "mean_seed_auroc": 0.8652263374485596,
+      "per_seed_auroc": {
+        "43": 0.8714555182005377,
+        "44": 0.8522763406901108,
+        "45": 0.8719471534550305
+      },
+      "per_seed_auroc_delta": {
+        "43": 0.02410787882155707,
+        "44": 0.011639483945060425,
+        "45": 0.025667682352687016
+      },
+      "std_seed_auroc": 0.009159229892618036,
+      "top32_minus_full_auroc": 0.01341924987419707
+    },
+    "E_OT": {
+      "dimensions": 72,
+      "ensemble_auroc": 0.8743644244394431,
+      "ensemble_hall_aupr": 0.5903242441411136,
+      "full_ae_ensemble_auroc": 0.8572297395336488,
+      "full_ae_ensemble_hall_aupr": 0.5681371748239189,
+      "mean_hall_aupr": 0.5660485745167089,
+      "mean_hall_f1": 0.5363169650419861,
+      "mean_hall_precision": 0.5797011579333509,
+      "mean_hall_recall": 0.5,
+      "mean_real_aupr": 0.9661926345911184,
+      "mean_seed_auroc": 0.8598099885053568,
+      "per_seed_auroc": {
+        "43": 0.8557810748983542,
+        "44": 0.8635785489582272,
+        "45": 0.8600703416594889
+      },
+      "per_seed_auroc_delta": {
+        "43": 0.016215087722547872,
+        "44": 0.01971519114346476,
+        "45": 0.015862761986792928
+      },
+      "std_seed_auroc": 0.003188624390156135,
+      "top32_minus_full_auroc": 0.017134684905794284
+    },
+    "F": {
+      "dimensions": 108,
+      "ensemble_auroc": 0.8835750604317747,
+      "ensemble_hall_aupr": 0.6162472915829253,
+      "full_ae_ensemble_auroc": 0.8855076423426844,
+      "full_ae_ensemble_hall_aupr": 0.617716698632259,
+      "mean_hall_aupr": 0.6070494906471694,
+      "mean_hall_f1": 0.5482411221550122,
+      "mean_hall_precision": 0.6456835417757719,
+      "mean_hall_recall": 0.47674418604651164,
+      "mean_real_aupr": 0.9715742661627921,
+      "mean_seed_auroc": 0.8792953125112555,
+      "per_seed_auroc": {
+        "43": 0.8797357518391944,
+        "44": 0.8783299219866696,
+        "45": 0.8798202637079025
+      },
+      "per_seed_auroc_delta": {
+        "43": -0.003610856417808117,
+        "44": -0.001431299182820478,
+        "45": -0.0007903210370492353
+      },
+      "std_seed_auroc": 0.0006835055292184499,
+      "top32_minus_full_auroc": -0.0019325819109097253
+    },
+    "G_JS": {
+      "dimensions": 216,
+      "ensemble_auroc": 0.8875529067452047,
+      "ensemble_hall_aupr": 0.6348047097588493,
+      "full_ae_ensemble_auroc": 0.8845868874626064,
+      "full_ae_ensemble_hall_aupr": 0.6267393139337354,
+      "mean_hall_aupr": 0.6226861470413834,
+      "mean_hall_f1": 0.5788379526652719,
+      "mean_hall_precision": 0.6540217193725941,
+      "mean_hall_recall": 0.5193798449612403,
+      "mean_real_aupr": 0.9723040169966867,
+      "mean_seed_auroc": 0.8828526576088466,
+      "per_seed_auroc": {
+        "43": 0.8855771041525813,
+        "44": 0.8825285024959945,
+        "45": 0.8804523661779642
+      },
+      "per_seed_auroc_delta": {
+        "43": 0.008019365952599111,
+        "44": 0.003341884853929722,
+        "45": 0.00022459318533341044
+      },
+      "std_seed_auroc": 0.0021046840190413066,
+      "top32_minus_full_auroc": 0.00296601928259832
+    },
+    "G_OT": {
+      "dimensions": 216,
+      "ensemble_auroc": 0.8915863225065526,
+      "ensemble_hall_aupr": 0.635563277586689,
+      "full_ae_ensemble_auroc": 0.8919012160447519,
+      "full_ae_ensemble_hall_aupr": 0.6393869426880813,
+      "mean_hall_aupr": 0.6229942512434189,
+      "mean_hall_f1": 0.5776829041459409,
+      "mean_hall_precision": 0.651815563145287,
+      "mean_hall_recall": 0.5200258397932817,
+      "mean_real_aupr": 0.9733053471787175,
+      "mean_seed_auroc": 0.885435736506143,
+      "per_seed_auroc": {
+        "43": 0.8863064531564989,
+        "44": 0.8858561090890006,
+        "45": 0.8841446472729295
+      },
+      "per_seed_auroc_delta": {
+        "43": -0.001990466752490594,
+        "44": -0.002101605648325733,
+        "45": 0.00528913092470662
+      },
+      "std_seed_auroc": 0.0009312665214185764,
+      "top32_minus_full_auroc": -0.0003148935381993567
+    },
+    "H_JS": {
+      "dimensions": 252,
+      "ensemble_auroc": 0.8918842364912216,
+      "ensemble_hall_aupr": 0.637136895698731,
+      "full_ae_ensemble_auroc": 0.8945469392039368,
+      "full_ae_ensemble_hall_aupr": 0.6402079166113458,
+      "mean_hall_aupr": 0.6225486671734183,
+      "mean_hall_f1": 0.5764366487889835,
+      "mean_hall_precision": 0.6379369088476429,
+      "mean_hall_recall": 0.5258397932816538,
+      "mean_real_aupr": 0.9732409465020048,
+      "mean_seed_auroc": 0.8850660453179139,
+      "per_seed_auroc": {
+        "43": 0.8885959915904902,
+        "44": 0.8825308178896576,
+        "45": 0.8840713264735938
+      },
+      "per_seed_auroc_delta": {
+        "43": -0.0016651539428067519,
+        "44": -0.008154044684010486,
+        "45": -0.004251834563579138
+      },
+      "std_seed_auroc": 0.002574060629919446,
+      "top32_minus_full_auroc": -0.0026627027127151814
+    },
+    "H_OT": {
+      "dimensions": 252,
+      "ensemble_auroc": 0.8950570976077352,
+      "ensemble_hall_aupr": 0.6469302229517876,
+      "full_ae_ensemble_auroc": 0.89744465437347,
+      "full_ae_ensemble_hall_aupr": 0.6456670790303326,
+      "mean_hall_aupr": 0.6348538234478635,
+      "mean_hall_f1": 0.6011628828986891,
+      "mean_hall_precision": 0.6326992084150089,
+      "mean_hall_recall": 0.5729974160206718,
+      "mean_real_aupr": 0.9743532459886476,
+      "mean_seed_auroc": 0.889295369109767,
+      "per_seed_auroc": {
+        "43": 0.8918633979482524,
+        "44": 0.8863311506889067,
+        "45": 0.8896915586921421
+      },
+      "per_seed_auroc_delta": {
+        "43": 0.003850499661952389,
+        "44": -0.0061512291653161855,
+        "45": 0.00313735841367746
+      },
+      "std_seed_auroc": 0.0022758389769520966,
+      "top32_minus_full_auroc": -0.0023875567657347663
+    },
+    "U": {
+      "dimensions": 144,
+      "ensemble_auroc": 0.8883578919421213,
+      "ensemble_hall_aupr": 0.6259968280206096,
+      "full_ae_ensemble_auroc": 0.8906474303761125,
+      "full_ae_ensemble_hall_aupr": 0.6256753096241505,
+      "mean_hall_aupr": 0.615336529335569,
+      "mean_hall_f1": 0.5723490592763499,
+      "mean_hall_precision": 0.628246176582306,
+      "mean_hall_recall": 0.5258397932816538,
+      "mean_real_aupr": 0.9726486708556329,
+      "mean_seed_auroc": 0.8828755542795163,
+      "per_seed_auroc": {
+        "43": 0.8839208258854836,
+        "44": 0.8823123990874262,
+        "45": 0.8823934378656391
+      },
+      "per_seed_auroc_delta": {
+        "43": 0.001430913283876345,
+        "44": -0.002806257119835398,
+        "45": -0.0010531182178261655
+      },
+      "std_seed_auroc": 0.0007398587110949705,
+      "top32_minus_full_auroc": -0.002289538433991156
+    }
+  },
+  "unchanged": "S/I/N/kappa/R_cos and all three JS/OT distances unchanged; JS full support; OT pairwise Top32 union"
+}

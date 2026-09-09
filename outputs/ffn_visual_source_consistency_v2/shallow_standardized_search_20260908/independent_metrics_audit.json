@@ -1,0 +1,75 @@
+{
+  "status": "PASS_FOUR_MODEL_EXPLORATORY_SHALLOW_SEARCH_AUDIT",
+  "date": "2026-09-08",
+  "models": {
+    "qwen2_5_vl_7b": {
+      "status": "PASS_INDEPENDENT_INPUTS_FILES_METRICS_SELECTION_SUMMARIES",
+      "model": "qwen2_5_vl_7b",
+      "files": 534,
+      "training_heads": 126,
+      "evaluation_heads": 30,
+      "metric_reports": 120,
+      "validation_reports": 126,
+      "summary_sha256": "37679cd0f1ea2e39d437ca23b7bb5c25b3755e2241ba2550fda4477cb1406c61",
+      "checkpoint_record_max_error": 0
+    },
+    "qwen3_vl_8b": {
+      "status": "PASS_INDEPENDENT_INPUTS_FILES_METRICS_SELECTION_SUMMARIES",
+      "model": "qwen3_vl_8b",
+      "files": 534,
+      "training_heads": 126,
+      "evaluation_heads": 30,
+      "metric_reports": 120,
+      "validation_reports": 126,
+      "summary_sha256": "8261ff779f4f6253ff27ab06bf69e88a74b0ca4b808a67c51f0558e032e90ed5",
+      "checkpoint_record_max_error": 0
+    },
+    "llava_1_5_7b": {
+      "status": "PASS_INDEPENDENT_INPUTS_FILES_METRICS_SELECTION_SUMMARIES",
+      "model": "llava_1_5_7b",
+      "files": 534,
+      "training_heads": 126,
+      "evaluation_heads": 30,
+      "metric_reports": 120,
+      "validation_reports": 126,
+      "summary_sha256": "f9f9a89051433d8e6d651af2404d7032deaa94808c5809d41fc4ebee5b79cd68",
+      "checkpoint_record_max_error": 0
+    },
+    "internvl_2_5_8b": {
+      "status": "PASS_INDEPENDENT_INPUTS_FILES_METRICS_SELECTION_SUMMARIES",
+      "model": "internvl_2_5_8b",
+      "files": 534,
+      "training_heads": 126,
+      "evaluation_heads": 30,
+      "metric_reports": 120,
+      "validation_reports": 126,
+      "summary_sha256": "ee62cbe39bdf9b54218f84c30a35f511a9e82dfea4098638acda700ee604982c",
+      "checkpoint_record_max_error": 0
+    }
+  },
+  "totals": {
+    "training_heads": 504,
+    "evaluation_heads": 120,
+    "validation_reports": 504,
+    "final_dual_threshold_metric_reports": 480,
+    "experiment_artifact_files_verified": 2136
+  },
+  "global_artifacts": {
+    "outputs/ffn_visual_source_consistency_v2/shallow_standardized_search_20260908/summary.json": "646d7ef0697a368e7ec073ba7bdadb691aac728be511989d2f8600754651629d",
+    "outputs/ffn_visual_source_consistency_v2/shallow_standardized_search_20260908/summary.md": "d9b68e89fab4dc1fcf08feb2533f2e41a3fdc75e9c3995b0d26533c08e63a7b1",
+    "outputs/ffn_visual_source_consistency_v2/shallow_standardized_search_20260908/groups.csv": "a31729b3b2e4668744fe598db4f40a7f6226d2e1814383f3597c910e2ef1d69c",
+    "outputs/ffn_visual_source_consistency_v2/shallow_standardized_search_20260908/search_trials.csv": "20594f84bbf62193b448eb8dfc6c631ee512a4a1ee347a72dce7ce6d3756a7f9",
+    "scripts/train_ffn_shallow_standardized_search.py": "337d156b6a3cf91980954883143fedd270993236f2e9a662caeab7e499082ff1",
+    "tests/test_ffn_shallow_standardized_search.py": "13ba062c5fa2849a72638e37ab6a78ba95fadcbdbbea7045df46e4c41f96e0c5"
+  },
+  "tables": {
+    "groups_csv_rows": 352,
+    "search_trials_csv_rows": 504,
+    "finite_metric_checks": "PASS"
+  },
+  "scope": "Separate processes reconstructed inputs, image isolation and train-only StandardScaler; verified artifact hashes, validation-best epochs, all selection stages and saved-probability metrics/ensembles. Same-device checkpoint inference was verified during training/evaluation; this independent audit does not claim a second complete GPU weight-inference sweep or independent new-image validation.",
+  "related_unit_tests": 76,
+  "no_bootstrap": true,
+  "independent_new_images": false,
+  "numerical_gate": "Original FAIL and user-authorized exploratory exception retained"
+}

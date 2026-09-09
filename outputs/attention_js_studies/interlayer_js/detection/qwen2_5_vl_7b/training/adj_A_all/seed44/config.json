@@ -1,0 +1,30 @@
+{
+  "hidden_sizes": [
+    128,
+    64,
+    32
+  ],
+  "dropout": 0.3,
+  "drop_last": true,
+  "batch_size": 256,
+  "num_epochs": 100,
+  "learning_rate": 0.001,
+  "weight_decay": 1e-05,
+  "lr_factor": 0.5,
+  "lr_patience": 5,
+  "early_stopping_patience": 10,
+  "seed": 44,
+  "positive_class": "real",
+  "split_protocol": "strict_82_no_validation",
+  "threshold_selection": "train_f1",
+  "fixed_threshold": 0.5,
+  "threshold_reporting": [
+    "fixed_0.5",
+    "train_f1"
+  ],
+  "checkpoint_selection": "minimum_train_loss",
+  "output_mode": "single_logit_bce",
+  "loss": "BCEWithLogitsLoss",
+  "train_sample_weighting": "none",
+  "train_sampling": "shuffle_without_replacement"
+}

@@ -1,0 +1,23 @@
+{
+  "C_error_bound": "L2(error)<=1e-8+5e-4*L2(reference), per score and layer",
+  "backend": "joint_score_vjp_v1",
+  "fixed": "native original capture; FP32 G/suffix, K4 and node batch4, all three score definitions",
+  "images": [
+    283,
+    599
+  ],
+  "layers": "first, middle, last",
+  "maximum_peak_increment_bytes": 536870912,
+  "minimum_speedup": 1.1,
+  "reference_gate_sha256": "87d4c2f4907f887b5413859ab0c45db1fdf8219519ed1f3faa2d9fd4b3b15260",
+  "repeats": 3,
+  "score_error_bound": 2e-06,
+  "sources": {
+    "/home/apulis-dev/userdata/CODEX/test-cocochair/gfchair/features/ffn_target_consequence.py": "b09f6e944e24f56c7b93aa6be99b54dca9607c7ca3517be3c2d0661689ab9c26",
+    "/home/apulis-dev/userdata/CODEX/test-cocochair/gfchair/features/ffn_target_consequence_fast.py": "2e1c01efae8821ec2057b8019f80e1ce667b445589036318b00a1478ed24af91",
+    "/home/apulis-dev/userdata/CODEX/test-cocochair/gfchair/features/ffn_visual_path_attribution.py": "56401062b074e08a7a2eca990d474718539d967fae2ab4fa60a83164d04f5869",
+    "/home/apulis-dev/userdata/CODEX/test-cocochair/gfchair/scripts/benchmark_cqb_optimization.py": "d3ae18e417e19facb090d77e0713a49f4862dca7e39286997d503f20d7f19deb",
+    "/home/apulis-dev/userdata/CODEX/test-cocochair/gfchair/scripts/run_ffn_target_consequence.py": "e26caf6a6095c11e898a4064eac2a217d105a1272836169a426f0584ca459f54"
+  },
+  "targets": "first and last unique target per image"
+}

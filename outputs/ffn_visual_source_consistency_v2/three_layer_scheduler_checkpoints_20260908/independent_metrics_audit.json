@@ -1,0 +1,336 @@
+{
+  "status": "PASS_FOUR_MODEL_SCHEDULER_CHECKPOINTS_INDEPENDENT_AUDIT",
+  "experiment_completed_utc": "2026-09-08T13:45:28.159829+00:00",
+  "tests": {
+    "passed": 84,
+    "seconds_excluding_import": 26.939,
+    "log": "/tmp/gfchair_three_layer_checkpoints_regression_20260908.log"
+  },
+  "method": "Independent processes rebuild train/val/test features and train-only scalers; reload all96 actual checkpoints on original GPUs; recompute240 prediction matrices,384 train/test dual-threshold reports and all seed/ensemble summaries; replay scheduler/early stopping/selection every epoch; forbid optimization during complete-model resume and verify all completed bytes and mtimes unchanged.",
+  "models": [
+    {
+      "status": "PASS_INDEPENDENT_WEIGHTS_SCHEDULER_METRICS_AND_RESUME",
+      "model": "qwen2_5_vl_7b",
+      "trajectories": 18,
+      "checkpoints": 24,
+      "weight_prediction_matrices": 60,
+      "seed_threshold_train_test_reports": 96,
+      "artifact_checksums": 102,
+      "max_probability_error": 0,
+      "scaler_train_only": true,
+      "checkpoint_selection_verified": true,
+      "lr_scheduler_verified_every_epoch": true,
+      "freeze_before_refit_and_test": true,
+      "unchanged_bytes_mtime_on_resume": true,
+      "lr_drops": {
+        "trajectories/full/schedule_off/min_train_loss/seed43/result.pt": 0,
+        "trajectories/full/schedule_off/min_train_loss/seed44/result.pt": 0,
+        "trajectories/full/schedule_off/min_train_loss/seed45/result.pt": 0,
+        "trajectories/full/schedule_off/val_epoch_transfer/seed43/result.pt": 0,
+        "trajectories/full/schedule_off/val_epoch_transfer/seed44/result.pt": 0,
+        "trajectories/full/schedule_off/val_epoch_transfer/seed45/result.pt": 0,
+        "trajectories/full/schedule_on/min_train_loss/seed43/result.pt": 0,
+        "trajectories/full/schedule_on/min_train_loss/seed44/result.pt": 2,
+        "trajectories/full/schedule_on/min_train_loss/seed45/result.pt": 2,
+        "trajectories/full/schedule_on/val_epoch_transfer/seed43/result.pt": 0,
+        "trajectories/full/schedule_on/val_epoch_transfer/seed44/result.pt": 0,
+        "trajectories/full/schedule_on/val_epoch_transfer/seed45/result.pt": 0,
+        "trajectories/inner/schedule_off/seed43/result.pt": 0,
+        "trajectories/inner/schedule_off/seed44/result.pt": 0,
+        "trajectories/inner/schedule_off/seed45/result.pt": 0,
+        "trajectories/inner/schedule_on/seed43/result.pt": 2,
+        "trajectories/inner/schedule_on/seed44/result.pt": 2,
+        "trajectories/inner/schedule_on/seed45/result.pt": 2
+      },
+      "summary_sha256": "8be81fdad52a5192a80058b2c95bc60196d835c59f0363515b4708b4b319b93c",
+      "protocol_sha256": "802c75d5e8f7aff255114e7f4a91cd2a23c40b64d50257f6c0bc598ad3c44d4d",
+      "verification_sha256": "842d609565f18af936944f148f5915c01a539eba9d83372af7ed50a1ec94a4e6",
+      "elapsed_seconds": 50.84013841091655
+    },
+    {
+      "status": "PASS_INDEPENDENT_WEIGHTS_SCHEDULER_METRICS_AND_RESUME",
+      "model": "qwen3_vl_8b",
+      "trajectories": 18,
+      "checkpoints": 24,
+      "weight_prediction_matrices": 60,
+      "seed_threshold_train_test_reports": 96,
+      "artifact_checksums": 102,
+      "max_probability_error": 0,
+      "scaler_train_only": true,
+      "checkpoint_selection_verified": true,
+      "lr_scheduler_verified_every_epoch": true,
+      "freeze_before_refit_and_test": true,
+      "unchanged_bytes_mtime_on_resume": true,
+      "lr_drops": {
+        "trajectories/full/schedule_off/min_train_loss/seed43/result.pt": 0,
+        "trajectories/full/schedule_off/min_train_loss/seed44/result.pt": 0,
+        "trajectories/full/schedule_off/min_train_loss/seed45/result.pt": 0,
+        "trajectories/full/schedule_off/val_epoch_transfer/seed43/result.pt": 0,
+        "trajectories/full/schedule_off/val_epoch_transfer/seed44/result.pt": 0,
+        "trajectories/full/schedule_off/val_epoch_transfer/seed45/result.pt": 0,
+        "trajectories/full/schedule_on/min_train_loss/seed43/result.pt": 0,
+        "trajectories/full/schedule_on/min_train_loss/seed44/result.pt": 0,
+        "trajectories/full/schedule_on/min_train_loss/seed45/result.pt": 1,
+        "trajectories/full/schedule_on/val_epoch_transfer/seed43/result.pt": 0,
+        "trajectories/full/schedule_on/val_epoch_transfer/seed44/result.pt": 0,
+        "trajectories/full/schedule_on/val_epoch_transfer/seed45/result.pt": 0,
+        "trajectories/inner/schedule_off/seed43/result.pt": 0,
+        "trajectories/inner/schedule_off/seed44/result.pt": 0,
+        "trajectories/inner/schedule_off/seed45/result.pt": 0,
+        "trajectories/inner/schedule_on/seed43/result.pt": 1,
+        "trajectories/inner/schedule_on/seed44/result.pt": 0,
+        "trajectories/inner/schedule_on/seed45/result.pt": 1
+      },
+      "summary_sha256": "d70662d8884eebb1e047a76c777b7222dae733c73dbd345973453ce01e0b3597",
+      "protocol_sha256": "06c659a3767e9fe88f138b0651896d12514f0557b4cfbc0473635efb85c84fcf",
+      "verification_sha256": "d3ab1e90ed35ad0d49c2d948f5673866840870919a6a3f4ec7ac48395ac8415b",
+      "elapsed_seconds": 86.34794505289756
+    },
+    {
+      "status": "PASS_INDEPENDENT_WEIGHTS_SCHEDULER_METRICS_AND_RESUME",
+      "model": "internvl_2_5_8b",
+      "trajectories": 18,
+      "checkpoints": 24,
+      "weight_prediction_matrices": 60,
+      "seed_threshold_train_test_reports": 96,
+      "artifact_checksums": 102,
+      "max_probability_error": 0,
+      "scaler_train_only": true,
+      "checkpoint_selection_verified": true,
+      "lr_scheduler_verified_every_epoch": true,
+      "freeze_before_refit_and_test": true,
+      "unchanged_bytes_mtime_on_resume": true,
+      "lr_drops": {
+        "trajectories/full/schedule_off/min_train_loss/seed43/result.pt": 0,
+        "trajectories/full/schedule_off/min_train_loss/seed44/result.pt": 0,
+        "trajectories/full/schedule_off/min_train_loss/seed45/result.pt": 0,
+        "trajectories/full/schedule_off/val_epoch_transfer/seed43/result.pt": 0,
+        "trajectories/full/schedule_off/val_epoch_transfer/seed44/result.pt": 0,
+        "trajectories/full/schedule_off/val_epoch_transfer/seed45/result.pt": 0,
+        "trajectories/full/schedule_on/min_train_loss/seed43/result.pt": 1,
+        "trajectories/full/schedule_on/min_train_loss/seed44/result.pt": 1,
+        "trajectories/full/schedule_on/min_train_loss/seed45/result.pt": 1,
+        "trajectories/full/schedule_on/val_epoch_transfer/seed43/result.pt": 0,
+        "trajectories/full/schedule_on/val_epoch_transfer/seed44/result.pt": 0,
+        "trajectories/full/schedule_on/val_epoch_transfer/seed45/result.pt": 0,
+        "trajectories/inner/schedule_off/seed43/result.pt": 0,
+        "trajectories/inner/schedule_off/seed44/result.pt": 0,
+        "trajectories/inner/schedule_off/seed45/result.pt": 0,
+        "trajectories/inner/schedule_on/seed43/result.pt": 0,
+        "trajectories/inner/schedule_on/seed44/result.pt": 1,
+        "trajectories/inner/schedule_on/seed45/result.pt": 0
+      },
+      "summary_sha256": "48bed27d8da6b83c9f92114c45bbda61d5753ca0f19fa2e94b398957c3949842",
+      "protocol_sha256": "303021336cb9c4522ac6efb8fa9622aa8a0f71e8115504c2d9a9ce34a1a44ed9",
+      "verification_sha256": "731705c45f4e14a3ae0936701a2bbba368768522256b0e52757b07460872bf9f",
+      "elapsed_seconds": 64.64105396997184
+    },
+    {
+      "status": "PASS_INDEPENDENT_WEIGHTS_SCHEDULER_METRICS_AND_RESUME",
+      "model": "llava_1_5_7b",
+      "trajectories": 18,
+      "checkpoints": 24,
+      "weight_prediction_matrices": 60,
+      "seed_threshold_train_test_reports": 96,
+      "artifact_checksums": 102,
+      "max_probability_error": 0,
+      "scaler_train_only": true,
+      "checkpoint_selection_verified": true,
+      "lr_scheduler_verified_every_epoch": true,
+      "freeze_before_refit_and_test": true,
+      "unchanged_bytes_mtime_on_resume": true,
+      "lr_drops": {
+        "trajectories/full/schedule_off/min_train_loss/seed43/result.pt": 0,
+        "trajectories/full/schedule_off/min_train_loss/seed44/result.pt": 0,
+        "trajectories/full/schedule_off/min_train_loss/seed45/result.pt": 0,
+        "trajectories/full/schedule_off/val_epoch_transfer/seed43/result.pt": 0,
+        "trajectories/full/schedule_off/val_epoch_transfer/seed44/result.pt": 0,
+        "trajectories/full/schedule_off/val_epoch_transfer/seed45/result.pt": 0,
+        "trajectories/full/schedule_on/min_train_loss/seed43/result.pt": 1,
+        "trajectories/full/schedule_on/min_train_loss/seed44/result.pt": 0,
+        "trajectories/full/schedule_on/min_train_loss/seed45/result.pt": 0,
+        "trajectories/full/schedule_on/val_epoch_transfer/seed43/result.pt": 0,
+        "trajectories/full/schedule_on/val_epoch_transfer/seed44/result.pt": 0,
+        "trajectories/full/schedule_on/val_epoch_transfer/seed45/result.pt": 0,
+        "trajectories/inner/schedule_off/seed43/result.pt": 0,
+        "trajectories/inner/schedule_off/seed44/result.pt": 0,
+        "trajectories/inner/schedule_off/seed45/result.pt": 0,
+        "trajectories/inner/schedule_on/seed43/result.pt": 0,
+        "trajectories/inner/schedule_on/seed44/result.pt": 0,
+        "trajectories/inner/schedule_on/seed45/result.pt": 0
+      },
+      "summary_sha256": "76a04ba33d9b6d0b0a32495db842efc2f3d539405eeeffbcbc0c91c25e430c94",
+      "protocol_sha256": "4a7734823837129b3e6415642597aba545adb5a156237c7fb56722dee97dba7c",
+      "verification_sha256": "cd9218b160718b57c46250733e3ec786dab28812313cdd8198dd82d05f05aa84",
+      "elapsed_seconds": 96.16026137815788
+    }
+  ],
+  "counts": {
+    "trajectories": 72,
+    "checkpoints": 96,
+    "weight_prediction_matrices": 240,
+    "seed_threshold_train_test_reports": 384,
+    "artifact_checksums": 408,
+    "csv_rows": 352
+  },
+  "max_probability_error": 0,
+  "original_auc_checkpoint_exact_parity": {
+    "status": "PASS",
+    "comparisons": 24,
+    "rows": [
+      {
+        "model": "llava_1_5_7b",
+        "seed": 43,
+        "scheduler": "schedule_off",
+        "epoch": 27
+      },
+      {
+        "model": "llava_1_5_7b",
+        "seed": 43,
+        "scheduler": "schedule_on",
+        "epoch": 27
+      },
+      {
+        "model": "llava_1_5_7b",
+        "seed": 44,
+        "scheduler": "schedule_off",
+        "epoch": 17
+      },
+      {
+        "model": "llava_1_5_7b",
+        "seed": 44,
+        "scheduler": "schedule_on",
+        "epoch": 17
+      },
+      {
+        "model": "llava_1_5_7b",
+        "seed": 45,
+        "scheduler": "schedule_off",
+        "epoch": 20
+      },
+      {
+        "model": "llava_1_5_7b",
+        "seed": 45,
+        "scheduler": "schedule_on",
+        "epoch": 20
+      },
+      {
+        "model": "internvl_2_5_8b",
+        "seed": 43,
+        "scheduler": "schedule_off",
+        "epoch": 26
+      },
+      {
+        "model": "internvl_2_5_8b",
+        "seed": 43,
+        "scheduler": "schedule_on",
+        "epoch": 26
+      },
+      {
+        "model": "internvl_2_5_8b",
+        "seed": 44,
+        "scheduler": "schedule_off",
+        "epoch": 22
+      },
+      {
+        "model": "internvl_2_5_8b",
+        "seed": 44,
+        "scheduler": "schedule_on",
+        "epoch": 22
+      },
+      {
+        "model": "internvl_2_5_8b",
+        "seed": 45,
+        "scheduler": "schedule_off",
+        "epoch": 21
+      },
+      {
+        "model": "internvl_2_5_8b",
+        "seed": 45,
+        "scheduler": "schedule_on",
+        "epoch": 21
+      },
+      {
+        "model": "qwen2_5_vl_7b",
+        "seed": 43,
+        "scheduler": "schedule_off",
+        "epoch": 22
+      },
+      {
+        "model": "qwen2_5_vl_7b",
+        "seed": 43,
+        "scheduler": "schedule_on",
+        "epoch": 22
+      },
+      {
+        "model": "qwen2_5_vl_7b",
+        "seed": 44,
+        "scheduler": "schedule_off",
+        "epoch": 13
+      },
+      {
+        "model": "qwen2_5_vl_7b",
+        "seed": 44,
+        "scheduler": "schedule_on",
+        "epoch": 13
+      },
+      {
+        "model": "qwen2_5_vl_7b",
+        "seed": 45,
+        "scheduler": "schedule_off",
+        "epoch": 13
+      },
+      {
+        "model": "qwen2_5_vl_7b",
+        "seed": 45,
+        "scheduler": "schedule_on",
+        "epoch": 13
+      },
+      {
+        "model": "qwen3_vl_8b",
+        "seed": 43,
+        "scheduler": "schedule_off",
+        "epoch": 26
+      },
+      {
+        "model": "qwen3_vl_8b",
+        "seed": 43,
+        "scheduler": "schedule_on",
+        "epoch": 26
+      },
+      {
+        "model": "qwen3_vl_8b",
+        "seed": 44,
+        "scheduler": "schedule_off",
+        "epoch": 17
+      },
+      {
+        "model": "qwen3_vl_8b",
+        "seed": 44,
+        "scheduler": "schedule_on",
+        "epoch": 17
+      },
+      {
+        "model": "qwen3_vl_8b",
+        "seed": 45,
+        "scheduler": "schedule_off",
+        "epoch": 23
+      },
+      {
+        "model": "qwen3_vl_8b",
+        "seed": 45,
+        "scheduler": "schedule_on",
+        "epoch": 23
+      }
+    ]
+  },
+  "global_files": {
+    "summary.json": "f6665466ce3fa1b06359b60209d96bfce1a60ebcc16de84785ffa922b2bea726",
+    "summary.md": "17b3d7f3598174ccfe46c0441238ecf8a7f96437e40f08ba3655e2549514718e",
+    "groups.csv": "2dfee7e2fb9df8a3a0133b597d985e679fe0b1233e65f0a5e4a471092d623640"
+  },
+  "no_bootstrap": true,
+  "independent_2000_run": false,
+  "numerical_failure_retained": true,
+  "exploratory_only": true
+}

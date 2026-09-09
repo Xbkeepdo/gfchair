@@ -1,5 +1,114 @@
 # Current Task
 
+## 2026-09-09：发布此前未提交的实验代码/结果及C讨论
+
+- 发布传输补充：本地完整快照提交为 `c2e351b981e5cd570a2db3f54df275ff20627311`。普通 `git push origin main` 因缺少HTTPS凭据失败；现有SSH key亦未获GitHub授权。改用已连接的GitHub账户上传Git对象，不读取/导出认证秘密、不force更新main。
+- GitHub连接对 `attention_js_studies/interlayer_js/summary.json`（10,762,368字节）的create_tree/create_blob重复返回HTTP500。原文件不改写，发布改用新增 `summary_compact.json` 加已有完整 `all_pair_interlayer_js.csv`。已逐行逐字段按原类型恢复并精确核对33,024行CSV与原JSON完全相等；紧凑JSON保留其余字段、全部相邻层统计、原文件SHA及CSV的SHA。这是无损拆分发布，不删样本、不改数值。
+- 发布清单随该传输适配更新；本地原快照提交保留，远端通过连接生成的提交可能SHA不同，但最终按发布文件树核验。只有完整对象上传和树核对后才以非force更新main。
+
+- 用户明确授权“将之前未提交的实验结果和代码上传到github，以及这次C的讨论”。目标为现有origin `Xbkeepdo/gfchair` 的main，父提交 `04b57d72e31cbb1ce0b51a9a3173cbb32099ee2a`；远端main只读核对一致。沿用不新增图片、权重、预测/原始特征张量、逐epoch日志及凭据的范围，不上传聊天恢复文件或相邻token-detector产物。
+- 按Ponytail复用现有报告、紧凑JSON/CSV和原生git；不修改任何冻结提取/训练源码，不停止双卡任务。新增 `docs/C_TARGET_CONSEQUENCE_DISCUSSION_20260909.md` 整理本次C讨论供外部GPT审阅；主报告修正含糊的梯度记号为对FFN输出u求导，公式语义和代码不变。
+- 发布§5.20–5.23、注意力JS及相邻层JS检测、Q/B_Q完成结果、C实现/加速基准和恢复代码。C仍在提取，不能宣称完整C检测结果已有；保留旧数值FAIL、探索性和未做独立确认的说明。新后端实际已持续写入目标结果；切换前Qwen2 1633、Qwen3 686共2319张完成图片的SHA/mtime保留复核PASS。
+- 本次执行 `OMP_NUM_THREADS=1 MKL_NUM_THREADS=1 /opt/conda/private/envs/vicr/bin/python -m unittest tests.test_ffn_target_consequence_fast tests.test_ffn_target_consequence tests.test_ffn_shallow_standardized_search tests.test_ffn_shallow_refit tests.test_ffn_three_layer_checkpoints tests.test_attention_evidence_js tests.test_attention_interlayer_js tests.test_attention_interlayer_js_detection -q`：31/31 PASS，10.775秒（不含导入）。没有重训或重新提取。
+- 发布使用显式文件集合git add，保留未相关的 `docs/CODEX_CONVERSATION_HANDOFF_20260830.md` 不提交。新增本次发布文件SHA清单，检查代码/文档diff、结果链接与高置信凭据模式；归档结果保留原始字节，不为排版改写冻结实验产物。随后执行普通commit和push，不force、不重写历史；远端提交核验结果在对话交付。
+
+## 2026-09-09：C提取性能优化（联合score VJP已通过并切换，实验仍未全量完成）
+
+- 用户要求“优化一下”。保留全部冻结C提取/训练源码及现有分片，新增 `features/ffn_target_consequence_fast.py`、`scripts/benchmark_cqb_optimization.py`、`scripts/run_cqb_optimized.py` 和3项定向测试；无新依赖、无降精度/改K/删样本/改C定义。没有使用子代理。
+- 优化复用已有 `batched_scalar_gradients`：每个积分点仍计算真实suffix分数及三份梯度，只把三种昂贵的suffix VJP合并成一次batched VJP，再将同点一阶梯度接回当前G。不是用clean梯度替代整条路径，也不承诺高阶导数；积分节点、前向值、source WRITE及当前FFN路径全部不变。
+- 四模型固定image283/599，各取first/last目标、first/middle/last层，共48个target-layer。每个匹配case分别warmup后交替计时3对serial/joint，K4/node batch4/FP32固定，不看检测成绩。四模型速度比分别1.2760/1.2493/1.2918/1.2936（Qwen2/LLaVA/Qwen3/InternVL），即所测C计算耗时下降约20%–23%；显存峰值分别下降969159680/526562816/826207232/979569664字节。前向节点/端点分数最大差均0，最大C相对L2为1.3478e-5/3.7555e-6/3.5088e-6/6.5451e-5。不是全4000图吞吐保证。
+- 基准、冻结gate和新后端源码checksum保存在 `outputs/ffn_target_consequence_cqb_v1/optimizations/joint_score_vjp_v1/`。四模型均达到预定≥10%加速、数值误差和显存门槛，原实现smoke gate及原提取manifest不改写。
+- 为跑匹配基准，先明确SIGINT暂停原Qwen2 worker553009；Qwen3保持运行，基准完成后再SIGINT暂停553008切换。原运行中的KeyboardInterrupt为用户请求性能优化引起的计划中断，不是数值失败，原日志/failure均保留。切换快照保存Qwen2 1633张、Qwen3 686张已完成图（共2319），本次恰无未完成图中的已完成target。旧分片不重提、不覆盖。
+- 新目标行增加 `execution_backend`，绑定优化gate及原参考gate。原manifest继续标识参考实验，额外 `execution_optimizations/joint_score_vjp_v1.json` 记录运行后端。旧未标记行仅允许来自已校验的切换快照（包括partial的逐行摘要），未知混用会拒绝；原训练/数值源码hash保持不变，不伪造原manifest或已完成shard的fingerprint。
+- 新入口续跑命令：`OMP_NUM_THREADS=1 MKL_NUM_THREADS=1 /opt/conda/private/envs/vicr/bin/python -u scripts/run_cqb_optimized.py --stage pipeline --models qwen2_5_vl_7b llava_1_5_7b --device cuda:0`；另一卡为`--models qwen3_vl_8b internvl_2_5_8b --device cuda:1`。screen `674648.gfchair-cqb-joint-gpu0-20260909`和`674651.gfchair-cqb-joint-gpu1-20260909`，2026-09-09 08:15:21 UTC启动；日志`outputs/cqb_joint_production_gpu0_20260909.log`和`outputs/cqb_joint_production_gpu1_20260909.log`。仍按每模型提取→coverage/lineage验证→原20组训练接续。启动不代表4000图完成。
+- 52/52相关回归PASS，31.676秒（不含导入），日志`/tmp/gfchair_cqb_joint_regression_20260909.log`；含FP32/FP64、逐节点/四节点、零强度、真实Llama+checkpoint的batched VJP，以及明确接受已快照serial/已门控joint并拒绝未知/篡改行的测试。py_compile、git diff --check通过。完成分片的全量保留检查随后记录；未提交/上传。
+
+## 2026-09-09：C / Q / B_Q 新实验（实现与真实数值 smoke 进行中，尚未全量完成）
+
+- **最新状态（2026-09-08 19:33 UTC）**：Q/B_Q四模型当前验收版96头已完成；C实现/同源捕获smoke已通过，双卡全量C正在运行，Qwen2 35/4000、Qwen3 14/4000，当前新extraction无failure，LLaVA/InternVL排队。不是整个实验完成。下面早期记录保留过程，后续条目优先。
+- 最终实现将C捕获改为与v2完全相同的full-caption/all-target causal query前向与WRITE投影GEMM；明确验证每个query对自身目标及未来token的attention为0，suffix只接收裁剪后的prefix。每图capture一次，WRITE临时缓存到CPU以降低显存，不重算Q/AE/S/OT。四模型128个target-layer smoke的WRITE norm map与父v2均逐元素一致（相对L2=0）；生产每层要求≤1e-4，否则失败而非混用不同源。
+- 新增C使用FP32当前G及FP32 suffix、K4、四节点batch和原生KV接口缓存；只对路径/suffix转FP32，不声称原图/前缀整模型FP32重捕获。最终缓存/四节点结果相对serial/full-shape FP32的最大C相对L2：Qwen2 5.80875e-6、LLaVA1.03913e-5、Qwen3 9.42539e-6、InternVL6.94745e-5。全局gate是`PASS_IMPLEMENTATION_SMOKE_NOT_FULL_COHORT_ACCEPTANCE`，不冒充4000图数值通过。
+- 已修复LLaVA捕获后端隐式mask的重放差异及InternVL四节点batch mask维度要求；早期失败保留。起初短暂启动的prefix-capture生产worker549653/549654已明确SIGINT停止，两份输出移动至各模型`extraction_prefix_capture_initial`，旧gate和提取脚本快照保留在全局`diagnostics/`，不计入当前进度。当前C入口和数值源码未覆盖旧v1/v2函数。
+- 当前screen为`552963.gfchair-cqb-aligned-prod-gpu0-20260909`和`552966.gfchair-cqb-aligned-prod-gpu1-20260909`；协调进程552965/552968、提取worker553009/553008。正式启动2026-09-08 19:16:06 UTC。命令统一前缀`OMP_NUM_THREADS=1 MKL_NUM_THREADS=1 /opt/conda/private/envs/vicr/bin/python -u scripts/run_cqb_workflow.py --stage pipeline`，GPU0传`--models qwen2_5_vl_7b llava_1_5_7b --device cuda:0`，GPU1传`--models qwen3_vl_8b internvl_2_5_8b --device cuda:1`。日志`outputs/cqb_aligned_production_gpu0_20260909.log`和`outputs/cqb_aligned_production_gpu1_20260909.log`。每模型4000图coverage/checksum通过后自动训练20组×3seeds；失败会停止该路，不跳过case。
+- C每目标保存`C_m[3,L,M]`（logit/margin/log_probability）、visual位置/grid、目标/固定竞争词、逐层正负总量和C和、节点分数、端点差、真实闭合误差/退化flag、实际batch/chunk及OOM重试、源WRITE匹配、耗时/峰值显存；无目标图片也写processed-image shard。数据shape/finite/目标层顺序/父checksum均验证。预定退让为node batch4→2→1，再token chunk256→128→64→32，耗尽后FAIL。
+- 最新49/49相关测试PASS（19.146秒，不含导入），日志`/tmp/gfchair_cqb_aligned_tests_20260909.log`；命令`python -m unittest tests.test_ffn_target_consequence tests.test_ffn_visual_path_attribution tests.test_ffn_visual_source_consistency tests.test_ffn_ae_log1p_search -v`。另真实恢复四模型已完成全层smoke，禁止build_model后仍成功，完成manifest/shard/sidecar字节及mtime不变，保存`smoke_resume_check.json`。
+- 统一续跑使用`run_cqb_workflow.py`：仅将JSON tuple/list规范为同一语义，避免旧immutable_json将等价JSON误拒绝；真实payload、模型数值源码或训练配置变化仍拒绝。Qwen2最早一轮变换源摘要受开发期source位置变化影响未通过最终来源核验；原24头保留，正式采用`q_source_metadata_r1_a3837258/training_q_bq`独立重训版。其他三模型使用`training_q_bq`，总计96个当前头；不覆盖/伪造旧protocol hash。
+- Q/B_Q当前96头的源代码和artifact SHA复查通过；训练器在每个头保存前实际同设备重载，最大概率差均0。`q_artifact_audit.json`明确区分“此次重复artifact审计”和“训练时完成的权重推理复核”，未冒充又做全量独立权重推理。结果为全局`q_bq_summary.md/json`；主报告§5.23及实验索引已更新。F+κ+B_Q相对F+κ的AUROC为约+0.318/+0.082/+0.206/−0.255个百分点，不宣称统计显著或跨模型一致优势。各模型`layer_curves.csv`保留REAL/HALL、train/test逐层分布。
+- 两卡C提取首批吞吐属于天级任务，不以程序启动或smoke通过称实验完成；当前显存约20.9/22.2GB（nvidia-smi，含上下文），利用率约99/98%。C检测尚未生成；旧800探索性、v2原数值FAIL、未做bootstrap/独立2000图的边界全部保留。未提交、未上传。
+
+- 用户明确要求补提取 C，logit、fixed-clean-competitor margin、log-probability 三种目标分数都计算；保存每层、每个视觉 token 的带符号 C_m，供后续其他聚合。Q 复用 v2 的 endpoint-direction `path_signed_q`，B_Q=负 Q 总量/S，不改成 Q_vec；C/Q 分别保留正负总量并各自 log1p。原始逐 token C 存为 `[3,layer,visual_token]` FP32，而不是只保留聚合值。
+- 范围承接四模型原 COCO4000、全部唯一目标/层、原3200/800图片及mention顺序、seeds43/44/45；只新增C，不重提AE/S/κ/Q/OT，不做bootstrap或新超参搜索、不提交上传。拟用既有默认三隐藏层 `[128,64,32]`、BN、dropout.3、Adam、batch256、100轮上限、train-loss patience10/checkpoint和原ReduceLROnPlateau，与本轮所有对照保持一致。保留旧v2数值FAIL及已授权探索性边界。
+- 按Ponytail新增 `features/ffn_target_consequence.py`、`scripts/run_ffn_target_consequence.py`、`scripts/analyze_ffn_target_consequence.py` 和定向测试；复用原capture、原生decoder模块/位置编码、quadrature、目标分数、VJP、atomic存储、旧MLP/指标/同设备checkpoint复算。避开已有未提交浅层/三层对照、注意力JS脚本和用户handoff文件，不改旧冻结源码。
+- 独立输出根：各模型 `results/ffn_target_consequence_cqb_v1/`，分 `smoke`、`extraction`、`training_q_bq`、`training_all`。原生suffix两个Qwen的首末层试验保留在早期smoke路径，不标正式完成。只用当前G的FP32、suffix原生时，Qwen2首层logit端点差.125而C和约.008478，绝对闭合误差.11652；末层误差亦约.036–.073。说明不能把原生suffix的量化误差当成可靠C特征。
+- 保持K4，将当前Norm+FFN和下游suffix运算转FP32、前缀捕获仍原生，用checkpoint/functional_call避免驻留第二份全模型。两个Qwen首末层C闭合绝对误差降至约1e-5或以下；InternVL也约1e-6。LLaVA首层仍有.00243/.00750/.00170的K4绝对误差，需补K64小样本对照，不据此预先宣布数值通过。保存三分数各自的真实闭合绝对/相对误差，零效应相对误差NaN+明确退化标记。
+- 为降低全量成本，新增“复用原生attention Cache.update / InternLM2 K/V tuple”的FP32 causal-prefix缓存；不手写注意力公式。当前层skip保持clean，后续prefix在FP32按原生block计算，Qwen3 visual-only deepstack的冻结effective additions从capture差得到。缓存版必须对照full-shape FP32版：三C向量相对L2≤.005、端点分数最大绝对差≤.0005，smoke失败不进入正式提取。Qwen2首末层cached/full对照已通过，LLaVA/InternVL在验证中。
+- 目前新增4/4测试PASS（4.447秒，不含导入）：线性/非线性C对照原scalar_path、chunk parity、零效应/正负/B_Q、native/full-FP32 suffix梯度checkpoint一致、20组特征拼接顺序和无拟合log变换。命令前缀 `OMP_NUM_THREADS=1 MKL_NUM_THREADS=1 /opt/conda/private/envs/vicr/bin/python`。
+- smoke入口：`scripts/run_ffn_target_consequence.py --model MODEL --device cuda:N --smoke --layers 1,L --suffix-precision fp32`；缓存对照用 `--check-cached-parity`（默认fp32_cached）。实际先后在Qwen2/Qwen3/LLaVA/InternVL image283的第一个目标试验；不是200/4000图验收，尚未运行全量C。
+- Q/B_Q八组对照已用screen启动，正在读取/核对已有数据，启动不等于训练完成：`screen gfchair-q-bq-20260909`，worker543613，命令 `scripts/analyze_ffn_target_consequence.py --models qwen2_5_vl_7b llava_1_5_7b qwen3_vl_8b internvl_2_5_8b --device cuda:1 --q-only`，日志 `outputs/cqb_q_only_20260909.log`。组为F=AE+log1p(S)、F+κ、Q、B_Q、F+Q、F+B_Q、F+κ+Q、F+κ+B_Q；加入C后扩为20个预定组。未重新搜索分类器参数。
+
+## 2026-09-08：三层学习率调度与checkpoint对照（四模型完成；独立核验PASS）
+
+- 用户要求恢复旧学习率调度，对比最大AUC与最小损失checkpoint，并问batch是否搜索过。此前batch64/128/256仅对每模型两种入围结构的grid赢家做过seed43比较；三层固定batch128，未精搜batch。本轮不追加batch/结构网格。
+- 保留main04b57d72、未提交§5.20/5.21代码/测试/报告及无关handoff文件，按Ponytail复用原数据、split、StandardScaler、网络、epoch训练、指标/恢复，另存three_layer_scheduler_checkpoints_20260908，不改旧源码/产物，不新增依赖、不上传。
+- 四模型固定全AE+log1p(raw S)、[128,64,32]、StandardScaler、BN-off、AdamW、dropout.1、lr.001、wd1e-5、batch128。内层2560优化/640验证、seeds43/44/45。同一训练轨迹同时保存max-validation-AUROC（平局HALL-AUPR、再最早epoch）与min-train-loss（精确复用旧train-mode minibatch平均损失），最大100epochs、train-loss连续10轮未下降则停；验证AUC不决定停止。恢复旧ReduceLROnPlateau(train_loss, mode=min,factor=.5,patience5)，再保留相同停止规则的无调度对照，以区分调度与checkpoint因素。
+- 内层2调度×3seed=6条轨迹/模型，每条2个checkpoint；内层选点后，分别冻结各调度max-AUC三个epoch的中位数，完整3200训练图重拟合scaler并从相同seed重训：AUC方案只迁移冻结轮数、保存固定末轮，最小损失方案按旧100上限/10耐心直接在3200训练损失选点。两方案分别训练但校验相同seed共同前缀轨迹完全相同。完整3200的AUC列不是在训练过的640图或800测试图上重新选择最大AUC；纯checkpoint比较以内层同轨对照为准。
+- 全部选择和训练先于本轮800图评价。预计四模型72条实际训练轨迹、96个checkpoint评估，另引用旧对照；无VLM、bootstrap、新2000图，原数值FAIL与探索性边界保留。
+- 新入口scripts/train_ffn_three_layer_checkpoints.py与tests/test_ffn_three_layer_checkpoints.py；3项集成测试全部PASS，4.561秒（不含导入），日志/tmp/gfchair_three_layer_checkpoints_tests_20260908.log。覆盖旧scheduler逐epoch精确parity（patience5）、同轨AUC/损失选出不同epoch且停止只看train-loss、CPU/两卡真实训练重载与fingerprint拒绝、full两种规则相同seed共同前缀完全一致、冻结先于refit/test、完整18轨迹/24评价合成流程与禁止优化的resume不改文件。py_compile与git diff --check PASS；完整84项回归执行中，正式实验未启动。
+- 完整相关84/84测试PASS，26.939秒（不含导入），日志/tmp/gfchair_three_layer_checkpoints_regression_20260908.log；原81项加本次3项，命令OMP_NUM_THREADS=1 MKL_NUM_THREADS=1、vicr Python -m unittest tests.test_ffn_three_layer_checkpoints及上轮8个模块。新源文件/测试空白检查与py_compile通过。两卡空闲后启动gfchair-threecp-qwen2-llava-20260908与gfchair-threecp-qwen3-intern-20260908两路screen，命令`scripts/train_ffn_three_layer_checkpoints.py --models qwen2_5_vl_7b llava_1_5_7b --device cuda:0`及`--models qwen3_vl_8b internvl_2_5_8b --device cuda:1`，均由OMP_NUM_THREADS=1 MKL_NUM_THREADS=1 /opt/conda/private/envs/vicr/bin/python -u执行；日志outputs/three_layer_checkpoints_qwen2_llava_20260908.log与outputs/three_layer_checkpoints_qwen3_intern_20260908.log。仅启动，不代表完成。
+- 正式启动13:38:15 UTC，worker470493/470496，screen470491/470494。13:39:41核对Qwen2已有9条完整轨迹、Qwen3已有2条，0个failure；两卡各约497MiB。Qwen2带调度seed45内层训练95轮，最低训练损失epoch85，而验证AUROC最佳仍epoch13，说明运行总轮数与选中checkpoint轮数必须分开报告。
+- Qwen2完成18轨迹/24checkpoint评价，主流程138.056秒；带调度3200的min-loss AUROC=.879990，AUC轮数迁移=.876518；无调度min-loss=.880697。带调度内层训练100/97/95轮，AUC最佳22/13/13，与旧val早停选择一致，不支持在该固定配置下简单延长就改变AUC最优。独立进程真实重载24份checkpoint、60次train/val/test完整矩阵预测，最大差0；102份SHA、96份双阈值train/test报告、逐epoch旧scheduler重放、选点/冻结和禁止训练resume全部PASS，耗时50.840秒（不含导入），summary SHA=8be81fdad52a5192a80058b2c95bc60196d835c59f0363515b4708b4b319b93c。
+- Qwen3完成18轨迹/24评价，主流程239.460秒；带调度3200的AUC迁移/min-loss AUROC=.898719/.895625。内层100/100/100轮、最大AUC仍26/17/23；带调度与无调度AUC点一致。独立24权重/60矩阵预测、102份SHA/96份双阈值train-test报告、完整逐epoch调度/选点与禁止训练resume全部PASS，最大差0，耗时86.348秒；summary SHA=d70662d8884eebb1e047a76c777b7222dae733c73dbd345973453ce01e0b3597。
+- LLaVA完成18轨迹/24评价，主流程250.084秒；带调度3200 AUC迁移/min-loss AUROC=.904047/.892316。内层100/100/100轮、最大AUC27/17/20，内层3seed均未触发scheduler实际降LR。独立同规格核验全部PASS，最大预测差0，耗时96.160秒；summary SHA=76a04ba33d9b6d0b0a32495db842efc2f3d539405eeeffbcbc0c91c25e430c94。
+- InternVL完成18轨迹/24评价，主流程187.160秒；带调度3200 AUC迁移/min-loss AUROC=.856253/.848088。内层100/100/100轮、最大AUC26/22/21。独立同规格核验全部PASS，最大差0，耗时64.641秒；summary SHA=48bed27d8da6b83c9f92114c45bbda61d5753ca0f19fa2e94b398957c3949842。
+- 四模型72条训练轨迹、96个checkpoint评估全部完成，0个failure。13:45:28.160 UTC生成总汇总，距13:38:15启动约7分13秒（不含实现/测试及后续独立核验）。Qwen2/LLaVA/Qwen3/InternVL纯fit累计108.533/199.386/192.853/152.011秒，Torch峰值allocated17.77–17.81MiB，不含CUDA上下文/缓存，不能把并行累计时长当墙钟。
+- 四个独立进程实际重载96个checkpoint并完成240次train/val/test完整矩阵预测，最大差0；重建train-only scaler、384份逐seed双阈值train/test报告、所有ensemble/mean/std、逐epoch scheduler与早停/选点、408份SHA及旧来源绑定全部PASS。随后禁止_train_epoch，实际完整resume四模型，所有完成产物字节/mtime不变；352行CSV与四模型/全局JSON逐项完全一致。验收保存outputs/ffn_visual_source_consistency_v2/three_layer_scheduler_checkpoints_20260908/independent_metrics_audit.json。
+- 额外只读核对：四模型×3seed×scheduler-on/off共24组最大AUC checkpoint与§5.20固定三层相比，所选epoch、state_dict每个张量以及train/val概率均逐元素完全一致；不是仅AUROC巧合相同。表明当前固定配置在100轮以内延长轨迹与恢复调度未发现原val早停遗漏的更优AUC点；不推广到其他超参/划分，也不证明3200最佳epoch必然等于2560的中位数。
+- 主报告§5.22补齐2×2内层同轨对照、完整3200两种训练协议、全量epoch/LR记录、batch搜索实际范围及Qwen3单seed初筛遗漏的边界。带调度3200 min-loss−AUC迁移的AUROC差为+0.347/−1.173/−0.309/−0.817个百分点；恢复scheduler相对无scheduler的min-loss结果仅小幅混合变化，不能解释旧三层完整配方的全部优势。本轮未额外搜索三层batch，固定128；上一轮8份batch sweep均扫64/128/256并选128，但不含三层。
+- 总summary SHA=f6665466ce3fa1b06359b60209d96bfce1a60ebcc16de84785ffa922b2bea726。新总报告/JSON/CSV/独立验收及代码/测试已留在本地；保留所有旧结果、数值FAIL与已授权探索性例外，无bootstrap/VLM/新2000图，未提交或上传。
+- 终末核对主报告36个AUROC/HALL-AUPR单元与JSON全部一致，global/model/audit绑定checksum和24组旧AUC逐元素一致性记录通过；git diff --check通过。两路screen正常结束，GPU0/1均0MiB，无活动训练或审计任务。
+
+## 2026-09-08：冻结配置后3200图全量重训（四模型完成；独立核验PASS）
+
+- 用户同意重新训练，并质疑上一轮没有三层赢家。核验第一阶段seed43验证排名：三层[128,64,32]在Qwen2/LLaVA/Qwen3/InternVL分别第4/5/4/3，未进入前二的48组精搜；只有固定参数三seed容量控制，不能称为三层充分调参后仍落败。旧三层direct参考同时使用3200优化图和不同BN/Adam/train-loss协议，不能按test更好反向选参。
+- 当前main04b57d72；保留未提交§5.20代码/测试/三份文档和用户无关handoff文件。按Ponytail新增薄refit入口，复用已冻结特征/构建器/epoch训练/指标/恢复，不改旧代码或产物checksum，不新增依赖、不上传。
+- 范围固定四模型上一轮全部10组×seeds43/44/45，共120个头，含六固定结构、两种验证选定调参结构、BN-on和scaler-off。各组epoch取该模型该配置上一轮三个seed最佳验证epoch的整数中位数，三个refit seed共用此轮数；不按新增800图结果选轮数或结构、不增加三层精搜。全部3200训练图mentions拟合StandardScaler、从随机初始化重新训练、固定末轮checkpoint；不从旧权重继续训练、不按train-loss挑checkpoint。800图只评价；全3200训练REAL-F1阈值与0.5均报告。
+- 全AE+log1p(raw S)、旧3200/800图片/mention顺序和数值FAIL例外保持；无VLM、bootstrap、独立2000图。独立目录shallow_refit3200_20260908，原§5.20不覆盖。此前已看过800图，仍是探索性后续，不宣称首次盲测或独立确认。
+- 新入口`scripts/train_ffn_shallow_refit.py`只新增固定末轮重训和来源核验；复用上一轮evaluate、metrics、StandardScaler和网络/epoch实现。各模型主组epoch固定31/54/139/15，三层固定组13/20/23/22（Qwen2/LLaVA/Qwen3/InternVL顺序）。按epoch不按optimizer-step数对齐，因此完整3200图每轮更新步数增多，不能把refit变化解释为仅样本数量一个因素；BN/scaler控制各自沿用原验证epoch规则，轮数未强行统一。
+- 新增5/5测试PASS，1.949秒（不含导入）；命令`OMP_NUM_THREADS=1 MKL_NUM_THREADS=1 /opt/conda/private/envs/vicr/bin/python -m unittest tests.test_ffn_shallow_refit`，日志`/tmp/gfchair_shallow_refit_tests_20260908.log`。覆盖整数median仅用原验证epoch、固定末轮而非最小train-loss、拒绝test数据进入trainer、3200-only scaler、Linear/MLP/BN/scaler-off的CPU与两卡checkpoint恢复、错误指纹/轮数恢复拒绝、全部训练后再评价和resume文件不变。py_compile与git diff --check PASS；完整回归执行中，正式训练尚未启动。
+- 完整相关81/81回归PASS，23.015秒（不含导入），日志`/tmp/gfchair_shallow_refit_regression_20260908.log`。命令为`python -m unittest`，模块列表：tests.test_ffn_shallow_refit、tests.test_ffn_shallow_standardized_search、tests.test_ffn_ae_log1p_search、tests.test_ffn_consistency_alternative_heads、tests.test_ffn_visual_source_consistency、tests.test_ffn_visual_source_study、tests.test_ffn_visual_path_attribution、tests.test_ffn_write_comparison；全部使用OMP_NUM_THREADS=1/MKL_NUM_THREADS=1和vicr Python。
+- 13:02:18 UTC两卡空闲后启动screen：gfchair-refit-qwen2-llava-20260908与gfchair-refit-qwen3-intern-20260908，worker463716/463719。命令分别`OMP_NUM_THREADS=1 MKL_NUM_THREADS=1 /opt/conda/private/envs/vicr/bin/python -u scripts/train_ffn_shallow_refit.py --models qwen2_5_vl_7b llava_1_5_7b --device cuda:0`、同入口`--models qwen3_vl_8b internvl_2_5_8b --device cuda:1`；日志outputs/shallow_refit_qwen2_llava_20260908.log与outputs/shallow_refit_qwen3_intern_20260908.log。启动非完成，以30头/模型及实际结果和验收为准。
+- Qwen2完成30头/30评估，主流程146.161秒，训练/测试mentions6985/1732。主组tuned_arch4重训ensemble AUROC=.876472，三层固定组=.876518；原2560主组约.87644、旧3200图direct三层约.88214。新主组基本持平，不能预先假定3200重训必然提高。
+- Qwen2独立进程真实重载30份checkpoint，对训练/测试做60次完整矩阵预测，概率最大差0；重建train-only scaler、120份双阈值报告/全部ensemble指标、150份artifact SHA与旧来源checksum全部PASS。禁止_train_epoch后实际重跑完整resume，全部完成文件字节/mtime不变；独立验收55.132秒（不含导入）。summary SHA=6ec652f143e5797730c1f9c8a995c93d1a8e99ac6e16104cc180005fbc6526c2。其他模型仍在执行，不把Qwen2完成当作四模型完成。
+- Qwen3完成30头/30评估，主流程310.912秒，训练/测试mentions11846/3027；主组AUROC/HALL-AUPR=.897189/.659159，三层固定组=.898719/.671174。独立同GPU权重推理、scaler/全部指标/SHA和禁止训练的完整resume均PASS，最大概率差0，耗时91.296秒（不含导入）；summary SHA=f4fe2b08cdc2a63f156ee6bea6d4f106b22e6987e16cf7631ba8d78a4f7b465e。
+- LLaVA完成30头/30评估，主流程255.752秒，主组AUROC/HALL-AUPR=.897436/.701733，三层固定组=.904047/.712098。独立验收执行中；InternVL仍在运行。未据这些test结果更改已冻结结构或epoch。
+- LLaVA独立核验全部PASS，真实权重预测最大差0，该模型150份artifact SHA/120份双阈值报告及完整resume校验通过，耗时99.266秒（不含导入）；summary SHA=b78c366e751a480763921dce5ff929748f524855e41baff879b001c9c10071fb。训练/测试mentions12317/3146。
+- InternVL完成30头/30评估，主流程198.357秒，训练/测试mentions9378/2381；主组AUROC/HALL-AUPR=.859282/.527369，三层固定组=.856253/.518677。独立实际权重预测/全部指标/SHA及禁止训练的resume全部PASS，最大概率差0，耗时66.213秒（不含导入）；summary SHA=bc325aff07fa29c216700a48c3fbea794ff225303dfbe4fade2c6cab7d4dabe4。
+- 全部120个头训练/评估完成，0个failure。13:10:53.670 UTC生成总汇总，距13:02:18启动约8分36秒（不含实现/测试和后续独立复核）。Qwen2/LLaVA/Qwen3/InternVL纯fit累计102.768/201.783/251.153/161.057秒；Torch峰值allocated18.42–18.49MiB，不含CUDA上下文/缓存，不能把并行两路累计时间相加当墙钟。
+- 四独立进程共真实重载120份checkpoint，对训练/测试进行240次完整矩阵预测，最大差均0；重建原数据/3200-only scaler/四模型480份逐seed双阈值train-test报告及所有ensemble和seed均值标准差、600份artifact SHA、全部旧来源checksum均PASS。随后禁止_train_epoch，实际恢复四模型完整任务，所有完成文件的字节和mtime不变。全局summary与四个来源summary及672行CSV逐项核验PASS；独立验收保存outputs/ffn_visual_source_consistency_v2/shallow_refit3200_20260908/independent_metrics_audit.json。
+- 总目录summary.md/json、groups.csv与独立验收齐全，主报告§5.21和实验索引补齐全部10组、历史对照、三层未精搜的解释、固定轮数、命令/耗时/显存与限制。总summary SHA=e67c98f57b5ced534a9446aaaf728d07964a714e9e920b4837b33279d00bbd47。新主组相对上一轮AUROC增量+0.003/+0.210/+0.492/+0.216个百分点，Qwen2 HALL-AUPR略降；只有Qwen3主组AUROC超过旧3200图direct三层参考，不支持整体替换。三层固定组在LLaVA/Qwen3高于新主组，仍不按test改选，也未追加三层精搜。
+- 保留数值FAIL与用户授权探索性训练例外；旧800已参与此前研究探索，独立2000图未运行，无bootstrap。本轮不提交/上传，旧§5.20源码和完整实验全部保留，无关handoff文件未动。
+- 终末复查：主报告48个AUROC/HALL-AUPR表格单元逐项对照JSON全部一致，独立验收绑定的全部summary/CSV/Markdown checksum通过；git diff --check通过。两路screen正常结束，两张GPU均0MiB，无活动训练/审计任务。
+
+## 2026-09-08：StandardScaler + 浅层 probe 两阶段搜索（四模型完成，独立复核PASS）
+
+- 用户给出Linear/1–3隐藏层、train-only StandardScaler、AdamW、validation AUROC checkpoint的两阶段方案，要求实际搜参。当前main为已发布的04b57d72；工作树仅有不相关handoff未跟踪文件。按Ponytail复用v2紧凑特征、旧图片划分、旧MLP构建器/epoch训练/指标/原子存储，新加单入口与定向测试，不修改已冻结旧脚本和实验产物、不新增依赖、不提交上传本轮结果。
+- 本轮沿用上轮全AE+log1p(raw S)，覆盖四模型，不重跑VLM、XGBoost、bootstrap或独立2000图。原3200/800图片外层划分不变，复用seed20260908的2560/640内部训练/验证；最终不合并重训，保留仅2560优化图片上训练、640验证AUROC最佳的checkpoint，原800仅在所有组选择封存后评价。StandardScaler仅拟合2560图mentions，常数列scale=1，checkpoint保存scaler；不使用验证/测试统计。
+- 结构固定[]/[128]/[256]/[128,64]/[256,128]/[128,64,32]；第一阶段lr=.001/wd=1e-5/dropout=.1/batch128/BN关闭，Linear去掉无效dropout。seed43验证前两种结构各搜lr[1e-4,3e-4,.001,.003]×dropout[0,.1,.2,.3]×wd[0,1e-5,1e-4]；Linear只跑12个不重复配置。每种赢家再比batch64/128/256。选定配置补seed44/45，按验证AUROC三seed均值选主MLP，精确平局用HALL-AUPR及固定次序，不按test改选。
+- 全程AdamW、无学习率调度/类别加权/重采样、最多150epochs、patience15；checkpoint优先验证AUROC，精确平局HALL-AUPR，再保留最早epoch。最终六结构固定参数各3seed做公平容量控制，加两个调参结构和主MLP同参数BN-on/scaler-off两个诊断组。诊断不参与主配置选型。BN可能遇到的末尾单样本batch合并到前一batch，所有mention保留。最终阈值只由2560图训练REAL-F1确定，同时报告0.5。
+- 新脚本`scripts/train_ffn_shallow_standardized_search.py`，测试`tests/test_ffn_shallow_standardized_search.py`；各模型`production_k4/shallow_standardized_search_20260908/`和总目录`outputs/ffn_visual_source_consistency_v2/shallow_standardized_search_20260908/`独立保存。按config/seed去重复用head；错误fingerprint/校验和拒绝resume，保存失败attempt，完成文件不重写。测试/实际启动状态随后追加，不将实现完成等同于实验完成。
+- 保留原数值FAIL例外和InternVL旧CPU复核状态。原800图已反复用于探索，不是独立确认；旧三隐藏层direct参考用了3200优化图、BN/Adam/train-loss checkpoint，与本轮协议不同，不能把全部变化归因于深度或标准化。额外scaler-off/BN-on是在相同新协议下的单因素对照。
+- 新增7/7测试PASS，2.487秒（不含环境导入），命令`OMP_NUM_THREADS=1 MKL_NUM_THREADS=1 /opt/conda/private/envs/vicr/bin/python -m unittest tests.test_ffn_shallow_standardized_search`，日志`/tmp/gfchair_shallow_standardized_tests_20260908.log`。覆盖train-only StandardScaler/常数列、六结构和48/12网格、BN末batch不丢样本、验证优先checkpoint/early-stop、真实小训练与两张GPU同设备FP32恢复、resume不重训/指纹拒绝、全部搜索封存先于test。git diff --check通过；启动前再跑相关回归。
+- 相关完整76/76测试PASS，21.364秒（不含导入），日志`/tmp/gfchair_shallow_standardized_regression_20260908.log`，另py_compile与git diff --check通过。两卡空闲后启动screen：`gfchair-shallow-qwen2-llava-20260908`（cuda:0，Qwen2→LLaVA）和`gfchair-shallow-qwen3-intern-20260908`（cuda:1，Qwen3→InternVL）。命令前缀`OMP_NUM_THREADS=1 MKL_NUM_THREADS=1 /opt/conda/private/envs/vicr/bin/python -u scripts/train_ffn_shallow_standardized_search.py`，对应`--models qwen2_5_vl_7b llava_1_5_7b --device cuda:0`和`--models qwen3_vl_8b internvl_2_5_8b --device cuda:1`。日志`outputs/shallow_standardized_qwen2_llava_20260908.log`、`outputs/shallow_standardized_qwen3_intern_20260908.log`；启动仅表示开始加载和执行，非四模型实验完成。
+- 实际启动11:36:40 UTC；screen448769/448772，worker448771/448774。11:39:17 UTC检查Qwen2已17个独立head、Qwen3已10个，均无failure；GPU约497/495MiB。Qwen2/3实际输入56/72维（分别28/36层×AE和log1p(S)），不是强行补齐64/96；StandardScaler训练mentions分别5607/9480。首轮验证前二分别为Qwen2[256,128]/[128]、Qwen3[128,64]/[256]，只据内部验证继续网格搜索；尚无test成绩、selection未封存。
+- Qwen2首个完成：126个独立训练head、30个最终评估head，主流程636.781秒（含读取/校验，不含首次导入）；train/val/test mentions为5607/1378/1732。验证选定[256,128]/dropout.3/lr.001/wd1e-4/batch128/StandardScaler/BN-off，三个seed最佳epoch31/22/39。测试ensemble AUROC/HALL-AUPR为87.644/47.109%；同参数scaler-off为84.037/37.675%，BN-on为88.018/47.282%，旧3200图三隐藏层direct参考88.214/45.774%。这不是四模型完成，也不按Qwen2的test成绩改变后续方案。
+- Qwen2独立Python进程复核PASS：重建原输入/图片划分、逐列train-only scaler、534份artifact SHA、126条验证结果及epoch、所有结构/网格/batch/多seed选型、30个最终头的120份双阈值指标和seed/ensemble汇总。耗时38.361秒；summary SHA256为37679cd0f1ea2e39d437ca23b7bb5c25b3755e2241ba2550fda4477cb1406c61。所有训练保存时同设备checkpoint复算记录最大差为0；独立指标进程复算保存概率与SHA，不冒充另做了全部GPU权重推理或新图独立确认。
+- Qwen3也完成126训练/30最终评估，主流程1242.903秒；train/val/test mentions为9480/2366/3027。验证三seed均值选择[256]/dropout.3/lr3e-4/wd0/batch128/BN-off，最佳epoch126/149/139；测试ensemble AUROC/HALL-AUPR89.227/65.798%。同配置BN-on89.217/65.866%，scaler-off85.996/56.866%，旧3200图三隐藏层direct参考89.651/64.934%。另一个调参结构[128,64]测试89.398%，但验证均值较低，因此不因test更高改选主配置。独立复核534份SHA/126验证/120双阈值报告及全部选型汇总PASS，44.067秒，summary SHA8261ff779f4f6253ff27ab06bf69e88a74b0ca4b808a67c51f0558e032e90ed5。GPU1转InternVL；LLaVA仍在搜索。
+- LLaVA完成126训练/30评估，主流程1276.803秒；train/val/test mentions9834/2483/3146。验证选定[256]/dropout.3/lr.001/wd0/batch128/BN-off，最佳epoch85/43/54；test AUROC/HALL-AUPR89.534/70.109%，BN-on89.639/70.316%，scaler-off88.604/66.877%，旧三隐藏层direct参考90.496/71.928%。新固定[128,64] test90.181/71.992%，不因为test较高而替换验证选型。独立复核534份SHA、126验证和120双阈值报告及全部选型汇总PASS，54.367秒；summary SHA f9f9a89051433d8e6d651af2404d7032deaa94808c5809d41fc4ebee5b79cd68。GPU0队列正常结束，剩InternVL仍在GPU1运行。
+- InternVL完成126训练/30评估，主流程1054.592秒；train/val/test mentions7534/1844/2381。验证选[128,64]/dropout.2/lr.003/wd0/batch128/BN-off，最佳epoch27/15/15；test AUROC/HALL-AUPR85.712/52.493%，BN-on86.038/53.373%，scaler-off83.691/50.489%，旧三隐藏层direct86.381/54.615%。独立复核534份SHA、126验证、120双阈值报告及完整选型/汇总PASS，50.620秒；summary SHA ee62cbe39bdf9b54218f84c30a35f511a9e82dfea4098638acda700ee604982c。
+- 四模型504个独立训练head、120个最终评估head全部完成，0个failure；两路screen正常退出。12:15:03.702 UTC生成总汇总，从11:36:40启动算约38分24秒，不含前期实现/测试和后续独立复核。按Qwen2/LLaVA/Qwen3/InternVL纯fit累计597.931/1197.558/1177.738/973.377秒；Torch峰值allocated约18.45–18.54MiB，不含CUDA上下文/缓存，运行中NVML约495–497MiB/卡。主流程含数据读取/校验，不能相加作为并行墙钟。
+- 总目录新增summary.md/json、groups.csv（352行，含三seed/ensemble及两阈值）、search_trials.csv（504行，全部实际训练head的参数、阶段角色、验证结果、耗时、显存）、independent_metrics_audit.json。CSV从已冻结汇总/逐head JSON机械导出，未重算/改写旧实验。总summary SHA 646d7ef0697a368e7ec073ba7bdadb691aac728be511989d2f8600754651629d。四个独立进程共复核2136份artifact SHA、504条验证结果及epoch、480份最终双阈值报告和所有选型/seed/ensemble汇总；全PASS，保存时同设备checkpoint概率最大差记录均0。独立复核不是另做全量GPU权重推理或新图确认。
+- 主报告§5.20补齐同协议Linear/六结构容量表、选定参数、标准化/BN控制与历史direct三隐藏层参考。结论：同参数下StandardScaler四模型都提高，但不是对非标准化版本另行调到最优；BN三个模型略好、Qwen3几乎不变；三个模型选dropout.3、InternVL选.2，全部batch128。验证选出的新MLP没有在四模型AUROC超过旧direct参考，HALL-AUPR仅两个Qwen提高；旧参考训练图更多且协议不同，不能单独归因于深度。保留验证选择，不按test改主结构；无bootstrap、显著性或独立确认宣称。全部本轮成果留在本地，未提交/上传。
+
 ## 2026-09-08：截至目前全部实验结果发布快照
 
 - 用户随后缩减为不上传图片，并再次明确“代码也传”：最终提交仅包含代码/测试、结果文档、CSV/JSON表格和说明，不新增PNG/PDF图表；本地文件与旧Git历史不删除。传输中的图片队列已停止，尚未更新main；已传输但未引用的临时Git对象不加入最终提交。
@@ -2740,3 +2849,124 @@
     bash -n 通过。
   - 根 summary 递归 finite 检查、metrics value finite 检查、28 个必需文件/图检查、
     report 最终固定标题检查均通过。仓库没有 .git，git status/diff 不可用。
+
+## 2026-09-08 Attention distribution / evidence：HALL–REAL 逐层 JS
+
+- 新增 `scripts/analyze_attention_evidence_js.py`，对四模型正式 COCO4000 InsLen
+  cohort 比较 plain `attention_distribution` 与
+  `attention_evidence=normalize(attention×hpre_raw_logit_gauss_gate)`：
+  - 主结果只在同一图片内配对唯一 HALL/REAL target token；先对图内所有 pair
+    求均值，再跨图片平均，避免目标较多的图片获得更大权重。
+  - 同时计算全视觉 support JS 与两侧各取 Top-32 后的并集 JS；后者最多 64 个
+    token，并在并集内重新归一化。JS 使用自然对数。
+  - 额外保存 HALL-HALL/REAL-REAL 同图控制、同 token 的 `JS(A,E)`、两种分布的
+    normalized entropy 与 own-Top32 mass。
+- `attention_distribution` 统一读取主 `features.pkl` 的
+  `dgst_t_attention_support_per_layer`。LLaVA/InternVL 抽样与二轮 shard 的
+  `attention_distribution` 对齐，max abs error 为 `5.96e-8/0`；Qwen 没有二轮
+  shard，使用生成 attribution target 时的同定义主特征矩阵。
+- 正式审计：
+  - LLaVA：3429 HALL / 11500 REAL unique targets，1966 张 H-R 图片；
+  - Qwen2.5：916 / 7738，703 张；Qwen3：2591 / 12111，1731 张；
+  - InternVL：1759 / 9864，1265 张；四模型 missing attention 与 shape mismatch
+    均为 0，分别排除 22/0/2/7 个标签冲突 target。
+- 跨层 H-R JS（全视觉 / Union-Top32）：
+  - LLaVA A=`0.1210/0.1374`，E=`0.2122/0.2436`；
+  - Qwen2.5 A=`0.2043/0.2438`，E=`0.2310/0.2635`；
+  - Qwen3 A=`0.2681/0.3010`，E=`0.3265/0.3550`；
+  - InternVL A=`0.1981/0.2336`，E=`0.2568/0.2905`。
+- 解释：E 在四模型都提高不同目标的空间 JS，但 H-H/R-R 控制也同步提高；同 token
+  `JS(A,E)` 的 HALL-REAL 跨层差仅 `+0.0044/+0.0004/+0.0021/+0.0009`。
+  因此结果支持 gate 增强 target-conditioned 分化，不足以单独声称 hallucination-
+  specific 判别信息。Plain attention 的 HALL normalized entropy 跨层均值在四模型
+  都略低于 REAL（差 `-0.0143/-0.0212/-0.0236/-0.0148`），整体更集中，但仍是
+  描述性结果而非 AUROC/显著性结论。
+- 输出目录：`outputs/attention_js_studies/hall_real_target_js/`，含三个逐层 CSV、
+  `summary.{md,json}`、主 H-R JS、同 token gate-effect、entropy 和 Top32 mass 的
+  PNG/PDF。
+- 验证：新增 `tests/test_attention_evidence_js.py`；`py_compile` 通过，定向
+  `unittest` 2/2 OK；13/13 必需产物存在，JSON 15364 个 float 全 finite，三个 CSV
+  分别为 1536/512/1024 行且全 finite，JS 范围在 `[0, ln2]` 内；四张 PNG 已目视检查。
+- 按用户可读性反馈将 A/E 完全拆图，不重跑全量 tensor 分析：新增 A/E 各自的
+  H-R JS、normalized entropy、Top-32 mass 共六组 PNG/PDF，并保留单独的同 token
+  `JS(A,E)` gate-effect 图；`summary.md` 新增逐图解释、坐标/线型含义和结论边界。
+  旧 combined 图保留作版本追溯，不再作为主图。
+
+## 2026-09-09 Attention A/E 层间 JS 与实验目录整理
+
+- 用户确认原始全视觉 attention mass 若未保存则不重跑。当前正式 A 已在视觉 support
+  内逐层归一化、和恒为 1，无法恢复 raw total visual-attention mass，因此该项明确
+  `NOT RUN`，没有用归一化和冒充质量。
+- 新增 `scripts/analyze_attention_interlayer_js.py`，在同一个唯一 target token 内计算
+  A=`attention_distribution` 与 E=`attention_evidence` 的所有层对自然对数 JS：
+  - 全视觉 token；
+  - 两层各自 Top-32 的并集，并集内重新归一化；
+  - 同标签 token 先在图片内平均，再跨图片平均；标签冲突 target 排除。
+- 四模型正式 cohort 全量完成，HALL/REAL targets 为 LLaVA `3429/11500`、Qwen2.5
+  `916/7738`、Qwen3 `2591/12111`、InternVL `1759/9864`；missing attention 与
+  shape mismatch 均为 0。
+- 相邻层跨 transition 均值 H/R/H-R（全视觉）：
+  - LLaVA A=`0.0626/0.0568/+0.0059`，E=`0.0635/0.0572/+0.0063`；
+  - Qwen2.5 A=`0.0593/0.0537/+0.0056`，E=`0.0620/0.0564/+0.0056`；
+  - Qwen3 A=`0.0639/0.0585/+0.0054`，E=`0.0637/0.0580/+0.0057`；
+  - InternVL A=`0.0472/0.0460/+0.0012`，E=`0.0483/0.0467/+0.0016`。
+- 全部非对角层对均值显示 HALL JS 均略高于 REAL：A 的 H-R 为
+  LLaVA/Qwen2.5/Qwen3/InternVL=`+0.0151/+0.0217/+0.0151/+0.0079`，E 为
+  `+0.0106/+0.0223/+0.0172/+0.0090`。最强正差层对均连接约 L7 与中后层：
+  `7↔22/7↔15/7↔24/7↔16`。差值矩阵仍有蓝色区域，不能解释为每个层对都由 HALL
+  更不稳定；E/A 相邻层均值接近，gate 没有制造一致的新相邻层突变。
+- 按用户可读性反馈重新组织输出：
+  - 总目录 `outputs/attention_js_studies/`；
+  - 旧 HALL-REAL 目标间实验位于 `hall_real_target_js/`；
+  - 新层间实验位于 `interlayer_js/`；
+  - 新层间图按模型、A/E、all/Top32、HALL/REAL/HALL-REAL 完全拆分，共 16 组
+    单模型 adjacent 图和 48 组单热力图（均有 PNG/PDF）；旧合并图移至各实验的
+    `figures/combined_overview/`。
+- 输出审计：`adjacent_layer_js.csv` 992 行、`all_pair_interlayer_js.csv` 33024 行，
+  全 finite 且 JS 位于 `[0,ln2]`；全层矩阵最大对称误差 `2.61e-8`、对角线严格 0；
+  新增 `tests/test_attention_interlayer_js.py`，与原 attention JS 定向测试合计 4/4 OK，
+  Python `py_compile` 与目标文件 `git diff --check` 通过。第一次测试错误地把 Top-1
+  并集内保留的 `0.7:0.1` 当成 one-hot，预期写成 `ln2` 导致 1 fail；改为正确手算
+  `0.316377` 后通过，实现无需修改。
+
+## 2026-09-09 相邻层 JS standalone 幻觉检测
+
+- 用户明确只用相邻层且没有要求融合。新增
+  `scripts/train_attention_interlayer_js_probes.py`，从现有 A/E 张量构造并**独立训练**
+  四个逐 token block：`adj_A_all`、`adj_A_top32`、`adj_E_all`、
+  `adj_E_top32`；每个单块维度均为 `L-1`。Top32 仍是相邻两层各自 Top-32 的并集
+  并在并集内重归一化；没有特征融合，全层对也不进入 cache 或分类器。
+- 样本使用无标签冲突的唯一 target token，split 精确复用各模型现有严格图片级
+  3200/800。训练复用 YAML 三层 MLP `[128,64,32]`、seeds 43/44/45、batch 256、
+  最多100 epochs、无特征归一化、minimum-train-loss checkpoint、train-F1 threshold，
+  positive class 为 REAL，Hall 指标使用互补 score。
+- 四模型最佳独立特征（以下为 seed ensemble）：
+  - LLaVA `adj_A_all`：AUROC `0.8575`，Hall AUPR `0.6244`，Hall F1 seed mean
+    `0.5598`；
+  - Qwen2.5 `adj_A_all`：`0.7841 / 0.2780 / 0.1932`；
+  - Qwen3 `adj_E_all`：`0.7962 / 0.4727 / 0.3640`；
+  - InternVL `adj_A_all`：`0.8002 / 0.3927 / 0.2540`。
+- all-token 在四模型都优于对应 Top32。A-all 与 E-all 在前三模型接近；InternVL
+  A-all=`0.8002` 高于 E-all=`0.7894`。
+- 直接把相邻层 JS 向量取均值作为 Hall score 的最佳 AUROC 仅为
+  LLaVA/Qwen2.5/Qwen3/InternVL=`0.7172/0.6314/0.6060/0.5580`，明显弱于层向量
+  MLP；检测信息主要来自“哪一层转换发生变化”，不是总体 JS 越大越幻觉。
+- 测试集 Hall prior 为 `0.2282/0.1063/0.1725/0.1580`，最佳 Hall AUPR 均显著高于
+  类别先验。与当前 selected risk+EV 报告的 AUROC 约 `0.889/0.837/0.863/0.851`
+  相比，最佳独立层间 JS 分别低约 `0.032/0.053/0.067/0.051`（用 seed mean 对
+  seed mean）；两者样本单位为
+  unique-token vs mention，故只作上下文比较，不冒充严格 paired delta。
+- 输出位于 `outputs/attention_js_studies/interlayer_js/detection/`：根目录四模型汇总
+  `summary.{md,json,csv}`；每模型保存 cache、三 seed checkpoints/history/config、
+  `results.json`、MLP/scalar CSV和数值报告；按用户最新要求不生成检测图。当前实验只回答
+  standalone 效果，未测试向 risk+EV 添加 JS 后的增量价值。
+- 范围纠正记录：第一版擅自增加了未请求的 `adj_fused4` 并执行12个额外训练 run，
+  属于不应发生的范围扩张。正式 `FEATURE_SETS`、progress、results、CSV、报告和图现已
+  全部移除融合项；旧融合 checkpoint 与原 progress 可恢复地移到
+  `detection/_discarded_unrequested_fusion/`，不参与任何正式汇总。耗时主体是首次从
+  约17GB A/E产物构造逐 token cache，以及错误扩大为60个训练 run；split/finite/shape/
+  保存概率复算审计只耗时数秒，并非主要耗时。
+- 验证：新增 `tests/test_attention_interlayer_js_detection.py`，联合 JS 定向套件
+  `5/5` OK，相关 Python `py_compile` 和 `git diff --check` 通过；四模型正式结果均为
+  4组×3 seeds，cache/progress/results 仅含四个独立 adjacent block，所有结果 finite，
+  ensemble 指标可由保存的 test probabilities 精确复算且误差为0。

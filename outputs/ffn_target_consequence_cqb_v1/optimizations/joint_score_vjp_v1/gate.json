@@ -1,0 +1,36 @@
+{
+  "backend": "joint_score_vjp_v1",
+  "models": {
+    "internvl_2_5_8b": {
+      "benchmark": "/home/apulis-dev/userdata/CODEX/test-cocochair/gfchair/outputs/ffn_target_consequence_cqb_v1/optimizations/joint_score_vjp_v1/internvl_2_5_8b.json",
+      "sha256": "763dc74281f6d439b83689772f8c5c16714657454cc1211d147a49e387d58e7a",
+      "speedup": 1.2935560986947232
+    },
+    "llava_1_5_7b": {
+      "benchmark": "/home/apulis-dev/userdata/CODEX/test-cocochair/gfchair/outputs/ffn_target_consequence_cqb_v1/optimizations/joint_score_vjp_v1/llava_1_5_7b.json",
+      "sha256": "216e72fe8b2b33143944a1fac3dcfd33cd53f0b7c32054853df5c26128ac32dd",
+      "speedup": 1.2492949728539198
+    },
+    "qwen2_5_vl_7b": {
+      "benchmark": "/home/apulis-dev/userdata/CODEX/test-cocochair/gfchair/outputs/ffn_target_consequence_cqb_v1/optimizations/joint_score_vjp_v1/qwen2_5_vl_7b.json",
+      "sha256": "a4c2b2a91aee2e2e2767c28497dbad1b277f925156e947c4ec6583b5d366851a",
+      "speedup": 1.2760159477605724
+    },
+    "qwen3_vl_8b": {
+      "benchmark": "/home/apulis-dev/userdata/CODEX/test-cocochair/gfchair/outputs/ffn_target_consequence_cqb_v1/optimizations/joint_score_vjp_v1/qwen3_vl_8b.json",
+      "sha256": "8c7a305755dc1edfa9d3039573d10ad9e35dd79f5f095528dbfc2dfb0068cea4",
+      "speedup": 1.2917881855706204
+    }
+  },
+  "protocol_sha256": "6a718e688fad263a7cc3617126e5ac86e95aece7302f27591515dfceebd5942b",
+  "reference_gate_sha256": "87d4c2f4907f887b5413859ab0c45db1fdf8219519ed1f3faa2d9fd4b3b15260",
+  "sources": {
+    "/home/apulis-dev/userdata/CODEX/test-cocochair/gfchair/features/ffn_target_consequence.py": "b09f6e944e24f56c7b93aa6be99b54dca9607c7ca3517be3c2d0661689ab9c26",
+    "/home/apulis-dev/userdata/CODEX/test-cocochair/gfchair/features/ffn_target_consequence_fast.py": "2e1c01efae8821ec2057b8019f80e1ce667b445589036318b00a1478ed24af91",
+    "/home/apulis-dev/userdata/CODEX/test-cocochair/gfchair/features/ffn_visual_path_attribution.py": "56401062b074e08a7a2eca990d474718539d967fae2ab4fa60a83164d04f5869",
+    "/home/apulis-dev/userdata/CODEX/test-cocochair/gfchair/scripts/benchmark_cqb_optimization.py": "d3ae18e417e19facb090d77e0713a49f4862dca7e39286997d503f20d7f19deb",
+    "/home/apulis-dev/userdata/CODEX/test-cocochair/gfchair/scripts/run_cqb_optimized.py": "7d7872e021d5b9a0d54b250032ba0153d4cf2287837546d3ad57d6cbb8ca3477",
+    "/home/apulis-dev/userdata/CODEX/test-cocochair/gfchair/scripts/run_ffn_target_consequence.py": "e26caf6a6095c11e898a4064eac2a217d105a1272836169a426f0584ca459f54"
+  },
+  "status": "PASS_JOINT_VJP_OPTIMIZATION"
+}

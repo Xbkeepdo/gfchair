@@ -1,0 +1,35 @@
+{
+  "code_sha": "3a174803b7128de53ba53ad8710ae9fea4ade0c50379a242695629a427f7f5bb",
+  "cosine_clipped_entries": 0,
+  "formula": "JS(softmax(cos(e_m,G(Z)-G(Z0))/.2), raw_visual_attention / sum_visual(raw_visual_attention)), natural log; F=AE+log1p(S_E)",
+  "images": 4000,
+  "matrix_sha": {
+    "F_J_raw": "aa1483dae418e3a62662172c335caa5205d3f4c4ae007b6d43f9b63aea4f187b",
+    "J_raw": "0124eb9a0fc086ae46ed9ede11755348c226784448f3e9317946f1626a2b725c"
+  },
+  "mlp": {
+    "dropout": 0.3,
+    "hidden_sizes": [
+      128,
+      64,
+      32
+    ],
+    "learning_rate": 0.001,
+    "weight_decay": 1e-05
+  },
+  "model": "shikra_7b",
+  "precision_note": "Q/norms from saved path extraction; four-model raw attention from composition capture with exact target/AE/S alignment; existing numerical limitations retained",
+  "seeds": [
+    43,
+    44,
+    45
+  ],
+  "source": "/home/apulis-dev/userdata/CODEX/test-cocochair/gfchair/outputs/shikra_7b/COCO4000-JACOBIAN-PATH",
+  "split_sha": "d3ee1c8e521d4f007112e3f3aa38ba1ba4949d623820b6977240d2f3f32ac65d",
+  "test_images": 800,
+  "test_mentions": 3343,
+  "train_images": 3200,
+  "train_mentions": 13361,
+  "zero_component_norm_entries": 10244,
+  "zero_visual_mass_policy": "error; never substitute uniform"
+}

@@ -1438,6 +1438,10 @@ def _load_caption_rows(path: Path, sample_by_id: dict[int, dict]) -> list[dict]:
 
 def _load_tokenizer(hf_name: str, *, model_key: str | None = None):
     from transformers import AutoProcessor, AutoTokenizer
+    if model_key in {"minigpt4_7b", "shikra_7b"}:
+        from transformers import LlamaTokenizer
+        source = Path(hf_name) / 'vicuna-7b-v0' if model_key == 'minigpt4_7b' else Path(hf_name)
+        return LlamaTokenizer.from_pretrained(source, legacy=True)
 
     try:
         if "llava_onevision" in str(model_key or "").lower():

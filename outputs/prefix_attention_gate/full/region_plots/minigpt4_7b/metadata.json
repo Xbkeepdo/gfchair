@@ -1,0 +1,25 @@
+{
+  "model": "minigpt4_7b",
+  "images": 4000,
+  "unique_targets": 10793,
+  "mentions": 10957,
+  "train_mentions": 8728,
+  "test_mentions": 2229,
+  "metrics": [
+    "raw_attention",
+    "attention_x_gate"
+  ],
+  "regions": [
+    "BOS",
+    "visual",
+    "prompt",
+    "generated_text"
+  ],
+  "layers": 32,
+  "explicit_bos": true,
+  "empty_images": 73,
+  "source_manifest_signature": "90b970cc96ee9d71c8a8ecd8e8844186ff892e1f4f706d13f16fe30b02ea4fb2",
+  "max_partition_error": 2.220446049250313e-16,
+  "definition": "sum within disjoint regions, no renormalization or division by region length; actual initial BOS only; prompt includes remaining template/special tokens; generated_text excludes target/future",
+  "weighting": "all original mentions equally weighted; empty region contributes zero; train/test separate; IQR is not confidence interval"
+}

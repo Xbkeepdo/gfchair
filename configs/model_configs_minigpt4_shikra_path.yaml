@@ -1,0 +1,29 @@
+extends: model_configs_inslen_official_target.yaml
+
+models:
+  minigpt4_7b:
+    hf_name: /home/apulis-dev/userdata/models/MiniGPT-4-7B
+    num_visual_tokens: 32
+    max_new_tokens: 512
+    temperature: 0.1
+    top_p: 0.5
+    dgst_attention_query_chunk_size: 64
+  shikra_7b:
+    hf_name: /home/apulis-dev/userdata/models/shikra-7b
+    num_visual_tokens: 256
+    max_new_tokens: 512
+    temperature: 0.1
+    top_p: 0.5
+    dgst_attention_query_chunk_size: 64
+
+feature_extraction:
+  baseline:
+    methods: [svar, projectaway, metatoken]
+
+training:
+  baseline:
+    methods: [svar, projectaway, metatoken]
+  feature_sets:
+    # The path experiment driver trains the new method matrices separately.
+    method: []
+    ads_cgc: [ads+cgc]

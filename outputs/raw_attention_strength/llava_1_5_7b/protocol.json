@@ -1,0 +1,33 @@
+{
+  "code_sha": "ef209bd4fbc2003a312d9f47c0dee72551dbdd8f91495ca1b45d1ec1feef8dc3",
+  "curve_unit": "all labeled mentions; train/test separate; IQR is not confidence interval",
+  "formula": "R_l=sum_visual(mean_heads(raw attention)); concat(R,log1p(original path S_E)), not S_C",
+  "images": 4000,
+  "matrix_sha": {
+    "R": "d2bc0718fb89d16b08f73289d314a0b42a26ba9daf81de6aef6356d7060a8800",
+    "R_logS": "6630310eb13fa19ec311017b40eb177d9a052f96c3de9a420fb7d4a07e9ddbaf",
+    "logS": "e48a6813c6a59ff29259b93689dd548e5f82a45ce6e23933f05dd64767495032"
+  },
+  "mlp": {
+    "dropout": 0.3,
+    "hidden_sizes": [
+      128,
+      64,
+      32
+    ],
+    "learning_rate": 0.001,
+    "weight_decay": 1e-05
+  },
+  "model": "llava_1_5_7b",
+  "seeds": [
+    43,
+    44,
+    45
+  ],
+  "source": "/home/apulis-dev/userdata/CODEX/test-cocochair/gfchair/outputs/ffn_source_composition_v1/llava_1_5_7b",
+  "source_note": "Raw attention captured in composition k50; S_E and AE are preserved parent v2 K4 signals; historical numerical limitations unchanged",
+  "test_images": 800,
+  "test_mentions": 3146,
+  "train_images": 3200,
+  "train_mentions": 12317
+}

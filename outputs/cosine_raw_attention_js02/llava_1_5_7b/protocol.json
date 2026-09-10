@@ -1,0 +1,35 @@
+{
+  "code_sha": "3a174803b7128de53ba53ad8710ae9fea4ade0c50379a242695629a427f7f5bb",
+  "cosine_clipped_entries": 0,
+  "formula": "JS(softmax(cos(e_m,G(Z)-G(Z0))/.2), raw_visual_attention / sum_visual(raw_visual_attention)), natural log; F=AE+log1p(S_E)",
+  "images": 4000,
+  "matrix_sha": {
+    "F_J_raw": "e4390bf5cf2ea36b6f5bbad34fdfe35f9ea393dc243d2de3d93ec227895fbaa3",
+    "J_raw": "9395af60c70aa83ac3064621f1c515a5a5d5b527c2d1bf8ec6d71e7d7f8a88f1"
+  },
+  "mlp": {
+    "dropout": 0.3,
+    "hidden_sizes": [
+      128,
+      64,
+      32
+    ],
+    "learning_rate": 0.001,
+    "weight_decay": 1e-05
+  },
+  "model": "llava_1_5_7b",
+  "precision_note": "Q/norms from saved path extraction; four-model raw attention from composition capture with exact target/AE/S alignment; existing numerical limitations retained",
+  "seeds": [
+    43,
+    44,
+    45
+  ],
+  "source": "/home/apulis-dev/userdata/CODEX/test-cocochair/gfchair/outputs/ffn_source_composition_v1/llava_1_5_7b",
+  "split_sha": "d3ee1c8e521d4f007112e3f3aa38ba1ba4949d623820b6977240d2f3f32ac65d",
+  "test_images": 800,
+  "test_mentions": 3146,
+  "train_images": 3200,
+  "train_mentions": 12317,
+  "zero_component_norm_entries": 174,
+  "zero_visual_mass_policy": "error; never substitute uniform"
+}

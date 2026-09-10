@@ -1,0 +1,25 @@
+{
+  "model": "internvl_2_5_8b",
+  "images": 4000,
+  "unique_targets": 11630,
+  "mentions": 11759,
+  "train_mentions": 9378,
+  "test_mentions": 2381,
+  "metrics": [
+    "raw_attention",
+    "attention_x_gate"
+  ],
+  "regions": [
+    "BOS",
+    "visual",
+    "prompt",
+    "generated_text"
+  ],
+  "layers": 32,
+  "explicit_bos": false,
+  "empty_images": 73,
+  "source_manifest_signature": "c671fc524b01baa4bab77a5d191be031353f5303e0fe082b7add99d0f8d7b8c8",
+  "max_partition_error": 1.1102230246251565e-16,
+  "definition": "sum within disjoint regions, no renormalization or division by region length; actual initial BOS only; prompt includes remaining template/special tokens; generated_text excludes target/future",
+  "weighting": "all original mentions equally weighted; empty region contributes zero; train/test separate; IQR is not confidence interval"
+}

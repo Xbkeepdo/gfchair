@@ -190,11 +190,14 @@ def reconstruct_visual_directions(
     prediction_positions: Sequence[int],
     visual_start: int,
     visual_end: int,
+    return_all_sources: bool = False,
 ) -> dict[str, torch.Tensor | float | str]:
     """Reconstruct per-visual-token residual writes as ``a_tokens[M,T,D]``.
 
     The output projection bias is included in complete-attention reconstruction
     but excluded from every individual visual-token contribution.
+    ``return_all_sources`` additionally exposes all key-position writes and
+    the unrenormalized FP32 head-mean attention over the visual range.
     """
     positions = [int(value) for value in prediction_positions]
     if not positions:
@@ -297,7 +300,7 @@ def reconstruct_visual_directions(
         (component_sum.float() - actual_float).norm()
         / actual_float.norm().clamp_min(1e-12)
     )
-    return {
+    result = {
         "adapter_family": adapter.family,
         "a_tokens": a_tokens.detach(),
         "a_visual": a_visual.detach(),
@@ -306,6 +309,10 @@ def reconstruct_visual_directions(
         "reconstruction_cosine": reconstruction_cosine,
         "component_sum_relative_error": component_sum_relative_error,
     }
+    if return_all_sources:
+        result["all_token_writes"] = all_token_writes.detach()
+        result["raw_attention_mean"] = attention[:, :, visual_start:visual_end].float().mean(dim=1).detach()
+    return result
 
 
 def reconstruct_llama_visual_directions(**kwargs: Any) -> dict[str, Any]:

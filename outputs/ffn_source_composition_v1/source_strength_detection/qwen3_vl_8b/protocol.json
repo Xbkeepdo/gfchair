@@ -1,0 +1,71 @@
+{
+  "model": "qwen3_vl_8b",
+  "source": "/home/apulis-dev/userdata/CODEX/test-cocochair/gfchair/outputs/ffn_source_composition_v1/qwen3_vl_8b/shards/k50",
+  "formula": "S_g=sum_{j in g} ||c_j||; no division by gross_all or token count",
+  "scales": [
+    "raw",
+    "log1p"
+  ],
+  "single_groups": [
+    "prompt",
+    "generation",
+    "visual"
+  ],
+  "concat_order": [
+    "prompt",
+    "generation",
+    "visual"
+  ],
+  "visual_prompt_sum": "raw: S_V+S_P; log1p: log(1+S_V+S_P), sum before log",
+  "prompt": "All nonvisual prompt positions, including system/template/special tokens",
+  "generation": "Available generated prefix through query; excludes predicted target/future",
+  "images": 4000,
+  "train_images": 3200,
+  "test_images": 800,
+  "train_mentions": 11846,
+  "test_mentions": 3027,
+  "seeds": [
+    43,
+    44,
+    45
+  ],
+  "config": {
+    "hidden_sizes": [
+      128,
+      64,
+      32
+    ],
+    "dropout": 0.3,
+    "drop_last": false,
+    "batch_size": 256,
+    "num_epochs": 100,
+    "learning_rate": 0.001,
+    "weight_decay": 1e-05,
+    "lr_factor": 0.5,
+    "lr_patience": 5,
+    "early_stopping_patience": 10,
+    "seed": 43,
+    "positive_class": "real",
+    "split_protocol": "strict_82_no_validation",
+    "threshold_selection": "train_f1",
+    "fixed_threshold": 0.5,
+    "threshold_reporting": [
+      "fixed_0.5",
+      "train_f1"
+    ],
+    "checkpoint_selection": "minimum_train_loss"
+  },
+  "dimensions": {
+    "raw_prompt": 36,
+    "raw_generation": 36,
+    "raw_visual": 36,
+    "raw_concat": 108,
+    "raw_visual_prompt_sum": 36,
+    "log1p_prompt": 36,
+    "log1p_generation": 36,
+    "log1p_visual": 36,
+    "log1p_concat": 108,
+    "log1p_visual_prompt_sum": 36
+  },
+  "reporting": "Three-seed mean +/- population std; original two thresholds; all-4000 curves by mention"
+}

@@ -1,0 +1,35 @@
+{
+  "code_sha": "3a174803b7128de53ba53ad8710ae9fea4ade0c50379a242695629a427f7f5bb",
+  "cosine_clipped_entries": 0,
+  "formula": "JS(softmax(cos(e_m,G(Z)-G(Z0))/.2), raw_visual_attention / sum_visual(raw_visual_attention)), natural log; F=AE+log1p(S_E)",
+  "images": 4000,
+  "matrix_sha": {
+    "F_J_raw": "9ee59a3eb55f017e904c306d83370f2c43fe732a5fa8614cc184116f55dfe7b0",
+    "J_raw": "6110ca945aaf6a609982a76d8aee550b1e43b774be8502e5609346bec30bcf53"
+  },
+  "mlp": {
+    "dropout": 0.3,
+    "hidden_sizes": [
+      128,
+      64,
+      32
+    ],
+    "learning_rate": 0.001,
+    "weight_decay": 1e-05
+  },
+  "model": "internvl_2_5_8b",
+  "precision_note": "Q/norms from saved path extraction; four-model raw attention from composition capture with exact target/AE/S alignment; existing numerical limitations retained",
+  "seeds": [
+    43,
+    44,
+    45
+  ],
+  "source": "/home/apulis-dev/userdata/CODEX/test-cocochair/gfchair/outputs/ffn_source_composition_v1/internvl_2_5_8b",
+  "split_sha": "d3ee1c8e521d4f007112e3f3aa38ba1ba4949d623820b6977240d2f3f32ac65d",
+  "test_images": 800,
+  "test_mentions": 2381,
+  "train_images": 3200,
+  "train_mentions": 9378,
+  "zero_component_norm_entries": 0,
+  "zero_visual_mass_policy": "error; never substitute uniform"
+}

@@ -1,6 +1,8 @@
 """Model wrapper factory."""
 
 _REGISTRY = {
+    "minigpt4_7b": ("models.minigpt4_wrapper", "MiniGPT4Wrapper"),
+    "shikra_7b": ("models.shikra_wrapper", "ShikraWrapper"),
     "llava_1_5_7b": ("models.llava_wrapper", "LLaVAWrapper"),
     "llava_next_8b": ("models.llava_next_wrapper", "LLaVANextWrapper"),
     "llava_next_llama3_8b": (

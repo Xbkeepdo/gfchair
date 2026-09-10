@@ -1,0 +1,587 @@
+{
+  "model": "shikra_7b",
+  "seed": 43,
+  "trainer": "shared_torch_mlp",
+  "configured_methods": [
+    "svar",
+    "projectaway",
+    "metatoken"
+  ],
+  "feature_path": "/home/apulis-dev/userdata/CODEX/test-cocochair/gfchair/outputs/shikra_7b/COCO4000-JACOBIAN-PATH/baseline/features.pkl",
+  "split_path": "/home/apulis-dev/userdata/CODEX/test-cocochair/gfchair/outputs/shikra_7b/COCO4000-JACOBIAN-PATH/image_splits.json",
+  "stored_label_semantics": {
+    "0": "hallucination",
+    "1": "real"
+  },
+  "detector_target_semantics": {
+    "0": "hallucination",
+    "1": "real"
+  },
+  "headline_positive_class": "real",
+  "label_protocol": "shared_inslen_unique_detected_word_exact_response_offsets",
+  "counts": {
+    "train": 13361,
+    "val": 0,
+    "test": 3343
+  },
+  "image_split_counts": {
+    "train": 3200,
+    "val": 0,
+    "test": 800
+  },
+  "methods": {
+    "svar": {
+      "paper_config": null,
+      "adaptation": "shared_three_hidden_layer_torch_mlp",
+      "trainer_config": {
+        "hidden_sizes": [
+          128,
+          64,
+          32
+        ],
+        "dropout": 0.3,
+        "drop_last": true,
+        "batch_size": 256,
+        "num_epochs": 100,
+        "learning_rate": 0.001,
+        "weight_decay": 1e-05,
+        "lr_factor": 0.5,
+        "lr_patience": 5,
+        "early_stopping_patience": 10,
+        "seed": 43,
+        "positive_class": "real",
+        "split_protocol": "strict_82_no_validation",
+        "threshold_selection": "train_f1",
+        "fixed_threshold": 0.5,
+        "threshold_reporting": [
+          "fixed_0.5",
+          "train_f1"
+        ],
+        "checkpoint_selection": "minimum_train_loss"
+      },
+      "input_dim": 448,
+      "threshold": 0.8440189361572266,
+      "threshold_score_class": "real",
+      "train_metrics": {
+        "precision": 0.9949887000098261,
+        "recall": 0.9902210052806572,
+        "f1": 0.9925991275792776,
+        "auc": 0.999269008447367,
+        "aupr": 0.9997767144371325,
+        "accuracy": 0.9886984507147668,
+        "reported_positive_class": "real",
+        "real_positive": {
+          "precision": 0.9949887000098261,
+          "recall": 0.9902210052806572,
+          "f1": 0.9925991275792776,
+          "auc": 0.999269008447367,
+          "aupr": 0.9997767144371325
+        },
+        "hallucination_positive": {
+          "precision": 0.9685929648241206,
+          "recall": 0.9837320574162679,
+          "f1": 0.9761038138946035,
+          "auc": 0.999269008447367,
+          "aupr": 0.9976982637566371
+        }
+      },
+      "test_metrics": {
+        "accuracy": 0.8276996709542327,
+        "reported_positive_class": "real",
+        "real_positive": {
+          "precision": 0.8876923076923077,
+          "recall": 0.8904320987654321,
+          "f1": 0.889060092449923,
+          "auc": 0.860236762505959,
+          "aupr": 0.9490036785426768
+        },
+        "hallucination_positive": {
+          "precision": 0.6177658142664872,
+          "recall": 0.611185086551265,
+          "f1": 0.6144578313253012,
+          "auc": 0.8602367625059592,
+          "aupr": 0.6124855031931722
+        }
+      },
+      "threshold_reports": {
+        "fixed_0.5": {
+          "threshold": 0.5,
+          "train_metrics": {
+            "precision": 0.9826539462272333,
+            "recall": 0.9971640915313906,
+            "f1": 0.9898558462359851,
+            "auc": 0.999269008447367,
+            "aupr": 0.9997767144371325,
+            "accuracy": 0.9843574582740813,
+            "reported_positive_class": "real",
+            "real_positive": {
+              "precision": 0.9826539462272333,
+              "recall": 0.9971640915313906,
+              "f1": 0.9898558462359851,
+              "auc": 0.999269008447367,
+              "aupr": 0.9997767144371325
+            },
+            "hallucination_positive": {
+              "precision": 0.9902815013404825,
+              "recall": 0.9425837320574163,
+              "f1": 0.9658440921719235,
+              "auc": 0.999269008447367,
+              "aupr": 0.9976982637566371
+            }
+          },
+          "test_metrics": {
+            "precision": 0.8717478930010993,
+            "recall": 0.9178240740740741,
+            "f1": 0.8941928208983274,
+            "auc": 0.860236762505959,
+            "aupr": 0.9490036785426768,
+            "accuracy": 0.8315883936583907,
+            "reported_positive_class": "real",
+            "real_positive": {
+              "precision": 0.8717478930010993,
+              "recall": 0.9178240740740741,
+              "f1": 0.8941928208983274,
+              "auc": 0.860236762505959,
+              "aupr": 0.9490036785426768
+            },
+            "hallucination_positive": {
+              "precision": 0.6530944625407166,
+              "recall": 0.5339547270306259,
+              "f1": 0.5875457875457876,
+              "auc": 0.8602367625059592,
+              "aupr": 0.6124855031931722
+            }
+          }
+        },
+        "train_f1": {
+          "threshold": 0.8440189361572266,
+          "train_metrics": {
+            "precision": 0.9949887000098261,
+            "recall": 0.9902210052806572,
+            "f1": 0.9925991275792776,
+            "auc": 0.999269008447367,
+            "aupr": 0.9997767144371325,
+            "accuracy": 0.9886984507147668,
+            "reported_positive_class": "real",
+            "real_positive": {
+              "precision": 0.9949887000098261,
+              "recall": 0.9902210052806572,
+              "f1": 0.9925991275792776,
+              "auc": 0.999269008447367,
+              "aupr": 0.9997767144371325
+            },
+            "hallucination_positive": {
+              "precision": 0.9685929648241206,
+              "recall": 0.9837320574162679,
+              "f1": 0.9761038138946035,
+              "auc": 0.999269008447367,
+              "aupr": 0.9976982637566371
+            }
+          },
+          "test_metrics": {
+            "precision": 0.8876923076923077,
+            "recall": 0.8904320987654321,
+            "f1": 0.889060092449923,
+            "auc": 0.860236762505959,
+            "aupr": 0.9490036785426768,
+            "accuracy": 0.8276996709542327,
+            "reported_positive_class": "real",
+            "real_positive": {
+              "precision": 0.8876923076923077,
+              "recall": 0.8904320987654321,
+              "f1": 0.889060092449923,
+              "auc": 0.860236762505959,
+              "aupr": 0.9490036785426768
+            },
+            "hallucination_positive": {
+              "precision": 0.6177658142664872,
+              "recall": 0.611185086551265,
+              "f1": 0.6144578313253012,
+              "auc": 0.8602367625059592,
+              "aupr": 0.6124855031931722
+            }
+          }
+        }
+      },
+      "checkpoint": "/home/apulis-dev/userdata/CODEX/test-cocochair/gfchair/outputs/shikra_7b/COCO4000-JACOBIAN-PATH/baseline/checkpoints/shared_torch_mlp/seed43/svar/model.pt",
+      "history": "/home/apulis-dev/userdata/CODEX/test-cocochair/gfchair/outputs/shikra_7b/COCO4000-JACOBIAN-PATH/baseline/checkpoints/shared_torch_mlp/seed43/svar/history.json",
+      "best_epoch": 100,
+      "epochs_completed": 100,
+      "best_train_loss": 0.04511994166442981,
+      "selection_protocol": "minimum_train_loss_dual_fixed_0.5_and_train_real_f1_threshold"
+    },
+    "projectaway": {
+      "paper_config": null,
+      "adaptation": "shared_three_hidden_layer_torch_mlp",
+      "trainer_config": {
+        "hidden_sizes": [
+          128,
+          64,
+          32
+        ],
+        "dropout": 0.3,
+        "drop_last": true,
+        "batch_size": 256,
+        "num_epochs": 100,
+        "learning_rate": 0.001,
+        "weight_decay": 1e-05,
+        "lr_factor": 0.5,
+        "lr_patience": 5,
+        "early_stopping_patience": 10,
+        "seed": 43,
+        "positive_class": "real",
+        "split_protocol": "strict_82_no_validation",
+        "threshold_selection": "train_f1",
+        "fixed_threshold": 0.5,
+        "threshold_reporting": [
+          "fixed_0.5",
+          "train_f1"
+        ],
+        "checkpoint_selection": "minimum_train_loss"
+      },
+      "input_dim": 33,
+      "threshold": 0.6035831570625305,
+      "threshold_score_class": "real",
+      "train_metrics": {
+        "precision": 0.7657279808268425,
+        "recall": 0.9998044201056131,
+        "f1": 0.8672491305454237,
+        "auc": 0.7228984129331026,
+        "aupr": 0.8986492306699797,
+        "accuracy": 0.7657360975974852,
+        "reported_positive_class": "real",
+        "real_positive": {
+          "precision": 0.7657279808268425,
+          "recall": 0.9998044201056131,
+          "f1": 0.8672491305454237,
+          "auc": 0.7228984129331026,
+          "aupr": 0.8986492306699797
+        },
+        "hallucination_positive": {
+          "precision": 0.7777777777777778,
+          "recall": 0.0022328548644338117,
+          "f1": 0.004452926208651399,
+          "auc": 0.7228984129331026,
+          "aupr": 0.39804943000032683
+        }
+      },
+      "test_metrics": {
+        "accuracy": 0.7750523481902483,
+        "reported_positive_class": "real",
+        "real_positive": {
+          "precision": 0.7752842609216039,
+          "recall": 0.9996141975308642,
+          "f1": 0.8732726659925851,
+          "auc": 0.6926294775690025,
+          "aupr": 0.8873477252998238
+        },
+        "hallucination_positive": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "auc": 0.6926294775690027,
+          "aupr": 0.35772860320350985
+        }
+      },
+      "threshold_reports": {
+        "fixed_0.5": {
+          "threshold": 0.5,
+          "train_metrics": {
+            "precision": 0.7653618741112193,
+            "recall": 1.0,
+            "f1": 0.8670878026031288,
+            "auc": 0.7228984129331026,
+            "aupr": 0.8986492306699797,
+            "accuracy": 0.7653618741112193,
+            "reported_positive_class": "real",
+            "real_positive": {
+              "precision": 0.7653618741112193,
+              "recall": 1.0,
+              "f1": 0.8670878026031288,
+              "auc": 0.7228984129331026,
+              "aupr": 0.8986492306699797
+            },
+            "hallucination_positive": {
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "auc": 0.7228984129331026,
+              "aupr": 0.39804943000032683
+            }
+          },
+          "test_metrics": {
+            "precision": 0.7753514807059527,
+            "recall": 1.0,
+            "f1": 0.8734625105307497,
+            "auc": 0.6926294775690025,
+            "aupr": 0.8873477252998238,
+            "accuracy": 0.7753514807059527,
+            "reported_positive_class": "real",
+            "real_positive": {
+              "precision": 0.7753514807059527,
+              "recall": 1.0,
+              "f1": 0.8734625105307497,
+              "auc": 0.6926294775690025,
+              "aupr": 0.8873477252998238
+            },
+            "hallucination_positive": {
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "auc": 0.6926294775690027,
+              "aupr": 0.35772860320350985
+            }
+          }
+        },
+        "train_f1": {
+          "threshold": 0.6035831570625305,
+          "train_metrics": {
+            "precision": 0.7657279808268425,
+            "recall": 0.9998044201056131,
+            "f1": 0.8672491305454237,
+            "auc": 0.7228984129331026,
+            "aupr": 0.8986492306699797,
+            "accuracy": 0.7657360975974852,
+            "reported_positive_class": "real",
+            "real_positive": {
+              "precision": 0.7657279808268425,
+              "recall": 0.9998044201056131,
+              "f1": 0.8672491305454237,
+              "auc": 0.7228984129331026,
+              "aupr": 0.8986492306699797
+            },
+            "hallucination_positive": {
+              "precision": 0.7777777777777778,
+              "recall": 0.0022328548644338117,
+              "f1": 0.004452926208651399,
+              "auc": 0.7228984129331026,
+              "aupr": 0.39804943000032683
+            }
+          },
+          "test_metrics": {
+            "precision": 0.7752842609216039,
+            "recall": 0.9996141975308642,
+            "f1": 0.8732726659925851,
+            "auc": 0.6926294775690025,
+            "aupr": 0.8873477252998238,
+            "accuracy": 0.7750523481902483,
+            "reported_positive_class": "real",
+            "real_positive": {
+              "precision": 0.7752842609216039,
+              "recall": 0.9996141975308642,
+              "f1": 0.8732726659925851,
+              "auc": 0.6926294775690025,
+              "aupr": 0.8873477252998238
+            },
+            "hallucination_positive": {
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "auc": 0.6926294775690027,
+              "aupr": 0.35772860320350985
+            }
+          }
+        }
+      },
+      "checkpoint": "/home/apulis-dev/userdata/CODEX/test-cocochair/gfchair/outputs/shikra_7b/COCO4000-JACOBIAN-PATH/baseline/checkpoints/shared_torch_mlp/seed43/projectaway/model.pt",
+      "history": "/home/apulis-dev/userdata/CODEX/test-cocochair/gfchair/outputs/shikra_7b/COCO4000-JACOBIAN-PATH/baseline/checkpoints/shared_torch_mlp/seed43/projectaway/history.json",
+      "best_epoch": 60,
+      "epochs_completed": 70,
+      "best_train_loss": 0.4929834638650601,
+      "selection_protocol": "minimum_train_loss_dual_fixed_0.5_and_train_real_f1_threshold"
+    },
+    "metatoken": {
+      "shared_mlp": {
+        "paper_config": null,
+        "adaptation": "shared_three_hidden_layer_torch_mlp",
+        "trainer_config": {
+          "hidden_sizes": [
+            128,
+            64,
+            32
+          ],
+          "dropout": 0.3,
+          "drop_last": true,
+          "batch_size": 256,
+          "num_epochs": 100,
+          "learning_rate": 0.001,
+          "weight_decay": 1e-05,
+          "lr_factor": 0.5,
+          "lr_patience": 5,
+          "early_stopping_patience": 10,
+          "seed": 43,
+          "positive_class": "real",
+          "split_protocol": "strict_82_no_validation",
+          "threshold_selection": "train_f1",
+          "fixed_threshold": 0.5,
+          "threshold_reporting": [
+            "fixed_0.5",
+            "train_f1"
+          ],
+          "checkpoint_selection": "minimum_train_loss"
+        },
+        "input_dim": 42,
+        "threshold": 0.4361523985862732,
+        "threshold_score_class": "real",
+        "train_metrics": {
+          "precision": 0.8172542513479883,
+          "recall": 0.9634265597496577,
+          "f1": 0.8843409182711728,
+          "auc": 0.8491919462258226,
+          "aupr": 0.9476950052601845,
+          "accuracy": 0.8071252151785046,
+          "reported_positive_class": "real",
+          "real_positive": {
+            "precision": 0.8172542513479883,
+            "recall": 0.9634265597496577,
+            "f1": 0.8843409182711728,
+            "auc": 0.8491919462258226,
+            "aupr": 0.9476950052601845
+          },
+          "hallucination_positive": {
+            "precision": 0.7136294027565084,
+            "recall": 0.29728867623604466,
+            "f1": 0.41972528709750057,
+            "auc": 0.8491919462258227,
+            "aupr": 0.6161874342846273
+          }
+        },
+        "test_metrics": {
+          "accuracy": 0.8181274304516901,
+          "reported_positive_class": "real",
+          "real_positive": {
+            "precision": 0.828259430840503,
+            "recall": 0.9656635802469136,
+            "f1": 0.8916993231207695,
+            "auc": 0.8534849624369154,
+            "aupr": 0.9494330892783357
+          },
+          "hallucination_positive": {
+            "precision": 0.7227414330218068,
+            "recall": 0.30892143808255657,
+            "f1": 0.43283582089552236,
+            "auc": 0.8534849624369154,
+            "aupr": 0.622607941226996
+          }
+        },
+        "threshold_reports": {
+          "fixed_0.5": {
+            "threshold": 0.5,
+            "train_metrics": {
+              "precision": 0.8363108334066708,
+              "recall": 0.9292978681791512,
+              "f1": 0.8803557367177729,
+              "auc": 0.8491919462258226,
+              "aupr": 0.9476950052601845,
+              "accuracy": 0.8066761469949854,
+              "reported_positive_class": "real",
+              "real_positive": {
+                "precision": 0.8363108334066708,
+                "recall": 0.9292978681791512,
+                "f1": 0.8803557367177729,
+                "auc": 0.8491919462258226,
+                "aupr": 0.9476950052601845
+              },
+              "hallucination_positive": {
+                "precision": 0.6381381381381381,
+                "recall": 0.40669856459330145,
+                "f1": 0.4967855055523086,
+                "auc": 0.8491919462258227,
+                "aupr": 0.6161874342846273
+              }
+            },
+            "test_metrics": {
+              "precision": 0.8501228501228502,
+              "recall": 0.9344135802469136,
+              "f1": 0.8902775225142437,
+              "auc": 0.8534849624369154,
+              "aupr": 0.9494330892783357,
+              "accuracy": 0.8214178881244392,
+              "reported_positive_class": "real",
+              "real_positive": {
+                "precision": 0.8501228501228502,
+                "recall": 0.9344135802469136,
+                "f1": 0.8902775225142437,
+                "auc": 0.8534849624369154,
+                "aupr": 0.9494330892783357
+              },
+              "hallucination_positive": {
+                "precision": 0.6558704453441295,
+                "recall": 0.43142476697736354,
+                "f1": 0.5204819277108433,
+                "auc": 0.8534849624369154,
+                "aupr": 0.622607941226996
+              }
+            }
+          },
+          "train_f1": {
+            "threshold": 0.4361523985862732,
+            "train_metrics": {
+              "precision": 0.8172542513479883,
+              "recall": 0.9634265597496577,
+              "f1": 0.8843409182711728,
+              "auc": 0.8491919462258226,
+              "aupr": 0.9476950052601845,
+              "accuracy": 0.8071252151785046,
+              "reported_positive_class": "real",
+              "real_positive": {
+                "precision": 0.8172542513479883,
+                "recall": 0.9634265597496577,
+                "f1": 0.8843409182711728,
+                "auc": 0.8491919462258226,
+                "aupr": 0.9476950052601845
+              },
+              "hallucination_positive": {
+                "precision": 0.7136294027565084,
+                "recall": 0.29728867623604466,
+                "f1": 0.41972528709750057,
+                "auc": 0.8491919462258227,
+                "aupr": 0.6161874342846273
+              }
+            },
+            "test_metrics": {
+              "precision": 0.828259430840503,
+              "recall": 0.9656635802469136,
+              "f1": 0.8916993231207695,
+              "auc": 0.8534849624369154,
+              "aupr": 0.9494330892783357,
+              "accuracy": 0.8181274304516901,
+              "reported_positive_class": "real",
+              "real_positive": {
+                "precision": 0.828259430840503,
+                "recall": 0.9656635802469136,
+                "f1": 0.8916993231207695,
+                "auc": 0.8534849624369154,
+                "aupr": 0.9494330892783357
+              },
+              "hallucination_positive": {
+                "precision": 0.7227414330218068,
+                "recall": 0.30892143808255657,
+                "f1": 0.43283582089552236,
+                "auc": 0.8534849624369154,
+                "aupr": 0.622607941226996
+              }
+            }
+          }
+        },
+        "checkpoint": "/home/apulis-dev/userdata/CODEX/test-cocochair/gfchair/outputs/shikra_7b/COCO4000-JACOBIAN-PATH/baseline/checkpoints/shared_torch_mlp/seed43/metatoken/model.pt",
+        "history": "/home/apulis-dev/userdata/CODEX/test-cocochair/gfchair/outputs/shikra_7b/COCO4000-JACOBIAN-PATH/baseline/checkpoints/shared_torch_mlp/seed43/metatoken/history.json",
+        "best_epoch": 73,
+        "epochs_completed": 83,
+        "best_train_loss": 0.39720461861445355,
+        "selection_protocol": "minimum_train_loss_dual_fixed_0.5_and_train_real_f1_threshold"
+      }
+    }
+  },
+  "split_protocol": "strict_82_no_validation",
+  "checkpoint_selection": "minimum_train_loss",
+  "threshold_selection": "train_f1",
+  "threshold_reporting": [
+    "fixed_0.5",
+    "train_f1"
+  ],
+  "svar_training_layers": {
+    "start": 5,
+    "end_exclusive": 19
+  }
+}

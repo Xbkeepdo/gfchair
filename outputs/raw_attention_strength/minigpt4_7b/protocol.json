@@ -1,0 +1,32 @@
+{
+  "code_sha": "9a0999b7f953a701ba75b7279d8970736e89b3c62e67a20ee70f3852dfd2cf6f",
+  "curve_unit": "all labeled mentions; train/test separate; IQR is not a confidence interval",
+  "formula": "R_l=sum_visual(mean_heads(raw post-softmax attention)); concat(R, log1p(raw path S))",
+  "images": 4000,
+  "matrix_sha": {
+    "R": "8066192911755dd550441c9c3c96de2f8045617bfebefeffd5b2cc90cdb7c103",
+    "R_logS": "9edbc7fe57e65f50f66ef9bbb2ee0224cfe0c1cb869d60436d880d6b754b64df",
+    "logS": "709bfc61644adfb372b3e98f7b2d21b414e485ebedee71dbbca9fa5e3f148663"
+  },
+  "mlp": {
+    "dropout": 0.3,
+    "hidden_sizes": [
+      128,
+      64,
+      32
+    ],
+    "learning_rate": 0.001,
+    "weight_decay": 1e-05
+  },
+  "model": "minigpt4_7b",
+  "seeds": [
+    43,
+    44,
+    45
+  ],
+  "source_protocol_sha": "aa5a6d887d7e7b4b577865e641f42f12960f602eab340b05ea1536b6e70e905d",
+  "test_images": 800,
+  "test_mentions": 2229,
+  "train_images": 3200,
+  "train_mentions": 8728
+}

@@ -1,0 +1,57 @@
+{
+  "model": "llava_1_5_7b",
+  "source": "/home/apulis-dev/userdata/CODEX/test-cocochair/gfchair/outputs/ffn_source_composition_v1/llava_1_5_7b/shards/k50",
+  "features": {
+    "prompt": "Each layer: sum_prompt ||c_j|| / gross_all",
+    "generation": "Each layer: sum_generation ||c_j|| / gross_all",
+    "visual": "Each layer: sum_visual ||c_j|| / gross_all",
+    "prompt_generation_visual": "concat(prompt all layers, generation all layers, visual all layers)"
+  },
+  "denominator": "All token norms + residual norm + attention output bias norm + ||FFN(0)||",
+  "prompt": "All nonvisual prompt positions, including system/template/special tokens",
+  "generation": "Generated prefix through query, excludes predicted target and future",
+  "images": 4000,
+  "train_images": 3200,
+  "test_images": 800,
+  "train_mentions": 12317,
+  "test_mentions": 3146,
+  "dimensions": {
+    "prompt": 32,
+    "generation": 32,
+    "visual": 32,
+    "prompt_generation_visual": 96
+  },
+  "seeds": [
+    43,
+    44,
+    45
+  ],
+  "config": {
+    "hidden_sizes": [
+      128,
+      64,
+      32
+    ],
+    "dropout": 0.3,
+    "drop_last": false,
+    "batch_size": 256,
+    "num_epochs": 100,
+    "learning_rate": 0.001,
+    "weight_decay": 1e-05,
+    "lr_factor": 0.5,
+    "lr_patience": 5,
+    "early_stopping_patience": 10,
+    "seed": 43,
+    "positive_class": "real",
+    "split_protocol": "strict_82_no_validation",
+    "threshold_selection": "train_f1",
+    "fixed_threshold": 0.5,
+    "threshold_reporting": [
+      "fixed_0.5",
+      "train_f1"
+    ],
+    "checkpoint_selection": "minimum_train_loss"
+  },
+  "input_scaling": "Raw fractions; no log/AE/extra normalization",
+  "reporting": "Three-seed mean and population std, not ensemble; original two thresholds"
+}

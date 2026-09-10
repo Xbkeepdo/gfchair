@@ -1,0 +1,108 @@
+{
+  "audit": {
+    "js_max": 0.6929333806037903,
+    "js_min": 0.012484374456107616,
+    "pmax_quantiles": [
+      0.0025189966400518604,
+      0.8849469447716873,
+      0.9999999999999944,
+      1.0,
+      1.0
+    ],
+    "processed_images": 4000,
+    "saturation_fraction": 0.39675900737516623,
+    "softmax_zero_entries": 1927,
+    "source_entries": 142848540,
+    "source_sum_error": 4.3298697960381105e-15,
+    "temperature1_matrix_exact_parity": true,
+    "unique_targets": 14704
+  },
+  "baseline_cache_sha256": "7a4b807cfc230b37944450efebee67c25882d177b49f554dfa30c7150f2fb88a",
+  "baseline_protocol": "/home/apulis-dev/userdata/CODEX/test-cocochair/gfchair/outputs/ffn_q_softmax_js_20260909/qwen3_vl_8b/protocol.json",
+  "baseline_protocol_sha256": "0b8f3c994787ad4c91b41468598f450ae537c1ad0ead3be1a11cac6441c87c41",
+  "baseline_summary_sha256": "10ec3b20a7f3a3bf9a4fa18edbed87fd79387c7c15bb3ba0ae55965d3e402e76",
+  "classifier": {
+    "dropout": 0.3,
+    "hidden_sizes": [
+      128,
+      64,
+      32
+    ],
+    "learning_rate": 0.001,
+    "weight_decay": 1e-05
+  },
+  "counts": {
+    "images": 4000,
+    "test_images": 800,
+    "test_mentions": 3027,
+    "train_images": 3200,
+    "train_mentions": 11846
+  },
+  "defaults": {
+    "batch_size": 256,
+    "checkpoint_selection": "minimum_train_loss",
+    "drop_last": false,
+    "dropout": 0.3,
+    "early_stopping_patience": 10,
+    "fixed_threshold": 0.5,
+    "hidden_sizes": [
+      128,
+      64,
+      32
+    ],
+    "learning_rate": 0.001,
+    "lr_factor": 0.5,
+    "lr_patience": 5,
+    "num_epochs": 100,
+    "positive_class": "real",
+    "seed": 43,
+    "split_protocol": "strict_82_no_validation",
+    "threshold_reporting": [
+      "fixed_0.5",
+      "train_f1"
+    ],
+    "threshold_selection": "train_f1",
+    "weight_decay": 1e-05
+  },
+  "definition": "JS(softmax(raw signed Q_m/0.07), T); all visual tokens, natural log; no cosine normalization, abs, clipping or top-k",
+  "device": "cuda:1",
+  "groups": [
+    "J_QT",
+    "F_J_QT",
+    "F_K_J_QT"
+  ],
+  "matrix_sha256": {
+    "F_J_QT": "e66a6795273c339658427f39bc49bbc06f6da47daab4fd34d4d30141bf8fd8ca",
+    "F_K_J_QT": "2ebec0dabb7dcd81bc736b5a03f12e6bce9a3521e27c35e6d781a456090eac3b",
+    "J_QT": "8280dad3fe187f1affc26e1e8c5e2e74f1f42d762391e55e0c848dc48521dc0f"
+  },
+  "model": "qwen3_vl_8b",
+  "numerical_exception": {
+    "candidate": "fp32_k4",
+    "feature_policy": "original K4 unchanged; no K64 replacement or case removal",
+    "independent_confirmation_authorized": false,
+    "known_cases": [
+      "248069:17:23",
+      "546325:30:23"
+    ],
+    "numerical_validation_sha256": "da8cf703dbd2273cf3b621bfaf9eff5efb78c62f81f4b8d1b5964f3b35fea3c2",
+    "numerical_validation_status": "FAIL_NUMERICAL_OLD_COHORT",
+    "original_gate_rewritten": false,
+    "path": "/home/apulis-dev/userdata/CODEX/test-cocochair/gfchair/outputs/ffn_visual_source_consistency_v2/exploratory_training_20260908/numerical_exception.json",
+    "scope": "old-cohort training, checkpoint verification and exploratory metrics only",
+    "sha256": "79077e81a38702c97f4788ec0f1c18107043efca435445cb90033ab5d4f00126",
+    "status": "USER_AUTHORIZED_EXPLORATORY_TRAINING_WITH_NUMERICAL_FAILURE",
+    "user_instruction": "就先这样吧，先训练把。另外你再解释一下闭合误差是什么意思"
+  },
+  "scope": "User-specified temperature on the repeatedly explored old 3200/800 split; no tuning, bootstrap or VLM forward",
+  "seeds": [
+    43,
+    44,
+    45
+  ],
+  "sources": {
+    "/home/apulis-dev/userdata/CODEX/test-cocochair/gfchair/scripts/train_q_softmax_js.py": "070c6c94f9738c566ba48de8ce63a7abfb245bd1af596d1b63c2fae8f6aca623",
+    "/home/apulis-dev/userdata/CODEX/test-cocochair/gfchair/scripts/train_q_temperature007.py": "c4846677fc6c1ec779332a61a36328d483730e9f52234ace1fc7c6e42ab20163"
+  },
+  "temperature": 0.07
+}

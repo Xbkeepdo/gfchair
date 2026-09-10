@@ -1,0 +1,400 @@
+run:
+  prompt: Describe this image.
+  extraction_mode: all
+  validate_manifests: false
+experiment:
+  mode: vpend
+labeling:
+  schema_version: 2
+  sample_unit: inslen_unique_detected_word
+  primary_locator: inslen_official_first_token_first_occurrence
+  save_all_mentions: true
+  save_svar_official_samples: false
+  alignment_failure_policy: error
+qa_benchmarks:
+  extraction_mode: baseline_only
+  baseline_trainer: shared_torch_mlp
+  baseline_label_protocols:
+  - object_hallucination_yes_only
+  - answer_correctness_all
+  pope_dir: /home/apulis-dev/userdata/datasets/POPE
+  coco_image_dir: /home/apulis-dev/userdata/datasets/POPE/val2014
+  clevr_root: /home/apulis-dev/userdata/datasets/CLEVR_v1.0
+  clevr_dataset_name: clevr_exist_9k
+  clevr_train_questions: 7200
+  clevr_val_questions: 0
+  clevr_test_questions: 1800
+  amber_root: /home/apulis-dev/userdata/AMBER
+  prepared_root: /home/apulis-dev/userdata/datasets/qa_benchmarks
+  output_root: /home/apulis-dev/userdata/CODEX/test-cocochair/gfchair/outputs/qa_benchmarks
+  split: strict_image_level_82
+  split_seed: 42
+  generation:
+    max_new_tokens: 8
+    temperature: 0.1
+    top_p: 0.5
+  dataset_model_overrides:
+    amber_discriminative:
+      max_pixels: 200704
+  position_protocols:
+  - prompt_last_token
+  - question_object_pre_token
+  label_protocols:
+  - object_hallucination_yes_only
+  - answer_correctness_all
+models:
+  llava_1_5_7b:
+    hf_name: /home/apulis-dev/userdata/models/llava/llava-hf/llava-1___5-7b-hf
+    num_visual_tokens: 576
+    max_new_tokens: 512
+    temperature: 0.1
+    top_p: 0.5
+    prompt_template: 'USER: <image>
+
+      Describe this image.
+
+      ASSISTANT:'
+  llava_next_8b:
+    hf_name: /home/apulis-dev/userdata/models/LLaVA-NeXT-8B
+    max_new_tokens: 512
+    temperature: 0.1
+    top_p: 0.5
+    image_token: <image>
+    prompt_template: null
+  llava_onevision_1_5_8b:
+    hf_name: /home/apulis-dev/userdata/models/LLaVA-OneVision-1.5-8B-Instruct
+    max_new_tokens: 512
+    temperature: 0.1
+    top_p: 0.5
+    vision_start_token: <|vision_start|>
+    vision_end_token: <|vision_end|>
+    image_token: <|image_pad|>
+    prompt_template: null
+  llava_onevision_1_5_8b_instruct:
+    hf_name: /home/apulis-dev/userdata/models/LLaVA-OneVision-1.5-8B-Instruct
+    max_new_tokens: 512
+    temperature: 0.1
+    top_p: 0.5
+    vision_start_token: <|vision_start|>
+    vision_end_token: <|vision_end|>
+    image_token: <|image_pad|>
+    prompt_template: null
+  internvl_2_5_8b:
+    hf_name: /home/apulis-dev/userdata/models/InternVL2_5-8B
+    num_visual_tokens: 256
+    image_size: 448
+    max_new_tokens: 512
+    temperature: 0.1
+    top_p: 0.5
+    img_context_token: <IMG_CONTEXT>
+    prompt_template: '<|im_start|>user
+
+      <image>
+
+      Describe this image.<|im_end|>
+
+      <|im_start|>assistant
+
+      '
+  qwen2_5_vl_7b:
+    hf_name: /home/apulis-dev/userdata/models/Qwen2.5-VL-7B-Instruct
+    max_new_tokens: 512
+    temperature: 0.1
+    top_p: 0.5
+    vision_start_token: <|vision_start|>
+    vision_end_token: <|vision_end|>
+    prompt_template: null
+  qwen3_vl_8b:
+    hf_name: /home/apulis-dev/userdata/models/Qwen3-VL-8B-Instruct
+    num_layers: 36
+    max_new_tokens: 512
+    temperature: 0.1
+    top_p: 0.5
+    vision_start_token: <|vision_start|>
+    vision_end_token: <|vision_end|>
+    prompt_template: null
+  minigpt4_7b:
+    hf_name: /home/apulis-dev/userdata/models/MiniGPT-4-7B
+    num_visual_tokens: 32
+    max_new_tokens: 512
+    temperature: 0.1
+    top_p: 0.5
+    dgst_attention_query_chunk_size: 64
+  shikra_7b:
+    hf_name: /home/apulis-dev/userdata/models/shikra-7b
+    num_visual_tokens: 256
+    max_new_tokens: 512
+    temperature: 0.1
+    top_p: 0.5
+    dgst_attention_query_chunk_size: 64
+feature_extraction:
+  model_overrides:
+    llava_next_8b:
+      image_grid_pinpoints:
+      - - 336
+        - 336
+      dgst_attention_query_chunk_size: null
+      dgst_capture_device: null
+  method:
+    enabled: true
+  ads_cgc:
+    enabled: true
+  baseline:
+    enabled: true
+    output_subdir: baseline
+    methods:
+    - svar
+    - projectaway
+    - metatoken
+    seed: 42
+    metatoken:
+      classifiers:
+      - lr
+      - gb
+      gb_n_estimators: 100
+    svar:
+      protocols:
+      - controlled
+      layer_start: 5
+      layer_end: 19
+      hidden_dim: 248
+      learning_rate: 0.001
+      batch_size: 32
+      epochs: 50
+    dhcp:
+      spatial_size:
+      - 12
+      - 12
+      hidden_dim: 128
+      learning_rate: 0.001
+      batch_size: 1024
+      epochs: 30
+    projectaway:
+      detection_only: true
+    halloc:
+      clip_model: /home/apulis-dev/userdata/models/clip-vit-base-patch32
+      visualbert_model: /home/apulis-dev/userdata/models/visualbert-vqa-coco-pre
+      freeze_clip: true
+      learning_rate: 1.0e-06
+      weight_decay: 0.01
+      betas:
+      - 0.9
+      - 0.999
+      batch_size: 16
+      epochs: 25
+      scheduler: cosine
+  ads:
+    top_patch_pct: 0.1
+    connectivity: 8
+    min_blob_area: 3
+    top_k_layers: 10
+  cgc:
+    top_k_pct: 0.05
+    mid_layer_pct:
+    - 0.25
+    - 0.75
+    use_attn_weighting: false
+  dgst_t:
+    enabled: true
+    feature_output_profile: four_gate_vv
+    target_gate_mode: four_gate
+    four_gate_methods:
+    - hpre_raw_logit_gauss
+    - hpre_softmax_prob_gauss
+    tau: 0.07
+    source_modes:
+    - hmid_cos
+    - hpre_cos
+    source_tau_values: null
+    compute_prompt_cafe: false
+    prompt_cafe_temperature: 10.0
+    prompt_cafe_layer: 22
+    support_modes:
+    - vv
+    compute_ffn_injection_features: false
+    ffn_injection_eps: 1.0e-12
+    transport_top_k: 64
+    transport_top_k_values: null
+    compute_capped_topmass_085: false
+    capped_topmass_alphas: null
+    capped_topmass_085_alpha: 0.85
+    capped_topmass_085_min_k: 16
+    capped_topmass_085_max_k: 64
+    cost_mode: sqrt_matched_state
+    cost_modes:
+    - sqrt_matched_state
+    - cosine_matched_state
+    spatial_cost_semantic_weight: 1.0
+    spatial_cost_distance_weight: 1.0
+    atarget_visual_top_k: 32
+    relative_vll_mad_epsilon: 1.0e-06
+dataset:
+  coco_root: /home/apulis-dev/userdata/DGST/token-grounding-detector/data/coco
+  annotation_file: /home/apulis-dev/userdata/DGST/token-grounding-detector/data/coco/annotations/instances_val2014.json
+  captions_file: /home/apulis-dev/userdata/DGST/token-grounding-detector/data/coco/annotations/captions_val2014.json
+  num_images: 4000
+  train_images: 3200
+  test_images: 800
+  seed: 42
+  shared_split_path: outputs/shared/COCO4000_seed42_image_splits_82.json
+training:
+  trainer: torch_mlp
+  positive_class: real
+  split_protocol: strict_82_no_validation
+  threshold_selection: train_f1
+  source_tau_transport_topk_sweep:
+    enabled: false
+    feature_methods:
+    - hpre_raw_logit_gauss
+    - hpre_softmax_prob_gauss
+    risk_modes:
+    - fixed_topk
+    - capped_topmass_alpha_sweep
+  baseline:
+    trainers:
+    - native_paper
+    - shared_torch_mlp
+    methods:
+    - svar
+    - projectaway
+    - metatoken
+    positive_class: real
+    seeds:
+    - 43
+    - 44
+    - 45
+    write_summary: true
+  torch_probe:
+    hidden_sizes:
+    - 128
+    - 64
+    - 32
+    structure: Linear-BatchNorm-ReLU-Dropout
+    activation: relu
+    batch_norm: true
+    dropout: 0.3
+    drop_last: true
+    initialization: kaiming_uniform_relu
+    output_dim: 1
+    optimizer: adam
+    learning_rate: 0.001
+    weight_decay: 1.0e-05
+    batch_size: 256
+    max_epochs: 100
+    loss: bce_with_logits
+    feature_normalization: none
+    scheduler_monitor: train_loss
+    lr_factor: 0.5
+    lr_patience: 5
+    early_stopping_monitor: train_loss
+    early_stopping_patience: 10
+    checkpoint_selection: minimum_train_loss
+    fixed_threshold: 0.5
+    threshold_reporting:
+    - fixed_0.5
+    - train_f1
+    seeds:
+    - 43
+    - 44
+    - 45
+  feature_sets:
+    method: []
+    ads_cgc:
+    - ads+cgc
+classifiers:
+  xgb:
+    max_depth:
+    - 4
+    - 6
+    - 8
+    learning_rate:
+    - 0.1
+    - 0.05
+    n_estimators:
+    - 100
+    - 200
+    - 500
+  rf:
+    max_depth:
+    - null
+    - 10
+    - 20
+    n_estimators:
+    - 200
+    - 400
+    - 600
+  mlp:
+    hidden_layer_sizes:
+    - - 64
+    - - 128
+    - - 256
+    learning_rate_init:
+    - 0.01
+    - 0.001
+    solver:
+    - adam
+    - sgd
+    max_iter: 500
+jffn_p_comparison:
+  enabled: false
+  output_subdir: results/jffn_p_comparison
+  source_modes:
+  - hmid_cos
+  - hpre_cos
+  - jffn
+  - jffn_entropy_matched
+  gate_methods:
+  - hpre_raw_logit_gauss
+  - hpre_softmax_prob_gauss
+  cost_modes:
+  - sqrt_matched_state
+  - cosine_matched_state
+  support_modes:
+  - vv
+  transport_top_k: 64
+  source_top_k: 32
+  target_top_k: 32
+  target_region_top_k: 32
+  shard_images: 50
+  jvp:
+    max_increment_gib: 1.5
+    qwen_fallback_chunks:
+    - 256
+    - 128
+    - 64
+  qwen_shared_forward_gate:
+    enabled: true
+    peak_memory_gib: 22.0
+    relative_error: 0.001
+  entropy_matching:
+    calibration_images: 500
+    selection_seed: 20260818
+    target_source: hpre_cos
+    beta_min: 0.02
+    beta_max: 50.0
+    bisection_steps: 60
+  training:
+    seeds:
+    - 43
+    - 44
+    - 45
+    hidden_sizes:
+    - 128
+    - 64
+    - 32
+    batch_size: 256
+    max_epochs: 100
+    feature_normalization: none
+    checkpoint_selection: minimum_train_loss
+    threshold_selection: train_f1
+    bootstrap_replicates: 10000
+    bootstrap_seed: 20260819
+  spatial_validation:
+    real_targets_only: true
+    bbox_union_same_category: true
+    llava_grid:
+    - 24
+    - 24
+    internvl_grid:
+    - 16
+    - 16

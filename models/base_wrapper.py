@@ -81,6 +81,11 @@ class ModelOutput:
 
     baseline_capture: Optional[dict[str, Any]] = None
 
+    # Optional true-patch attention for query-based models; native decoder
+    # attention/hidden states remain on their original visual support.
+    spatial_attention: Optional[torch.Tensor] = None
+    spatial_grid: Optional[Tuple[int, int]] = None
+
 
 @dataclass(frozen=True)
 class PromptTargetRequest:

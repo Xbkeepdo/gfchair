@@ -1,0 +1,25 @@
+{
+  "model": "qwen2_5_vl_7b",
+  "images": 4000,
+  "unique_targets": 8654,
+  "mentions": 8717,
+  "train_mentions": 6985,
+  "test_mentions": 1732,
+  "metrics": [
+    "raw_attention",
+    "attention_x_gate"
+  ],
+  "regions": [
+    "BOS",
+    "visual",
+    "prompt",
+    "generated_text"
+  ],
+  "layers": 28,
+  "explicit_bos": false,
+  "empty_images": 321,
+  "source_manifest_signature": "498885c336c2188efd24ce683806dbab4deed5f5f44a82ca3d62313d5c81d7d7",
+  "max_partition_error": 1.1102230246251565e-16,
+  "definition": "sum within disjoint regions, no renormalization or division by region length; actual initial BOS only; prompt includes remaining template/special tokens; generated_text excludes target/future",
+  "weighting": "all original mentions equally weighted; empty region contributes zero; train/test separate; IQR is not confidence interval"
+}

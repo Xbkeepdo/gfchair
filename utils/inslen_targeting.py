@@ -33,6 +33,8 @@ _SUFFIXES = ("", "s", "es")
 _COMPLEMENT_WORDS = ("person", "people")
 
 _MODEL_BRANCHES = {
+    "minigpt4_7b": "llava_default_surface",
+    "shikra_7b": "llava_default_surface",
     "llava_1_5_7b": "llava_default_surface",
     "internvl_2_5_8b": "internvl_find_word",
     "qwen2_5_vl_7b": "qwenvl3_find_word",
@@ -63,6 +65,9 @@ def inslen_resolver_compatibility_note(model_key: str) -> str | None:
     """Describe the model-specific compatibility choice, if one is needed."""
 
     branch = inslen_model_branch(model_key)
+    if model_key in {"minigpt4_7b", "shikra_7b"}:
+        return ("Vicuna/Llama tokenizer adaptation: apply the released default "
+                "surface first-subtoken/first-occurrence rule; not an upstream model wrapper.")
     if branch == "internvl_find_word":
         return INSLEN_INTERNVL_BOS_COMPATIBILITY_NOTE
     if branch == "qwenvl3_find_word":

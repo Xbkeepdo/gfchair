@@ -1,0 +1,29 @@
+{
+  "baseline_sha256": "a014b69ebc3221a961ff0b8006043ae6354828f4a0c4a49506ef697766e17def",
+  "definition": "concat(AE, log1p(raw S), JS(softmax(cos(e_m,G(Z)-G(Z0))/0.2),T)), all layers, full visual support, natural log",
+  "images": 4000,
+  "implementation_sha256": "cf15b957369303d4893c8fc4de2d7992c6351765078462f0b8c5cc05bc3968cb",
+  "input_dim": 96,
+  "matrix_sha256": "08959410068281fcf0fc4e8543c5f0b1530da044535d03f90173d57b8f823b8e",
+  "mlp": {
+    "dropout": 0.3,
+    "hidden_sizes": [
+      128,
+      64,
+      32
+    ],
+    "learning_rate": 0.001,
+    "weight_decay": 1e-05
+  },
+  "model": "minigpt4_7b",
+  "seeds": [
+    43,
+    44,
+    45
+  ],
+  "source_protocol_sha256": "aa5a6d887d7e7b4b577865e641f42f12960f602eab340b05ea1536b6e70e905d",
+  "test_images": 800,
+  "test_mentions": 2229,
+  "train_images": 3200,
+  "train_mentions": 8728
+}

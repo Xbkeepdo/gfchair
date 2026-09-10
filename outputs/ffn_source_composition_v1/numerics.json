@@ -1,0 +1,111 @@
+{
+  "k": 50,
+  "models": {
+    "qwen2_5_vl_7b": {
+      "16": {
+        "closure_max": 0.03819863870739937,
+        "closure_p90": 0.005529432278126482,
+        "strength_relative_p90": 9.256248745259658e-08,
+        "quadrature_max": 0.0019553080201148987,
+        "source_output_max": 0.038196906447410583,
+        "target_layers": 392
+      },
+      "32": {
+        "closure_max": 0.03819652646780014,
+        "closure_p90": 0.005502944067120555,
+        "strength_relative_p90": 6.8892643412255e-08,
+        "quadrature_max": 5.986917699374317e-07,
+        "source_output_max": 0.03819675371050835,
+        "target_layers": 392
+      },
+      "50": {
+        "closure_max": 0.03819691762328148,
+        "closure_p90": 0.005502897780388596,
+        "strength_relative_p90": 0.0,
+        "quadrature_max": 4.0126730027623125e-07,
+        "source_output_max": 0.038196880370378494,
+        "target_layers": 392
+      }
+    },
+    "llava_1_5_7b": {
+      "16": {
+        "closure_max": 0.00026526913279667497,
+        "closure_p90": 0.00016855370195116847,
+        "strength_relative_p90": 7.554785099728179e-08,
+        "quadrature_max": 3.4025329114228953e-06,
+        "source_output_max": 0.0002652773691806942,
+        "target_layers": 800
+      },
+      "32": {
+        "closure_max": 0.0002652727998793125,
+        "closure_p90": 0.00016855047724675387,
+        "strength_relative_p90": 6.894242403632233e-08,
+        "quadrature_max": 2.155422151872699e-07,
+        "source_output_max": 0.00026527754380367696,
+        "target_layers": 800
+      },
+      "50": {
+        "closure_max": 0.0002651899994816631,
+        "closure_p90": 0.00016854943241924049,
+        "strength_relative_p90": 0.0,
+        "quadrature_max": 2.1017231688347238e-07,
+        "source_output_max": 0.00026523074484430254,
+        "target_layers": 800
+      }
+    },
+    "qwen3_vl_8b": {
+      "16": {
+        "closure_max": 0.7015604376792908,
+        "closure_p90": 0.002453926880843941,
+        "strength_relative_p90": 8.825562858305606e-08,
+        "quadrature_max": 0.7018589377403259,
+        "source_output_max": 0.03562471270561218,
+        "target_layers": 1008
+      },
+      "32": {
+        "closure_max": 0.03627894073724747,
+        "closure_p90": 0.002453933050855998,
+        "strength_relative_p90": 8.180022277315409e-08,
+        "quadrature_max": 0.0001237940596183762,
+        "source_output_max": 0.03622491657733917,
+        "target_layers": 1008
+      },
+      "50": {
+        "closure_max": 0.0362243726849556,
+        "closure_p90": 0.002453931397758428,
+        "strength_relative_p90": 0.0,
+        "quadrature_max": 9.453229949940578e-07,
+        "source_output_max": 0.03622463345527649,
+        "target_layers": 1008
+      }
+    },
+    "internvl_2_5_8b": {
+      "16": {
+        "closure_max": 0.0015837779501453042,
+        "closure_p90": 0.0012028513941913844,
+        "strength_relative_p90": 7.916887412307007e-08,
+        "quadrature_max": 1.894497643206705e-07,
+        "source_output_max": 0.001583773992024362,
+        "target_layers": 704
+      },
+      "32": {
+        "closure_max": 0.0015837819082662463,
+        "closure_p90": 0.0012028541881591082,
+        "strength_relative_p90": 6.823881619766325e-08,
+        "quadrature_max": 1.8469523865860538e-07,
+        "source_output_max": 0.0015837806276977062,
+        "target_layers": 704
+      },
+      "50": {
+        "closure_max": 0.0015837883111089468,
+        "closure_p90": 0.0012028475059196353,
+        "strength_relative_p90": 0.0,
+        "quadrature_max": 1.8730302997482795e-07,
+        "source_output_max": 0.0015837810933589935,
+        "target_layers": 704
+      }
+    }
+  },
+  "all_sample_closure_pass": false,
+  "selection": "K16/32/50; cap50 requested by user; no repair of source rounding or old e_m"
+}

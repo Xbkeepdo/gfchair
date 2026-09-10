@@ -1,5 +1,313 @@
 # Current Task
 
+## 2026-09-10：GitHub最新代码、实验结果与绘图数据发布
+
+- 用户明确授权上传当前最新实验代码和结果到origin/main，并要求图实验仅上传绘图数据。当前远端Xbkeepdo/gfchair，fetch后本地与origin/main均为cecfb37，无需合并或强推。
+- 本次纳入模型wrapper、前缀attention/gate、分区绘图、raw-attention/JS检测、四模型FFN来源分解及近期消融的代码、测试、中文说明；选择上次提交后新增结果表、CSV、JSON协议与审计记录。保留历史限制与不同cohort/统计口径，不重新训练。
+- 发布候选包括115份CSV、8份热图NPZ及相邻元数据，结果数据约66MiB；全暂存代码/结果约68MiB。热图NPZ从已保存example_label数据导出，包含命名map数组，不含COCO照片或高维来源向量。未新增PNG/PDF/SVG、pt/pth/pkl/safetensors或训练缓存。旧对话交接文档不纳入本次发布。
+- 45项相关unittest通过（wrapper、InsLen、前缀gate/region、FFN来源分解、JS与近期消融），2.331秒，不含导入。全部暂存JSON解析通过，凭据特征扫描无命中。diff检查允许CSV标准CRLF；仅保留vendor EVA原上游尾空白，不重写冻结数据或上游文件。
+- 发布索引docs/PUBLICATION_20260910.md、逐文件SHA/大小清单docs/publication_20260910_manifest.csv。按用户授权执行普通commit与push，不使用force；具体提交链接在对话最终回复中提供。
+
+
+## 2026-09-10：完整前缀BOS/视觉/prompt/生成文本分区曲线（完成）
+
+- 用户要求按四区域画图。BOS仅实际起点BOS；visual使用保存位置类型；prompt为其余prompt_text（含模板/边界special）；generated_text仅目标前已生成token。四组互斥且完整覆盖前缀。无独立BOS模型面板标缺失，不将起点模板token冒充BOS。
+- 新增scripts/plot_prefix_attention_regions.py与2项定向测试（PASS）。读取六模型4000完整前缀分片，分别按raw_attention/attention_x_gate逐层区域求和，不再归一化、不除以token数；按原全部mentions等权统计，train/test独立，空生成区域贡献0。
+- 输出outputs/prefix_attention_gate/full/region_plots：每模型train/test PNG/PDF及mean/median/IQR CSV、区域值npz/metadata，另生成六模型四列总览。实线均值、阴影IQR非CI，各面板独立纵轴。保留现有其他研究成果，不重提模型、不训练检测器。
+- 两路CPU绘图退出0，六模型各4000图、共78,473 mentions全部完成。分区加和最大误差2.22e-16，全部原图像集合/manifest归属和mention唯一性检查通过；各CSV=32×层数，合计6144条统计。
+- 每模型train/test各一张2×4图（上raw、下attention×gate）及PDF；六模型总览按train/test×raw/gated共4张PNG/PDF。测试raw与gated总览和所有单模型图由region_plots/README.md索引。BOS独立存在于MiniGPT/Shikra/LLaVA；两个Qwen和InternVL面板标“No explicit BOS”。
+- 已实际查看MiniGPT测试图和总览，刻度按面板独立显示。保存regions.npz、metadata.json、curves.csv用于后续比较；没有重跑VLM或检测器。2项单元测试及git diff --check通过，无提交上传。
+
+
+## 2026-09-10：原始S_g与log1p(S_g)五组检测（完成）
+
+- 用户确认log(1+S_g)及原始强度都比较，两套各5组：prompt/generation/visual单独、三组concat、visual_prompt_sum。S_g=sum_group ||c_j||，不除gross_all或token数；视觉+prompt先相加再log1p。visual为完整S_C，未混用旧S_E。
+- 新增scripts/train_ffn_source_strengths.py，复用collect及base.train，原四模型4000/3200-800/全部50,812 mentions、MLP/seeds43-45，120个新头完成。两路32984/21519均退出0，--summarize退出0；输出source_strength_detection，每模型matrices/protocol/30头及概率。
+- raw concat AUROC/AP（%）Qwen2/LLaVA/Qwen3/InternVL：85.536/42.039、90.052/70.899、90.202/66.351、87.040/57.071。log1p concat：85.617/42.018、89.974/70.339、90.141/65.740、86.787/55.029。四模型两套concat平均AUROC均高于其余四组；log对单独prompt/visual双指标四模型都改善，对concat无统一改善。
+- V+P相加raw→log AUROC：Qwen2 83.165→83.525，LLaVA88.917→89.353，Qwen3 86.031→86.312，InternVL84.462→84.303。相加未跨模型一致优于单独visual。raw concat相对AE+S，Qwen3/InternVL双指标均高于F_E/FC，LLaVA接近FE且略低FC，Qwen2低于两者；相对份额concat前三者（LLaVA/Qwen3/InternVL）双指标提高、Qwen2下降。不作显著/因果声明。
+- 全4000图raw/log1p四列曲线PNG/PDF已生成并查看，2048条curves.csv；52组均值/std（含12已有基线）、312条seed双阈值、44条差值CSV完成。图按mention等权，先变换后统计，IQR非CI；原数值/长度/位置限制保留。中文FFN文档追加完整四张指标表、公式、解释、命令及图链接。
+- 合成边界/拼接/先加再log/零值log1p检查、原全量来源记账、图片划分与特征范围检查通过，40组各3seed共120头完整，py_compile/diff检查通过。无SHA、VLM/积分重提、调参、bootstrap、提交或上传。
+
+
+## 2026-09-10：三类来源份额拼接检测（完成）
+
+- 用户要求将prompt/generation/visual三组份额拼接。复用scripts/train_ffn_source_shares.py新增prompt_generation_visual=concat(prompt全层, generation全层, visual全层)，84/96/108/96维；直接使用旧矩阵，不加AE/log/强度，不重提模型或来源。
+- 原3200/800、全部mentions、MLP和seeds43-45保持，仅新增12头，原36个单组头复用。两路28576/58235均退出0，日志concat_gpu0.log/concat_gpu1.log；--summarize完成，输出同source_share_detection，现共48头，24组含旧F_E/F_C基线；主表三seed均值±总体std，原双阈值。
+- 拼接AUROC/HALL-AUPR均值（%）：Qwen2 85.773/42.661，LLaVA89.607/68.778，Qwen3 89.404/64.711，InternVL86.474/51.972。相对各自最佳单组ΔAUROC为+1.927/+1.062/+3.214/+2.041点，全部seed的AUROC增量均正；ΔAP为+4.624/-.007/+8.214/+2.509点。
+- Qwen3拼接的AUROC/AP均超过F_E和F_C；InternVL AUROC超过两者，AP低于F_E但高于F_C；Qwen2/LLaVA仍低于两基线。只作点估计解释，不声称显著或因果；本轮未检验与AE+S融合。维度L→3L、长度/位置混杂和原数值限制注明。
+- 矩阵各block逐元素等于原单组、维度3L及12个新头数量检查通过；py_compile/diff检查通过。summary、concat_comparison.csv、中文FFN文档已更新，无SHA/模型重提/调参/bootstrap/提交上传。
+
+
+## 2026-09-10：三类来源份额独立检测（完成）
+
+- 用户要求将来源份额三组信号训练检测。新增scripts/train_ffn_source_shares.py，复用plot_ffn_text_sources.collect与run_ffn_source_composition.train；prompt/generation/visual各自全层原始份额单独训练，不加AE/log/其他信号。每模型4000图/原3200-800/全部mentions、原MLP/seeds43-45，36新头完成。
+- 两路27314/36945均退出0；cuda:0顺序Qwen2/LLaVA、cuda:1顺序Qwen3/InternVL。输出outputs/ffn_source_composition_v1/source_share_detection，每模型matrices/protocol/heads/detection；summary.md、detection.csv、seed_metrics.csv已汇总，20组（12新组+8旧基线）、原双阈值。主表均值±总体std，不用ensemble；F_E/F_C仅引用旧结果。
+- 三组prompt/generation/visual平均AUROC（%）：Qwen2 81.395/80.054/83.846，LLaVA88.273/88.054/88.544，Qwen3 85.310/85.906/86.190，InternVL84.434/83.912/84.106。HALL-AUPR依次35.102/29.805/38.037、66.457/65.186/68.785、54.436/54.447/56.497、49.463/45.992/48.846。
+- 前三模型视觉份额两项最好，InternVL prompt最好；所有单组平均AUROC/AP均低于各自F_E及F_C。不支持单独替代AE+S，本轮未检验拼接增益，不宣称显著性/因果；长度/位置混杂和原K50数值限制保留。
+- 原合成边界/全量范数记账、图片划分、份额范围检查通过，36个result.pt完成，汇总命令退出0，py_compile和diff检查通过。中文FFN实验文档已追加完整方法/结果/命令；无SHA、新模型提取、调参、bootstrap、提交上传。
+
+
+## 2026-09-10：补充4000图合并贡献曲线（完成）
+
+- 用户追问每token强度与来源份额区别，并要求4000图汇总。scripts/plot_ffn_text_sources.py仅增加all范围，保留train/test；逐mention重新统计均值/中位数/IQR，summary主图改为all。每token=S_group/N_group，份额=S_group/gross_all（含residual/bias/FFN(0)范数），均先逐mention作比再分REAL/HALL汇总。
+- 每模型4000图全部mentions等权（非图片等权），合计50,812。all_per_token/all_fraction/all_gross PNG/PDF已保存并查看前两图；输出同text_source_curves目录，9组PNG/PDF、6912行curves.csv，counts.json含all。合并后prompt全部层REAL更高；generation gross HALL更高层数28/28、31/32、34/36、32/32，但per-token全部层REAL更高。合并REAL/HALL前缀长度33.00/58.67、31.97/70.74、101.39/154.09、70.13/116.65。
+- 中文实验文档补充公式/直观例子/合并图链接。运行原plot_ffn_text_sources.py命令退出0；原合成边界/全量因果零/范数总量检查通过，all样本数=train+test及均值加权核对通过，py_compile和diff检查通过。未重跑模型/积分/检测头，无SHA或新依赖。
+
+
+## 2026-09-10：六模型完整因果前缀raw attention及attention×gate（全量已启动）
+
+- 用户确认提取六模型原COCO4000/已有描述/原目标词，支持从实际输入位置0（有BOS则包含BOS）到预测x_t的最后位置x_<t，含提示/视觉/已生成文本，排除目标和未来。部分模板无独立BOS，不插入额外token。
+- gate沿用hpre_raw_logit_gauss公式：hpre直接投影W_U目标列，无final norm/bias；sigmoid((logit-median)/(1.4826*MAD+epsilon))。已异步询问MAD统计范围；当前明确采用完整因果前缀逐目标逐层统计full，visual参考模式代码独立支持，输出分目录，未混用。
+- 新增scripts/extract_prefix_attention_gate.py和2项单元检查（PASS）；复用既有输入拼接、因果捕获、raw target logits、gate，capture到CPU以降低显存。每图最多一次最长目标前缀前向，逐目标裁剪；强制未来attention为0、完整prefix质量≈1、0≤A×gate≤A。
+- 每个image分片保存原mention表、唯一目标FP32 raw_attention/attention_x_gate [L,prefix_length]、median/MAD、token IDs/pieces/位置类型/visual range/实际BOS标记；不做视觉内再归一化，不保存逐头，不重生成或训练检测器。
+- 六模型48图smoke及独立文件审计全部PASS，唯一目标数MiniGPT/Shikra/Qwen2/LLaVA/Qwen3/InternVL为26/34/20/28/31/27。BOS实际存在于MiniGPT/Shikra/LLaVA起点，两个Qwen和InternVL无独立起点BOS；均从真实位置0开始。
+- 完整raw概率的原生FP16/BF16舍入容差改为0.5*finfo(dtype).eps+1e-5，保存原生dtype/tolerance；不重新归一化raw。增加BF16的1/3舍入用例，3项测试PASS。初版smoke保留smoke8_initial_fixed_tolerance；最终48图重新提取、audit_prefix_attention_gate.py --smoke退出0。最大质量误差均≤.000643。
+- 正式screen192156.gfchair-prefix-gpu0和192159.gfchair-prefix-gpu1已启动，GPU0顺序MiniGPT/Qwen2/LLaVA、GPU1顺序Shikra/Qwen3/InternVL，每模型4000图。screen192163.gfchair-prefix-audit每60秒更新full/progress.json，六模型全完成后独立核对文件并写full/audit.json。当前全量未完成，不训练检测器。
+- 输出outputs/prefix_attention_gate/full/<model>，日志outputs/prefix_attention_gate/<model>_full.log，说明docs/PREFIX_ATTENTION_GATE.md。全量仍按full gate统计前缀；不插入BOS、不修改原描述/标签/权重。新脚本与diff空白检查通过，无提交上传。
+
+
+## 2026-09-10：全分解prompt / generation贡献曲线（完成）
+
+- 用户要求看instruction与generation曲线。新增scripts/plot_ffn_text_sources.py，离线读取四模型K50的other_token_mag；按g=prediction_position-response_index+1划分非视觉prompt和已生成前缀。prompt包括system/模板/特殊token，非纯instruction；generation含当前query但不含待预测目标/未来。没有非视觉raw attention新提取或检测训练。
+- 原4000图/3200-800/全部50,812 mentions；train/test分开，三种尺度gross、逐mention每token均值、gross_all份额（含residual/bias/FFN(0)），视觉作参照。实线均值、虚线中位数、IQR阴影，保存6组PNG/PDF和4608行curves.csv及counts.json；全量无空generation。
+- 四模型train/test全部层prompt REAL均值更高；generation gross HALL更高层数分别28/28、31/32、34/36、32/32，而per-token全部层REAL更高。测试REAL/HALL平均生成前缀长度33.16/58.46、32.37/71.46、105.59/149.01、72.64/118.21。提示长度/位置混杂，不能据总量宣称更依赖文本或因果，除以长度也不等于完成匹配。
+- 输出outputs/ffn_source_composition_v1/text_source_curves/summary.md及图表；中文实验说明已追加方法/曲线结果/解释边界。三张测试尺度图已查看。脚本内合成边界自检、全量未来零贡献、分组加residual/bias/FFN(0)范数重建gross_all均PASS，正式运行退出0，py_compile和diff空白检查通过。初次读取主动中断以补全FFN(0)记账后重跑，无测试失败。
+- 命令：OMP_NUM_THREADS=1 MKL_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 /opt/conda/private/envs/vicr/bin/python -u scripts/plot_ffn_text_sources.py。没有SHA、新依赖、重提模型、积分、训练、提交或上传；其他已有成果保留。
+
+
+## 2026-09-10：Cosine-Q分布与raw attention分布的JS（完成）
+
+- 用户明确选择最近的cosine，温度.2。定义J_raw=JS(softmax(cos(e_m,G(Z)-G(Z0))/.2), raw_visual_attention/sum_visual(raw_visual_attention))，自然对数、逐层全视觉支持。归一化消去R，只比较分布形状，不把raw attention质量直接当概率分布。
+- 新增scripts/train_cosine_raw_attention_js.py和2项定向测试（PASS）。复用cosine_temperatures、原MLP/run_head及绘图函数；R曲线函数新增可选ylabel。六模型各J_raw/F+J_raw两组×3seed，共36头；F沿用AE+log1p(S_E)，核对同源目标/AE/S及矩阵后复用。四模型raw attention来自composition k50，Q/||e||来自父v2，保留原数值限制；MiniGPT/Shikra使用同一path分片。
+- 输出outputs/cosine_raw_attention_js02，每模型train/test HALL/REAL曲线PNG/PDF/CSV及检测结果，全模型合并测试曲线。零视觉质量报错，不替换uniform。严格沿用4000图/3200-800/全部mentions，均值±总体std，不使用ensemble作主表。
+- 远端两队列186580/186582均退出0：GPU0 MiniGPT/Qwen2/LLaVA，GPU1 Shikra/Qwen3/InternVL。36个新head全部完成，run_head train/test checkpoint重载复核通过。原F输入和目标对齐通过，无VLM或路径重提、调参或bootstrap。
+- mean AUROC（F→F+J_raw，%）：MiniGPT90.907→90.472，Shikra86.265→85.815，Qwen287.449→87.572，LLaVA90.015→89.946，Qwen388.655→88.853，InternVL85.825→86.032。三升三降，无跨模型一致提升；MiniGPT/Qwen2的seed波动增大。均值HALL-AUPR增量依次-.070/-.988/+1.561/-.742/+.176/+.312个百分点。
+- 测试集HALL均值JS>REAL的层数依次19/32、3/32、22/28、25/32、24/36、29/32；Shikra早期明显反向，多模型曲线重叠大，不能统一解释成JS越大越幻觉。已实际查看六模型test_curves.png，阴影为IQR非CI；各模型train/test曲线和CSV完整保存。
+- summary.md含六模型18组、均值±总体std，无ensemble主表；两模型原总表同步纳入此信号。独立验证36个head产物计数、三seed均值/std、各CSV=4×层数；git diff --check通过。未提交上传。
+
+
+## 2026-09-10：其他四模型R曲线及R+log1p(S)（完成）
+
+- 用户要求将上一轮扩展至Qwen2.5/LLaVA1.5/Qwen3/InternVL2.5。沿用R=sum_visual(head-mean raw attention)、log1p原路径S_E，非S_C。读取已完成composition k50的raw_attention_mean与原父v2保留AE/S，逐mention对齐已有matrices，F矩阵必须完全一致；不重新提取VLM或积分。
+- 扩展scripts/train_raw_attention_strength.py，复用绘图与训练函数；每模型跑R/logS/R_logS三组×3seed，共36新头，原F复用。原4000图/3200-800/全部mentions及旧MLP超参数保持，曲线train/test分开，输出PNG/PDF/CSV，均值±总体std且不使用ensemble。
+- 2项定向测试及diff空白检查PASS。远端GPU0顺序Qwen2/LLaVA、GPU1顺序Qwen3/InternVL的两队列均退出0。四模型各9头、共36新头及run_head checkpoint重载复算完成。每模型F矩阵与原composition缓存逐元素一致；结果根outputs/raw_attention_strength，汇总包含原两模型。原S数值限制保留。
+- 平均AUROC（R/logS/R+logS/F，%）：Qwen2 82.544/84.513/84.847/87.449；LLaVA88.012/88.985/89.332/90.015；Qwen3 85.591/87.208/87.369/88.655；InternVL83.220/84.970/85.323/85.825。四模型R+logS对logS有小幅点提升，但均低于F，HALL-AUPR相对F也均降低；不宣称显著性。
+- 曲线：Qwen2/Qwen3/InternVL在train/test分别28/36/32全部层REAL均值>HALL，LLaVA为25/32层，另7层方向相反。各模型PNG/PDF/CSV已保存；four_models_test_curves.png/pdf为四模型测试集均值+IQR对照图（非CI）。曲线图已实际查看。
+- 验证16组×3seed AUROC mean/std与逐seed指标一致、CSV行数=4×层数、每模型9份result.pt。summary.md包含六模型24组结果，全部使用均值±总体std、不用ensemble。无重跑VLM/积分、调参、提交上传。
+
+
+## 2026-09-10：MiniGPT/Shikra 原始视觉注意力质量R曲线及R+log1p(S)（完成）
+
+- 用户要求原始注意力之和的幻觉/非幻觉曲线及与log(S)拼接。明确R_l=sum_visual(raw_attention_mean[l])，即跨头均值后求视觉总质量，不做视觉内归一化，不使用AE/gate或MiniGPT空间映射。S沿用原路径S，使用log1p。
+- 新增scripts/train_raw_attention_strength.py和2项定向测试（PASS）；复用原固定MLP和checkpoint复算。固定两模型COCO4000/3200-800/全部mentions/seeds43-45，跑R、logS、R_logS三组各3头，共18新头；原AE_logS核对F输入SHA后复用。
+- 曲线按train/test、HALL/REAL分开，实线均值、虚线中位数、阴影IQR（非置信区间）；输出每模型PNG/PDF/CSV。目标单位与训练一致，为全部mentions。
+- 两路远端GPU0/1（180997/180998）完成，18个新头及run_head checkpoint train/test复算全部通过。输出outputs/raw_attention_strength，每模型curves.png/pdf/csv、protocol、matrices、9个head、results；summary.md和全模型总表已更新。
+- 曲线：两模型train/test全部32层均REAL均值>HALL。MiniGPT测试最大差在第16层，REAL=.323171，HALL=.192326；Shikra第11层最大差.053379，分布重叠更多。IQR不作为置信区间，不据此声称显著性或因果。
+- mean AUROC/HALL-AUPR（%）：MiniGPT R=88.429/57.349，logS=89.471/59.269，R+logS=89.663/60.166，原AE+logS=90.907/65.486；Shikra R=83.369/54.785，logS=85.840/59.924，R+logS=86.768/61.829，原AE+logS=86.265/60.481。R+logS相对logS两模型均提高；相对F仅Shikra提高（AUROC+.503/HALL-AUPR+1.349个百分点）。全部报告3seed均值±总体std。
+- 独立核对8组结果各3seed统计一致、每模型曲线CSV128条（2split×2label×32层）、全主表196条双阈值行；diff空白检查通过。无重提VLM、调参、bootstrap、提交或上传。
+
+
+## 2026-09-10：MiniGPT/Shikra F+endpoint cosine-JS(τ=.2)（完成）
+
+- 用户给出公式JS(softmax(cos(e_m,G(Z)-G(Z0))/.2),T)，要求与F拼接。固定F=[AE,log1p(raw S)]，复用保存Q/ffn_path_gross恢复cosine和已有cosine_temperatures函数，区别于上一轮raw-Q JS。两模型同源4000图、3200/800、全部mentions、原MLP/seeds43-45，每模型96维。
+- 复用scripts/train_ae_s_qjs02.py新增--cosine开关，输出独立outputs/ae_s_cosinejs02。3项公式/温度/缩放不变/非法输入测试PASS；不重跑VLM、不改旧raw-Q结果，主表只报逐seed均值±总体std。
+- 远端GPU0/1两路（179553/179554）均退出0，6个新头全部完成，run_head逐头重载校验train/test概率。F输入矩阵SHA与原结果匹配，复用原基线，无VLM/路径重算或调参。
+- 三seed均值±总体std（%）：MiniGPT F+J AUROC90.188±.326、HALL-AUPR65.194±.454、HALL-F1 59.123±3.203；Shikra85.644±.526、59.919±.057、53.014±1.612。原F对应AUROC90.907/86.265，本次分别下降.718/.621个百分点；未见该拼接改善，不做显著性声明。F1采用各seed train-REAL-F1阈值。
+- 输出outputs/ae_s_cosinejs02/summary.md、每模型protocol/matrices/checkpoints/results及日志；总表已加入cosine-JS融合，共184条双阈值记录，均不使用ensemble做主表。独立核对AUROC/AP三seed均值和std一致，git diff --check通过。
+
+
+## 2026-09-10：MiniGPT/Shikra 统一逐seed均值汇总（完成）
+
+- 用户要求主表只按每seed独立计算指标，汇总均值±标准差，不使用ensemble。采用与已有baseline一致的总体标准差ddof=0；seeds43/44/45，F1按各seed训练REAL-F1阈值。原始预测/权重/历史ensemble源JSON不修改。
+- 更新总表生成器、Q-JS融合表生成器和主方法训练入口的Markdown汇总逻辑；总表纳入F+JS(Q,tau=.2)，共180条双阈值记录。独立以statistics.mean/pstdev核对所有保存的三seed数值与统计量，全部一致；diff空白检查通过。仅重新汇总，无训练。
+- 均值AUROC/HALL-AUPR（%）：MiniGPT F=90.907±.148/65.486±1.035，F+J=89.771±.131/63.803±.595；Shikra F=86.265±.308/60.481±.794，F+J=86.144±.424/61.364±.821。两个模型平均AUROC均未提高，Shikra AUPR有改善；此前ensemble数值不再作为主方法结论。
+- 更新outputs/minigpt4_shikra_path_summary/summary.md、两模型path/training/summary.md、outputs/ae_s_qjs02/summary.md。结果汇总代码改动使代码文件SHA改变，但没有重新提取或重写训练protocol/checkpoint。
+
+
+## 2026-09-10：QE/QC softmax温度0.2与各自AE+S融合（完成）
+
+- 用户明确确认先算每层JS(softmax(Q/.2),T)，再拼接各自AE+log1p(S)。QE为原v2 K4 path_signed_q=<e_m,unit(G(z)-G(z-A))>；QC为K50 <c_m,unit(FFN(n)-FFN(0))>，用整体FFN端点差方向，不是视觉净向量，不取abs或除分量范数。
+- 新增features/ffn_source_composition.py中的composition_q与scripts/run_ffn_qe_qc_tau02.py。QC用积分线性算子的VJP计算，避免重建全部高维c_m；QE和两版强度直接复用。base.train新增可选root参数以复用原训练器，不影响旧调用。4项测试通过；四模型真实QC与保存c_m直接内积对照max相对误差6.34e-7。
+- 四模型原4000图/3200-800/全部50,812 mentions、原MLP、seeds43/44/45。两个新组合共24头全部完成；原F/F_C复用。会话59294/49916均退出0。日志位于outputs/ffn_source_composition_v1/q_softmax_tau02/gpu0.log和gpu1.log，无训练或提取失败，无SHA、全量checkpoint独立审计、bootstrap、新图像或重新调温度。
+- F_E_Q02 ensemble AUROC/HALL-AUPR（Qwen2/LLaVA/Qwen3/InternVL）=.878935/.460205、.908762/.727266、.886864/.641285、.854689/.529962；F_C_Q02=.878145/.481724、.909998/.727510、.899415/.667260、.871400/.566631。
+- QC融合相对各自F_C在LLaVA/Qwen3/InternVL双指标提高，InternVL增量+.016197/+ .040419；Qwen2 AUROC下降但AP提高。QE融合仅LLaVA双指标提高。QC融合的AUROC seed增量LLaVA/InternVL三正，Qwen3两正一负；跨family的S与Q同时变化，不把差异归因于Q单独效果。
+- Pmax>.99比例QE/QC依次10.553%/.918%、.307%/.013%、19.980%/2.646%、4.434%/.202%；QC参考方向退化均0。更尖锐只是描述性观察，未证明是检测差异原因；原K4/K50数值限制保留。
+- --stage summarize已生成独立总表summary.md、detection.csv、paired.csv、seed_metrics.csv；各模型另存原始QC、J_E/J_C、Pmax、settings、curves PNG/PDF/CSV、matrices和新heads。中文说明文档已追加公式、结果及解释边界，索引更新，仅本地，未提交上传。
+- 复现命令：OMP_NUM_THREADS=1 MKL_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 /opt/conda/private/envs/vicr/bin/python -u scripts/run_ffn_qe_qc_tau02.py --stage pipeline --models <两模型> --device cuda:<0/1>；全部完成后--stage summarize。逐图/头按存在跳过，不检查SHA。
+
+## 2026-09-10：MiniGPT-4 / Shikra 的 AE+log1p(S)+Q-JS(τ=.2)（完成）
+
+- 用户明确需要JS散度，固定输入为[AE, log1p(raw S), JS(softmax(raw signed path_signed_q/.2), 同源attention_evidence T)]。逐层全视觉支持、自然对数；不是直接拼接概率向量，也不是endpoint cosine。沿用上一轮两模型COCO4000/3200-800及全部mentions，输入各96维。
+- 新增scripts/train_ae_s_qjs02.py及tests/test_ae_s_qjs02.py；复用已有JS函数与固定MLP/train_head。重建F矩阵并与原训练protocol的F SHA比对后复用原F结果，只新增每模型3seed共6头。不重跑VLM、不改旧结果。输出outputs/ae_s_qjs02。
+- 2项公式/维度/非法输入测试PASS。远端GPU0/1两路均退出0，6个新头全部完成并经run_head重载验证train/test概率。原4000来源SHA和F输入矩阵SHA匹配，维持原MLP/三seed43-45。未重提VLM、调参或bootstrap。
+- Ensemble AUROC/HALL-AUPR：MiniGPT F=.913066/.666827，F+J=.906627/.656525；Shikra F=.868335/.615770，F+J=.868689/.627703。MiniGPT下降，Shikra AUROC基本持平、HALL-AUPR提高；不声称显著或跨模型稳定增益。
+- 输出outputs/ae_s_qjs02/summary.md及每模型results.json、protocol、96维矩阵、6个checkpoint和双阈值指标。命令scripts/train_ae_s_qjs02.py --model <model> --device cuda:<0/1>，--summarize已执行。保留其他未提交成果，无提交上传。
+
+
+## 2026-09-10：追加 AE+视觉S_C 对照（完成）
+
+- 用户要求AE+S(c_m)视觉向量。新增F_C=AE+log1p(sum_visual ||c_m||)，不含I/κ/非视觉贡献；直接对照F=AE+log1p(S_E)。四模型原4000/3200-800/全部mentions、原MLP和seeds43/44/45保持，仅新增12头，原108头复用，无VLM/路径/干预重算、SHA或bootstrap。
+- 从缓存AE_I_SC取首AE与末log1p(S_C)块构成F_C，维度Qwen2/LLaVA/Qwen3/InternVL为56/64/72/64，与F同维。build_groups及对应测试新增F_C；3项测试通过，两路训练退出0。命令为原入口--stage train --models <两模型> --device cuda:<0/1>，日志fc_gpu0.log/fc_gpu1.log；--stage summarize已完成。
+- F_C ensemble AUROC/HALL-AUPR分别.881510/.471622、.904821/.720085、.894223/.649203、.855203/.526212。相对F的AUROC差为-.000628/-.000138/-.002287/-.008609，AP差为+.013882/+.000808/-.000139/-.019942。前三模型逐seed AUROC方向混合，InternVL三seed均下降；不宣称显著或统一替换S_E。
+- 总表/逐seed/配对CSV已更新为10组120头；另存outputs/ffn_source_composition_v1/fc_comparison.csv。说明文档追加本组公式、结果及解释，progress和索引更新；仅本地，无提交上传。
+
+## 2026-09-10：四模型 FFN 完整来源分解验证（完成）
+
+- 用户要求简单实验实现，不做SHA/独立产物审计，不处理旧Qwen2两个K4案例，不做新图像确认。四模型原4000图、原3200/800及全部50,812 mentions；新增完整来源c_m、raw attention跨头均值/原始视觉质量，F采用近期AE+log1p(S_E)。
+- 实现features/ffn_source_composition.py、scripts/run_ffn_source_composition.py及定向测试；旧attention重建仅增return_all_sources可选参数。实际Norm模块读取各层weight/variance_epsilon（Qwen1e-6，LLaVA/InternVL1e-5）；Norm在真实endpoint固定系数，再对完整SwiGLU做共同零点路径积分，visual/nonvisual/residual/bias分开。c_m不是原生attention概率。
+- 最初8图直接JVP K4/K16选择K16；用户随后要求最高K50，暂停当时两个K16队列，保留Qwen2 209图/Qwen3 146图及另两模型各1图技术输出，均未混入正式结果。补做同8图K16/32/50，正式统一K50。复用NumPy leggauss，节点批量化、完整乘积法则系数积分及来源投影分块复用；四模型与direct-JVP对照通过，无新依赖、无旧e_m重算。
+- 全量K50四模型均4000图、各9组×3seeds=27头、100图fixed-QK四层/8区域/WRITE-conditional-composition-random四策略完成。合计108头、400图干预。两路pipeline会话56909/18404均退出0；日志gpu0_k50.log/gpu1_k50.log。无训练或提取失败；此前SIGINT仅是用户修改K上限时的主动停止。
+- 数值按唯一目标×层：Qwen2/LLaVA/Qwen3/InternVL总闭合max分别.0951321/.00054465/.1161944/.0033839；>1%分别7847/242312、0/478432、21295/529344、0/372160。纯积分最大相对误差均≤1.78e-6，Qwen尾部主要为原生来源重建误差，不把这些值解释成新机制，也不称为所有来源精确闭合。四模型无零视觉总强度。
+- 原AE在视觉内先归一化attention再乘gate，故不含原始视觉质量R。文档明确A_vis=A_raw/R、u=A_vis*gate、AE=sum u、T=u/AE。新增raw_attention_mean和raw_attention_mass保留R；不把原始raw与u的尺度差误读成gate放大。
+- 检测ensemble AUROC：B=AE+log1p(I)+log1p(S_E)分别.881034/.906132/.896747/.870476；B+log1p(S_C)为.881013/.904614/.900019/.869596；F为.882138/.904960/.896510/.863812。新图JS相对旧图JS仅Qwen2/LLaVA更好；新图OT相对旧图OT仅LLaVA的AUROC更好，AP另有取舍。没有跨模型统一替代e_m的证据；逐seed差异与双阈值指标全量保存，不做bootstrap或显著性声明。
+- fixed-QK：composition相对random的平均绝对log-probability效应四模型均更大，但相对WRITE/conditional差很小且不统一，配对差中位数均0。C与conditional同区比例97.25/97.50/98.75/99.75%，大量平局；不据此声称新图普遍定位更好或逐token图完全相同。
+- 每模型额外保存一个目标首/中/末层K50高维sources/n_j/c_j及z/n/output示例（example_vectors_k50.pt，约50/96/81/77MiB），与正式c_m范数对照max相对差1.78e-7。11项定向/相关测试最终通过；新脚本编译及diff空白检查通过。未做全量checkpoint重载/哈希审计。
+- 结果根outputs/ffn_source_composition_v1：summary.md、detection.csv、seed_metrics.csv、paired_detection.csv、numerical_summary.csv、fixed_qk_summary.csv、region_agreement.csv，以及各模型shard/raw attention、curves PNG/PDF/CSV、固定案例、matrices/heads/progress。中文说明docs/FFN_SOURCE_COMPOSITION_EXPERIMENT.md已写入方法、模型Norm适配、全部信号定义、九组公式、实际结果与解释边界；索引已更新，仅本地，未提交上传。
+- 复现入口：OMP_NUM_THREADS=1 MKL_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 /opt/conda/private/envs/vicr/bin/python -u scripts/run_ffn_source_composition.py。阶段audit/audit50/select-k50/verify-fast/pipeline/examples/summarize；pipeline新版本也会保存少量示例，已完成逐图和头按存在直接跳过。测试命令：OMP_NUM_THREADS=1 /opt/conda/private/envs/vicr/bin/python -m unittest tests.test_ffn_source_composition tests.test_visual_ffn_jacobian -q。
+
+## 2026-09-09：温度0.2 endpoint JS与F融合（四模型完成）
+
+- 用户要求把温度.2信号和F组合。F存在历史歧义，已异步询问并按近期默认定义F=[AE,log1p(raw S)]明确执行；非早期AE+S+kappa。J严格为上一轮4000图v1差分方向cosine-JS tau.2。F采用相同v1来源的AE/S，并在原3200/800图片及mentions上与F+J同配置重训，避免引用v2 F造成来源差异。J单独直接复用已验收结果。
+- 新增scripts/train_endpoint_tau02_fusion.py，2组×3seed×4模型共24个新头完成；原三隐藏层MLP、BN/dropout.3/Adam/batch256/100epochs上限/train-loss checkpoint与双阈值，无调参/加权/重采样/bootstrap。独立根outputs/endpoint_tau02_fusion4000/log_s，各模型protocol保存源SHA、F公式、矩阵SHA、缓存、checkpoint和指标。raw_s_kappa参数仅支持选择，未运行该定义。
+- ensemble AUROC/HALL-AUPR F→F+J：Qwen2 .881838/.456977→.891957/.491286；LLaVA .904771/.719928→.909660/.724726；Qwen3 .896244/.646346→.908493/.684088；InternVL .861741/.546800→.867376/.546737。AUROC增量+.010119/+.004889/+.012248/+.005634；AP前三模型增量+.034309/+.004798/+.037743，InternVL-.000063基本持平。仅探索性点估计，不宣称显著或因果机制。
+- 自检验证F公式、拼接block和非法形状；py_compile及git diff --check通过。旧tau1 cohort/feature SHA再次核对，F/JS标签及mention顺序精确匹配。独立审计校验source/implementation/cache SHA，禁止训练后重载24个checkpoint、48次train/test预测、双阈值和ensemble复算通过，概率差0，旧head字节及mtime不变；independent_audit.json说明审计用校验后的缓存，没有再次重算JS。
+- --f-definition log_s --summarize生成总表summary.md/json及ensemble_metrics.csv，主报告§5.36/索引更新。未运行新VLM，其他线程成果保持，未提交上传。
+
+## 2026-09-09：原始Q-softmax温度0.07（四模型完成）
+
+- 36个新head全部完成，0个训练failure。2026-09-09 15:30:51 UTC启动，最后head于Qwen2 15:34:07、Qwen3 15:34:48、LLaVA 15:38:35、InternVL 15:38:32保存，双卡约7分44秒（含全量来源读取、温度1重算parity、温度.07计算和训练，不含实现及末尾独立审计）。两个screen均正常结束，没有重启C/VLM。
+- J单独的tau.07 ensemble AUROC/HALL-AUPR（Qwen2/LLaVA/Qwen3/InternVL）=78.372/27.751、82.452/52.502、77.955/43.413、75.469/40.785%；仅Qwen2略高于tau1。F+J和F+K+J的两项指标四模型均低于tau1，主报告§5.35保存全部6行对照，不根据这些测试点估计宣称最优温度或显著性。
+- Pmax中位数约49.038%/.918%/88.495%/20.066%，>.99比例26.180%/3.825%/39.676%/17.994%；合法softmax下溢零在Qwen2/Qwen3分别3339/1927个，稳定xlogy处理、没有裁剪或跳过。四模型温度1重算与旧缓存逐元素一致，证实温度是本轮特征变动。
+- 每模型独立核对4000源shard/实现/缓存SHA；禁止训练后重载9个checkpoint，对train/test18个矩阵重新预测并复算各seed/ensemble/双阈值指标，四模型概率差均0。36头/72矩阵head级resume无重训、旧文件字节和mtime不变；各模型independent_audit.json明确本次使用缓存JS、未再次重算JS。独立审计耗时约4.14/8.93/5.97/4.50秒（Qwen2/LLaVA/Qwen3/InternVL，不含导入）。
+- `scripts/train_q_temperature007.py --summarize`生成总Markdown/JSON。另从已校验缓存矩阵用matplotlib生成`curves_tau1_vs_007.png/pdf`，统一y轴[0,ln2]，实线tau.07/虚线tau1，红HALL/蓝REAL，阴影只表示tau.07的IQR；与单模型曲线同样为全部train+test mentions中位数，不用于训练或宣称置信区间。主报告§5.35及结果索引更新；未提交上传，所有旧成果保留。
+
+- 用户确认温度加在Q的softmax中，正式定义为`JS(softmax(Q_m/0.07),T)`，不是JS值除以0.07，也不是cosine或实际O_FFN方向实验。T、全视觉support、自然对数JS不变。此前澄清期间未启动训练；确认后才续行。
+- 按Ponytail新增薄入口`scripts/train_q_temperature007.py`与两个定向测试；复用冻结温度1脚本的JS、source读取、MLP及checkpoint复算，原脚本/结果不修改。只重训受影响J_QT、F+J_QT、F+K+J_QT三组×三seed×四模型共36头，不受温度影响的F/F+K/cosine控制引用旧结果。原4000图、3200/800划分、FP32 K4源、全部mentions/层、固定MLP协议保持，不重启VLM/C，不做bootstrap/搜索。
+- 独立根`outputs/ffn_q_softmax_js_20260909/temperature007/`，每模型保存protocol、matrices/checksum、9个head、指标与REAL/HALL median/IQR曲线。重新从全部源shard计算温度1与0.07，温度1必须与旧缓存逐元素一致，输入顺序/标签、旧source/hash全部检查；合法softmax下溢零另存，不取绝对值或裁剪Q。
+- `OMP_NUM_THREADS=1 MKL_NUM_THREADS=1 /opt/conda/private/envs/vicr/bin/python -m unittest tests.test_q_temperature007 tests.test_q_softmax_js -q`：5/5 PASS，0.004秒（不含导入），覆盖温度公式、分布尖锐度、tau1 parity、非法温度、零Q与极值下溢。两卡各顺序运行两模型：命令`scripts/train_q_temperature007.py --models qwen2_5_vl_7b llava_1_5_7b --device cuda:0`及`--models qwen3_vl_8b internvl_2_5_8b --device cuda:1`，均使用上述vicr Python和OMP/MKL单线程；screen名`gfchair-q-tau007-gpu0/1`，日志`outputs/q_temperature007_gpu0_20260909.log`和`outputs/q_temperature007_gpu1_20260909.log`。
+- 用户已有Minigpt4/Shikra、endpoint温度及其他未提交成果全部保留，本轮不提交/上传；旧数值FAIL与探索性边界不改变。
+
+## 2026-09-09：原4000图endpoint cosine–JS加温度（四模型完成）
+
+- 用户要求“之前4000图的也加温度”。按前文两个温度.2/.02对原v1差分方向d=G(Z)-G(Z0)的cos(e_m,d)做对照，明确与只有500图的实际O_FFN方向分开。保持原3200/800图片、全部mentions、原MLP及seeds43/44/45，24个新头完成；无VLM前向。新增scripts/train_endpoint_temperatures4000.py，独立outputs/endpoint_temperatures4000。
+- ensemble AUROC/HALL-AUPR：Qwen2 tau1=.788201/.302792，tau.2=.810006/.344574，tau.02=.740368/.277320；LLaVA=.869978/.634024、.868031/.609412、.843821/.583605；Qwen3=.852969/.569851、.829339/.505761、.754733/.367079；InternVL=.844669/.508138、.793044/.441540、.712103/.346176。仅Qwen2在.2双指标改善；.02四模型双指标均低于tau1。
+- tau.2的Pmax中位数约2.115%/1.109%/3.897%/2.945%，无Pmax>.99；tau.02中位数43.775%/31.038%/59.346%/52.471%，Pmax>.99占比1.483%/.770%/7.966%/5.315%。图为全部train+test mentions的逐层均值，各温度另存PNG/PDF，CSV兼有median。
+- 四模型重建tau1的cohort/feature SHA与原§5.26逐字节一致；温度手算/零分量/尖锐度自检及py_compile通过。独立审计核对全部源shard、实现、缓存矩阵SHA；禁止训练后实际重载24个checkpoint，48次train/test预测及双阈值/ensemble指标复算通过，概率误差0，head字节及mtime不变。此次独立审计基于校验后的JS缓存，没有冒充又完整重算一次JS。independent_audit.json分别保存。
+- 总表summary.md/json、各模型protocol/matrices/checkpoint/全部指标及曲线已生成；主报告§5.34、索引更新，仅本地，未提交上传。两个温度均为用户指定旧测试集探索性对照，不当作独立验证集选出的最优温度。
+
+## 2026-09-09：O_FFN cosine–JS固定温度0.02（四模型500图完成）
+
+- 用户指定0.02，承接实际O_FFN与e_m的cosine，全support softmax(cos/0.02)，共享500图400/100及原MLP/seeds43/44/45。新增scripts/train_ffn_output_temperature002.py，独立cohort500/temperature002目录；复用原cosine与T，仅重算JS和训练12个新头。
+- ensemble AUROC/HALL-AUPR（Qwen2/LLaVA/Qwen3/InternVL）=.641827/.110387、.859292/.618083、.709558/.273366、.658159/.296042。相对温度0.2，四模型AUROC均下降；LLaVA HALL-AUPR从.561439升到.618083。不能把所有指标变化概括为一致下降，也不依据这些反复查看的测试集结果认定最佳温度。
+- Pmax中位数依次39.531%/31.143%/47.590%/54.071%；Pmax>.99占比3.411%/1.532%/3.653%/5.061%，温度0.2对应均为0。更尖锐没有带来统一检测收益。
+- --self-check初次因复制时误改合成T的.2为.02，T和不为1被验证拒绝；只修正测试数据后温度手算/集中度/非法参数测试通过，真实数据尚未启动时已修正。py_compile与git diff --check通过。独立进程重算JS/来源和矩阵SHA，禁止训练后重载12个checkpoint/24个train-test矩阵预测、阈值与ensemble指标核验全PASS，概率差0，已有文件字节/mtime不变。各模型independent_audit.json保存证据。
+- 根outputs/ffn_output_cosine_20260909/cohort500/temperature002，--summarize生成温度1/.2/.02三版本总表JSON/Markdown及均值图PNG/PDF。保留旧v2数值限制、小样本及逐次测试集探索边界；未提交上传。
+
+## 2026-09-09：O_FFN cosine–JS固定温度0.2（四模型500图完成）
+
+- 用户要求softmax加温度0.2。严格承接O_FFN方向，P=softmax(cos(e_m,实际O_FFN)/0.2)，使用既有共享500图400/100划分、全部cosine/mentions及原MLP三seed；只训练J_output_tau02，不重新提取VLM或改变endpoint对照。新增scripts/train_ffn_output_temperature.py，独立结果根outputs/ffn_output_cosine_20260909/cohort500/temperature02。
+- 温度1→0.2的ensemble AUROC/HALL-AUPR：Qwen2 .687157/.169635→.671360/.098017；LLaVA .831804/.519960→.862854/.561439；Qwen3 .751619/.328453→.759699/.360303；InternVL .766580/.353587→.772293/.351161。LLaVA双指标提高较多、Qwen3小幅提高、InternVL AP略降、Qwen2明显退化；固定用户指定温度的一次探索性对照，不称最优温度或统计显著。
+- 最大单token概率的target-layer中位数，温度1→0.2分别.3863%→1.1216%、.2266%→.5873%、.5065%→1.5097%、.5477%→1.7379%；四模型Pmax>.99比例均0。记录Pmax中位数/P90/P99/max、原始JS范围、来源SHA及模型输入哈希。
+- --self-check验证温度公式、集中度变化与非法零温度；py_compile、git diff --check通过。重新计算tau1矩阵并与旧矩阵SHA逐元素口径核对一致。独立审计重算tau0.2/source/matrix，禁止训练后重载12个checkpoint、24次train/test预测、双阈值和ensemble复算全部通过，所有既有文件字节/mtime不变，最大概率差0。每模型independent_audit.json保存证据。
+- 执行入口--models qwen2_5_vl_7b llava_1_5_7b --device cuda:0，另一卡Qwen3/InternVL；--summarize生成总表JSON/Markdown、均值曲线PNG/PDF及各模型curve CSV。主报告§5.32及索引已更新，原v2数值限制和小样本边界保留，无bootstrap/独立cohort/温度搜索/上传。
+
+## 2026-09-09：实际O_FFN与e_m的cosine–JS（四模型共享500图，完成）
+
+- 四模型各500张图片全部补算完成，包含全部目标和层；两组×3seed×4模型共24个checkpoint完成。独立进程重新读取原始parent/派生产物并核验SHA、重算JS矩阵和哈希，禁止训练函数后重载全部24个checkpoint、重做48次完整train/test预测和双阈值指标，全部通过；head文件字节及mtime不变。每模型independent_audit.json保存证据。全量WRITE误差0，旧Q一致性最大相对误差3.201e-6，N最大误差1.442e-7，无cosine裁剪、无零O方向；旧v2 K4数值FAIL不因本次一致性核验而变为PASS。
+- ensemble AUROC/HALL-AUPR：Qwen2 O方向=.687157/.169635、d方向=.715316/.152395；LLaVA=.831804/.519960 vs .830160/.506527；Qwen3=.751619/.328453 vs .740163/.337701；InternVL=.766580/.353587 vs .757017/.370663。未见一致优于差分方向。四模型测试HALL/REAL mentions分别14/208、75/292、57/317、33/244；这是400/100图的小样本探索性试验，不能与此前3200/800数字混比。
+- --stage summarize --count 500生成cohort500/summary.md、summary.json及mean_curves.png/pdf，图使用全部500图mentions的均值；各模型curves.csv保存均值/中位数、完整checkpoint/summary保存两阈值与逐seed指标。结果与主报告§5.31/索引更新仅本地，未提交上传。
+
+- 用户确认四模型共享500图，按原train/test中SHA256(20260909:offn:image_id)排名固定400/100，不依据标签或结果。方向为实际捕获的pre-residual o_ffn；e_m取同源v2 local-FP32 K4，复用已有范数。VJP计算四节点积分的<e_m,O_FFN/||O_FFN||>，再除||e_m||、温度1 softmax、自然对数JS(P,T)。同cohort重训J_output/J_endpoint两组原MLP三seed对照。
+- 新增scripts/run_ffn_output_cosine.py及tests/test_ffn_output_cosine.py，保留其他线程MiniGPT4/Shikra改动。2项合成测试通过；四模型image283全部目标/层smoke通过，首中末层显式JVP对照VJP相对误差≤3.99e-7；WRITE误差0，旧Q复算误差≤6.40e-7，gross误差≤3.35e-7。原v2数值FAIL边界保留。
+- 2026-09-09 22:13:15 UTC开始screen102295.gfchair-offn500-gpu0/102298.gfchair-offn500-gpu1，GPU0顺序Qwen2/LLaVA，GPU1顺序Qwen3/InternVL。入口--stage pipeline --count 500，日志outputs/ffn_output_cosine500_gpu0.log及gpu1.log。独立根outputs/ffn_output_cosine_20260909/cohort500，逐图atomic shard/sidecar及原始parent SHA可恢复；已开始真实产出，Qwen每张约0.8–1秒，未将启动记为完成。
+
+## 2026-09-09：MiniGPT-4 / Shikra COCO4000 雅可比路径积分（已启动全量，尚未完成）
+
+- 用户确认最新local-FP32 K4向量雅可比路径积分及近期全部非C消融；baseline为SVAR、ProjectAway、MetaToken、ADS+CGC。跨头均值注意力按目标/层FP32保存，不存逐头矩阵或PNG；MiniGPT另存Q-Former映射空间均值图。
+- 新增两模型wrapper及InsLen Vicuna tokenizer适配，复用LLaVA因果捕获；固定官方EVA/Q-Former代码和共享本地权重，Shikra遵循官方白色补方。新入口scripts/run_minigpt4_shikra_path.py，独立outputs/<model>/COCO4000-JACOBIAN-PATH。36个命名组合、矩阵去重；本次Shikra技术smoke实际完成102头及每头train/test checkpoint概率复算，非正式性能结果。
+- 两模型8图生成/标注/四baseline特征均通过。MiniGPT27 mentions/26唯一目标，共832 target-layer；Shikra45 mentions/43唯一目标，共1376 target-layer。K4/K64全部门槛PASS：闭合误差max分别3.96864e-5、1.92722e-5；S/N_vec p90相对差约1e-7。原始和映射均值注意力保存成功，映射质量守恒验证通过。
+- 真实模型未来token扰动对目标预测logits影响均0。跨CPU/GPU FP32头均值最大差7.45e-9；不同长度原生FP16前向存在舍入漂移（MiniGPT logits max .0234375、Shikra .078125），未掩盖。固定同一视觉嵌入后FP32 CPU全响应/严格前缀复核PASS：MiniGPT误差0，Shikra logits max3.43323e-5、attention max1.96695e-6。详见各smoke8/wrapper_parity.json。
+- Shikra8图完成四baseline技术训练；MiniGPT8图幻觉仅在一图，不能构成双类别图像划分，额外固定seed43取8图，仅在独立training_smoke16做label-aware技术训练，四baseline原生/共享头通过。其指标不得作正式性能；正式4000/3200/800完全沿用主共享split且已集合核验。
+- 2026-09-09 UTC约14:21启动远端screen11221.gfchair-minigpt4-coco4000（cuda:0），14:22启动11359.gfchair-shikra-coco4000（cuda:1）。screen gfchair-path-summary持续每60秒更新outputs/minigpt4_shikra_path_summary/progress.json，两个主任务完成后自动生成results.json/summary.md；失败则保留status/run.log并停止汇总。日志为各正式根run.log。当前处于4000图描述生成，未声称实验完成。
+- 命令前缀OMP_NUM_THREADS=1 MKL_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 NLTK_DATA=/home/apulis-dev/userdata/nltk_data CUBLAS_WORKSPACE_CONFIG=:4096:8 /opt/conda/private/envs/vicr/bin/python -u scripts/run_minigpt4_shikra_path.py --model <model> --device cuda:<gpu>。步骤自动串联生成、baseline/reference提取、K4/均值注意力、完整cohort数值审计、主方法三seed训练和baseline训练；脚本错误会写FAILED。训练前释放父进程CUDA缓存。
+- 测试：tests.test_visual_prefix_wrappers 4项PASS；矩阵/配置、InsLen、路径积分、旧batch wrapper共29项，初次4项仅因NLTK_DATA未设置失败；设共享路径后12项InsLen全部PASS；随后17项baseline/新wrapper/矩阵配置测试PASS。py_compile与git diff --check通过。
+- 开发期失败均保留日志：EVA meta item、多余官方第40块/classifier键、Qformer非cross层KV tuple、InsLen注册、技术smoke缺类别/16图配置仍为8/单样本BatchNorm尾batch、基础python无yaml。已修正；技术小batch按drop_last处理，不改变正式配置。K4 smoke的原runner源码已按原SHA保存runner_snapshot.py，后续仅增强阶段调度/全量审计。
+- 运行细节见docs/MINIGPT4_SHIKRA_PATH_RUNBOOK.md。原其他未提交成果及并行出现的scripts/run_ffn_output_cosine.py均保留，不属本轮修改；未提交/上传、未写入任何凭据。
+
+
+## 2026-09-09：d在e_m上的有符号标量投影softmax–JS（四模型完成）
+
+- 用户要求“试试d在em上的投影再softmax”。本次明确使用有符号投影长度a_m=<d,e_m>/||e_m||=N_end*Q_m/||e_m||，保留负号；不是向量投影的坐标系数<d,e_m>/||e_m||²，也不取绝对值。e_m=0时a_m=0。P=softmax(a)，温度1、全视觉support，逐层自然对数JS(P,T)。同一层内保持cosine排序，以||d||控制尖锐度。
+- 新增scripts/train_endpoint_projection_js.py，沿用内积实验的冻结流程与同源v1特征。原3200/800图片、全部mentions、三seed43/44/45、旧MLP协议及双阈值；12头完成。所有源shard SHA与内积版完全相同，逐seed配置完全一致。FP64投影/softmax/JS、FP32检测输入，保留v1原生提取数值限制。
+- ensemble AUROC/HALL-AUPR（Qwen2/LLaVA/Qwen3/InternVL）：.778443/.328863、.879468/.647102、.830591/.523081、.820054/.471274。Mean HALL-F1为.199305/.567078/.483875/.283319（train-REAL-F1阈值）。相对内积AUROC=-.015444/+.018009/+.029817/+.023268；相对cosine=-.009758/+.009489/-.022378/-.024615。LLaVA受益，其余模型仍未超过cosine；不做统计显著性声明。
+- Pmax>.99的唯一target-layer占比依次.074697%/0%/.344766%/.004299%；softmax下溢零均0；net_degenerate均0；LLaVA有12032个零e_m条目，其余为0。JS全部finite且在[0,ln2]，12个checkpoint同设备batch256重载测试概率差0；source/config一致性及全部产物SHA审计通过。
+- 执行--self-check（直接标量投影、e_m正比例缩放不变、符号反转、零方向、极端softmax）、py_compile、git diff --check均通过。运行命令OMP_NUM_THREADS=1 MKL_NUM_THREADS=1 /opt/conda/private/envs/vicr/bin/python -u scripts/train_endpoint_projection_js.py，GPU0传--models qwen2_5_vl_7b llava_1_5_7b --device cuda:0，GPU1对应另两模型；--summarize生成outputs/endpoint_projection_js_summary.md/json和endpoint_projection_js_mean_curves.png/pdf。各模型保存逐层CSV、逐seed双阈值CSV、progress/checkpoint/source SHA。报告§5.30；未重跑VLM、调参、bootstrap、独立cohort或上传。
+
+## 2026-09-09：直接内积 e_m·d 的 softmax–JS（四模型完成）
+
+- 用户要求“直接用em和d做内积试试”。承接原流程，d=G(Z)-G(Z0)，logits=path_signed_q*net_strength=e_m·d；全视觉token、温度1、无sqrt维度缩放，P=softmax(logits)，每层自然对数JS(P,T)。读取与cosine消融相同的v1来源，保留其原生精度限制；FP64内积/softmax/JS，MLP输入FP32。全量net_degenerate为0，因而保存Q的退化置零未造成小非零d信息丢失。
+- 新增`scripts/train_endpoint_dot_js.py`，复用已存在的稳定softmax/xlogy JS、正式loader、旧trainer与固定batch256重载。原3200/800图片、全部mentions、seeds43/44/45、旧三隐藏层[128,64,32]/BN/dropout.3/Adam/batch256/最多100epochs/train-loss checkpoint及双阈值保持，共12头完成。
+- ensemble AUROC/HALL-AUPR（Qwen2/LLaVA/Qwen3/InternVL）：.793888/.319252、.861459/.613348、.800774/.445786、.796787/.425629。相对同源cosine AUROC为+.005687/-.008519/-.052194/-.047882。mean HALL-F1为.210676/.526543/.392079/.294206，阈值按各seed训练REAL-F1选择。
+- Pmax>.99的唯一target-layer比例为22.30%/.40%/28.90%/5.91%；内积最大值10444.045/430.181/8032.025/574.380。两Qwen出现合法softmax下溢零，用xlogy处理，JS全部finite且在[0,ln2]。更尖锐没有转化为普遍检测提升；饱和是可能原因，未通过控温实验确定因果。
+- 两路训练命令为`OMP_NUM_THREADS=1 MKL_NUM_THREADS=1 /opt/conda/private/envs/vicr/bin/python -u scripts/train_endpoint_dot_js.py --models qwen2_5_vl_7b llava_1_5_7b --device cuda:0`，另一卡对应qwen3/internvl；日志outputs/endpoint_dot_js_gpu0.log和gpu1.log。`--self-check`验证直接向量内积恒等、零方向、极端softmax；py_compile和git diff --check通过。12个checkpoint同设备重载测试概率差0，全部产物SHA复核通过。未额外独立重算训练阈值、未重跑VLM、bootstrap或调参。
+- `--summarize`生成outputs/endpoint_dot_js_summary.md/json与endpoint_dot_js_mean_curves.png/pdf，各模型保存逐层mean/median/IQR CSV、逐seed双阈值CSV、progress/配置/权重及源shard SHA。主报告§5.29，未提交上传。
+
+## 2026-09-09：Endpoint-cosine JS的T集中度/endpoint修正消融（四模型完成）
+
+- 用户同意补跑建议消融。严格定义`J_PT=JS(P,T)`、`J_T=JS(Uniform,T)`、`J_E=J_PT-J_T`，训练J_T、J_E及逐层拼接`[J_T,J_E]`；J_E为可负的有符号修正，不冒充JS散度。原J_PT直接复用§5.26，不重训。全部使用同一v1保存来源、正式3200/800 split及mentions，不与刚完成的v2 Q-softmax匹配实验混源。
+- 固定seeds43/44/45、MLP[128,64,32]/BN/dropout.3/Adam/batch256/最多100epochs/minimum-train-loss checkpoint、固定0.5/train-REAL-F1双阈值，无标准化/加权/重采样/bootstrap/调参。新增`scripts/train_endpoint_cosine_js_decomposition.py`并在既有endpoint测试文件增加手算分解测试；四模型3组×3seed共36个新头完成，无训练failure。
+- 三seed概率ensemble AUROC/HALL-AUPR（Qwen2/LLaVA/Qwen3/InternVL）：原J_PT为`.788201/.302792、.869978/.634024、.852969/.569851、.844669/.508138`；J_T为`.799042/.314234、.868464/.628482、.847661/.550958、.842929/.496904`；J_E为`.821884/.395006、.875972/.643489、.861244/.584307、.829375/.479887`；拼接为`.843075/.415977、.890410/.678372、.884616/.631814、.858577/.536355`。拼接相对原J_PT的AUROC增量为`+.054874/+.020431/+.031647/+.013908`，四模型均正。
+- Mean HALL-F1在拼接下为`.346435/.608787/.564816/.479799`，相对原J_PT的`.184791/.554503/.485376/.405045`均提高。结果支持T集中度与endpoint修正均含互补检测信息，直接求和压掉分解结构；但拼接维度翻倍，未做等维容量控制、bootstrap或独立cohort，不能宣称显著或新信息被创造。
+- FP32逐层`J_T+J_E=J_PT`全量最大误差0；36/36新checkpoint在原GPU/FP32/fixed batch256重载概率最大差0。完整resume重扫四模型输入和artifact checksum，均确认不训练、不重写。`py_compile`、22项定向/相关unittest、总表生成及`git diff --check`通过。输出为`outputs/endpoint_cosine_js_decomposition_summary.{md,json}`及各模型v1根下独立progress/probes/曲线；主报告新增§5.28，索引已更新，未提交上传。
+
+## 2026-09-09：JS(softmax(Q_m),T) 四模型4000图（完成）
+
+- 四模型6组×3seed共72头全部完成，0训练failure；最后head于Qwen2 12:03:06、Qwen3 12:05:42、LLaVA 12:09:19、InternVL 12:09:52 UTC保存，距双卡启动约9分57秒（含全量来源读取、数值计算和训练，不含实现/后续独立审计）。两路队列正常结束，没有重启VLM/C。
+- J_QT的ensemble AUROC/HALL-AUPR（Qwen2/LLaVA/Qwen3/InternVL）为77.344/26.744、86.553/62.309、80.996/47.716、84.023/49.738%；均低于本轮同源cosine-JS。F+J_QT为88.269/44.940、90.895/72.437、90.016/66.201、87.019/56.310%。相对F的AUROC小幅提高+.055/+.399/+.365/+.638个百分点，但Qwen2 HALL-AUPR下降；F+K的条件增量则混合，不宣称稳定或显著收益。
+- 四模型F/F_K完整输入矩阵SHA以及全部mention顺序/标签SHA均与旧Q/B_Q协议一致；每模型原4000 processed IDs、3200/800划分和6×3seed检查全部通过。所有softmax/JS finite且范围有效；软max最大概率>.99的target-layer比例约.5027%/.000209%/1.3662%/.03251%，无裁剪或事后调温度。
+- 独立审计实际从校验后的缓存矩阵重载72个checkpoint，144次train/test完整矩阵预测，四模型最大概率差均0；所有逐seed和ensemble/双阈值指标重新计算一致。禁止训练函数后的head级resume无重训，所有已有产物字节和mtime不变；逐一复核16000个原始shard及代码SHA。各 `<model>_audit.json` 明确说明本次审计未重新计算JS，不冒充第二次源特征重算或独立cohort。预测阶段耗时各约2.05/2.63/2.52/2.09秒，不含导入和来源校验。
+- 总结命令`OMP_NUM_THREADS=1 MKL_NUM_THREADS=1 /opt/conda/private/envs/vicr/bin/python scripts/train_q_softmax_js.py --summarize`通过；主报告新增§5.27并更新索引，完整6组×4模型结果、逐seed/双阈值、曲线CSV/PNG和数值审计均保存。未新增依赖、未提交上传，旧未提交成果全部保留。
+
+- 用户要求“把Qm softmax后和T做JS散度看看效果”。固定raw signed Q、温度1、全部视觉token、自然对数JS；不取绝对值、不截断/归一化Q、不先除以||e_m||，不做union Top-32或温度搜索。T取相同v2 compact row的normalized attention_evidence，不是AE strength。
+- 使用与前述Q/B_Q一致的v2 local-FP32 K4 Q，softmax/JS统计用FP64，MLP输入FP32。原先§5.26 cosine实验读的是v1来源，为公平比较本次同时在同一批v2行重算J_cosT=JS(softmax(Q/||e_m||),T)，不将旧精度差异当成两种定义的净差异。
+- 按Ponytail新增薄脚本`scripts/train_q_softmax_js.py`及`tests/test_q_softmax_js.py`，复用source校验、原v1 mention顺序、原image split、endpoint-cosine函数、固定MLP/checkpoint复算、median/IQR曲线及immutable/atomic文件写入。旧未提交AE+R+S、C500、endpoint cosine成果均保留，不修改任何冻结旧数值/训练脚本，不重启C/VLM。
+- 固定6组：F、F+K、J_QT、J_cosT、F+J_QT、F+K+J_QT；F=全AE+log1p(raw S)，K=κ_vec。四模型各3seed，共72个新头；原3200/800图片、全部mentions/targets/layers、三隐藏层[128,64,32]/BN/dropout.3/Adam/batch256/最多100epochs/train-loss checkpoint及旧调度，无额外标准化/加权/重采样/bootstrap/调参。
+- 输出独立根`outputs/ffn_q_softmax_js_20260909/`，保存所有4000 processed IDs（含无目标）、source SHA、mentions、矩阵、protocol、checkpoint及双阈值指标。额外记录Q范围、softmax最大概率分位数/饱和率/下溢零计数、P/T归一化误差及JS范围；合法softmax下溢零用xlogy正确处理，不掩盖NaN或异常T。
+- 12/12定向/相关测试PASS，0.302秒（不含导入）；命令`OMP_NUM_THREADS=1 MKL_NUM_THREADS=1 /opt/conda/private/envs/vicr/bin/python -m unittest tests.test_q_softmax_js tests.test_ffn_endpoint_cosine_js tests.test_ffn_target_consequence -q`。覆盖真实公式、平移不变但缩放敏感、保留符号、全support、零Q、极值下溢/JS边界、非法输入和6组拼接顺序。git diff --check通过。
+- 2026-09-09 11:59:55 UTC启动screen716626.gfchair-qsoftmaxjs-gpu0和716629.gfchair-qsoftmaxjs-gpu1。命令前缀`OMP_NUM_THREADS=1 MKL_NUM_THREADS=1 /opt/conda/private/envs/vicr/bin/python -u scripts/train_q_softmax_js.py`，GPU0为`--models qwen2_5_vl_7b llava_1_5_7b --device cuda:0`，GPU1为`--models qwen3_vl_8b internvl_2_5_8b --device cuda:1`。日志`outputs/q_softmax_js_gpu0_20260909.log`、`outputs/q_softmax_js_gpu1_20260909.log`。仅加载保存特征并训练小MLP，未把启动记为完成。
+- 旧v2数值FAIL与用户授权探索性例外保持，未做独立2000图确认，不提交/上传。
+
+## 2026-09-09：Endpoint-cosine softmax分布与T的逐层JS（四模型完成）
+
+- 用户确认此前公式笔误，净方向严格为`d=G(Z)-G(Z0)`；每个视觉token计算`cos(e_m,d)`，温度1 softmax得到P，再以自然对数`JS(P,T)`作为逐层信号。新信号不是旧R_cos/P_FFN或cosine均值。正式compact shard已有`path_signed_q=<e_m,d/||d||>`与`ffn_path_gross=||e_m||`，故在保存FP32精度下由`Q_m/||e_m||`恢复cosine，不重跑VLM、不保存完整e_m。
+- 新增`scripts/analyze_ffn_endpoint_cosine_js.py`和`tests/test_ffn_endpoint_cosine_js.py`，复用正式loader、median/IQR曲线、原MLP trainer与checkpoint复算。固定原3200/800 image split、全部mentions、seeds43/44/45、三隐藏层[128,64,32]、BN/dropout.3/Adam/batch256/最多100epochs/minimum-train-loss checkpoint、固定0.5/train-REAL-F1双阈值，无标准化/加权/重采样/bootstrap/调参。两卡各顺序跑两模型，共12头完成。
+- 三seed概率ensemble AUROC/HALL-AUPR（Qwen2/LLaVA/Qwen3/InternVL）为`.788201/.302792、.869978/.634024、.852969/.569851、.844669/.508138`；mean HALL-F1为`.184791/.554503/.485376/.405045`。相对AE的AUROC为`+.000497/-.006506/+.004529/+.010043`，总体与AE接近；相对gross S为`-.068650/-.016039/-.017420/+.000351`，没有稳定超过S。HALL逐层中位数更高为20/28、16/32、23/36、20/32，不能解释为所有层JS越大越幻觉。
+- 全量无cosine越界/裁剪，最大绝对值`.997833/.999358/.999409/.999490`；仅LLaVA有12032/275576832个单token`||e_m||=0`（约.0044%），按定义cosine=0，其余模型为0。P归一化误差≤6.66e-16，保存T和误差≤2.54e-7，JS全部finite且在`[0,ln2]`。12/12 checkpoint按原GPU/FP32/固定batch256重载概率最大差0；完整resume重扫输入并核对checksums，四模型均确认无训练/无重写。
+- 四模型合并PNG/PDF、总Markdown/JSON、各模型逐层CSV/图、逐seed双阈值表、progress/checkpoint均已保存；主报告新增§5.26，结果索引已更新。最终`py_compile`、21项定向/相关unittest与`git diff --check`通过。
+- 开发期失败如实保留：首次`py_compile`因测试补丁残留一个`+`报`IndentationError`，修正后通过；首次尝试`python -m pytest`因环境无pytest失败，未安装依赖，改用项目标准库unittest；终末审计先后因旧AE JSON字段实际为`auroc`而误读`auc`、以及错误要求所有模型零gross计数必须为0而停止，修正只读审计后确认LLaVA极少量合法零向量并全量通过。上述均发生在实验运行前测试或结果后的只读审计，不改变特征、权重或指标。
+
+## 2026-09-09：停止全量C，改做已有分片的500图检测
+
+- 最终完成：Qwen2/Qwen3各20组×3seed，共120头，无训练failure。Qwen2最后head于11:20:34 UTC、Qwen3于11:21:51 UTC完成，距11:18:51启动约1分43秒/3分钟（含准备和训练，不含实现与后续独立核验）。总Markdown/JSON通过 `--summarize` 生成，主报告新增§5.25；LLaVA/InternVL仍未补提取，所有VLM和小训练screen均已结束。
+- 新独立进程分别重建500图特征、核对C/source/lineage/mention，禁止训练函数后完整resume20组，实际重载60个checkpoint并对train/test共120个矩阵重做预测。两模型最大概率差均0，全部已有产物字节/SHA与mtime不变；验收保存各 `<model>_audit.json`（Qwen2核验30.012秒，不含导入；Qwen3耗时见其审计记录）。没有把训练时记录冒充本次独立复算。
+- F基线AUROC/HALL-AUPR：Qwen2 76.012/24.367%，Qwen3 83.791/42.516%。F+C_logit为81.936/32.091%、80.548/47.671%；F+C_margin为78.829/38.169%、80.935/45.586%；F+C_logprob为78.396/31.866%、83.240/44.629%。Qwen2提高、Qwen3 AUROC下降，不能声称跨模型一致增益；F+Q为80.672/38.373%、84.676/48.815%。全部20组同样400/100重训，不能与旧3200/800混比。
+- Qwen2测试只有16 HALL/173 REAL mentions，Qwen3为58/294。另C的K4最大绝对闭合误差(logit/margin/logprob)为Qwen2 .502354/.232037/.010890，Qwen3 .061438/.068403/.006336。保留尾部，不宣布C数值通过；结果同时受小样本和积分尾部限制。最终groups/seeds/JSON及git diff --check通过，未提交上传。
+
+- 用户要求“先停止吧，然后用500张图片试试检测效果”。已向两路优化pipeline协调进程674650/674652和提取进程674718/674719发送SIGINT，确认全部退出，两卡显存归零；原完成分片、partial及中断日志全部保留，不再自动接续LLaVA/InternVL或全4000图。停止时Qwen2 2113张、Qwen3 885张完成；LLaVA/InternVL无正式C提取。KeyboardInterrupt为用户要求的计划中止。
+- 先执行无需新增C提取的Qwen2.5/Qwen3。已异步询问是否还需补提另外两模型；未获新答复前不重启VLM。两模型完成图片交集885张，其中707原train、178原test。按固定seed20260909的SHA256(seed:image_id)排序，选共享400张原train+100张原test；只看完成覆盖和图片ID，不看标签、C值或检测结果换图。保留无目标图片，使用全部旧mentions、唯一目标和全部层。这是受完成进度限制的探索性子集，不是全cohort随机抽样或独立确认。
+- 按Ponytail新增薄入口 `scripts/train_cqb_subset.py` 及两个测试，复用旧feature_groups、q_features、signed_totals、MLP/trainer、checkpoint复算、数值例外、C/source checksum和执行后端lineage验证。用mmap读取原v1 mention顺序，只加载所选500张父/C分片；不改冻结旧源码，不重新计算e/C/Q/AE，不覆盖原训练结果。
+- 独立根 `outputs/ffn_target_consequence_cqb_v1/subset500_20260909/`：冻结cohort.json，各模型protocol、20组×3seed checkpoint/概率/双阈值指标及progress。F=全AE+log1p(raw S)，K=κ_vec；三种C分别做单独/F+C/F+K+C/F+C+Q+B_Q，另8组F/Q/B_Q控制，全部在相同400/100上重新训练。固定旧三隐藏层[128,64,32]、BN/dropout.3/Adam/batch256/最多100epochs/train-loss checkpoint及旧调度，不调参、不做bootstrap。
+- 首次13项测试中，新增选择器的迭代器输入被重复消费，反向迭代测试报样本不足；已在选择器入口一次性转set，真实已冻结集合输入的500张选择不变。重新执行 `OMP_NUM_THREADS=1 MKL_NUM_THREADS=1 /opt/conda/private/envs/vicr/bin/python -m unittest tests.test_cqb_subset tests.test_ffn_target_consequence tests.test_ffn_target_consequence_fast -q`：13/13 PASS，0.353秒（不含导入）。
+- 2026-09-09 11:18:51 UTC启动两路小检测器训练：screen708388.gfchair-cqb500-qwen2、708392.gfchair-cqb500-qwen3；命令前缀 `OMP_NUM_THREADS=1 MKL_NUM_THREADS=1 /opt/conda/private/envs/vicr/bin/python -u scripts/train_cqb_subset.py`，分别 `--model qwen2_5_vl_7b --device cuda:0`、`--model qwen3_vl_8b --device cuda:1`；日志 `outputs/cqb_subset500_qwen2_20260909.log`、`outputs/cqb_subset500_qwen3_20260909.log`。完整后用同脚本 `--summarize` 汇总；启动不等于完成。
+- 保留先前未提交AE+R_cos+S成果与用户handoff，不在本轮提交上传。原数值FAIL不改成PASS，另存实际C闭合误差，不因500图检测而宣称数值验收通过。
+
+## 2026-09-09：AE + R_cos + S 直接消融（四模型完成）
+
+- 用户要求补跑此前缺失的 `AE+R+S`。精确定义为 `[R_cos,AE,raw S]`，即既有U只删除末尾kappa block；没有把kappa、I/N、JS/OT距离或AE32混入。固定原COCO4000 image 8:2 split、旧mentions、seeds43/44/45、MLP `[128,64,32]`、BN、dropout.3、Adam、batch256、最多100 epochs、minimum-train-loss checkpoint、固定0.5/train-REAL-F1双阈值，无标准化/加权/重采样/bootstrap/调参。
+- 两卡仍被C提取占用，本轮四模型各CPU单线程并行训练，未停止或抢占VLM任务。新增薄入口 `scripts/train_ae_r_s.py`，复用既有正式loader、trainer与基线预测；独立输出progress、12个checkpoint、四份结果JSON和四份逐seed/阈值CSV，不修改既有冻结脚本或结果。
+- 三seed概率ensemble AUROC（Qwen2/LLaVA/Qwen3/InternVL）为 `.872458/.905350/.884528/.866246`；mean HALL-AUPR为 `.401163/.709484/.606975/.551168`，mean HALL-F1为 `.214402/.663636/.564672/.482659`。相对`AE+R_cos`的AUROC增量为 `+.038357/+.010571/+.005613/+.018870`；相对`AE+S`为 `+.005415/+.006353/+.005609/+.011943`；相对含kappa的U为 `-.008717/-.000134/-.006119/-.010596`。S与R_cos各自的条件点增量四模型均为正，但除LLaVA外删除kappa有明显点损失；均为旧800上的探索性点估计，未做显著性声明。
+- `py_compile`、内置矩阵self-check和`git diff --check`通过。12/12 checkpoint按CPU/FP32/固定batch256重载，测试概率与训练保存值最大差0；cohort/feature SHA均保存。第一次复算误用了既有`np.array_split`辅助函数，因末批边界改变使三模型最大差为一个FP32 ULP `1.1920929e-7`，高于原`1e-7`门槛并按失败保留；改用训练完全相同的固定256批边界后精确通过，未放宽容差、未改权重。
+
 ## 2026-09-09：发布此前未提交的实验代码/结果及C讨论
 
 - 发布传输补充：本地完整快照提交为 `c2e351b981e5cd570a2db3f54df275ff20627311`。普通 `git push origin main` 因缺少HTTPS凭据失败；现有SSH key亦未获GitHub授权。改用已连接的GitHub账户上传Git对象，不读取/导出认证秘密、不force更新main。

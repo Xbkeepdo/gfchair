@@ -212,3 +212,7 @@ Some official AMBER source images are as large as 54 MP. The unified YAML
 therefore applies `max_pixels: 200704` only to `amber_discriminative`, using
 the same bounded visual grid for generation and feature extraction. COCO,
 POPE, and CLEVR preprocessing is unchanged.
+
+## Latest published experiment data
+
+See [the 2026-09-10 publication index](docs/PUBLICATION_20260910.md) for the latest six-model experiments, source-composition studies, and plot data. This update publishes CSV/JSON and small heatmap NPZ data, without new rendered figures or model weights.

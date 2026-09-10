@@ -616,12 +616,12 @@ def _compute_ads_cgc_features(model_out, cfg_feature_extraction: dict) -> dict:
     ads_cfg = dict(cfg_feature_extraction.get("ads") or {})
     cgc_cfg = dict(cfg_feature_extraction.get("cgc") or {})
     ads_score, ads_per_layer = compute_ads(
-        model_out.text_to_patch_attn,
+        model_out.spatial_attention if model_out.spatial_attention is not None else model_out.text_to_patch_attn,
         top_patch_pct=float(ads_cfg.get("top_patch_pct", 0.10)),
         connectivity=int(ads_cfg.get("connectivity", 8)),
         min_blob_area=int(ads_cfg.get("min_blob_area", 3)),
         top_k_layers=int(ads_cfg.get("top_k_layers", 10)),
-        grid_shape=model_out.visual_grid,
+        grid_shape=model_out.spatial_grid if model_out.spatial_attention is not None else model_out.visual_grid,
     )
     cgc_score, cgc_per_layer = compute_cgc(
         model_out.token_hidden_states,

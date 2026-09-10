@@ -1,0 +1,29 @@
+{
+  "baseline_sha256": "de39e20294c4838b01cc539213d8970ab5bd570672b687bb97167a0d58c44584",
+  "definition": "concat(all-layer AE, log1p(raw S), all-layer JS(softmax(raw signed Q / 0.2, visual axis), saved T), natural log)",
+  "images": 4000,
+  "implementation_sha256": "a5e5e5f8a7653030d3a21454e74a0c2cca0c9d3679adfa5febc31511b43d1d21",
+  "input_dim": 96,
+  "matrix_sha256": "ef73c8039be6ce6d561ee9cbd65b89cbb7a2093276bc40363b39881e1e744110",
+  "mlp": {
+    "dropout": 0.3,
+    "hidden_sizes": [
+      128,
+      64,
+      32
+    ],
+    "learning_rate": 0.001,
+    "weight_decay": 1e-05
+  },
+  "model": "shikra_7b",
+  "seeds": [
+    43,
+    44,
+    45
+  ],
+  "source_protocol_sha256": "1da9581263103aa08ece3ea987ee44b63eeef0e4c3a6d209c567e987eaa7edee",
+  "test_images": 800,
+  "test_mentions": 3343,
+  "train_images": 3200,
+  "train_mentions": 13361
+}

@@ -1,0 +1,32 @@
+{
+  "models": {
+    "minigpt4_7b": {
+      "mentions": 10957,
+      "layers": 32
+    },
+    "shikra_7b": {
+      "mentions": 16704,
+      "layers": 32
+    },
+    "qwen2_5_vl_7b": {
+      "mentions": 8717,
+      "layers": 28
+    },
+    "llava_1_5_7b": {
+      "mentions": 15463,
+      "layers": 32
+    },
+    "qwen3_vl_8b": {
+      "mentions": 14873,
+      "layers": 36
+    },
+    "internvl_2_5_8b": {
+      "mentions": 11759,
+      "layers": 32
+    }
+  },
+  "definition": "For each mention and layer: sum_visual(attention) / sum_generated_text(attention), separately for raw and attention*gate",
+  "denominator_zero": "undefined; exclude only from that layer/label statistic and report counts; no epsilon or cap",
+  "statistic": "ratio first, then mean/median/IQR; not ratio of mean masses and not mean(log ratio)",
+  "plotting": "logarithmic y-axis; valid zero ratios remain in CSV/statistics, not drawable on log scale; IQR not CI"
+}

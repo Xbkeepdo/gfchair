@@ -1,0 +1,12 @@
+{
+  "model": "llava_1_5_7b",
+  "ids": [
+    283
+  ],
+  "k": 4,
+  "precision": "FP32 fixed-path JVP; FP64 basis and projections",
+  "basis": "FP64 normalized-column Gram eigensolve then thin QR, all singular directions above rtol",
+  "basis_rtol": 1e-05,
+  "spectrum": "FP64 Gram spectra of B and Y; direct FP64 SVD(B) smoke control",
+  "path": "original z0=z-sum a_m; replacing probes by Q does not alter the path"
+}

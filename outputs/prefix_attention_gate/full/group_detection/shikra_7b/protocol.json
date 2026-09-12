@@ -1,0 +1,91 @@
+{
+  "model": "shikra_7b",
+  "source": "/home/apulis-dev/userdata/CODEX/test-cocochair/gfchair/outputs/prefix_attention_gate/full/region_plots/shikra_7b/regions.npz",
+  "families": [
+    "attention",
+    "gated"
+  ],
+  "formula": "sum group raw_attention, or sum group (raw_attention * full-prefix gate); no renormalization/token-count division",
+  "prompt": "BOS + cached prompt: full nonvisual prompt including template and special tokens",
+  "generation": "Only generated prefix available through query; target/future excluded",
+  "gate_reference": "full causal prefix, native hpre target-logit MAD sigmoid; different reference support from original visual-only AE",
+  "scales": [
+    "raw",
+    "log1p"
+  ],
+  "groups": [
+    "prompt",
+    "generation",
+    "visual",
+    "concat",
+    "visual_prompt_sum"
+  ],
+  "concat_order": [
+    "prompt",
+    "generation",
+    "visual"
+  ],
+  "sum_formula": "visual+prompt first; log1p(sum) in log version",
+  "images": 4000,
+  "train_images": 3200,
+  "test_images": 800,
+  "mentions": 16704,
+  "train_mentions": 13361,
+  "test_mentions": 3343,
+  "dimensions": {
+    "attention_raw_prompt": 32,
+    "attention_raw_generation": 32,
+    "attention_raw_visual": 32,
+    "attention_raw_concat": 96,
+    "attention_raw_visual_prompt_sum": 32,
+    "attention_log1p_prompt": 32,
+    "attention_log1p_generation": 32,
+    "attention_log1p_visual": 32,
+    "attention_log1p_concat": 96,
+    "attention_log1p_visual_prompt_sum": 32,
+    "gated_raw_prompt": 32,
+    "gated_raw_generation": 32,
+    "gated_raw_visual": 32,
+    "gated_raw_concat": 96,
+    "gated_raw_visual_prompt_sum": 32,
+    "gated_log1p_prompt": 32,
+    "gated_log1p_generation": 32,
+    "gated_log1p_visual": 32,
+    "gated_log1p_concat": 96,
+    "gated_log1p_visual_prompt_sum": 32
+  },
+  "seeds": [
+    43,
+    44,
+    45
+  ],
+  "config": {
+    "hidden_sizes": [
+      128,
+      64,
+      32
+    ],
+    "dropout": 0.3,
+    "drop_last": false,
+    "batch_size": 256,
+    "num_epochs": 100,
+    "learning_rate": 0.001,
+    "weight_decay": 1e-05,
+    "lr_factor": 0.5,
+    "lr_patience": 5,
+    "early_stopping_patience": 10,
+    "seed": 43,
+    "positive_class": "real",
+    "split_protocol": "strict_82_no_validation",
+    "threshold_selection": "train_f1",
+    "fixed_threshold": 0.5,
+    "threshold_reporting": [
+      "fixed_0.5",
+      "train_f1"
+    ],
+    "checkpoint_selection": "minimum_train_loss"
+  },
+  "original_mention_order": true,
+  "head_mean": true,
+  "reporting": "Three-seed mean and population std; original two thresholds"
+}

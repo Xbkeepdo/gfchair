@@ -1,0 +1,49 @@
+{
+  "model": "shikra_7b",
+  "source": "/home/apulis-dev/userdata/CODEX/test-cocochair/gfchair/outputs/prefix_attention_gate/full/group_detection/shikra_7b/matrices.pt",
+  "formula": "For each mention/layer: visual region mass / generated-text region mass; raw attention and attention*gate separately",
+  "transform": "none: no log/log1p, epsilon, clipping, feature standardization, or extra features",
+  "zero_denominator": "error, no cohort changes",
+  "images": 4000,
+  "train_images": 3200,
+  "test_images": 800,
+  "train_mentions": 13361,
+  "test_mentions": 3343,
+  "input_dims": {
+    "attention_ratio": 32,
+    "gated_ratio": 32
+  },
+  "seeds": [
+    43,
+    44,
+    45
+  ],
+  "config": {
+    "hidden_sizes": [
+      128,
+      64,
+      32
+    ],
+    "dropout": 0.3,
+    "drop_last": false,
+    "batch_size": 256,
+    "num_epochs": 100,
+    "learning_rate": 0.001,
+    "weight_decay": 1e-05,
+    "lr_factor": 0.5,
+    "lr_patience": 5,
+    "early_stopping_patience": 10,
+    "seed": 43,
+    "positive_class": "real",
+    "split_protocol": "strict_82_no_validation",
+    "threshold_selection": "train_f1",
+    "fixed_threshold": 0.5,
+    "threshold_reporting": [
+      "fixed_0.5",
+      "train_f1"
+    ],
+    "checkpoint_selection": "minimum_train_loss"
+  },
+  "gate_reference": "full causal prefix MAD",
+  "reporting": "per-seed metrics then mean and population std; no ensemble headline"
+}

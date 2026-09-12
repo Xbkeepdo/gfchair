@@ -43,6 +43,15 @@ implementation and the complete numerical/scientific audit are available in:
 - `jffn_second_round_incremental_validation_report.md`
 - `docs/JFFN_EXPERIMENT_SUMMARY_FOR_DISCUSSION.md`
 
+The REAL/HALL study of per-source FFN gain, WRITE-to-response cosine, and
+vector cancellation is documented in
+[`docs/FFN_INPUT_GEOMETRY.md`](docs/FFN_INPUT_GEOMETRY.md), with separate
+4000-image cache results and a shared 500-image geometry cohort.
+The follow-up scalar-identity and full visual-write subspace study is in
+[`docs/FFN_SCALAR_IDENTITY.md`](docs/FFN_SCALAR_IDENTITY.md).
+The [September 12 publication index](docs/PUBLICATION_20260912.md) links the
+result tables and CSV plot data, including a CSV-only replot example.
+
 Large extracted features, checkpoints, predictions, and generated figures are
 runtime artifacts under `outputs/` and are intentionally excluded from Git.
 

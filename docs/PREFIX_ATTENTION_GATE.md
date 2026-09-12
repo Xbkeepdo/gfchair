@@ -1,6 +1,6 @@
 # 完整因果前缀 attention 与 attention × gate
 
-六模型原 COCO4000、原描述、原 InsLen 目标；不重生成描述、不训练检测器。
+六模型原 COCO4000、原描述、原 InsLen 目标；本页记录原始提取流程。后续360头分组检测已完成，见[分组检测说明](PREFIX_ATTENTION_GROUP_DETECTION.md)。
 
 ## 定义
 

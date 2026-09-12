@@ -1,5 +1,19 @@
 # 实验结果索引（2026-09-10）
 
+[2026-09-12发布索引及绘图数据](PUBLICATION_20260912.md)：本次图只上传数值数据，PNG/PDF链接用于本地生成产物。
+
+- 原始X＋log1p(S)八组XGB/RF搜索（2026-09-12，完成）：[说明](RAW_ATTENTION_LOG_STRENGTH_TREES.md)、[四种分类器对照](../outputs/ffn_source_composition_v1/raw_attention_log_strength_mlp/trees_summary.md)、[64组参数](../outputs/ffn_source_composition_v1/raw_attention_log_strength_mlp/trees_selected_params.csv)。864候选+192最终树模型；XGB 15/32组AUROC超原三层，RF仅1/32；Qwen3 gate VP/G拼接XGB AUROC90.996%。
+
+- FFN是否近似scalar identity（2026-09-12，完成）：[方法与结果](FFN_SCALAR_IDENTITY.md)、[逐token检验](../outputs/ffn_scalar_identity_20260912/tokens500/all_metrics.png)、[完整子空间检验](../outputs/ffn_scalar_identity_20260912/subspace500/all_subspace.png)。四模型各500图、全部目标/层，206980 target-layers；C/g/R、Q/Y/B谱及leakage均完成。最优signed c的完整子空间残差约.936–.966，子空间外比例.859–.913，Y谱P90/P10约2.15–2.81；两类均不支持cI，类别差异无统一方向。
+
+- 原始attention＋log1p(S)八组及单隐藏层MLP搜索（2026-09-12，完成）：[中文说明](RAW_ATTENTION_LOG_STRENGTH_MLP.md)、[完整结果](../outputs/ffn_source_composition_v1/raw_attention_log_strength_mlp/summary.md)、[选中参数](../outputs/ffn_source_composition_v1/raw_attention_log_strength_mlp/selected_params.csv)。四模型384候选+96单层最终头、96固定对照；32组单层AUROC均低于原三层。仅S取log，含完整VP/G拼接，XGB/RF未运行。
+
+- FFN输入WRITE几何（2026-09-12，完成）：[定义与REAL/HALL结果](FFN_INPUT_GEOMETRY.md)、[4000图曲线](../outputs/ffn_input_geometry_20260912/all_geometry.png)、[同500图三指标](../outputs/ffn_input_geometry_20260912/cohort500/all_geometry.png)、[输入/输出抵消](../outputs/ffn_input_geometry_20260912/cohort500/all_cancellation_change.png)。四模型4000图gain/cancellation、共享500图三指标完成；平均cosine为负但类别差异小，LLaVA输出抵消差异几乎已存在于输入，Qwen的HALL减少抵消幅度较小。无检测器训练/因果声明。
+
+- 对应attention与完整S_g融合（2026-09-12，完成）：[中文说明](ATTENTION_STRENGTH_FUSION.md)、[80组结果](../outputs/ffn_source_composition_v1/attention_strength_fusion/summary.md)、[对应单独基线差值](../outputs/ffn_source_composition_v1/attention_strength_fusion/comparisons.csv)。四模型240新头；LLaVA/Qwen3全拼接、InternVL prompt配对有增益，Qwen2未超对应较强gate基线。
+
+- attention/attention×gate分组单独与拼接检测（2026-09-12，完成）：[中文说明](PREFIX_ATTENTION_GROUP_DETECTION.md)、[完整结果](../outputs/prefix_attention_gate/full/group_detection/summary.md)、[配对差](../outputs/prefix_attention_gate/full/group_detection/comparisons.csv)。六模型360头，原值/log1p各5组；gate拼接六模型均提高平均AUROC/AP，log1p无统一收益；4000图曲线及数据已保存。
+
 - QE/QC softmax温度0.2与对应AE+S融合：[总表](../outputs/ffn_source_composition_v1/q_softmax_tau02/summary.md)、[配对增量](../outputs/ffn_source_composition_v1/q_softmax_tau02/paired.csv)、[说明](FFN_SOURCE_COMPOSITION_EXPERIMENT.md)。四模型24新头完成；QC融合在LLaVA/Qwen3/InternVL相对F_C双指标提高，QE融合仅LLaVA双指标提高。
 
 - 追加AE+视觉S_C（F_C=AE+log1p(S_C)）：[直接对照](../outputs/ffn_source_composition_v1/fc_comparison.csv)、[方法与结果说明](FFN_SOURCE_COMPOSITION_EXPERIMENT.md)。四模型12新头完成，原F复用；AUROC均略低于F，Qwen2的HALL-AUPR提升，InternVL两项下降。当前共10组120头。
@@ -124,3 +138,13 @@
 
 - 六模型4000图，BOS/visual/prompt/generated_text互斥分区；raw attention与attention×gate分别求和，train/test、HALL/REAL分开，均值+IQR。
 - [全部图与CSV索引](../outputs/prefix_attention_gate/full/region_plots/README.md)。无独立BOS不伪造；各区域相加守恒检查通过，不除以区域token数，不重归一化。
+
+## 2026-09-10：视觉/generation注意力比值曲线
+
+- 六模型逐mention逐层先作比，再汇总REAL/HALL；raw和attention×gate分别画all/train/test，原始比值统计、对数纵轴显示。
+- [图及数据索引](../outputs/prefix_attention_gate/full/region_plots/visual_generation_ratio/README.md)，共2304条CSV统计，实际无零分母；不含检测训练。
+
+## 2026-09-12：视觉/generation比值检测汇总
+
+- 六模型两种原值比值、各三seed共36头完成；[结果表](../outputs/prefix_attention_gate/full/region_plots/visual_generation_ratio/detection/summary.md)。
+- attention×gate比值相对raw比值四模型AUROC提高、两模型下降；两种比值均低于原F，未额外取log或拼接其他特征。

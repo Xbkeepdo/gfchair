@@ -1,24 +1,10 @@
-# AGENTS.md
+# 项目协作规则
 
-## Project context
-This project is developed on a temporary school server.
-The persistent root is ~/userdata/CODEX.
-Codex home is ~/userdata/CODEX/codex-home.
-Project directories are under ~/userdata/CODEX/test-cocochair/token-detector.
-
-## Before starting
-- Read docs/CURRENT_TASK.md if it exists.
-- Run git status.
-- Summarize the current project state before editing.
-- Do not assume previous Codex chat context is available.
-
-## Working rules
-- Keep important handoff notes in docs/CURRENT_TASK.md.
-- docs/CURRENT_TASK.md 必须使用中文更新。
-- Do not write secrets, tokens, passwords, API keys, or school account information into the repo.
-- Do not commit .env files.
-- After substantial code changes, update docs/CURRENT_TASK.md.
-
-## Verification
-- Explain what commands were run.
-- If tests fail, record the failing command and error summary in docs/CURRENT_TASK.md.
+- 当前仓库根目录就是本项目；持久化目录为 `~/userdata/CODEX`。
+- 首次进入本项目、切换任务或压缩后缺少状态时，读取 `docs/CURRENT_TASK.md`；同一任务不重复读取未变化内容，纯问答无需例行读取。
+- 编辑前检查一次相关文件的 Git 状态并保留已有改动；只有状态影响本次工作时才说明。
+- 先检索直接相关文件和片段；发现调用关系或失败证据后再扩大范围。排除无关输出、缓存、模型权重和历史归档。
+- `docs/CURRENT_TASK.md` 用中文维护当前目标、未完成事项、关键约束、必要路径及验证状态，目标不超过 80 行、8 KB。
+- 有实质进展时更新对应条目；完成记录移入 `docs/archive/`，详细结果写专门报告，摘要保留链接。归档只按需检索，不默认全文读取。
+- 按变更影响运行相关检查，复用已有检查；文档调整不运行模型或整套实验。记录本次相关失败的命令与简短原因。
+- 不将密钥、密码、学校账号信息或 `.env` 提交到仓库。

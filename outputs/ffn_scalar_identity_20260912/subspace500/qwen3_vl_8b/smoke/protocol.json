@@ -1,0 +1,12 @@
+{
+  "model": "qwen3_vl_8b",
+  "ids": [
+    283
+  ],
+  "k": 4,
+  "precision": "FP32 fixed-path JVP; FP64 basis and projections",
+  "basis": "FP64 normalized-column Gram eigensolve then thin QR, all singular directions above rtol",
+  "basis_rtol": 1e-05,
+  "spectrum": "actual FP32 SVD(B), FP64 Gram spectrum of Y; FP64 SVD(B) smoke control",
+  "path": "original z0=z-sum a_m; replacing probes by Q does not alter the path"
+}

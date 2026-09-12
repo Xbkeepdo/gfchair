@@ -1,0 +1,87 @@
+{
+  "model": "internvl_2_5_8b",
+  "attention_source": "/home/apulis-dev/userdata/CODEX/test-cocochair/gfchair/outputs/prefix_attention_gate/full/group_detection/internvl_2_5_8b",
+  "strength_source": "/home/apulis-dev/userdata/CODEX/test-cocochair/gfchair/outputs/ffn_source_composition_v1/source_strength_detection/internvl_2_5_8b",
+  "formula": "concat(matching attention group vector, matching full-source S_g vector)",
+  "families": [
+    "attention",
+    "gated"
+  ],
+  "scales": [
+    "raw",
+    "log1p"
+  ],
+  "kinds": [
+    "prompt",
+    "generation",
+    "visual",
+    "concat",
+    "visual_prompt_sum"
+  ],
+  "strength": "sum_group ||c_j|| from K50 full FFN composition; visual=S_C",
+  "raw": "[A_group, S_group] or [U_group, S_group]",
+  "log1p": "[log1p(A_group), log1p(S_group)] or [log1p(U_group), log1p(S_group)]; no cross-scale combinations",
+  "concat_order": "[A_P all layers, A_G all layers, A_V all layers, S_P all layers, S_G all layers, S_V all layers]; U replaces A for gated",
+  "visual_prompt_sum": "[A_V+A_P, S_V+S_P]; gated replaces A with U; sum before log1p",
+  "prompt": "Includes BOS/template/special tokens in both sources",
+  "gate_reference": "full causal-prefix MAD, same saved gated signal",
+  "images": 4000,
+  "train_images": 3200,
+  "test_images": 800,
+  "train_mentions": 9378,
+  "test_mentions": 2381,
+  "seeds": [
+    43,
+    44,
+    45
+  ],
+  "config": {
+    "hidden_sizes": [
+      128,
+      64,
+      32
+    ],
+    "dropout": 0.3,
+    "drop_last": false,
+    "batch_size": 256,
+    "num_epochs": 100,
+    "learning_rate": 0.001,
+    "weight_decay": 1e-05,
+    "lr_factor": 0.5,
+    "lr_patience": 5,
+    "early_stopping_patience": 10,
+    "seed": 43,
+    "positive_class": "real",
+    "split_protocol": "strict_82_no_validation",
+    "threshold_selection": "train_f1",
+    "fixed_threshold": 0.5,
+    "threshold_reporting": [
+      "fixed_0.5",
+      "train_f1"
+    ],
+    "checkpoint_selection": "minimum_train_loss"
+  },
+  "dimensions": {
+    "attention_raw_prompt": 64,
+    "attention_raw_generation": 64,
+    "attention_raw_visual": 64,
+    "attention_raw_concat": 192,
+    "attention_raw_visual_prompt_sum": 64,
+    "attention_log1p_prompt": 64,
+    "attention_log1p_generation": 64,
+    "attention_log1p_visual": 64,
+    "attention_log1p_concat": 192,
+    "attention_log1p_visual_prompt_sum": 64,
+    "gated_raw_prompt": 64,
+    "gated_raw_generation": 64,
+    "gated_raw_visual": 64,
+    "gated_raw_concat": 192,
+    "gated_raw_visual_prompt_sum": 64,
+    "gated_log1p_prompt": 64,
+    "gated_log1p_generation": 64,
+    "gated_log1p_visual": 64,
+    "gated_log1p_concat": 192,
+    "gated_log1p_visual_prompt_sum": 64
+  },
+  "reporting": "Three-seed mean and population std, original two thresholds; no ensemble in report"
+}

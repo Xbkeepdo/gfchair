@@ -1,0 +1,44 @@
+{
+  "fixed_changes": {
+    "batch_norm": false,
+    "monitor": "val_loss",
+    "standardize": true
+  },
+  "model": "qwen2_5_vl_7b",
+  "normalization": "Per-column Z-score; fit on training mentions only with population standard deviation.",
+  "parent_candidate": 11,
+  "parent_config": {
+    "activation": "gelu",
+    "batch_norm": true,
+    "batch_size": 256,
+    "dropout": 0.5,
+    "learning_rate": 0.003,
+    "lr_patience": 6,
+    "max_epochs": 150,
+    "monitor": "val_loss",
+    "patience": 20,
+    "standardize": true,
+    "weight_decay": 1e-06,
+    "width": 256
+  },
+  "patiences": [
+    5,
+    10,
+    20
+  ],
+  "scheduler": {
+    "factor": 0.5,
+    "min_lr": 1e-06,
+    "patience": 6
+  },
+  "schema": "standardized-no-bn-patience-811-v1",
+  "seeds": [
+    43,
+    44,
+    45
+  ],
+  "source_fingerprint": "352e0d1705028fa7e1bd3315f20594f2b894bc69b12b53d5f309d5cc64030b87",
+  "split_seed": 20260912,
+  "status": "Exploratory follow-up after test-set access; all patience values are reported.",
+  "variant": "true_rms/visual"
+}

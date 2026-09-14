@@ -1,0 +1,34 @@
+{
+  "classifier": "Linear(D,248)-ReLU-Linear(248,2)",
+  "fingerprint": "58a6b28dcc00c909b78a15e525700fa958a6f8ea5e44ee31a9758a9ff52084ba",
+  "input_dim": 448,
+  "layer_end_exclusive": 19,
+  "layer_start": 5,
+  "mapping": "start=round(L*5/32), end_exclusive=round(L*19/32)",
+  "model": "internvl_2_5_8b",
+  "reference": "LLaVA zero-based layers 5 through 18 inclusive, [5,19) of 32 layers",
+  "schema": "native-svar-llava-5-18-proportional-811-v1",
+  "seeds": [
+    43,
+    44,
+    45
+  ],
+  "selected_layers": 14,
+  "selection": "Minimum validation cross-entropy; early-stop patience5; validation REAL-F1 threshold.",
+  "source": "outputs/internvl_2_5_8b/COCO4000-INSLEN-OFFICIAL-TARGET/baseline/features.pkl",
+  "source_fingerprint": "f39ec92ef05e9c04c05a44c6d807fe1aa91e2c3e7aece0bbe206af25ba585489",
+  "split": "3200 train / 400 validation / 400 test images; all mentions",
+  "split_seed": 20260912,
+  "status": "Exploratory proportional-layer follow-up after test-set access.",
+  "total_decoder_layers": 32,
+  "training": {
+    "batch_size": 32,
+    "early_stopping_patience": 5,
+    "epochs": 50,
+    "hidden_dim": 248,
+    "learning_rate": 0.001,
+    "standardize": false,
+    "weight_decay": 0.0,
+    "weighted_sampler": false
+  }
+}

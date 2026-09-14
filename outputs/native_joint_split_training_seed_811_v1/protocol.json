@@ -1,0 +1,61 @@
+{
+  "caveat": "Only three joint seeds; test image sets differ, so variance combines cohort composition and training randomness",
+  "comparison": "Existing fixed split20260912, seeds43/44/45 versus joint split+training seeds43/44/45",
+  "feature_fingerprints": {
+    "internvl_2_5_8b": "f39ec92ef05e9c04c05a44c6d807fe1aa91e2c3e7aece0bbe206af25ba585489",
+    "llava_1_5_7b": "0f1bce7843e8440c6a0f73616ff0388d2591b262b1bb2e486b3dbec418b038a9",
+    "qwen2_5_vl_7b": "9c83b1bc8d58e3c29e701e516ffdf1298b68d002b227175fcb5c6b5d200257ef",
+    "qwen3_vl_8b": "a57a0dd1f7c8fd07cee0d18a2f35940e346d2773e8fe68b904d676c96f4168d6"
+  },
+  "fingerprint": "397786bf2bf4ecd3d04cb668f6cfc953478c22d06c7cba80960ae6525f76ce49",
+  "heads": [
+    "svar_native",
+    "metatoken_lr",
+    "metatoken_gb"
+  ],
+  "image_split_hashes": {
+    "internvl_2_5_8b": "d3ee1c8e521d4f007112e3f3aa38ba1ba4949d623820b6977240d2f3f32ac65d",
+    "llava_1_5_7b": "d3ee1c8e521d4f007112e3f3aa38ba1ba4949d623820b6977240d2f3f32ac65d",
+    "qwen2_5_vl_7b": "d3ee1c8e521d4f007112e3f3aa38ba1ba4949d623820b6977240d2f3f32ac65d",
+    "qwen3_vl_8b": "d3ee1c8e521d4f007112e3f3aa38ba1ba4949d623820b6977240d2f3f32ac65d"
+  },
+  "mention_signatures": {
+    "internvl_2_5_8b": "e33d4294d55cc668eaef105da9f839f3eb7d7692f8d66a13427c32223f482849",
+    "llava_1_5_7b": "15bcd8878e2ef2480ce8759a57913414cdbbce52e9cc3caec239c3a16111f019",
+    "qwen2_5_vl_7b": "a60a7c932e844d5910ad6474644037311327b47f378fd8d3f8e06ce73aca1df3",
+    "qwen3_vl_8b": "f1bc2d5067369c963cb93293d7964a65e6e52501e2a5a8a65b8da03bcfa1c4f6"
+  },
+  "metatoken": {
+    "gb": "train-only StandardScaler + GradientBoostingClassifier(n_estimators=100)",
+    "lr": "train-only StandardScaler + LogisticRegression(lbfgs,max_iter2000)"
+  },
+  "metrics": "Per-seed test AUROC and HALL-positive AUPR; arithmetic mean and population std; no probability ensemble",
+  "models": [
+    "qwen2_5_vl_7b",
+    "llava_1_5_7b",
+    "qwen3_vl_8b",
+    "internvl_2_5_8b"
+  ],
+  "schema": "native-joint-split-training-seed-811-v1",
+  "seed_scope": "Same seed controls image split and classifier randomness",
+  "seeds": [
+    43,
+    44,
+    45
+  ],
+  "split": "For each seed, permute all 4000 sorted image IDs into 3200/400/400",
+  "svar": {
+    "architecture": "Linear(D,248)-ReLU-Linear(248,2)",
+    "batch_size": 32,
+    "checkpoint": "minimum validation loss; patience5; max50; no scheduler",
+    "early_stopping_patience": 5,
+    "epochs": 50,
+    "hidden_dim": 248,
+    "learning_rate": 0.001,
+    "optimizer": "Adam",
+    "standardize": false,
+    "weight_decay": 0.0,
+    "weighted_sampler": false
+  },
+  "training": "No hyperparameter search; fit new train split only; validation selects SVAR checkpoint; no train+validation refit"
+}

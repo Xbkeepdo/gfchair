@@ -1,0 +1,170 @@
+{
+  "completed_at": "2026-09-14T11:35:56.592671+00:00",
+  "models": [
+    "qwen2_5_vl_7b",
+    "llava_1_5_7b",
+    "qwen3_vl_8b",
+    "internvl_2_5_8b"
+  ],
+  "schema": "no-bn-blockwise-val-loss-811-v1",
+  "summaries": [
+    {
+      "best_epochs": [
+        55,
+        44,
+        45
+      ],
+      "config": {
+        "activation": "gelu",
+        "batch_norm": false,
+        "batch_size": 256,
+        "block_sizes": [
+          28,
+          28
+        ],
+        "dropout": 0.5,
+        "learning_rate": 0.003,
+        "lr_patience": 6,
+        "max_epochs": 150,
+        "monitor": "val_loss",
+        "normalization": "blockwise_train_mentions_x_layers",
+        "patience": 20,
+        "standardize": true,
+        "weight_decay": 1e-06,
+        "width": 256
+      },
+      "ensemble": {
+        "AUROC": 0.8718371752370672,
+        "HALL_AUPR": 0.4279008566814161
+      },
+      "model": "qwen2_5_vl_7b",
+      "test_AUROC_mean": 0.8713437668645438,
+      "test_AUROC_std": 0.000454446868001874,
+      "test_HALL_AUPR_mean": 0.4253183885207372,
+      "test_HALL_AUPR_std": 0.007443394987904127,
+      "validation_AUROC_mean": 0.8697529902546259,
+      "validation_HALL_AUPR_mean": 0.48081556464142333,
+      "variant": "true_rms/visual"
+    },
+    {
+      "best_epochs": [
+        88,
+        85,
+        70
+      ],
+      "config": {
+        "activation": "relu",
+        "batch_norm": false,
+        "batch_size": 512,
+        "block_sizes": [
+          32,
+          32,
+          32,
+          32
+        ],
+        "dropout": 0.3,
+        "learning_rate": 0.001,
+        "lr_patience": 6,
+        "max_epochs": 150,
+        "monitor": "val_loss",
+        "normalization": "blockwise_train_mentions_x_layers",
+        "patience": 20,
+        "standardize": true,
+        "weight_decay": 0.001,
+        "width": 128
+      },
+      "ensemble": {
+        "AUROC": 0.8998664788567068,
+        "HALL_AUPR": 0.7271450644681019
+      },
+      "model": "llava_1_5_7b",
+      "test_AUROC_mean": 0.899490695907634,
+      "test_AUROC_std": 0.0005490451888467677,
+      "test_HALL_AUPR_mean": 0.725682710621534,
+      "test_HALL_AUPR_std": 0.0021728583236234763,
+      "validation_AUROC_mean": 0.9023070176982326,
+      "validation_HALL_AUPR_mean": 0.7264887791298511,
+      "variant": "true_rms/vp_generation"
+    },
+    {
+      "best_epochs": [
+        109,
+        126,
+        86
+      ],
+      "config": {
+        "activation": "relu",
+        "batch_norm": false,
+        "batch_size": 512,
+        "block_sizes": [
+          36,
+          36,
+          36,
+          36
+        ],
+        "dropout": 0.3,
+        "learning_rate": 0.001,
+        "lr_patience": 6,
+        "max_epochs": 150,
+        "monitor": "val_loss",
+        "normalization": "blockwise_train_mentions_x_layers",
+        "patience": 20,
+        "standardize": true,
+        "weight_decay": 0.001,
+        "width": 128
+      },
+      "ensemble": {
+        "AUROC": 0.9212264462809917,
+        "HALL_AUPR": 0.7030555222414637
+      },
+      "model": "qwen3_vl_8b",
+      "test_AUROC_mean": 0.9207537190082645,
+      "test_AUROC_std": 0.0025100162711781705,
+      "test_HALL_AUPR_mean": 0.7012426774291306,
+      "test_HALL_AUPR_std": 0.0035578669849715755,
+      "validation_AUROC_mean": 0.8946352390930614,
+      "validation_HALL_AUPR_mean": 0.6636925016566856,
+      "variant": "true_rms/vp_generation"
+    },
+    {
+      "best_epochs": [
+        112,
+        117,
+        71
+      ],
+      "config": {
+        "activation": "gelu",
+        "batch_norm": false,
+        "batch_size": 512,
+        "block_sizes": [
+          32,
+          32,
+          32,
+          32
+        ],
+        "dropout": 0.1,
+        "learning_rate": 0.0003,
+        "lr_patience": 6,
+        "max_epochs": 150,
+        "monitor": "val_loss",
+        "normalization": "blockwise_train_mentions_x_layers",
+        "patience": 20,
+        "standardize": true,
+        "weight_decay": 0.001,
+        "width": 248
+      },
+      "ensemble": {
+        "AUROC": 0.8543233082706767,
+        "HALL_AUPR": 0.5178838633793483
+      },
+      "model": "internvl_2_5_8b",
+      "test_AUROC_mean": 0.8540071332176594,
+      "test_AUROC_std": 0.001018590113399643,
+      "test_HALL_AUPR_mean": 0.5171964693612099,
+      "test_HALL_AUPR_std": 0.0019841974303662344,
+      "validation_AUROC_mean": 0.8393180167689972,
+      "validation_HALL_AUPR_mean": 0.5297355674834767,
+      "variant": "true_rms/vp_generation"
+    }
+  ]
+}

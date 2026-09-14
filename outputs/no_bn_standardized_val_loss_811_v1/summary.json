@@ -1,0 +1,76 @@
+{
+  "completed_at": "2026-09-14T10:59:00.267593+00:00",
+  "models": [
+    "llava_1_5_7b",
+    "qwen3_vl_8b"
+  ],
+  "schema": "no-bn-standardized-val-loss-811-v1",
+  "summaries": [
+    {
+      "best_epochs": [
+        72,
+        50,
+        38
+      ],
+      "config": {
+        "activation": "relu",
+        "batch_norm": false,
+        "batch_size": 512,
+        "dropout": 0.3,
+        "learning_rate": 0.001,
+        "lr_patience": 6,
+        "max_epochs": 150,
+        "monitor": "val_loss",
+        "patience": 20,
+        "standardize": true,
+        "weight_decay": 0.001,
+        "width": 128
+      },
+      "ensemble": {
+        "AUROC": 0.9000449961362013,
+        "HALL_AUPR": 0.7189996132894911
+      },
+      "model": "llava_1_5_7b",
+      "test_AUROC_mean": 0.8993627177666266,
+      "test_AUROC_std": 0.0007474123758836834,
+      "test_HALL_AUPR_mean": 0.7176380596790931,
+      "test_HALL_AUPR_std": 0.0021162325326236652,
+      "validation_AUROC_mean": 0.9073049938698531,
+      "validation_HALL_AUPR_mean": 0.7371421063867202,
+      "variant": "true_rms/vp_generation"
+    },
+    {
+      "best_epochs": [
+        74,
+        69,
+        67
+      ],
+      "config": {
+        "activation": "relu",
+        "batch_norm": false,
+        "batch_size": 512,
+        "dropout": 0.3,
+        "learning_rate": 0.001,
+        "lr_patience": 6,
+        "max_epochs": 150,
+        "monitor": "val_loss",
+        "patience": 20,
+        "standardize": true,
+        "weight_decay": 0.001,
+        "width": 128
+      },
+      "ensemble": {
+        "AUROC": 0.9304892561983472,
+        "HALL_AUPR": 0.7229965560189906
+      },
+      "model": "qwen3_vl_8b",
+      "test_AUROC_mean": 0.9297168044077134,
+      "test_AUROC_std": 0.0005844314797415216,
+      "test_HALL_AUPR_mean": 0.720955260464601,
+      "test_HALL_AUPR_std": 0.0014163061698870497,
+      "validation_AUROC_mean": 0.9021949906516089,
+      "validation_HALL_AUPR_mean": 0.6756847256083528,
+      "variant": "true_rms/vp_generation"
+    }
+  ]
+}

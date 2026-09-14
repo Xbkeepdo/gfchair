@@ -1,0 +1,28 @@
+{
+  "code_sha": {
+    "features/ffn_all_source_paths.py": "0cb76c821f504f05db884834cbb5fb362b9667652e6a215e79783ac44f58f406",
+    "features/visual_ffn_jacobian.py": "8c1e9b1286e29068935c285e447b0c41b8953de0a222c36df4b191b6b7b61f1d",
+    "scripts/extract_minigpt4_shikra_all_attention_v.py": "90106e1fc8a26b91bebae56098b7a0a00aea2b02a5d5d04c4743ba19db3a89fa"
+  },
+  "images": 4000,
+  "layers": 32,
+  "model": "shikra_7b",
+  "path": "z-A_all to z through FFN(RMSNorm(.)); output projection bias remains in baseline",
+  "precision": "native capture; local FP32; TF32 off; FP64 quadrature accumulation",
+  "quadrature": "Gauss-Legendre K32; K64 8-image audit reference",
+  "schema": "minigpt-shikra-all-attention-v-k32-v1",
+  "signature": "c4525eab8e86f84d7712502c093fd6cef48264ba4dfe6579336f266cb71d4ec1",
+  "source_files": {
+    "generations.json": "740bbf7dee1722226a83d5c6a244bfb9268069e945220cffd61ba5fc103a5317",
+    "image_splits.json": "d3ee1c8e521d4f007112e3f3aa38ba1ba4949d623820b6977240d2f3f32ac65d",
+    "labeling.json": "8214bc4b91b66fa5a05b93ab34fccaaa4dc35977f1e42ee0cbd8990f157b29e4"
+  },
+  "source_manifest_signature": "a71e0468fdecb9315f839a08354fe9fa4eb468ce29126a8564262fa19dfd65f4",
+  "statistic": "S_V_all=sum over visual tokens of norm(integrated vector JVP)",
+  "thresholds": {
+    "closure_max": 0.01,
+    "near_zero_absolute": 1e-06,
+    "strength_relative_max": 0.01
+  },
+  "token_chunk": 64
+}

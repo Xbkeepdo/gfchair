@@ -1,0 +1,94 @@
+{
+  "base_configs": {
+    "visual": {
+      "activation": "gelu",
+      "batch_norm": false,
+      "batch_size": 128,
+      "dropout": 0.5,
+      "early_stopping": false,
+      "learning_rate": 0.003,
+      "lr_patience": 6,
+      "max_epochs": 150,
+      "monitor": "val_loss",
+      "patience": 20,
+      "standardize": true,
+      "weight_decay": 1e-06,
+      "width": 256
+    },
+    "vp_generation": {
+      "activation": "relu",
+      "batch_norm": false,
+      "batch_size": 128,
+      "dropout": 0.3,
+      "early_stopping": false,
+      "learning_rate": 0.001,
+      "lr_patience": 6,
+      "max_epochs": 150,
+      "monitor": "val_loss",
+      "patience": 20,
+      "standardize": true,
+      "weight_decay": 0.001,
+      "width": 128
+    }
+  },
+  "batch_size": 128,
+  "column_layout": "V has 2 complete L-column blocks; VP+G has 4 complete L-column blocks",
+  "features": {
+    "visual": "[AE_V,log1p(S_V_all)]",
+    "vp_generation": "[AE_VP,log1p(S_V_all+S_P_all),AE_G,log1p(S_G_all)]"
+  },
+  "fingerprint": "786c285fceee434c62cbc8010cfd23309becb183ae2d38ee12838ec6d4ad0b74",
+  "model": "qwen2_5_vl_7b",
+  "normalization": "Per-column train-only population Z-score after layer slicing",
+  "range_selection": "Per-curve layer Z-score, then four-piece constant minimum-SSE dynamic programming; equal curve weights; minimum three layers per segment",
+  "range_selection_curves": [
+    "AE_V",
+    "logS_V",
+    "AE_VP",
+    "logS_VP",
+    "AE_G",
+    "logS_G"
+  ],
+  "range_selection_data": "All training mentions only; labels unused",
+  "range_selection_objective_sse": 42.13070575418564,
+  "ranges": [
+    {
+      "end_exclusive": 4,
+      "name": "segment_1",
+      "start": 0
+    },
+    {
+      "end_exclusive": 19,
+      "name": "segment_2",
+      "start": 4
+    },
+    {
+      "end_exclusive": 24,
+      "name": "segment_3",
+      "start": 19
+    },
+    {
+      "end_exclusive": 28,
+      "name": "segment_4",
+      "start": 24
+    },
+    {
+      "end_exclusive": 28,
+      "name": "all",
+      "start": 0
+    }
+  ],
+  "schema": "ours-curve-layer-ranges-batch128-811-v1",
+  "seeds": [
+    43,
+    44,
+    45
+  ],
+  "source": "True-RMS all-attention z-A_all -> z; local FP32 Gauss-Legendre K32",
+  "source_fingerprint": "352e0d1705028fa7e1bd3315f20594f2b894bc69b12b53d5f309d5cc64030b87",
+  "split": "3200 train / 400 validation / 400 test images; all mentions",
+  "split_seed": 20260912,
+  "status": "Exploratory layer-range follow-up after test-set access; all ranges reported.",
+  "total_layers": 28,
+  "training": "No BatchNorm; all 150 epochs; minimum validation BCE checkpoint"
+}

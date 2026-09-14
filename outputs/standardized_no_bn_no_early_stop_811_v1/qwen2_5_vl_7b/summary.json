@@ -1,0 +1,39 @@
+{
+  "best_epochs": [
+    30,
+    31,
+    21
+  ],
+  "config": {
+    "activation": "gelu",
+    "batch_norm": false,
+    "batch_size": 256,
+    "dropout": 0.5,
+    "early_stopping": false,
+    "learning_rate": 0.003,
+    "lr_patience": 6,
+    "max_epochs": 150,
+    "monitor": "val_loss",
+    "patience": 20,
+    "standardize": true,
+    "weight_decay": 1e-06,
+    "width": 256
+  },
+  "ensemble": {
+    "AUROC": 0.8812273533266517,
+    "HALL_AUPR": 0.42810173033025417
+  },
+  "model": "qwen2_5_vl_7b",
+  "test_AUROC_mean": 0.8795929380926683,
+  "test_AUROC_std": 0.0015800286887396324,
+  "test_HALL_AUPR_mean": 0.4222536382369773,
+  "test_HALL_AUPR_std": 0.008077961338589498,
+  "trained_epochs": [
+    150,
+    150,
+    150
+  ],
+  "validation_AUROC_mean": 0.8846198784857454,
+  "validation_HALL_AUPR_mean": 0.5089752372153393,
+  "variant": "true_rms/visual"
+}

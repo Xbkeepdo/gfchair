@@ -1,0 +1,62 @@
+{
+  "base_configs": {
+    "visual": {
+      "activation": "relu",
+      "batch_norm": false,
+      "batch_size": 512,
+      "dropout": 0.3,
+      "early_stopping": false,
+      "learning_rate": 0.001,
+      "lr_patience": 6,
+      "max_epochs": 150,
+      "monitor": "val_loss",
+      "patience": 20,
+      "standardize": true,
+      "weight_decay": 0.001,
+      "width": 128
+    },
+    "vp_generation": {
+      "activation": "relu",
+      "batch_norm": false,
+      "batch_size": 512,
+      "dropout": 0.3,
+      "early_stopping": false,
+      "learning_rate": 0.001,
+      "lr_patience": 6,
+      "max_epochs": 150,
+      "monitor": "val_loss",
+      "patience": 20,
+      "standardize": true,
+      "weight_decay": 0.001,
+      "width": 128
+    }
+  },
+  "batch_sizes": [
+    32,
+    64,
+    128,
+    256,
+    512
+  ],
+  "control": "Within model/group, change batch_size only.",
+  "features": {
+    "visual": "[AE_V,log1p(S_V_all)]",
+    "vp_generation": "[AE_VP,log1p(S_V_all+S_P_all),AE_G,log1p(S_G_all)]"
+  },
+  "filter": "Report candidates whose three-seed mean test AUROC exceeds corresponding proportional SVAR mean AUROC",
+  "fingerprint": "022c2a8c3aa6e410cc9f8e775db0052e7a1dc2077a719a95e9d6c04dfb0d8cb4",
+  "model": "llava_1_5_7b",
+  "normalization": "Per-column train-only population Z-score",
+  "schema": "ours-batchsize-sweep-vs-svar-811-v1",
+  "seeds": [
+    43,
+    44,
+    45
+  ],
+  "source": "True-RMS all-attention z-A_all -> z; local FP32 Gauss-Legendre K32",
+  "source_fingerprint": "b3585cbc86932b3f1c0ce92c32df3c44069705de3d45e726ac513cf29c53ff12",
+  "split": "3200 train / 400 validation / 400 test images; all mentions",
+  "split_seed": 20260912,
+  "status": "Exploratory batch-size follow-up after test-set access; all candidates retained.",
+  "training": "No BatchNorm; all 150 epochs; minimum validation BCE checkpoint"
+}

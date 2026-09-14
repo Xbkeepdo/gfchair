@@ -1,0 +1,17 @@
+model,group,classifier,params,validation_AUROC
+internvl_2_5_8b,visual,one_hidden,"{""hidden_layer_sizes"": [256], ""learning_rate_init"": 0.001, ""max_iter"": 500, ""solver"": ""adam""}",0.8667535778434441
+internvl_2_5_8b,visual,xgb,"{""learning_rate"": 0.05, ""max_depth"": 8, ""n_estimators"": 500}",0.87007937887479
+internvl_2_5_8b,visual_prompt_sum,one_hidden,"{""hidden_layer_sizes"": [128], ""learning_rate_init"": 0.01, ""max_iter"": 500, ""solver"": ""sgd""}",0.8063190219595573
+internvl_2_5_8b,visual_prompt_sum,xgb,"{""learning_rate"": 0.05, ""max_depth"": 8, ""n_estimators"": 500}",0.8593139811113042
+internvl_2_5_8b,generation,one_hidden,"{""hidden_layer_sizes"": [128], ""learning_rate_init"": 0.01, ""max_iter"": 500, ""solver"": ""sgd""}",0.8016327713077236
+internvl_2_5_8b,generation,xgb,"{""learning_rate"": 0.05, ""max_depth"": 6, ""n_estimators"": 500}",0.8300469320354598
+internvl_2_5_8b,vp_generation,one_hidden,"{""hidden_layer_sizes"": [128], ""learning_rate_init"": 0.01, ""max_iter"": 500, ""solver"": ""sgd""}",0.8285729184773162
+internvl_2_5_8b,vp_generation,xgb,"{""learning_rate"": 0.1, ""max_depth"": 6, ""n_estimators"": 500}",0.8732753925488151
+internvl_2_5_8b,ae_only_visual,one_hidden,"{""hidden_layer_sizes"": [128], ""learning_rate_init"": 0.001, ""max_iter"": 500, ""solver"": ""adam""}",0.8009931050466423
+internvl_2_5_8b,ae_only_visual,xgb,"{""learning_rate"": 0.1, ""max_depth"": 8, ""n_estimators"": 500}",0.8226258763543659
+internvl_2_5_8b,ae_only_visual_prompt_sum,one_hidden,"{""hidden_layer_sizes"": [128], ""learning_rate_init"": 0.01, ""max_iter"": 500, ""solver"": ""sgd""}",0.7501164609768817
+internvl_2_5_8b,ae_only_visual_prompt_sum,xgb,"{""learning_rate"": 0.1, ""max_depth"": 8, ""n_estimators"": 500}",0.8234938293064489
+internvl_2_5_8b,ae_only_generation,one_hidden,"{""hidden_layer_sizes"": [256], ""learning_rate_init"": 0.01, ""max_iter"": 500, ""solver"": ""sgd""}",0.7115881569036444
+internvl_2_5_8b,ae_only_generation,xgb,"{""learning_rate"": 0.1, ""max_depth"": 8, ""n_estimators"": 500}",0.7230106031635668
+internvl_2_5_8b,ae_only_vp_generation,one_hidden,"{""hidden_layer_sizes"": [64], ""learning_rate_init"": 0.01, ""max_iter"": 500, ""solver"": ""sgd""}",0.7717469146532244
+internvl_2_5_8b,ae_only_vp_generation,xgb,"{""learning_rate"": 0.05, ""max_depth"": 8, ""n_estimators"": 500}",0.8228727040964134

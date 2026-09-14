@@ -1,0 +1,40 @@
+{
+  "best_epochs": [
+    112,
+    117,
+    71
+  ],
+  "config": {
+    "activation": "gelu",
+    "batch_norm": false,
+    "batch_size": 512,
+    "block_sizes": [
+      32,
+      32,
+      32,
+      32
+    ],
+    "dropout": 0.1,
+    "learning_rate": 0.0003,
+    "lr_patience": 6,
+    "max_epochs": 150,
+    "monitor": "val_loss",
+    "normalization": "blockwise_train_mentions_x_layers",
+    "patience": 20,
+    "standardize": true,
+    "weight_decay": 0.001,
+    "width": 248
+  },
+  "ensemble": {
+    "AUROC": 0.8543233082706767,
+    "HALL_AUPR": 0.5178838633793483
+  },
+  "model": "internvl_2_5_8b",
+  "test_AUROC_mean": 0.8540071332176594,
+  "test_AUROC_std": 0.001018590113399643,
+  "test_HALL_AUPR_mean": 0.5171964693612099,
+  "test_HALL_AUPR_std": 0.0019841974303662344,
+  "validation_AUROC_mean": 0.8393180167689972,
+  "validation_HALL_AUPR_mean": 0.5297355674834767,
+  "variant": "true_rms/vp_generation"
+}

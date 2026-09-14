@@ -1,0 +1,42 @@
+{
+  "architecture": "Linear(D,256)-ReLU-Linear(256,2)",
+  "comparison": "Only hidden_dim changes from248 to256",
+  "fingerprint": "07be7eb45404e2fd9efe3c9e27948b554fa0b4cb6b908df8963fe452ed108f29",
+  "fixed_split": "Existing split seed20260912: 3200/400/400 images",
+  "input": "SVAR flattened visual attention ratio; zero-based decoder layers[5,19)",
+  "joint_split": "Each seed43/44/45 independently permutes all4000 images to3200/400/400; same seed controls training",
+  "metrics": "Per-seed test AUROC and HALL-positive AUPR; arithmetic mean and population std; no probability ensemble",
+  "models": [
+    "qwen2_5_vl_7b",
+    "llava_1_5_7b",
+    "qwen3_vl_8b",
+    "internvl_2_5_8b"
+  ],
+  "regimes": [
+    "fixed_split",
+    "joint_split_training"
+  ],
+  "schema": "svar-hidden256-811-v1",
+  "seeds": [
+    43,
+    44,
+    45
+  ],
+  "settings": {
+    "batch_size": 32,
+    "early_stopping_patience": 5,
+    "epochs": 50,
+    "hidden_dim": 256,
+    "learning_rate": 0.001,
+    "standardize": false,
+    "weight_decay": 0.0,
+    "weighted_sampler": false
+  },
+  "source_fingerprints": {
+    "internvl_2_5_8b": "f39ec92ef05e9c04c05a44c6d807fe1aa91e2c3e7aece0bbe206af25ba585489",
+    "llava_1_5_7b": "0f1bce7843e8440c6a0f73616ff0388d2591b262b1bb2e486b3dbec418b038a9",
+    "qwen2_5_vl_7b": "9c83b1bc8d58e3c29e701e516ffdf1298b68d002b227175fcb5c6b5d200257ef",
+    "qwen3_vl_8b": "a57a0dd1f7c8fd07cee0d18a2f35940e346d2773e8fe68b904d676c96f4168d6"
+  },
+  "training": "CrossEntropy; detector labels0=REAL,1=HALL; Adam; no standardization/BN/dropout/scheduler/weighted sampler; min validation-loss checkpoint; no refit"
+}

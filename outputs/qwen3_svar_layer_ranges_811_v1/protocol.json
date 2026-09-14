@@ -1,0 +1,41 @@
+{
+  "classifier": "Linear(D,248)-ReLU-Linear(248,2)",
+  "fingerprint": "d71b5b0efdd8f8405a61acb4235aa7db48a89263d7c96faf92fec73fed8b7a16",
+  "input_dimensions": {
+    "5_20": 480,
+    "5_21": 512
+  },
+  "model": "qwen3_vl_8b",
+  "ranges_zero_based_end_exclusive": [
+    [
+      5,
+      20
+    ],
+    [
+      5,
+      21
+    ]
+  ],
+  "schema": "qwen3-native-svar-layer-ranges-811-v1",
+  "seeds": [
+    43,
+    44,
+    45
+  ],
+  "selection": "Minimum validation cross-entropy; early-stop patience5; validation REAL-F1 threshold.",
+  "source": "outputs/qwen3_vl_8b/COCO4000-INSLEN-OFFICIAL-TARGET/baseline/features.pkl",
+  "source_fingerprint": "a57a0dd1f7c8fd07cee0d18a2f35940e346d2773e8fe68b904d676c96f4168d6",
+  "split": "3200 train / 400 validation / 400 test images; all mentions",
+  "split_seed": 20260912,
+  "status": "Exploratory layer-range follow-up after test-set access; both endpoint interpretations reported.",
+  "training": {
+    "batch_size": 32,
+    "early_stopping_patience": 5,
+    "epochs": 50,
+    "hidden_dim": 248,
+    "learning_rate": 0.001,
+    "standardize": false,
+    "weight_decay": 0.0,
+    "weighted_sampler": false
+  }
+}

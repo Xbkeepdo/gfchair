@@ -1,0 +1,27 @@
+{
+  "b1": "true RMS sinh-adaptive GL16/32 rtol1e-4 atol1e-7 maxdepth12; FP64 accumulation",
+  "bootstrap": {
+    "replicates": 10000,
+    "seed": 20260912,
+    "unit": "paired image clusters"
+  },
+  "detector": "original 3200/800 all mentions; raw/no scaling; fixed TorchProbeConfig seeds43/44/45",
+  "features": "F0 F1/raw/log F2; B1 and B2 each F3/raw/log F4 F5 F6; length; 15 total; no combined B1+B2",
+  "hashes": {
+    "features/ffn_all_source_paths.py": "0cb76c821f504f05db884834cbb5fb362b9667652e6a215e79783ac44f58f406",
+    "outputs/ffn_output_cosine_20260909/cohort500.json": "3d4018ce778478e279b481d0694f9498f7676554003e0d1d0a718bbe3691cc4a",
+    "scripts/run_ffn_all_source_paths.py": "2489639ae3fa93704c63a0e6217f1c36aaae547219d0beb705c6bd815118bce4"
+  },
+  "mechanism": "cohort500 original400/100; all/train/test exclude label-conflicting targets",
+  "models": [
+    "qwen2_5_vl_7b",
+    "llava_1_5_7b",
+    "qwen3_vl_8b",
+    "internvl_2_5_8b"
+  ],
+  "partition": "prompt includes template/BOS; visual interval; generated prefix only; no target/future",
+  "precision": "native capture; local FP32; TF32 off",
+  "signature": "f7ba71fb8278716ffa3469dffa248c108372b66a8a41dea6d582fc3fb1ef1573",
+  "version": 1,
+  "zero_denominator": "NaN in artifacts, valid counts in mechanism, zero in detector; no dropped mentions"
+}

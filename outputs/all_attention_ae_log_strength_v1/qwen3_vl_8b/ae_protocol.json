@@ -1,0 +1,512 @@
+{
+  "code_sha": {
+    "features/dgst_t.py": "29f35847e4105aa7a8f3b4bfe3dcd12d6eacf47a1abb34fd6faba40eeed36f57",
+    "models/dgst_capture.py": "af39d43d418fbad7f9950a25d8246f321dd5a74f4f4966463a45069e653712a8",
+    "scripts/extract_prefix_attention_gate.py": "419535755b96a3401d3d34e6718062bc8a730a016c5049d9f393193cebf2f9b3",
+    "scripts/extract_region_ae.py": "4e6c6614bc27dac0f793e52eeb27532813a757a85c03c817c0d4dac6060c8865",
+    "scripts/run_jffn_second_round_logit_causal.py": "83b856d2db5d2d1729ffefb638d2a1c63138a0fc8a95b9b0e7489f3f0dd2577a"
+  },
+  "config": {
+    "classifiers": {
+      "mlp": {
+        "hidden_layer_sizes": [
+          [
+            64
+          ],
+          [
+            128
+          ],
+          [
+            256
+          ]
+        ],
+        "learning_rate_init": [
+          0.01,
+          0.001
+        ],
+        "max_iter": 500,
+        "solver": [
+          "adam",
+          "sgd"
+        ]
+      },
+      "rf": {
+        "max_depth": [
+          null,
+          10,
+          20
+        ],
+        "n_estimators": [
+          200,
+          400,
+          600
+        ]
+      },
+      "xgb": {
+        "learning_rate": [
+          0.1,
+          0.05
+        ],
+        "max_depth": [
+          4,
+          6,
+          8
+        ],
+        "n_estimators": [
+          100,
+          200,
+          500
+        ]
+      }
+    },
+    "dataset": {
+      "annotation_file": "/home/apulis-dev/userdata/DGST/token-grounding-detector/data/coco/annotations/instances_val2014.json",
+      "captions_file": "/home/apulis-dev/userdata/DGST/token-grounding-detector/data/coco/annotations/captions_val2014.json",
+      "coco_root": "/home/apulis-dev/userdata/DGST/token-grounding-detector/data/coco",
+      "num_images": 4000,
+      "seed": 42,
+      "shared_split_path": "outputs/shared/COCO4000_seed42_image_splits_82.json",
+      "test_images": 800,
+      "train_images": 3200
+    },
+    "experiment": {
+      "mode": "vpend"
+    },
+    "feature_extraction": {
+      "ads": {
+        "connectivity": 8,
+        "min_blob_area": 3,
+        "top_k_layers": 10,
+        "top_patch_pct": 0.1
+      },
+      "ads_cgc": {
+        "enabled": true
+      },
+      "baseline": {
+        "dhcp": {
+          "batch_size": 1024,
+          "epochs": 30,
+          "hidden_dim": 128,
+          "learning_rate": 0.001,
+          "spatial_size": [
+            12,
+            12
+          ]
+        },
+        "enabled": true,
+        "halloc": {
+          "batch_size": 16,
+          "betas": [
+            0.9,
+            0.999
+          ],
+          "clip_model": "/home/apulis-dev/userdata/models/clip-vit-base-patch32",
+          "epochs": 25,
+          "freeze_clip": true,
+          "learning_rate": 1e-06,
+          "scheduler": "cosine",
+          "visualbert_model": "/home/apulis-dev/userdata/models/visualbert-vqa-coco-pre",
+          "weight_decay": 0.01
+        },
+        "metatoken": {
+          "classifiers": [
+            "lr",
+            "gb"
+          ],
+          "gb_n_estimators": 100
+        },
+        "methods": [
+          "svar",
+          "metatoken"
+        ],
+        "output_subdir": "baseline",
+        "projectaway": {
+          "detection_only": true
+        },
+        "seed": 42,
+        "svar": {
+          "batch_size": 32,
+          "epochs": 50,
+          "hidden_dim": 248,
+          "layer_end": 19,
+          "layer_start": 5,
+          "learning_rate": 0.001,
+          "protocols": [
+            "controlled"
+          ]
+        }
+      },
+      "cgc": {
+        "mid_layer_pct": [
+          0.25,
+          0.75
+        ],
+        "top_k_pct": 0.05,
+        "use_attn_weighting": false
+      },
+      "dgst_t": {
+        "atarget_visual_top_k": 32,
+        "capped_topmass_085_alpha": 0.85,
+        "capped_topmass_085_max_k": 64,
+        "capped_topmass_085_min_k": 16,
+        "capped_topmass_alphas": null,
+        "compute_capped_topmass_085": false,
+        "compute_ffn_injection_features": false,
+        "compute_prompt_cafe": false,
+        "cost_mode": "sqrt_matched_state",
+        "cost_modes": [
+          "sqrt_matched_state",
+          "cosine_matched_state"
+        ],
+        "enabled": true,
+        "feature_output_profile": "four_gate_vv",
+        "ffn_injection_eps": 1e-12,
+        "four_gate_methods": [
+          "hpre_raw_logit_gauss",
+          "hpre_softmax_prob_gauss"
+        ],
+        "prompt_cafe_layer": 22,
+        "prompt_cafe_temperature": 10.0,
+        "relative_vll_mad_epsilon": 1e-06,
+        "source_modes": [
+          "hmid_cos",
+          "hpre_cos"
+        ],
+        "source_tau_values": null,
+        "spatial_cost_distance_weight": 1.0,
+        "spatial_cost_semantic_weight": 1.0,
+        "support_modes": [
+          "vv"
+        ],
+        "target_gate_mode": "four_gate",
+        "tau": 0.07,
+        "transport_top_k": 64,
+        "transport_top_k_values": null
+      },
+      "method": {
+        "enabled": true
+      },
+      "model_overrides": {
+        "llava_next_8b": {
+          "dgst_attention_query_chunk_size": null,
+          "dgst_capture_device": null,
+          "image_grid_pinpoints": [
+            [
+              336,
+              336
+            ]
+          ]
+        }
+      }
+    },
+    "jffn_p_comparison": {
+      "cost_modes": [
+        "sqrt_matched_state",
+        "cosine_matched_state"
+      ],
+      "enabled": false,
+      "entropy_matching": {
+        "beta_max": 50.0,
+        "beta_min": 0.02,
+        "bisection_steps": 60,
+        "calibration_images": 500,
+        "selection_seed": 20260818,
+        "target_source": "hpre_cos"
+      },
+      "gate_methods": [
+        "hpre_raw_logit_gauss",
+        "hpre_softmax_prob_gauss"
+      ],
+      "jvp": {
+        "max_increment_gib": 1.5,
+        "qwen_fallback_chunks": [
+          256,
+          128,
+          64
+        ]
+      },
+      "output_subdir": "results/jffn_p_comparison",
+      "qwen_shared_forward_gate": {
+        "enabled": true,
+        "peak_memory_gib": 22.0,
+        "relative_error": 0.001
+      },
+      "shard_images": 50,
+      "source_modes": [
+        "hmid_cos",
+        "hpre_cos",
+        "jffn",
+        "jffn_entropy_matched"
+      ],
+      "source_top_k": 32,
+      "spatial_validation": {
+        "bbox_union_same_category": true,
+        "internvl_grid": [
+          16,
+          16
+        ],
+        "llava_grid": [
+          24,
+          24
+        ],
+        "real_targets_only": true
+      },
+      "support_modes": [
+        "vv"
+      ],
+      "target_region_top_k": 32,
+      "target_top_k": 32,
+      "training": {
+        "batch_size": 256,
+        "bootstrap_replicates": 10000,
+        "bootstrap_seed": 20260819,
+        "checkpoint_selection": "minimum_train_loss",
+        "feature_normalization": "none",
+        "hidden_sizes": [
+          128,
+          64,
+          32
+        ],
+        "max_epochs": 100,
+        "seeds": [
+          43,
+          44,
+          45
+        ],
+        "threshold_selection": "train_f1"
+      },
+      "transport_top_k": 64
+    },
+    "labeling": {
+      "alignment_failure_policy": "error",
+      "primary_locator": "inslen_official_first_token_first_occurrence",
+      "sample_unit": "inslen_unique_detected_word",
+      "save_all_mentions": true,
+      "save_svar_official_samples": false,
+      "schema_version": 2
+    },
+    "models": {
+      "internvl_2_5_8b": {
+        "hf_name": "/home/apulis-dev/userdata/models/InternVL2_5-8B",
+        "image_size": 448,
+        "img_context_token": "<IMG_CONTEXT>",
+        "max_new_tokens": 512,
+        "num_visual_tokens": 256,
+        "prompt_template": "<|im_start|>user\n<image>\nDescribe this image.<|im_end|>\n<|im_start|>assistant\n",
+        "temperature": 0.1,
+        "top_p": 0.5
+      },
+      "llava_1_5_7b": {
+        "hf_name": "/home/apulis-dev/userdata/models/llava/llava-hf/llava-1___5-7b-hf",
+        "max_new_tokens": 512,
+        "num_visual_tokens": 576,
+        "prompt_template": "USER: <image>\nDescribe this image.\nASSISTANT:",
+        "temperature": 0.1,
+        "top_p": 0.5
+      },
+      "llava_next_8b": {
+        "hf_name": "/home/apulis-dev/userdata/models/LLaVA-NeXT-8B",
+        "image_token": "<image>",
+        "max_new_tokens": 512,
+        "prompt_template": null,
+        "temperature": 0.1,
+        "top_p": 0.5
+      },
+      "llava_onevision_1_5_8b": {
+        "hf_name": "/home/apulis-dev/userdata/models/LLaVA-OneVision-1.5-8B-Instruct",
+        "image_token": "<|image_pad|>",
+        "max_new_tokens": 512,
+        "prompt_template": null,
+        "temperature": 0.1,
+        "top_p": 0.5,
+        "vision_end_token": "<|vision_end|>",
+        "vision_start_token": "<|vision_start|>"
+      },
+      "llava_onevision_1_5_8b_instruct": {
+        "hf_name": "/home/apulis-dev/userdata/models/LLaVA-OneVision-1.5-8B-Instruct",
+        "image_token": "<|image_pad|>",
+        "max_new_tokens": 512,
+        "prompt_template": null,
+        "temperature": 0.1,
+        "top_p": 0.5,
+        "vision_end_token": "<|vision_end|>",
+        "vision_start_token": "<|vision_start|>"
+      },
+      "qwen2_5_vl_7b": {
+        "hf_name": "/home/apulis-dev/userdata/models/Qwen2.5-VL-7B-Instruct",
+        "max_new_tokens": 512,
+        "prompt_template": null,
+        "temperature": 0.1,
+        "top_p": 0.5,
+        "vision_end_token": "<|vision_end|>",
+        "vision_start_token": "<|vision_start|>"
+      },
+      "qwen3_vl_8b": {
+        "hf_name": "/home/apulis-dev/userdata/models/Qwen3-VL-8B-Instruct",
+        "max_new_tokens": 512,
+        "num_layers": 36,
+        "prompt_template": null,
+        "temperature": 0.1,
+        "top_p": 0.5,
+        "vision_end_token": "<|vision_end|>",
+        "vision_start_token": "<|vision_start|>"
+      }
+    },
+    "qa_benchmarks": {
+      "amber_root": "/home/apulis-dev/userdata/AMBER",
+      "baseline_label_protocols": [
+        "object_hallucination_yes_only",
+        "answer_correctness_all"
+      ],
+      "baseline_trainer": "shared_torch_mlp",
+      "clevr_dataset_name": "clevr_exist_9k",
+      "clevr_root": "/home/apulis-dev/userdata/datasets/CLEVR_v1.0",
+      "clevr_test_questions": 1800,
+      "clevr_train_questions": 7200,
+      "clevr_val_questions": 0,
+      "coco_image_dir": "/home/apulis-dev/userdata/datasets/POPE/val2014",
+      "dataset_model_overrides": {
+        "amber_discriminative": {
+          "max_pixels": 200704
+        }
+      },
+      "extraction_mode": "baseline_only",
+      "generation": {
+        "max_new_tokens": 8,
+        "temperature": 0.1,
+        "top_p": 0.5
+      },
+      "label_protocols": [
+        "object_hallucination_yes_only",
+        "answer_correctness_all"
+      ],
+      "output_root": "/home/apulis-dev/userdata/CODEX/test-cocochair/gfchair/outputs/qa_benchmarks",
+      "pope_dir": "/home/apulis-dev/userdata/datasets/POPE",
+      "position_protocols": [
+        "prompt_last_token",
+        "question_object_pre_token"
+      ],
+      "prepared_root": "/home/apulis-dev/userdata/datasets/qa_benchmarks",
+      "split": "strict_image_level_82",
+      "split_seed": 42
+    },
+    "run": {
+      "extraction_mode": "all",
+      "prompt": "Describe this image.",
+      "validate_manifests": false
+    },
+    "training": {
+      "baseline": {
+        "methods": [
+          "svar",
+          "metatoken"
+        ],
+        "positive_class": "real",
+        "seeds": [
+          43,
+          44,
+          45
+        ],
+        "trainers": [
+          "native_paper",
+          "shared_torch_mlp"
+        ],
+        "write_summary": true
+      },
+      "feature_sets": {
+        "ads_cgc": [
+          "ads+cgc"
+        ],
+        "method": [
+          "hpre_raw_logit_gauss_risk_sqrt_matched_state",
+          "hpre_raw_logit_gauss_risk_sqrt_matched_state+hpre_raw_logit_gauss_ev_target_dist_mass_x_cosine",
+          "hpre_raw_logit_gauss_risk_cosine_matched_state",
+          "hpre_raw_logit_gauss_risk_cosine_matched_state+hpre_raw_logit_gauss_ev_target_dist_mass_x_cosine",
+          "hpre_raw_logit_gauss_source_hpre_cos_risk_sqrt_matched_state",
+          "hpre_raw_logit_gauss_source_hpre_cos_risk_sqrt_matched_state+hpre_raw_logit_gauss_ev_target_dist_mass_x_cosine",
+          "hpre_raw_logit_gauss_source_hpre_cos_risk_cosine_matched_state",
+          "hpre_raw_logit_gauss_source_hpre_cos_risk_cosine_matched_state+hpre_raw_logit_gauss_ev_target_dist_mass_x_cosine",
+          "hpre_softmax_prob_gauss_risk_sqrt_matched_state",
+          "hpre_softmax_prob_gauss_risk_sqrt_matched_state+hpre_softmax_prob_gauss_ev_target_dist_mass_x_cosine",
+          "hpre_softmax_prob_gauss_risk_cosine_matched_state",
+          "hpre_softmax_prob_gauss_risk_cosine_matched_state+hpre_softmax_prob_gauss_ev_target_dist_mass_x_cosine",
+          "hpre_softmax_prob_gauss_source_hpre_cos_risk_sqrt_matched_state",
+          "hpre_softmax_prob_gauss_source_hpre_cos_risk_sqrt_matched_state+hpre_softmax_prob_gauss_ev_target_dist_mass_x_cosine",
+          "hpre_softmax_prob_gauss_source_hpre_cos_risk_cosine_matched_state",
+          "hpre_softmax_prob_gauss_source_hpre_cos_risk_cosine_matched_state+hpre_softmax_prob_gauss_ev_target_dist_mass_x_cosine"
+        ]
+      },
+      "positive_class": "real",
+      "source_tau_transport_topk_sweep": {
+        "enabled": false,
+        "feature_methods": [
+          "hpre_raw_logit_gauss",
+          "hpre_softmax_prob_gauss"
+        ],
+        "risk_modes": [
+          "fixed_topk",
+          "capped_topmass_alpha_sweep"
+        ]
+      },
+      "split_protocol": "strict_82_no_validation",
+      "threshold_selection": "train_f1",
+      "torch_probe": {
+        "activation": "relu",
+        "batch_norm": true,
+        "batch_size": 256,
+        "checkpoint_selection": "minimum_train_loss",
+        "drop_last": true,
+        "dropout": 0.3,
+        "early_stopping_monitor": "train_loss",
+        "early_stopping_patience": 10,
+        "feature_normalization": "none",
+        "fixed_threshold": 0.5,
+        "hidden_sizes": [
+          128,
+          64,
+          32
+        ],
+        "initialization": "kaiming_uniform_relu",
+        "learning_rate": 0.001,
+        "loss": "bce_with_logits",
+        "lr_factor": 0.5,
+        "lr_patience": 5,
+        "max_epochs": 100,
+        "optimizer": "adam",
+        "output_dim": 1,
+        "scheduler_monitor": "train_loss",
+        "seeds": [
+          43,
+          44,
+          45
+        ],
+        "structure": "Linear-BatchNorm-ReLU-Dropout",
+        "threshold_reporting": [
+          "fixed_0.5",
+          "train_f1"
+        ],
+        "weight_decay": 1e-05
+      },
+      "trainer": "torch_mlp"
+    }
+  },
+  "empty_generation": "NaN",
+  "formula": "sum_region(normalize_region(mean_heads(attention)) * sigmoid((raw_hpre_target_logit-region_median)/(1.4826*region_MAD+epsilon)))",
+  "forward": "Native eager attention; Qwen exact prefix per target; LLaVA and InternVL full response causal rows, matching original wrappers",
+  "logits": "Native full-vocabulary projection on each region states, chunk64, target raw column; no final norm or LM-head bias",
+  "model": "qwen3_vl_8b",
+  "regions": [
+    "visual",
+    "visual_prompt_sum",
+    "generation"
+  ],
+  "signature": "784a8565d12a0020292711fb9fc042524bdfbe1342ab94ffa41a12c1e675a4e8",
+  "smoke_atol": 0.0001,
+  "smoke_rtol": 0.001,
+  "source_sha": {
+    "generations.json": "0b51bf018ee15818768bbdb097aad5113a0d1893172925809fa366ff197bfe69",
+    "image_splits.json": "d3ee1c8e521d4f007112e3f3aa38ba1ba4949d623820b6977240d2f3f32ac65d",
+    "labeling.json": "7c59788bec57d54bae201a2c08a3a280b8c29d6cad6a966a21b7bdb98c7df28b"
+  },
+  "vp": "All visual and all prompt tokens including BOS/template; excludes generation"
+}

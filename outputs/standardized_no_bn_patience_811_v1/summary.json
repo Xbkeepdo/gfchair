@@ -1,0 +1,485 @@
+{
+  "schema": "standardized-no-bn-patience-811-v1",
+  "summaries": [
+    {
+      "best_epochs": [
+        13,
+        20,
+        21
+      ],
+      "config": {
+        "activation": "gelu",
+        "batch_norm": false,
+        "batch_size": 256,
+        "dropout": 0.5,
+        "learning_rate": 0.003,
+        "lr_patience": 6,
+        "max_epochs": 150,
+        "monitor": "val_loss",
+        "patience": 5,
+        "standardize": true,
+        "weight_decay": 1e-06,
+        "width": 256
+      },
+      "ensemble": {
+        "AUROC": 0.8764782977411147,
+        "HALL_AUPR": 0.41249679329071803
+      },
+      "model": "qwen2_5_vl_7b",
+      "patience": 5,
+      "stopped_epochs": [
+        18,
+        25,
+        26
+      ],
+      "test_AUROC_mean": 0.8740780715956107,
+      "test_AUROC_std": 0.007694373485385326,
+      "test_HALL_AUPR_mean": 0.41050455706416433,
+      "test_HALL_AUPR_std": 0.01466331845976079,
+      "validation_AUROC_mean": 0.8776765158989805,
+      "validation_HALL_AUPR_mean": 0.4861720366616021,
+      "validation_loss_mean": 0.24553793172041574,
+      "variant": "true_rms/visual"
+    },
+    {
+      "best_epochs": [
+        30,
+        31,
+        21
+      ],
+      "config": {
+        "activation": "gelu",
+        "batch_norm": false,
+        "batch_size": 256,
+        "dropout": 0.5,
+        "learning_rate": 0.003,
+        "lr_patience": 6,
+        "max_epochs": 150,
+        "monitor": "val_loss",
+        "patience": 10,
+        "standardize": true,
+        "weight_decay": 1e-06,
+        "width": 256
+      },
+      "ensemble": {
+        "AUROC": 0.8812273533266517,
+        "HALL_AUPR": 0.42810173033025417
+      },
+      "model": "qwen2_5_vl_7b",
+      "patience": 10,
+      "stopped_epochs": [
+        40,
+        41,
+        31
+      ],
+      "test_AUROC_mean": 0.8795929380926683,
+      "test_AUROC_std": 0.0015800286887396324,
+      "test_HALL_AUPR_mean": 0.4222536382369773,
+      "test_HALL_AUPR_std": 0.008077961338589498,
+      "validation_AUROC_mean": 0.8846198784857454,
+      "validation_HALL_AUPR_mean": 0.5089752372153393,
+      "validation_loss_mean": 0.2418233205874761,
+      "variant": "true_rms/visual"
+    },
+    {
+      "best_epochs": [
+        30,
+        31,
+        21
+      ],
+      "config": {
+        "activation": "gelu",
+        "batch_norm": false,
+        "batch_size": 256,
+        "dropout": 0.5,
+        "learning_rate": 0.003,
+        "lr_patience": 6,
+        "max_epochs": 150,
+        "monitor": "val_loss",
+        "patience": 20,
+        "standardize": true,
+        "weight_decay": 1e-06,
+        "width": 256
+      },
+      "ensemble": {
+        "AUROC": 0.8812273533266517,
+        "HALL_AUPR": 0.42810173033025417
+      },
+      "model": "qwen2_5_vl_7b",
+      "patience": 20,
+      "stopped_epochs": [
+        50,
+        51,
+        41
+      ],
+      "test_AUROC_mean": 0.8795929380926683,
+      "test_AUROC_std": 0.0015800286887396324,
+      "test_HALL_AUPR_mean": 0.4222536382369773,
+      "test_HALL_AUPR_std": 0.008077961338589498,
+      "validation_AUROC_mean": 0.8846198784857454,
+      "validation_HALL_AUPR_mean": 0.5089752372153393,
+      "validation_loss_mean": 0.2418233205874761,
+      "variant": "true_rms/visual"
+    },
+    {
+      "best_epochs": [
+        22,
+        18,
+        26
+      ],
+      "config": {
+        "activation": "relu",
+        "batch_norm": false,
+        "batch_size": 512,
+        "dropout": 0.3,
+        "learning_rate": 0.001,
+        "lr_patience": 6,
+        "max_epochs": 150,
+        "monitor": "val_loss",
+        "patience": 5,
+        "standardize": true,
+        "weight_decay": 0.001,
+        "width": 128
+      },
+      "ensemble": {
+        "AUROC": 0.8973599006172297,
+        "HALL_AUPR": 0.7162211549505082
+      },
+      "model": "llava_1_5_7b",
+      "patience": 5,
+      "stopped_epochs": [
+        27,
+        23,
+        31
+      ],
+      "test_AUROC_mean": 0.8966711010684952,
+      "test_AUROC_std": 0.0007758961542075282,
+      "test_HALL_AUPR_mean": 0.7140065095112048,
+      "test_HALL_AUPR_std": 0.004435223341857521,
+      "validation_AUROC_mean": 0.9025907936340332,
+      "validation_HALL_AUPR_mean": 0.7346604965005906,
+      "validation_loss_mean": 0.32701130708058673,
+      "variant": "true_rms/vp_generation"
+    },
+    {
+      "best_epochs": [
+        72,
+        50,
+        26
+      ],
+      "config": {
+        "activation": "relu",
+        "batch_norm": false,
+        "batch_size": 512,
+        "dropout": 0.3,
+        "learning_rate": 0.001,
+        "lr_patience": 6,
+        "max_epochs": 150,
+        "monitor": "val_loss",
+        "patience": 10,
+        "standardize": true,
+        "weight_decay": 0.001,
+        "width": 128
+      },
+      "ensemble": {
+        "AUROC": 0.9002479678375445,
+        "HALL_AUPR": 0.7183107312422305
+      },
+      "model": "llava_1_5_7b",
+      "patience": 10,
+      "stopped_epochs": [
+        82,
+        60,
+        36
+      ],
+      "test_AUROC_mean": 0.8991181735481409,
+      "test_AUROC_std": 0.0010848855446551372,
+      "test_HALL_AUPR_mean": 0.7156388764774159,
+      "test_HALL_AUPR_std": 0.004908786741673687,
+      "validation_AUROC_mean": 0.9069574233438337,
+      "validation_HALL_AUPR_mean": 0.7389344110419881,
+      "validation_loss_mean": 0.32034993171691895,
+      "variant": "true_rms/vp_generation"
+    },
+    {
+      "best_epochs": [
+        72,
+        50,
+        38
+      ],
+      "config": {
+        "activation": "relu",
+        "batch_norm": false,
+        "batch_size": 512,
+        "dropout": 0.3,
+        "learning_rate": 0.001,
+        "lr_patience": 6,
+        "max_epochs": 150,
+        "monitor": "val_loss",
+        "patience": 20,
+        "standardize": true,
+        "weight_decay": 0.001,
+        "width": 128
+      },
+      "ensemble": {
+        "AUROC": 0.9000449961362013,
+        "HALL_AUPR": 0.7189996132894911
+      },
+      "model": "llava_1_5_7b",
+      "patience": 20,
+      "stopped_epochs": [
+        92,
+        70,
+        58
+      ],
+      "test_AUROC_mean": 0.8993627177666266,
+      "test_AUROC_std": 0.0007474123758836834,
+      "test_HALL_AUPR_mean": 0.7176380596790931,
+      "test_HALL_AUPR_std": 0.0021162325326236652,
+      "validation_AUROC_mean": 0.9073049938698531,
+      "validation_HALL_AUPR_mean": 0.7371421063867202,
+      "validation_loss_mean": 0.3197603027025859,
+      "variant": "true_rms/vp_generation"
+    },
+    {
+      "best_epochs": [
+        36,
+        36,
+        38
+      ],
+      "config": {
+        "activation": "relu",
+        "batch_norm": false,
+        "batch_size": 512,
+        "dropout": 0.3,
+        "learning_rate": 0.001,
+        "lr_patience": 6,
+        "max_epochs": 150,
+        "monitor": "val_loss",
+        "patience": 5,
+        "standardize": true,
+        "weight_decay": 0.001,
+        "width": 128
+      },
+      "ensemble": {
+        "AUROC": 0.9262611570247934,
+        "HALL_AUPR": 0.7096905735362428
+      },
+      "model": "qwen3_vl_8b",
+      "patience": 5,
+      "stopped_epochs": [
+        41,
+        41,
+        43
+      ],
+      "test_AUROC_mean": 0.924873829201102,
+      "test_AUROC_std": 0.0004062156986523583,
+      "test_HALL_AUPR_mean": 0.7079081762696768,
+      "test_HALL_AUPR_std": 0.0005065417866334618,
+      "validation_AUROC_mean": 0.8975835036110453,
+      "validation_HALL_AUPR_mean": 0.6690613140376458,
+      "validation_loss_mean": 0.29278873403867084,
+      "variant": "true_rms/vp_generation"
+    },
+    {
+      "best_epochs": [
+        61,
+        69,
+        67
+      ],
+      "config": {
+        "activation": "relu",
+        "batch_norm": false,
+        "batch_size": 512,
+        "dropout": 0.3,
+        "learning_rate": 0.001,
+        "lr_patience": 6,
+        "max_epochs": 150,
+        "monitor": "val_loss",
+        "patience": 10,
+        "standardize": true,
+        "weight_decay": 0.001,
+        "width": 128
+      },
+      "ensemble": {
+        "AUROC": 0.9305157024793388,
+        "HALL_AUPR": 0.7231694437090218
+      },
+      "model": "qwen3_vl_8b",
+      "patience": 10,
+      "stopped_epochs": [
+        71,
+        79,
+        77
+      ],
+      "test_AUROC_mean": 0.9296958677685949,
+      "test_AUROC_std": 0.0005847471978045693,
+      "test_HALL_AUPR_mean": 0.7208550173496325,
+      "test_HALL_AUPR_std": 0.0015526644279525506,
+      "validation_AUROC_mean": 0.902113951967214,
+      "validation_HALL_AUPR_mean": 0.6751100837327758,
+      "validation_loss_mean": 0.2888235847155253,
+      "variant": "true_rms/vp_generation"
+    },
+    {
+      "best_epochs": [
+        74,
+        69,
+        67
+      ],
+      "config": {
+        "activation": "relu",
+        "batch_norm": false,
+        "batch_size": 512,
+        "dropout": 0.3,
+        "learning_rate": 0.001,
+        "lr_patience": 6,
+        "max_epochs": 150,
+        "monitor": "val_loss",
+        "patience": 20,
+        "standardize": true,
+        "weight_decay": 0.001,
+        "width": 128
+      },
+      "ensemble": {
+        "AUROC": 0.9304892561983472,
+        "HALL_AUPR": 0.7229965560189906
+      },
+      "model": "qwen3_vl_8b",
+      "patience": 20,
+      "stopped_epochs": [
+        94,
+        89,
+        87
+      ],
+      "test_AUROC_mean": 0.9297168044077134,
+      "test_AUROC_std": 0.0005844314797415216,
+      "test_HALL_AUPR_mean": 0.720955260464601,
+      "test_HALL_AUPR_std": 0.0014163061698870497,
+      "validation_AUROC_mean": 0.9021949906516089,
+      "validation_HALL_AUPR_mean": 0.6756847256083528,
+      "validation_loss_mean": 0.2887544234593709,
+      "variant": "true_rms/vp_generation"
+    },
+    {
+      "best_epochs": [
+        56,
+        35,
+        42
+      ],
+      "config": {
+        "activation": "gelu",
+        "batch_norm": false,
+        "batch_size": 512,
+        "dropout": 0.1,
+        "learning_rate": 0.0003,
+        "lr_patience": 6,
+        "max_epochs": 150,
+        "monitor": "val_loss",
+        "patience": 5,
+        "standardize": true,
+        "weight_decay": 0.001,
+        "width": 248
+      },
+      "ensemble": {
+        "AUROC": 0.8738779641411221,
+        "HALL_AUPR": 0.5592256912265766
+      },
+      "model": "internvl_2_5_8b",
+      "patience": 5,
+      "stopped_epochs": [
+        61,
+        40,
+        47
+      ],
+      "test_AUROC_mean": 0.8729323308270676,
+      "test_AUROC_std": 0.004321628610993113,
+      "test_HALL_AUPR_mean": 0.5570259449443314,
+      "test_HALL_AUPR_std": 0.009699066656303223,
+      "validation_AUROC_mean": 0.8501708259061198,
+      "validation_HALL_AUPR_mean": 0.5750254909201545,
+      "validation_loss_mean": 0.31998106837272644,
+      "variant": "true_rms/vp_generation"
+    },
+    {
+      "best_epochs": [
+        56,
+        93,
+        42
+      ],
+      "config": {
+        "activation": "gelu",
+        "batch_norm": false,
+        "batch_size": 512,
+        "dropout": 0.1,
+        "learning_rate": 0.0003,
+        "lr_patience": 6,
+        "max_epochs": 150,
+        "monitor": "val_loss",
+        "patience": 10,
+        "standardize": true,
+        "weight_decay": 0.001,
+        "width": 248
+      },
+      "ensemble": {
+        "AUROC": 0.8803267784846732,
+        "HALL_AUPR": 0.574978755498343
+      },
+      "model": "internvl_2_5_8b",
+      "patience": 10,
+      "stopped_epochs": [
+        66,
+        103,
+        52
+      ],
+      "test_AUROC_mean": 0.8789126662810873,
+      "test_AUROC_std": 0.0045363902168315895,
+      "test_HALL_AUPR_mean": 0.5706747409810373,
+      "test_HALL_AUPR_std": 0.010422532984787012,
+      "validation_AUROC_mean": 0.8543696771637949,
+      "validation_HALL_AUPR_mean": 0.5818875076115416,
+      "validation_loss_mean": 0.31719985604286194,
+      "variant": "true_rms/vp_generation"
+    },
+    {
+      "best_epochs": [
+        83,
+        93,
+        59
+      ],
+      "config": {
+        "activation": "gelu",
+        "batch_norm": false,
+        "batch_size": 512,
+        "dropout": 0.1,
+        "learning_rate": 0.0003,
+        "lr_patience": 6,
+        "max_epochs": 150,
+        "monitor": "val_loss",
+        "patience": 20,
+        "standardize": true,
+        "weight_decay": 0.001,
+        "width": 248
+      },
+      "ensemble": {
+        "AUROC": 0.8821486408328514,
+        "HALL_AUPR": 0.5788448578599545
+      },
+      "model": "internvl_2_5_8b",
+      "patience": 20,
+      "stopped_epochs": [
+        103,
+        113,
+        79
+      ],
+      "test_AUROC_mean": 0.8814333911702333,
+      "test_AUROC_std": 0.0027202382830038814,
+      "test_HALL_AUPR_mean": 0.5763219481447158,
+      "test_HALL_AUPR_std": 0.006331378856737917,
+      "validation_AUROC_mean": 0.8559269162210338,
+      "validation_HALL_AUPR_mean": 0.5850184493776677,
+      "validation_loss_mean": 0.3164881269137065,
+      "variant": "true_rms/vp_generation"
+    }
+  ]
+}

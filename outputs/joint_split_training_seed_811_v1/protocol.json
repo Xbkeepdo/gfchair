@@ -1,0 +1,170 @@
+{
+  "caveat": "Only three joint seeds; their test image sets differ, so variance combines cohort composition and optimization",
+  "classifier": "Previously validation-selected single-hidden MLP config frozen per model/group; BCE REAL=1; Adam; train-only scaling; validation early stopping; no refit",
+  "comparison": "Existing fixed split20260912 with training seeds43/44/45 versus joint split+training seeds43/44/45",
+  "features": {
+    "visual": "[AE_V,log1p(S_V_all)]",
+    "vp_generation": "[AE_VP,log1p(S_V_all+S_P_all),AE_G,log1p(S_G_all)]"
+  },
+  "fingerprint": "85ca0064ab7ff8fa93c2d53b9e79eb93b5aaba362dbf083fc410d98cc01c98d6",
+  "groups": [
+    "visual",
+    "vp_generation"
+  ],
+  "image_split_hashes": {
+    "internvl_2_5_8b": "d3ee1c8e521d4f007112e3f3aa38ba1ba4949d623820b6977240d2f3f32ac65d",
+    "llava_1_5_7b": "d3ee1c8e521d4f007112e3f3aa38ba1ba4949d623820b6977240d2f3f32ac65d",
+    "qwen2_5_vl_7b": "d3ee1c8e521d4f007112e3f3aa38ba1ba4949d623820b6977240d2f3f32ac65d",
+    "qwen3_vl_8b": "d3ee1c8e521d4f007112e3f3aa38ba1ba4949d623820b6977240d2f3f32ac65d"
+  },
+  "mention_signatures": {
+    "internvl_2_5_8b": "e33d4294d55cc668eaef105da9f839f3eb7d7692f8d66a13427c32223f482849",
+    "llava_1_5_7b": "15bcd8878e2ef2480ce8759a57913414cdbbce52e9cc3caec239c3a16111f019",
+    "qwen2_5_vl_7b": "a60a7c932e844d5910ad6474644037311327b47f378fd8d3f8e06ce73aca1df3",
+    "qwen3_vl_8b": "f1bc2d5067369c963cb93293d7964a65e6e52501e2a5a8a65b8da03bcfa1c4f6"
+  },
+  "metrics": "Per-seed test AUROC and HALL-positive AUPR; arithmetic mean and population std; no probability ensemble",
+  "models": [
+    "qwen2_5_vl_7b",
+    "llava_1_5_7b",
+    "qwen3_vl_8b",
+    "internvl_2_5_8b"
+  ],
+  "path": "true RMS all-attention z-A_all to z; local FP32 Gauss-Legendre K32",
+  "schema": "joint-split-training-seed-811-v1",
+  "seed_scope": "Same seed controls image split, model initialization, minibatch order and dropout",
+  "seeds": [
+    43,
+    44,
+    45
+  ],
+  "settings": {
+    "internvl_2_5_8b": {
+      "visual": {
+        "activation": "relu",
+        "batch_norm": true,
+        "batch_size": 128,
+        "dropout": 0.0,
+        "learning_rate": 0.001,
+        "lr_patience": 6,
+        "max_epochs": 150,
+        "monitor": "val_auroc",
+        "patience": 20,
+        "standardize": true,
+        "weight_decay": 1e-06,
+        "width": 1024
+      },
+      "vp_generation": {
+        "activation": "gelu",
+        "batch_norm": true,
+        "batch_size": 512,
+        "dropout": 0.1,
+        "learning_rate": 0.0003,
+        "lr_patience": 6,
+        "max_epochs": 150,
+        "monitor": "val_loss",
+        "patience": 20,
+        "standardize": true,
+        "weight_decay": 0.001,
+        "width": 248
+      }
+    },
+    "llava_1_5_7b": {
+      "visual": {
+        "activation": "relu",
+        "batch_norm": false,
+        "batch_size": 256,
+        "dropout": 0.3,
+        "learning_rate": 0.003,
+        "lr_patience": 6,
+        "max_epochs": 150,
+        "monitor": "val_auroc",
+        "patience": 20,
+        "standardize": true,
+        "weight_decay": 0.0001,
+        "width": 128
+      },
+      "vp_generation": {
+        "activation": "relu",
+        "batch_norm": true,
+        "batch_size": 512,
+        "dropout": 0.3,
+        "learning_rate": 0.001,
+        "lr_patience": 6,
+        "max_epochs": 150,
+        "monitor": "val_auroc",
+        "patience": 20,
+        "standardize": false,
+        "weight_decay": 0.001,
+        "width": 128
+      }
+    },
+    "qwen2_5_vl_7b": {
+      "visual": {
+        "activation": "gelu",
+        "batch_norm": true,
+        "batch_size": 256,
+        "dropout": 0.5,
+        "learning_rate": 0.003,
+        "lr_patience": 6,
+        "max_epochs": 150,
+        "monitor": "val_loss",
+        "patience": 20,
+        "standardize": true,
+        "weight_decay": 1e-06,
+        "width": 256
+      },
+      "vp_generation": {
+        "activation": "relu",
+        "batch_norm": true,
+        "batch_size": 512,
+        "dropout": 0.3,
+        "learning_rate": 0.001,
+        "lr_patience": 6,
+        "max_epochs": 150,
+        "monitor": "val_auroc",
+        "patience": 20,
+        "standardize": false,
+        "weight_decay": 0.001,
+        "width": 128
+      }
+    },
+    "qwen3_vl_8b": {
+      "visual": {
+        "activation": "gelu",
+        "batch_norm": true,
+        "batch_size": 512,
+        "dropout": 0.1,
+        "learning_rate": 0.0003,
+        "lr_patience": 6,
+        "max_epochs": 150,
+        "monitor": "val_loss",
+        "patience": 20,
+        "standardize": true,
+        "weight_decay": 0.001,
+        "width": 248
+      },
+      "vp_generation": {
+        "activation": "relu",
+        "batch_norm": true,
+        "batch_size": 512,
+        "dropout": 0.3,
+        "learning_rate": 0.001,
+        "lr_patience": 6,
+        "max_epochs": 150,
+        "monitor": "val_auroc",
+        "patience": 20,
+        "standardize": false,
+        "weight_decay": 0.001,
+        "width": 128
+      }
+    }
+  },
+  "source_fingerprints": {
+    "internvl_2_5_8b": "0ce868207d612adf9529deb72b4ec52c999c2d23ceb0aeae76b5e59d9d42cb16",
+    "llava_1_5_7b": "b3585cbc86932b3f1c0ce92c32df3c44069705de3d45e726ac513cf29c53ff12",
+    "qwen2_5_vl_7b": "352e0d1705028fa7e1bd3315f20594f2b894bc69b12b53d5f309d5cc64030b87",
+    "qwen3_vl_8b": "67bdfcc7a289e9fb2cba250e0924437544a0ccdf95b52c1732660958add1ab7c"
+  },
+  "split": "For each seed, permute all 4000 sorted image IDs into 3200/400/400"
+}

@@ -1,0 +1,31 @@
+{
+  "base_selection_fingerprint": "322251b7f945e130e30595539665ea36604c42b6e768a471ede74eb899a58e45",
+  "batch_sizes": [
+    32,
+    64,
+    128,
+    256,
+    512
+  ],
+  "caveat": "Epoch/patience schedule is fixed, so optimizer-step count changes with batch size.",
+  "control": "For each group, freeze its previously selected architecture and optimizer settings; change batch_size only.",
+  "endpoint": "validation only; no test probabilities or test metrics are computed",
+  "features": {
+    "visual": "[AE_V, log1p(S_V_all)]",
+    "vp_generation": "[AE_VP, log1p(S_V_all+S_P_all), AE_G, log1p(S_G_all)]"
+  },
+  "groups": [
+    "visual",
+    "vp_generation"
+  ],
+  "model": "qwen2_5_vl_7b",
+  "path": "true RMS all-attention z-A_all to z, local FP32 Gauss-Legendre K32",
+  "schema": "qwen25-batch-ablation-811-v1",
+  "seeds": [
+    43,
+    44,
+    45
+  ],
+  "source_fingerprint": "352e0d1705028fa7e1bd3315f20594f2b894bc69b12b53d5f309d5cc64030b87",
+  "split": "3200 train / 400 validation / 400 untouched test images"
+}

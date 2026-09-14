@@ -1,0 +1,37 @@
+{
+  "comparison": "Within each model the exact same classifier configuration is used for V and VP+G.",
+  "config": {
+    "activation": "gelu",
+    "batch_norm": false,
+    "batch_size": 256,
+    "dropout": 0.5,
+    "early_stopping": false,
+    "learning_rate": 0.003,
+    "lr_patience": 6,
+    "max_epochs": 150,
+    "monitor": "val_loss",
+    "patience": 20,
+    "standardize": true,
+    "weight_decay": 1e-06,
+    "width": 256
+  },
+  "groups": [
+    "visual",
+    "vp_generation"
+  ],
+  "model": "qwen2_5_vl_7b",
+  "normalization": "Per-column train-only Z-score with population standard deviation.",
+  "parent_candidate": 11,
+  "parent_champion": "true_rms/visual",
+  "schema": "v-vpg-standardized-no-bn-811-v1",
+  "seeds": [
+    43,
+    44,
+    45
+  ],
+  "source_fingerprint": "352e0d1705028fa7e1bd3315f20594f2b894bc69b12b53d5f309d5cc64030b87",
+  "source_path": "true_rms",
+  "split_seed": 20260912,
+  "status": "Exploratory follow-up after test-set access; both groups are fully reported.",
+  "training": "No BatchNorm; all 150 epochs; retain minimum validation BCE loss checkpoint."
+}

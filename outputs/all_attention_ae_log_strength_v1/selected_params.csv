@@ -1,0 +1,65 @@
+model,group,classifier,params,validation_AUROC,validation_HALL_AUPR
+qwen2_5_vl_7b,visual,one_hidden,"{""hidden_layer_sizes"": [128], ""learning_rate_init"": 0.01, ""max_iter"": 500, ""solver"": ""sgd""}",0.8086947974290223,0.33687438646291645
+qwen2_5_vl_7b,visual,xgb,"{""learning_rate"": 0.1, ""max_depth"": 8, ""n_estimators"": 200}",0.8532828020816837,0.46040240637258484
+qwen2_5_vl_7b,visual_prompt_sum,one_hidden,"{""hidden_layer_sizes"": [64], ""learning_rate_init"": 0.01, ""max_iter"": 500, ""solver"": ""sgd""}",0.8080176495322764,0.31188646090554095
+qwen2_5_vl_7b,visual_prompt_sum,xgb,"{""learning_rate"": 0.1, ""max_depth"": 8, ""n_estimators"": 500}",0.8586426461192327,0.46313016041362126
+qwen2_5_vl_7b,generation,one_hidden,"{""hidden_layer_sizes"": [128], ""learning_rate_init"": 0.01, ""max_iter"": 500, ""solver"": ""sgd""}",0.7810846380262231,0.2840421406346631
+qwen2_5_vl_7b,generation,xgb,"{""learning_rate"": 0.05, ""max_depth"": 4, ""n_estimators"": 500}",0.8016448140846762,0.3342371538259684
+qwen2_5_vl_7b,vp_generation,one_hidden,"{""hidden_layer_sizes"": [128], ""learning_rate_init"": 0.001, ""max_iter"": 500, ""solver"": ""sgd""}",0.809819736676842,0.3152256191027397
+qwen2_5_vl_7b,vp_generation,xgb,"{""learning_rate"": 0.1, ""max_depth"": 8, ""n_estimators"": 500}",0.8571709416178375,0.47955421686963196
+qwen2_5_vl_7b,ae_only_visual,one_hidden,"{""hidden_layer_sizes"": [64], ""learning_rate_init"": 0.001, ""max_iter"": 500, ""solver"": ""adam""}",0.6954909595294914,0.2771150013194888
+qwen2_5_vl_7b,ae_only_visual,xgb,"{""learning_rate"": 0.1, ""max_depth"": 8, ""n_estimators"": 200}",0.7032972733875416,0.2863826970095244
+qwen2_5_vl_7b,ae_only_visual_prompt_sum,one_hidden,"{""hidden_layer_sizes"": [64], ""learning_rate_init"": 0.01, ""max_iter"": 500, ""solver"": ""sgd""}",0.7971450570933973,0.3738558033707867
+qwen2_5_vl_7b,ae_only_visual_prompt_sum,xgb,"{""learning_rate"": 0.05, ""max_depth"": 6, ""n_estimators"": 500}",0.8282337907722215,0.38388847777692514
+qwen2_5_vl_7b,ae_only_generation,one_hidden,"{""hidden_layer_sizes"": [128], ""learning_rate_init"": 0.001, ""max_iter"": 500, ""solver"": ""adam""}",0.6722768005854052,0.18073083660831787
+qwen2_5_vl_7b,ae_only_generation,xgb,"{""learning_rate"": 0.05, ""max_depth"": 8, ""n_estimators"": 500}",0.704430403940564,0.2122126532255352
+qwen2_5_vl_7b,ae_only_vp_generation,one_hidden,"{""hidden_layer_sizes"": [256], ""learning_rate_init"": 0.01, ""max_iter"": 500, ""solver"": ""sgd""}",0.7792115595699018,0.33366805615202566
+qwen2_5_vl_7b,ae_only_vp_generation,xgb,"{""learning_rate"": 0.1, ""max_depth"": 8, ""n_estimators"": 500}",0.8298911648582086,0.4337178988852578
+llava_1_5_7b,visual,one_hidden,"{""hidden_layer_sizes"": [256], ""learning_rate_init"": 0.01, ""max_iter"": 500, ""solver"": ""sgd""}",0.9035457926922627,0.7312066295863657
+llava_1_5_7b,visual,xgb,"{""learning_rate"": 0.05, ""max_depth"": 8, ""n_estimators"": 500}",0.9027604405897347,0.7225612032030148
+llava_1_5_7b,visual_prompt_sum,one_hidden,"{""hidden_layer_sizes"": [256], ""learning_rate_init"": 0.01, ""max_iter"": 500, ""solver"": ""sgd""}",0.8821647618275646,0.6839960958379954
+llava_1_5_7b,visual_prompt_sum,xgb,"{""learning_rate"": 0.05, ""max_depth"": 4, ""n_estimators"": 500}",0.8994479118820531,0.727761401407597
+llava_1_5_7b,generation,one_hidden,"{""hidden_layer_sizes"": [64], ""learning_rate_init"": 0.001, ""max_iter"": 500, ""solver"": ""adam""}",0.8748435149910387,0.6597075864462749
+llava_1_5_7b,generation,xgb,"{""learning_rate"": 0.05, ""max_depth"": 8, ""n_estimators"": 200}",0.8781767582610575,0.6651175910127219
+llava_1_5_7b,vp_generation,one_hidden,"{""hidden_layer_sizes"": [256], ""learning_rate_init"": 0.01, ""max_iter"": 500, ""solver"": ""sgd""}",0.8952941918168472,0.7057694477275834
+llava_1_5_7b,vp_generation,xgb,"{""learning_rate"": 0.05, ""max_depth"": 8, ""n_estimators"": 500}",0.9065322922014176,0.7373081854710434
+llava_1_5_7b,ae_only_visual,one_hidden,"{""hidden_layer_sizes"": [256], ""learning_rate_init"": 0.01, ""max_iter"": 500, ""solver"": ""sgd""}",0.8336998910233895,0.5945051154519896
+llava_1_5_7b,ae_only_visual,xgb,"{""learning_rate"": 0.05, ""max_depth"": 8, ""n_estimators"": 500}",0.8511739753046391,0.6225729697099109
+llava_1_5_7b,ae_only_visual_prompt_sum,one_hidden,"{""hidden_layer_sizes"": [128], ""learning_rate_init"": 0.01, ""max_iter"": 500, ""solver"": ""adam""}",0.8480145542316249,0.6051584087391803
+llava_1_5_7b,ae_only_visual_prompt_sum,xgb,"{""learning_rate"": 0.05, ""max_depth"": 8, ""n_estimators"": 500}",0.872341556113948,0.6581678577020621
+llava_1_5_7b,ae_only_generation,one_hidden,"{""hidden_layer_sizes"": [64], ""learning_rate_init"": 0.001, ""max_iter"": 500, ""solver"": ""adam""}",0.8026451595471618,0.5227890239140688
+llava_1_5_7b,ae_only_generation,xgb,"{""learning_rate"": 0.1, ""max_depth"": 6, ""n_estimators"": 100}",0.8224262156295876,0.5454529759807519
+llava_1_5_7b,ae_only_vp_generation,one_hidden,"{""hidden_layer_sizes"": [256], ""learning_rate_init"": 0.01, ""max_iter"": 500, ""solver"": ""sgd""}",0.8683580557131663,0.6676309188406663
+llava_1_5_7b,ae_only_vp_generation,xgb,"{""learning_rate"": 0.1, ""max_depth"": 8, ""n_estimators"": 500}",0.8831590608197564,0.6880623645470184
+qwen3_vl_8b,visual,one_hidden,"{""hidden_layer_sizes"": [256], ""learning_rate_init"": 0.01, ""max_iter"": 500, ""solver"": ""sgd""}",0.8616486068111455,0.5948443041027299
+qwen3_vl_8b,visual,xgb,"{""learning_rate"": 0.1, ""max_depth"": 8, ""n_estimators"": 500}",0.8787807548006906,0.6234671801705517
+qwen3_vl_8b,visual_prompt_sum,one_hidden,"{""hidden_layer_sizes"": [128], ""learning_rate_init"": 0.001, ""max_iter"": 500, ""solver"": ""adam""}",0.862521459641407,0.6323843824040535
+qwen3_vl_8b,visual_prompt_sum,xgb,"{""learning_rate"": 0.05, ""max_depth"": 8, ""n_estimators"": 500}",0.8986074139444267,0.6874679766884066
+qwen3_vl_8b,generation,one_hidden,"{""hidden_layer_sizes"": [64], ""learning_rate_init"": 0.001, ""max_iter"": 500, ""solver"": ""adam""}",0.8362852396246251,0.5263994741908721
+qwen3_vl_8b,generation,xgb,"{""learning_rate"": 0.1, ""max_depth"": 6, ""n_estimators"": 500}",0.8647759275869719,0.6010940329039649
+qwen3_vl_8b,vp_generation,one_hidden,"{""hidden_layer_sizes"": [256], ""learning_rate_init"": 0.001, ""max_iter"": 500, ""solver"": ""adam""}",0.881948463103884,0.6579993471305919
+qwen3_vl_8b,vp_generation,xgb,"{""learning_rate"": 0.1, ""max_depth"": 8, ""n_estimators"": 500}",0.9080785905114628,0.7057830803140935
+qwen3_vl_8b,ae_only_visual,one_hidden,"{""hidden_layer_sizes"": [256], ""learning_rate_init"": 0.001, ""max_iter"": 500, ""solver"": ""adam""}",0.7825842954004032,0.4869267051070182
+qwen3_vl_8b,ae_only_visual,xgb,"{""learning_rate"": 0.05, ""max_depth"": 8, ""n_estimators"": 500}",0.8064708052429039,0.5111363423707336
+qwen3_vl_8b,ae_only_visual_prompt_sum,one_hidden,"{""hidden_layer_sizes"": [256], ""learning_rate_init"": 0.01, ""max_iter"": 500, ""solver"": ""adam""}",0.824199724159216,0.57119129551316
+qwen3_vl_8b,ae_only_visual_prompt_sum,xgb,"{""learning_rate"": 0.05, ""max_depth"": 8, ""n_estimators"": 500}",0.866258210121235,0.6418779756527491
+qwen3_vl_8b,ae_only_generation,one_hidden,"{""hidden_layer_sizes"": [64], ""learning_rate_init"": 0.001, ""max_iter"": 500, ""solver"": ""adam""}",0.7380145491546348,0.40723442530680487
+qwen3_vl_8b,ae_only_generation,xgb,"{""learning_rate"": 0.05, ""max_depth"": 6, ""n_estimators"": 500}",0.7882481940144479,0.4685591843209008
+qwen3_vl_8b,ae_only_vp_generation,one_hidden,"{""hidden_layer_sizes"": [256], ""learning_rate_init"": 0.01, ""max_iter"": 500, ""solver"": ""adam""}",0.815188483165032,0.5777722494332357
+qwen3_vl_8b,ae_only_vp_generation,xgb,"{""learning_rate"": 0.05, ""max_depth"": 8, ""n_estimators"": 500}",0.8771742956897466,0.6547354713282881
+internvl_2_5_8b,visual,one_hidden,"{""hidden_layer_sizes"": [256], ""learning_rate_init"": 0.001, ""max_iter"": 500, ""solver"": ""adam""}",0.8667535778434441,0.5694050078406537
+internvl_2_5_8b,visual,xgb,"{""learning_rate"": 0.05, ""max_depth"": 8, ""n_estimators"": 500}",0.87007937887479,0.5787962860047018
+internvl_2_5_8b,visual_prompt_sum,one_hidden,"{""hidden_layer_sizes"": [128], ""learning_rate_init"": 0.01, ""max_iter"": 500, ""solver"": ""sgd""}",0.8063190219595573,0.45081732658125545
+internvl_2_5_8b,visual_prompt_sum,xgb,"{""learning_rate"": 0.05, ""max_depth"": 8, ""n_estimators"": 500}",0.8593139811113042,0.5650380394139467
+internvl_2_5_8b,generation,one_hidden,"{""hidden_layer_sizes"": [128], ""learning_rate_init"": 0.01, ""max_iter"": 500, ""solver"": ""sgd""}",0.8016327713077236,0.3908650726114256
+internvl_2_5_8b,generation,xgb,"{""learning_rate"": 0.05, ""max_depth"": 6, ""n_estimators"": 500}",0.8300469320354598,0.4765881651350406
+internvl_2_5_8b,vp_generation,one_hidden,"{""hidden_layer_sizes"": [128], ""learning_rate_init"": 0.01, ""max_iter"": 500, ""solver"": ""sgd""}",0.8285729184773162,0.4826816988663598
+internvl_2_5_8b,vp_generation,xgb,"{""learning_rate"": 0.1, ""max_depth"": 6, ""n_estimators"": 500}",0.8732753925488151,0.5836289873733591
+internvl_2_5_8b,ae_only_visual,one_hidden,"{""hidden_layer_sizes"": [128], ""learning_rate_init"": 0.001, ""max_iter"": 500, ""solver"": ""adam""}",0.8009931050466423,0.4281689042804701
+internvl_2_5_8b,ae_only_visual,xgb,"{""learning_rate"": 0.1, ""max_depth"": 8, ""n_estimators"": 500}",0.8226258763543659,0.47710487872546864
+internvl_2_5_8b,ae_only_visual_prompt_sum,one_hidden,"{""hidden_layer_sizes"": [128], ""learning_rate_init"": 0.01, ""max_iter"": 500, ""solver"": ""sgd""}",0.7501164609768817,0.32843411716973936
+internvl_2_5_8b,ae_only_visual_prompt_sum,xgb,"{""learning_rate"": 0.1, ""max_depth"": 8, ""n_estimators"": 500}",0.8234938293064489,0.49211271049925565
+internvl_2_5_8b,ae_only_generation,one_hidden,"{""hidden_layer_sizes"": [256], ""learning_rate_init"": 0.01, ""max_iter"": 500, ""solver"": ""sgd""}",0.7115881569036444,0.30395476518540737
+internvl_2_5_8b,ae_only_generation,xgb,"{""learning_rate"": 0.1, ""max_depth"": 8, ""n_estimators"": 500}",0.7230106031635668,0.315103076809792
+internvl_2_5_8b,ae_only_vp_generation,one_hidden,"{""hidden_layer_sizes"": [64], ""learning_rate_init"": 0.01, ""max_iter"": 500, ""solver"": ""sgd""}",0.7717469146532244,0.3958349991220237
+internvl_2_5_8b,ae_only_vp_generation,xgb,"{""learning_rate"": 0.05, ""max_depth"": 8, ""n_estimators"": 500}",0.8228727040964134,0.4893390668374626

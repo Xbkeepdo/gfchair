@@ -5,7 +5,7 @@ from __future__ import annotations
 from dataclasses import dataclass
 import math
 import random
-from typing import Any, Mapping, Optional, Sequence
+from typing import Any, Callable, Mapping, Optional, Sequence
 
 import numpy as np
 import torch
@@ -192,6 +192,7 @@ def train_torch_detector(
     seed: int = 42,
     positive_class: str = "hallucination",
     strict_82_no_validation: bool = False,
+    epoch_callback: Optional[Callable[[int], None]] = None,
 ) -> TorchDetectorResult:
     """Train a detector under validation or pure strict-8:2 protocol."""
 
@@ -269,6 +270,8 @@ def train_torch_detector(
             "train_monitor_loss" if strict_82_no_validation else "val_loss"
         ] = val_loss
         history.append(epoch_row)
+        if epoch_callback is not None:
+            epoch_callback(epoch + 1)
         if strict_82_no_validation:
             best_loss = val_loss
             best_state = {

@@ -1,0 +1,43 @@
+{
+  "ablation_config": {
+    "activation": "relu",
+    "batch_norm": false,
+    "batch_size": 512,
+    "dropout": 0.3,
+    "learning_rate": 0.001,
+    "lr_patience": 6,
+    "max_epochs": 150,
+    "monitor": "val_loss",
+    "patience": 20,
+    "standardize": false,
+    "weight_decay": 0.001,
+    "width": 128
+  },
+  "change": "Set batch_norm=False and monitor=val_loss; preserve all other champion hyperparameters.",
+  "model": "llava_1_5_7b",
+  "parent_candidate": 12,
+  "parent_config": {
+    "activation": "relu",
+    "batch_norm": true,
+    "batch_size": 512,
+    "dropout": 0.3,
+    "learning_rate": 0.001,
+    "lr_patience": 6,
+    "max_epochs": 150,
+    "monitor": "val_auroc",
+    "patience": 20,
+    "standardize": false,
+    "weight_decay": 0.001,
+    "width": 128
+  },
+  "schema": "no-bn-val-loss-811-v1",
+  "seeds": [
+    43,
+    44,
+    45
+  ],
+  "source_fingerprint": "b3585cbc86932b3f1c0ce92c32df3c44069705de3d45e726ac513cf29c53ff12",
+  "split_seed": 20260912,
+  "status": "Exploratory follow-up after test-set access; not a newly sealed model selection.",
+  "variant": "true_rms/vp_generation"
+}

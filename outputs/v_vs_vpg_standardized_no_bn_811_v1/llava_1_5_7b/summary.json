@@ -1,0 +1,77 @@
+{
+  "model": "llava_1_5_7b",
+  "summaries": [
+    {
+      "best_epochs": [
+        46,
+        60,
+        67
+      ],
+      "config": {
+        "activation": "relu",
+        "batch_norm": false,
+        "batch_size": 512,
+        "dropout": 0.3,
+        "early_stopping": false,
+        "learning_rate": 0.001,
+        "lr_patience": 6,
+        "max_epochs": 150,
+        "monitor": "val_loss",
+        "patience": 20,
+        "standardize": true,
+        "weight_decay": 0.001,
+        "width": 128
+      },
+      "ensemble": {
+        "AUROC": 0.8972743101407596,
+        "HALL_AUPR": 0.6842339762793512
+      },
+      "group": "visual",
+      "input_dim": 64,
+      "model": "llava_1_5_7b",
+      "test_AUROC_mean": 0.8971381805258026,
+      "test_AUROC_std": 0.0013027580495260115,
+      "test_HALL_AUPR_mean": 0.6843248975880781,
+      "test_HALL_AUPR_std": 0.00254745817739959,
+      "validation_AUROC_mean": 0.8977050079486593,
+      "validation_HALL_AUPR_mean": 0.7213304371611957,
+      "validation_loss_mean": 0.3338397939999898
+    },
+    {
+      "best_epochs": [
+        72,
+        50,
+        38
+      ],
+      "config": {
+        "activation": "relu",
+        "batch_norm": false,
+        "batch_size": 512,
+        "dropout": 0.3,
+        "early_stopping": false,
+        "learning_rate": 0.001,
+        "lr_patience": 6,
+        "max_epochs": 150,
+        "monitor": "val_loss",
+        "patience": 20,
+        "standardize": true,
+        "weight_decay": 0.001,
+        "width": 128
+      },
+      "ensemble": {
+        "AUROC": 0.9000449961362013,
+        "HALL_AUPR": 0.7189996132894911
+      },
+      "group": "vp_generation",
+      "input_dim": 128,
+      "model": "llava_1_5_7b",
+      "test_AUROC_mean": 0.8993627177666266,
+      "test_AUROC_std": 0.0007474123758836834,
+      "test_HALL_AUPR_mean": 0.7176380596790931,
+      "test_HALL_AUPR_std": 0.0021162325326236652,
+      "validation_AUROC_mean": 0.9073049938698531,
+      "validation_HALL_AUPR_mean": 0.7371421063867202,
+      "validation_loss_mean": 0.3197603027025859
+    }
+  ]
+}

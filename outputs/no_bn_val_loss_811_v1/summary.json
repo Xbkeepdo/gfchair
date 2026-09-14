@@ -1,0 +1,138 @@
+{
+  "completed_at": "2026-09-14T10:41:07.981929+00:00",
+  "schema": "no-bn-val-loss-811-v1",
+  "summaries": [
+    {
+      "best_epochs": [
+        30,
+        31,
+        21
+      ],
+      "config": {
+        "activation": "gelu",
+        "batch_norm": false,
+        "batch_size": 256,
+        "dropout": 0.5,
+        "learning_rate": 0.003,
+        "lr_patience": 6,
+        "max_epochs": 150,
+        "monitor": "val_loss",
+        "patience": 20,
+        "standardize": true,
+        "weight_decay": 1e-06,
+        "width": 256
+      },
+      "ensemble": {
+        "AUROC": 0.8812273533266517,
+        "HALL_AUPR": 0.42810173033025417
+      },
+      "model": "qwen2_5_vl_7b",
+      "test_AUROC_mean": 0.8795929380926683,
+      "test_AUROC_std": 0.0015800286887396324,
+      "test_HALL_AUPR_mean": 0.4222536382369773,
+      "test_HALL_AUPR_std": 0.008077961338589498,
+      "validation_AUROC_mean": 0.8846198784857454,
+      "validation_HALL_AUPR_mean": 0.5089752372153393,
+      "variant": "true_rms/visual"
+    },
+    {
+      "best_epochs": [
+        137,
+        115,
+        128
+      ],
+      "config": {
+        "activation": "relu",
+        "batch_norm": false,
+        "batch_size": 512,
+        "dropout": 0.3,
+        "learning_rate": 0.001,
+        "lr_patience": 6,
+        "max_epochs": 150,
+        "monitor": "val_loss",
+        "patience": 20,
+        "standardize": false,
+        "weight_decay": 0.001,
+        "width": 128
+      },
+      "ensemble": {
+        "AUROC": 0.8754878657158787,
+        "HALL_AUPR": 0.6747643528091669
+      },
+      "model": "llava_1_5_7b",
+      "test_AUROC_mean": 0.8752987515202499,
+      "test_AUROC_std": 0.0010546791428892902,
+      "test_HALL_AUPR_mean": 0.6742097691480181,
+      "test_HALL_AUPR_std": 0.0019340094328346076,
+      "validation_AUROC_mean": 0.886397600150174,
+      "validation_HALL_AUPR_mean": 0.6957372479728919,
+      "variant": "true_rms/vp_generation"
+    },
+    {
+      "best_epochs": [
+        149,
+        150,
+        148
+      ],
+      "config": {
+        "activation": "relu",
+        "batch_norm": false,
+        "batch_size": 512,
+        "dropout": 0.3,
+        "learning_rate": 0.001,
+        "lr_patience": 6,
+        "max_epochs": 150,
+        "monitor": "val_loss",
+        "patience": 20,
+        "standardize": false,
+        "weight_decay": 0.001,
+        "width": 128
+      },
+      "ensemble": {
+        "AUROC": 0.8748925619834709,
+        "HALL_AUPR": 0.6218908325681262
+      },
+      "model": "qwen3_vl_8b",
+      "test_AUROC_mean": 0.8748033057851239,
+      "test_AUROC_std": 0.0017366314273158663,
+      "test_HALL_AUPR_mean": 0.622832207942149,
+      "test_HALL_AUPR_std": 0.003391812803198329,
+      "validation_AUROC_mean": 0.8529234705395439,
+      "validation_HALL_AUPR_mean": 0.577703162624676,
+      "variant": "true_rms/vp_generation"
+    },
+    {
+      "best_epochs": [
+        83,
+        93,
+        59
+      ],
+      "config": {
+        "activation": "gelu",
+        "batch_norm": false,
+        "batch_size": 512,
+        "dropout": 0.1,
+        "learning_rate": 0.0003,
+        "lr_patience": 6,
+        "max_epochs": 150,
+        "monitor": "val_loss",
+        "patience": 20,
+        "standardize": true,
+        "weight_decay": 0.001,
+        "width": 248
+      },
+      "ensemble": {
+        "AUROC": 0.8821486408328514,
+        "HALL_AUPR": 0.5788448578599545
+      },
+      "model": "internvl_2_5_8b",
+      "test_AUROC_mean": 0.8814333911702333,
+      "test_AUROC_std": 0.0027202382830038814,
+      "test_HALL_AUPR_mean": 0.5763219481447158,
+      "test_HALL_AUPR_std": 0.006331378856737917,
+      "validation_AUROC_mean": 0.8559269162210338,
+      "validation_HALL_AUPR_mean": 0.5850184493776677,
+      "variant": "true_rms/vp_generation"
+    }
+  ]
+}

@@ -1,0 +1,38 @@
+{
+  "best_epochs": [
+    55,
+    44,
+    45
+  ],
+  "config": {
+    "activation": "gelu",
+    "batch_norm": false,
+    "batch_size": 256,
+    "block_sizes": [
+      28,
+      28
+    ],
+    "dropout": 0.5,
+    "learning_rate": 0.003,
+    "lr_patience": 6,
+    "max_epochs": 150,
+    "monitor": "val_loss",
+    "normalization": "blockwise_train_mentions_x_layers",
+    "patience": 20,
+    "standardize": true,
+    "weight_decay": 1e-06,
+    "width": 256
+  },
+  "ensemble": {
+    "AUROC": 0.8718371752370672,
+    "HALL_AUPR": 0.4279008566814161
+  },
+  "model": "qwen2_5_vl_7b",
+  "test_AUROC_mean": 0.8713437668645438,
+  "test_AUROC_std": 0.000454446868001874,
+  "test_HALL_AUPR_mean": 0.4253183885207372,
+  "test_HALL_AUPR_std": 0.007443394987904127,
+  "validation_AUROC_mean": 0.8697529902546259,
+  "validation_HALL_AUPR_mean": 0.48081556464142333,
+  "variant": "true_rms/visual"
+}

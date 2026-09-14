@@ -1,0 +1,45 @@
+{
+  "ensemble": {
+    "AUROC": 0.8725001927376456,
+    "HALL_AUPR": 0.48556114095993397
+  },
+  "group": "vp_generation",
+  "model": "qwen2_5_vl_7b",
+  "schema": "qwen25-vpg-standardized-no-bn-search-811-v1",
+  "test_AUROC_mean": 0.871955387659651,
+  "test_AUROC_std": 0.00042903167074663127,
+  "test_HALL_AUPR_mean": 0.47763852639146015,
+  "test_HALL_AUPR_std": 0.007929321348191874,
+  "winner": {
+    "best_epochs": [
+      47,
+      64,
+      43
+    ],
+    "config": {
+      "activation": "relu",
+      "batch_norm": false,
+      "batch_size": 512,
+      "dropout": 0.3,
+      "early_stopping": false,
+      "learning_rate": 0.001,
+      "lr_patience": 6,
+      "max_epochs": 150,
+      "monitor": "val_loss",
+      "patience": 20,
+      "standardize": true,
+      "weight_decay": 0.001,
+      "width": 128
+    },
+    "index": 7,
+    "seeds": [
+      43,
+      44,
+      45
+    ],
+    "validation": {
+      "AUROC": 0.8559441588340171,
+      "HALL_AUPR": 0.4651748198417711
+    }
+  }
+}

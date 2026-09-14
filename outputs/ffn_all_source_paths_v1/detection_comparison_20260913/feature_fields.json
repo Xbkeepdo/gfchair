@@ -1,0 +1,350 @@
+{
+  "F0": {
+    "fields": [
+      "prompt_attention_gate_mass",
+      "generation_attention_gate_mass",
+      "visual_attention_gate_mass"
+    ],
+    "dimensions": {
+      "qwen2_5_vl_7b": 84,
+      "llava_1_5_7b": 96,
+      "qwen3_vl_8b": 108,
+      "internvl_2_5_8b": 96
+    },
+    "log1p_fields": []
+  },
+  "F1_raw": {
+    "fields": [
+      "prompt_gross_norm",
+      "prompt_net_norm",
+      "prompt_group_gain",
+      "visual_gross_norm",
+      "visual_net_norm",
+      "visual_group_gain",
+      "generation_gross_norm",
+      "generation_net_norm",
+      "generation_group_gain"
+    ],
+    "dimensions": {
+      "qwen2_5_vl_7b": 252,
+      "llava_1_5_7b": 288,
+      "qwen3_vl_8b": 324,
+      "internvl_2_5_8b": 288
+    },
+    "log1p_fields": []
+  },
+  "F1_log1p": {
+    "fields": [
+      "prompt_gross_norm",
+      "prompt_net_norm",
+      "prompt_group_gain",
+      "visual_gross_norm",
+      "visual_net_norm",
+      "visual_group_gain",
+      "generation_gross_norm",
+      "generation_net_norm",
+      "generation_group_gain"
+    ],
+    "dimensions": {
+      "qwen2_5_vl_7b": 252,
+      "llava_1_5_7b": 288,
+      "qwen3_vl_8b": 324,
+      "internvl_2_5_8b": 288
+    },
+    "log1p_fields": [
+      "prompt_gross_norm",
+      "prompt_net_norm",
+      "visual_gross_norm",
+      "visual_net_norm",
+      "generation_gross_norm",
+      "generation_net_norm"
+    ]
+  },
+  "F2": {
+    "fields": [
+      "prompt_group_rotation",
+      "visual_group_rotation",
+      "generation_group_rotation",
+      "cos_vg_out",
+      "cos_vp_out",
+      "cos_pg_out",
+      "delta_cos_vg",
+      "delta_cos_vp",
+      "delta_cos_pg",
+      "visual_context_cos",
+      "visual_context_relative_change",
+      "prompt_within_source_kappa",
+      "visual_within_source_kappa",
+      "generation_within_source_kappa",
+      "source_group_kappa"
+    ],
+    "dimensions": {
+      "qwen2_5_vl_7b": 420,
+      "llava_1_5_7b": 480,
+      "qwen3_vl_8b": 540,
+      "internvl_2_5_8b": 480
+    },
+    "log1p_fields": []
+  },
+  "b1_F3_raw": {
+    "fields": [
+      "b1_residual_norm",
+      "b1_prompt_norm",
+      "b1_visual_norm",
+      "b1_generation_norm",
+      "b1_residual_share"
+    ],
+    "dimensions": {
+      "qwen2_5_vl_7b": 140,
+      "llava_1_5_7b": 160,
+      "qwen3_vl_8b": 180,
+      "internvl_2_5_8b": 160
+    },
+    "log1p_fields": []
+  },
+  "b1_F3_log1p": {
+    "fields": [
+      "b1_residual_norm",
+      "b1_prompt_norm",
+      "b1_visual_norm",
+      "b1_generation_norm",
+      "b1_residual_share"
+    ],
+    "dimensions": {
+      "qwen2_5_vl_7b": 140,
+      "llava_1_5_7b": 160,
+      "qwen3_vl_8b": 180,
+      "internvl_2_5_8b": 160
+    },
+    "log1p_fields": [
+      "b1_residual_norm",
+      "b1_prompt_norm",
+      "b1_visual_norm",
+      "b1_generation_norm"
+    ]
+  },
+  "b1_F4": {
+    "fields": [
+      "b1_cos_residual_visual",
+      "b1_cos_residual_prompt",
+      "b1_cos_residual_generation",
+      "b1_residual_visual_generation_balance",
+      "b1_attention_residual_kappa",
+      "b1_delta_residual_visual_cos",
+      "b1_delta_residual_generation_cos"
+    ],
+    "dimensions": {
+      "qwen2_5_vl_7b": 196,
+      "llava_1_5_7b": 224,
+      "qwen3_vl_8b": 252,
+      "internvl_2_5_8b": 224
+    },
+    "log1p_fields": []
+  },
+  "b1_F5": {
+    "fields": [
+      "prompt_group_rotation",
+      "visual_group_rotation",
+      "generation_group_rotation",
+      "cos_vg_out",
+      "cos_vp_out",
+      "cos_pg_out",
+      "delta_cos_vg",
+      "delta_cos_vp",
+      "delta_cos_pg",
+      "visual_context_cos",
+      "visual_context_relative_change",
+      "prompt_within_source_kappa",
+      "visual_within_source_kappa",
+      "generation_within_source_kappa",
+      "source_group_kappa",
+      "b1_cos_residual_visual",
+      "b1_cos_residual_prompt",
+      "b1_cos_residual_generation",
+      "b1_residual_visual_generation_balance",
+      "b1_attention_residual_kappa",
+      "b1_delta_residual_visual_cos",
+      "b1_delta_residual_generation_cos"
+    ],
+    "dimensions": {
+      "qwen2_5_vl_7b": 616,
+      "llava_1_5_7b": 704,
+      "qwen3_vl_8b": 792,
+      "internvl_2_5_8b": 704
+    },
+    "log1p_fields": []
+  },
+  "b1_F6": {
+    "fields": [
+      "prompt_attention_gate_mass",
+      "generation_attention_gate_mass",
+      "visual_attention_gate_mass",
+      "prompt_group_rotation",
+      "visual_group_rotation",
+      "generation_group_rotation",
+      "cos_vg_out",
+      "cos_vp_out",
+      "cos_pg_out",
+      "delta_cos_vg",
+      "delta_cos_vp",
+      "delta_cos_pg",
+      "visual_context_cos",
+      "visual_context_relative_change",
+      "prompt_within_source_kappa",
+      "visual_within_source_kappa",
+      "generation_within_source_kappa",
+      "source_group_kappa",
+      "b1_cos_residual_visual",
+      "b1_cos_residual_prompt",
+      "b1_cos_residual_generation",
+      "b1_residual_visual_generation_balance",
+      "b1_attention_residual_kappa",
+      "b1_delta_residual_visual_cos",
+      "b1_delta_residual_generation_cos"
+    ],
+    "dimensions": {
+      "qwen2_5_vl_7b": 700,
+      "llava_1_5_7b": 800,
+      "qwen3_vl_8b": 900,
+      "internvl_2_5_8b": 800
+    },
+    "log1p_fields": []
+  },
+  "b2_F3_raw": {
+    "fields": [
+      "b2_residual_norm",
+      "b2_prompt_norm",
+      "b2_visual_norm",
+      "b2_generation_norm",
+      "b2_residual_share"
+    ],
+    "dimensions": {
+      "qwen2_5_vl_7b": 140,
+      "llava_1_5_7b": 160,
+      "qwen3_vl_8b": 180,
+      "internvl_2_5_8b": 160
+    },
+    "log1p_fields": []
+  },
+  "b2_F3_log1p": {
+    "fields": [
+      "b2_residual_norm",
+      "b2_prompt_norm",
+      "b2_visual_norm",
+      "b2_generation_norm",
+      "b2_residual_share"
+    ],
+    "dimensions": {
+      "qwen2_5_vl_7b": 140,
+      "llava_1_5_7b": 160,
+      "qwen3_vl_8b": 180,
+      "internvl_2_5_8b": 160
+    },
+    "log1p_fields": [
+      "b2_residual_norm",
+      "b2_prompt_norm",
+      "b2_visual_norm",
+      "b2_generation_norm"
+    ]
+  },
+  "b2_F4": {
+    "fields": [
+      "b2_cos_residual_visual",
+      "b2_cos_residual_prompt",
+      "b2_cos_residual_generation",
+      "b2_residual_visual_generation_balance",
+      "b2_attention_residual_kappa",
+      "b2_delta_residual_visual_cos",
+      "b2_delta_residual_generation_cos"
+    ],
+    "dimensions": {
+      "qwen2_5_vl_7b": 196,
+      "llava_1_5_7b": 224,
+      "qwen3_vl_8b": 252,
+      "internvl_2_5_8b": 224
+    },
+    "log1p_fields": []
+  },
+  "b2_F5": {
+    "fields": [
+      "prompt_group_rotation",
+      "visual_group_rotation",
+      "generation_group_rotation",
+      "cos_vg_out",
+      "cos_vp_out",
+      "cos_pg_out",
+      "delta_cos_vg",
+      "delta_cos_vp",
+      "delta_cos_pg",
+      "visual_context_cos",
+      "visual_context_relative_change",
+      "prompt_within_source_kappa",
+      "visual_within_source_kappa",
+      "generation_within_source_kappa",
+      "source_group_kappa",
+      "b2_cos_residual_visual",
+      "b2_cos_residual_prompt",
+      "b2_cos_residual_generation",
+      "b2_residual_visual_generation_balance",
+      "b2_attention_residual_kappa",
+      "b2_delta_residual_visual_cos",
+      "b2_delta_residual_generation_cos"
+    ],
+    "dimensions": {
+      "qwen2_5_vl_7b": 616,
+      "llava_1_5_7b": 704,
+      "qwen3_vl_8b": 792,
+      "internvl_2_5_8b": 704
+    },
+    "log1p_fields": []
+  },
+  "b2_F6": {
+    "fields": [
+      "prompt_attention_gate_mass",
+      "generation_attention_gate_mass",
+      "visual_attention_gate_mass",
+      "prompt_group_rotation",
+      "visual_group_rotation",
+      "generation_group_rotation",
+      "cos_vg_out",
+      "cos_vp_out",
+      "cos_pg_out",
+      "delta_cos_vg",
+      "delta_cos_vp",
+      "delta_cos_pg",
+      "visual_context_cos",
+      "visual_context_relative_change",
+      "prompt_within_source_kappa",
+      "visual_within_source_kappa",
+      "generation_within_source_kappa",
+      "source_group_kappa",
+      "b2_cos_residual_visual",
+      "b2_cos_residual_prompt",
+      "b2_cos_residual_generation",
+      "b2_residual_visual_generation_balance",
+      "b2_attention_residual_kappa",
+      "b2_delta_residual_visual_cos",
+      "b2_delta_residual_generation_cos"
+    ],
+    "dimensions": {
+      "qwen2_5_vl_7b": 700,
+      "llava_1_5_7b": 800,
+      "qwen3_vl_8b": 900,
+      "internvl_2_5_8b": 800
+    },
+    "log1p_fields": []
+  },
+  "length": {
+    "fields": [
+      "N_G=response_index",
+      "response_index"
+    ],
+    "dimensions": {
+      "qwen2_5_vl_7b": 2,
+      "llava_1_5_7b": 2,
+      "qwen3_vl_8b": 2,
+      "internvl_2_5_8b": 2
+    },
+    "log1p_fields": []
+  }
+}

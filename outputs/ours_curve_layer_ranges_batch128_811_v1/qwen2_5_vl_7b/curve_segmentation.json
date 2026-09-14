@@ -1,0 +1,41 @@
+{
+  "algorithm": "four-piece constant dynamic programming; equal channel weights; minimum 3 layers",
+  "channels": [
+    "AE_V",
+    "logS_V",
+    "AE_VP",
+    "logS_VP",
+    "AE_G",
+    "logS_G"
+  ],
+  "curve_source": "all training mentions, labels unused",
+  "normalization": "independent Z-score over layers per curve",
+  "objective_sse": 42.13070575418564,
+  "ranges": [
+    {
+      "end_exclusive": 4,
+      "name": "segment_1",
+      "start": 0
+    },
+    {
+      "end_exclusive": 19,
+      "name": "segment_2",
+      "start": 4
+    },
+    {
+      "end_exclusive": 24,
+      "name": "segment_3",
+      "start": 19
+    },
+    {
+      "end_exclusive": 28,
+      "name": "segment_4",
+      "start": 24
+    },
+    {
+      "end_exclusive": 28,
+      "name": "all",
+      "start": 0
+    }
+  ]
+}

@@ -1,5 +1,11 @@
 # 实验结果索引（2026-09-10）
 
+- SADT风格Attention/P_E/cosine空间图正在重做（2026-09-14）：前两版图目录已按用户要求删除以释放约565 MB；新图将包含原图、独立Top16/Top32、完整生成原文与目标词标注，并画softmax(cos/.2)。完成后在此补新索引。
+
+- raw_AE_top32检测（2026-09-14，完成）：[说明](RAW_AE_TOP32_DETECTION.md)、[完整三seed结果](../outputs/ffn_source_composition_v1/raw_ae_top32_detection/summary.md)。原3200/800、四模型、单独Top32及拼接B共24新头；B复用旧结果。单独信号弱于B，拼接后前三模型AUROC/AP下降，InternVL小幅提高，不支持通用增益；与811协议分开。
+
+- 811单隐藏层MLP固定预算搜索（2026-09-13 UTC，完成）：[报告/参数/全部32组](SINGLE_MLP_SEARCH_811_RESULTS.md)、[预注册](SINGLE_MLP_SEARCH_811_PROTOCOL.md)、[核验](../outputs/single_mlp_search_811_v1/validation.json)。960验证训练、96测试头，真实RMS K32/冻结K50×V/VP/G/VP+G。仅按验证选出的四代表组测试AUROC三seed均值：Q2 88.12、LL90.01、Q3 92.88、Intern88.99；其中3/4超过原生SVAR及MetaLR/GB，LL未超过SVAR，Q2的AP低于SVAR。非等预算或独立盲测结论。
+
 [2026-09-12发布索引及绘图数据](PUBLICATION_20260912.md)：本次图只上传数值数据，PNG/PDF链接用于本地生成产物。
 
 - 原始X＋log1p(S)八组XGB/RF搜索（2026-09-12，完成）：[说明](RAW_ATTENTION_LOG_STRENGTH_TREES.md)、[四种分类器对照](../outputs/ffn_source_composition_v1/raw_attention_log_strength_mlp/trees_summary.md)、[64组参数](../outputs/ffn_source_composition_v1/raw_attention_log_strength_mlp/trees_selected_params.csv)。864候选+192最终树模型；XGB 15/32组AUROC超原三层，RF仅1/32；Qwen3 gate VP/G拼接XGB AUROC90.996%。
@@ -148,3 +154,13 @@
 
 - 六模型两种原值比值、各三seed共36头完成；[结果表](../outputs/prefix_attention_gate/full/region_plots/visual_generation_ratio/detection/summary.md)。
 - attention×gate比值相对raw比值四模型AUROC提高、两模型下降；两种比值均低于原F，未额外取log或拼接其他特征。
+
+# 2026-09-14 补充
+
+- [SVAR隐藏层248→256维对照](SVAR_HIDDEN256_811_RESULTS.md)：四模型、固定811与联合种子811、seeds43/44/45，共24个256维新头；唯一改变隐藏层宽度，含逐seed结果。
+- [四模型原生SVAR/MetaToken联合数据划分/训练种子811](NATIVE_JOINT_SPLIT_TRAINING_SEEDS_811_RESULTS.md)：相同seed43/44/45重划全部4000图并训练SVAR、MetaToken LR/GB，共36个新头；含固定划分、逐seed和本方法同划分比较。
+- [四模型联合数据划分/训练种子811](JOINT_SPLIT_TRAINING_SEEDS_811_RESULTS.md)：seed43/44/45各自重划全部4000图为3200/400/400，同时控制单隐藏层MLP训练；真实RMS K32的V与VP+G共24个新头，逐seed测试构成及固定划分对照。
+- [Qwen2.5 batch 消融与六模型 V 检测](QWEN25_BATCH_AND_SIX_MODEL_V_811.md)：Qwen2.5 V/VP+G 的受控 batch-size validation 消融；四个原模型的 all-attention K32 V；MiniGPT-4/Shikra 的 visual-only K4 811 结果及严格 K32 扩展状态。
+- [四模型 V/VP+G batch-size sweep 与比例层 SVAR](OURS_BATCHSIZE_VS_SVAR_811_RESULTS.md)：固定 StandardScaler、无 BN、150 epochs/min-val-loss 协议，只改变 batch 32/64/128/256/512；列出 AUROC 高于对应 SVAR 的全部候选。
+- [基于模型自身曲线的分层检测](OURS_CURVE_LAYER_RANGES_BATCH128_811_RESULTS.md)：训练集无标签的六条 V/VP+G 层曲线确定四个模型各自的四阶段边界；固定 batch128 比较各阶段与全层，包含检测图和曲线分段图。
+- [MiniGPT-4 / Shikra visual-only V 811 完整结果](MINIGPT4_SHIKRA_VISUAL_811_RESULTS.md)：同一 3200/400/400 划分下单隐藏层 V、原生 SVAR、MetaToken LR/GB。

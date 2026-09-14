@@ -396,6 +396,7 @@ def train_and_evaluate_probe(
     train_sample_weights: np.ndarray | None = None,
     train_sampler_weights: np.ndarray | None = None,
     output_mode: str = "single_logit_bce",
+    epoch_callback=None,
 ) -> dict:
     _set_seed(config.seed)
     os.makedirs(output_dir, exist_ok=True)
@@ -410,6 +411,13 @@ def train_and_evaluate_probe(
 
     train_targets = _targets_for_positive_class(y_train, config.positive_class)
     test_targets = _targets_for_positive_class(y_test, config.positive_class)
+    use_validation = config.checkpoint_selection == "minimum_val_loss"
+    validation_loader = None
+    if use_validation:
+        if len(X_val) == 0 or len(X_val) != len(y_val):
+            raise ValueError("minimum_val_loss requires a nonempty aligned validation set")
+        val_targets = _targets_for_positive_class(y_val, config.positive_class)
+        validation_loader = DataLoader(MatrixDataset(X_val, val_targets), batch_size=config.batch_size)
 
     train_dataset: Dataset
     if train_sample_weights is None:
@@ -473,6 +481,8 @@ def train_and_evaluate_probe(
     history = []
     best_state = None
     best_train_loss = math.inf
+    best_monitor_loss = math.inf
+    best_val_loss = None
     best_epoch = 0
     stale_epochs = 0
     model_path = os.path.join(output_dir, "model.pt")
@@ -487,9 +497,16 @@ def train_and_evaluate_probe(
             device,
             output_mode=output_mode,
         )
-        improved = train_loss < best_train_loss
+        val_loss = None
+        if use_validation:
+            val_loss, _ = _predict_loss_and_probs(model, validation_loader, criterion, device,
+                                                output_mode=output_mode)
+        monitor_loss = val_loss if use_validation else train_loss
+        improved = monitor_loss < best_monitor_loss
         if improved:
+            best_monitor_loss = float(monitor_loss)
             best_train_loss = float(train_loss)
+            best_val_loss = float(val_loss) if use_validation else None
             best_epoch = int(epoch + 1)
             stale_epochs = 0
             best_state = {
@@ -498,12 +515,15 @@ def train_and_evaluate_probe(
             }
         else:
             stale_epochs += 1
-        scheduler.step(train_loss)
+        scheduler.step(monitor_loss)
+        if epoch_callback is not None:
+            epoch_callback(epoch + 1)
         history.append(
             {
                 "epoch": int(epoch + 1),
                 "train_loss": float(train_loss),
-                "monitor": "train_loss",
+                "monitor": "val_loss" if use_validation else "train_loss",
+                **({"val_loss": float(val_loss)} if use_validation else {}),
                 "learning_rate": float(optimizer.param_groups[0]["lr"]),
                 "is_best": bool(improved),
                 "stale_epochs": int(stale_epochs),
@@ -568,7 +588,7 @@ def train_and_evaluate_probe(
     )
     metrics["best_epoch"] = int(best_epoch)
     metrics["best_train_loss"] = float(best_train_loss)
-    metrics["best_val_loss"] = None
+    metrics["best_val_loss"] = best_val_loss
     metrics["val_score"] = None
     metrics["val_metrics"] = None
     metrics["train_metrics"] = train_searched_metrics
@@ -634,6 +654,10 @@ def train_and_evaluate_probe(
         # keeps its historical compact result schema.
         metrics["train_probabilities"] = train_probs.astype(float).tolist()
         metrics["test_probabilities"] = test_probs.astype(float).tolist()
+        if use_validation:
+            _, val_probs = _predict_loss_and_probs(model, validation_loader, criterion, device,
+                                                 output_mode=output_mode)
+            metrics["validation_probabilities"] = val_probs.astype(float).tolist()
 
     save_json(history, os.path.join(output_dir, "history.json"))
     saved_config = asdict(config)

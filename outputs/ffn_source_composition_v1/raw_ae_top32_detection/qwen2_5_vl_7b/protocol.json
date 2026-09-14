@@ -1,0 +1,51 @@
+{
+  "model": "qwen2_5_vl_7b",
+  "images": 4000,
+  "train_images": 3200,
+  "test_images": 800,
+  "train_mentions": 6985,
+  "test_mentions": 1732,
+  "seeds": [
+    43,
+    44,
+    45
+  ],
+  "features": {
+    "raw_AE_top32": "all-layer |Top-k(normalized raw attention) intersect Top-k(T)|/k; k=min(32,visual tokens)",
+    "B_raw_AE_top32": "[AE, log1p(I), log1p(S_E), raw_AE_top32], each block all layers"
+  },
+  "dimensions": {
+    "raw_AE_top32": 28,
+    "B_raw_AE_top32": 112
+  },
+  "config": {
+    "hidden_sizes": [
+      128,
+      64,
+      32
+    ],
+    "dropout": 0.3,
+    "drop_last": false,
+    "batch_size": 256,
+    "num_epochs": 100,
+    "learning_rate": 0.001,
+    "weight_decay": 1e-05,
+    "lr_factor": 0.5,
+    "lr_patience": 5,
+    "early_stopping_patience": 10,
+    "seed": 43,
+    "positive_class": "real",
+    "split_protocol": "strict_82_no_validation",
+    "threshold_selection": "train_f1",
+    "fixed_threshold": 0.5,
+    "threshold_reporting": [
+      "fixed_0.5",
+      "train_f1"
+    ],
+    "checkpoint_selection": "minimum_train_loss"
+  },
+  "scaling": "No log or standardization of overlap; B reused exactly",
+  "curve_mean_max_difference": 0.0,
+  "baseline": "Existing composition B; no baseline retraining",
+  "scope": "Original 3200/800 exploratory comparison, not the later 3200/400/400 protocol"
+}

@@ -1,17 +1,18 @@
 # 当前任务摘要
 
-## 当前任务：发布近期代码与可复现实验结果（2026-09-14）
+## 已完成：发布近期代码与可复现实验结果（2026-09-14）
 
 - 用户已授权将近期代码和实验结果上传GitHub；目标为origin/main。纳入实现、测试、中文报告、协议、CSV/JSON汇总及必要结果图。
 - 不发布运行心跳、日志、PT/checkpoint、逐样本张量、缓存、账号或服务器凭据；41GB全来源输出只选取汇总和绘图数据。
 - 本轮发布覆盖B1/B2全来源路径、811区域AE/原生基线/单层MLP，以及batch、标准化、SVAR层范围和模型曲线分段消融。
-- 推送前运行定向unittest、Python编译、JSON解析、敏感信息扫描，并核对暂存文件大小。
+- 40项定向unittest、Python编译、JSON解析、链接及敏感信息检查均通过；主内容提交f9ceab9已推送origin/main。
 
-## 最新完成：batch128与模型曲线分层检测（2026-09-14）
+## 最新完成：SADT风格Attention/AE/P_E/cosine图册（2026-09-14）
 
-- 固定图片811、StandardScaler、无BN、minimum val loss、batch128；V及VP+G在四模型按训练集六条无标签层曲线分成四段并与全层比较。
-- 范围与三seed AUROC/AP详见docs/OURS_CURVE_LAYER_RANGES_BATCH128_811_RESULTS.md；输出outputs/ours_curve_layer_ranges_batch128_811_v1/含逐seed表、曲线数据、边界和汇总图。
-- SVAR按LLaVA第5–18层比例映射到其余模型的最终对照见docs/OURS_V_VPG_VS_SVAR_LLAVA_5_18_PROPORTIONAL_811_RESULTS.md。
+- 四模型各10个主案例（REAL/HALL各5）及3个高差异HALL案例，共52张；保留层10/15/20/25/30/最后层，Qwen2最后层28。每图先给模型输入图与完整生成原文并标词，再独立画Top16/32。
+- 四行信号为原始视觉Attention、AE/T、P_E∝||e_m||、softmax(cos(a_m,e_m)/.2)；采用SADT式JET冷色覆盖，不画patch框。softmax cosine只表达相对空间排序，不能读出原cosine正负。
+- 全共享500图候选统计显示P_E与Attention总体高度相关（rank中位数.974–.979），额外案例只展示局部/单层重排，不能据此声称二者独立。总览与52图见outputs/ffn_write_effect_sadt_gallery_v1/summary.md，脚本scripts/plot_sadt_style_write_effect_gallery.py。
+- 前两版图目录已删除，释放约565 MB；新目录约103 MB。图数、分组、层、TopK统计2392行、链接、尺寸、Python编译及diff检查通过。
 
 ## 已完成补充：raw_AE_top32 单独及拼接B检测（2026-09-14）
 

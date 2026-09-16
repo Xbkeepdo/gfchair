@@ -11,6 +11,9 @@ from typing import Any, Iterable, Sequence
 
 import nltk
 import inflect
+from nltk.corpus import wordnet
+from nltk.stem import WordNetLemmatizer
+from nltk.tokenize import TreebankWordTokenizer
 
 LABEL_HALLUCINATED = 0
 LABEL_REAL = 1
@@ -242,15 +245,22 @@ class CHAIR:
         *,
         instances_file: str | Path | None = None,
         captions_file: str | Path | None = None,
+        tokenization_mode: str = "inslen",
     ) -> None:
         ensure_nltk_data(download=False)
+        mode = str(tokenization_mode).strip().lower()
+        if mode not in {"inslen", "exact"}:
+            raise ValueError("tokenization_mode must be 'inslen' or 'exact'")
         self.cache_version = CHAIR_CACHE_VERSION
+        self.tokenization_mode = mode
         self.coco_path = Path(coco_path) if coco_path is not None else None
         self.instances_file = Path(instances_file) if instances_file is not None else None
         self.captions_file = Path(captions_file) if captions_file is not None else None
         self.imid_to_objects: dict[int, set[str]] = defaultdict(set)
         self.val_image_ids: list[int] = []
         self._inflect = inflect.engine()
+        self._tokenizer = TreebankWordTokenizer()
+        self._lemmatizer = WordNetLemmatizer()
 
         self.synonym_groups = _parse_synonyms(synonyms_txt)
         self.mscoco_objects: list[str] = []
@@ -272,17 +282,24 @@ class CHAIR:
         instances_file: str | Path,
         captions_file: str | Path | None = None,
         cache_path: str | Path | None = None,
+        tokenization_mode: str = "inslen",
     ) -> "CHAIR":
         cache = Path(cache_path) if cache_path else None
         if cache is not None and cache.exists():
             try:
                 with cache.open("rb") as handle:
                     cached = pickle.load(handle)
-                if isinstance(cached, cls) and _cache_is_compatible(cached):
+                if isinstance(cached, cls) and _cache_is_compatible(
+                    cached, tokenization_mode=tokenization_mode
+                ):
                     return cached
             except Exception as exc:
                 print(f"[COCO-CHAIR] Ignoring incompatible CHAIR cache {cache}: {exc}")
-        obj = cls(instances_file=instances_file, captions_file=captions_file)
+        obj = cls(
+            instances_file=instances_file,
+            captions_file=captions_file,
+            tokenization_mode=tokenization_mode,
+        )
         if cache is not None:
             cache.parent.mkdir(parents=True, exist_ok=True)
             tmp_cache = cache.with_name(f"{cache.name}.tmp")
@@ -307,6 +324,18 @@ class CHAIR:
         idxs = [int(unit["word_idx"]) for unit in object_units]
         raw_words = [str(unit["word"]) for unit in units]
         return words, node_words, idxs, raw_words
+
+    @staticmethod
+    def get_wordnet_pos(tag: str) -> str | None:
+        if tag.startswith("J"):
+            return wordnet.ADJ
+        if tag.startswith("V"):
+            return wordnet.VERB
+        if tag.startswith("N"):
+            return wordnet.NOUN
+        if tag.startswith("R"):
+            return wordnet.ADV
+        return None
 
     def caption_to_mentions(self, caption: str) -> list[dict[str, Any]]:
         units = self._caption_to_units(caption)
@@ -484,6 +513,11 @@ class CHAIR:
         }
 
     def _caption_to_units(self, caption: str) -> list[dict[str, Any]]:
+        if self.tokenization_mode == "exact":
+            return self._caption_to_units_exact(caption)
+        return self._caption_to_units_inslen(caption)
+
+    def _caption_to_units_inslen(self, caption: str) -> list[dict[str, Any]]:
         # This is the released InsLen/CHAIR order.  gfchair deliberately does
         # not derive response-token offsets or attempt any surface-span repair.
         words = [str(value) for value in nltk.word_tokenize(caption.lower())]
@@ -523,6 +557,61 @@ class CHAIR:
                     }
                 )
                 i += 1
+
+        if any(unit["word"] == "toilet" for unit in units) and any(
+            unit["word"] == "seat" for unit in units
+        ):
+            units = [unit for unit in units if unit["word"] != "seat"]
+        return units
+
+    def _caption_to_units_exact(self, caption: str) -> list[dict[str, Any]]:
+        """Return the ENDAC units with exact character offsets."""
+
+        spans = list(self._tokenizer.span_tokenize(caption))
+        words = [caption[start:end].lower() for start, end in spans]
+        if not words:
+            return []
+        try:
+            tagged = nltk.pos_tag(words)
+        except LookupError:
+            ensure_nltk_data(download=False)
+            tagged = nltk.pos_tag(words)
+        lemmas = [
+            self._lemmatizer.lemmatize(
+                word, pos=self.get_wordnet_pos(tag) or wordnet.NOUN
+            )
+            for word, tag in tagged
+        ]
+        units = []
+        index = 0
+        while index < len(lemmas):
+            double_word = " ".join(lemmas[index : index + 2])
+            if double_word in self.double_word_dict and index + 1 < len(lemmas):
+                start, end = int(spans[index][0]), int(spans[index + 1][1])
+                units.append(
+                    {
+                        "word": self.double_word_dict[double_word],
+                        "surface": caption[start:end],
+                        "word_idx": index,
+                        "word_span": 2,
+                        "char_start": start,
+                        "char_end": end,
+                    }
+                )
+                index += 2
+            else:
+                start, end = map(int, spans[index])
+                units.append(
+                    {
+                        "word": lemmas[index],
+                        "surface": caption[start:end],
+                        "word_idx": index,
+                        "word_span": 1,
+                        "char_start": start,
+                        "char_end": end,
+                    }
+                )
+                index += 1
 
         if any(unit["word"] == "toilet" for unit in units) and any(
             unit["word"] == "seat" for unit in units
@@ -669,9 +758,11 @@ def _parse_image_id(image_id: int | str) -> int:
     raise ValueError(f"Cannot parse COCO image_id from {image_id!r}")
 
 
-def _cache_is_compatible(obj: Any) -> bool:
+def _cache_is_compatible(obj: Any, *, tokenization_mode: str = "inslen") -> bool:
+    cached_mode = getattr(obj, "tokenization_mode", "inslen")
     return (
         getattr(obj, "cache_version", None) == CHAIR_CACHE_VERSION
+        and cached_mode == str(tokenization_mode).strip().lower()
         and hasattr(obj, "inverse_synonym_dict")
         and hasattr(obj, "double_word_dict")
         and hasattr(obj, "imid_to_objects")

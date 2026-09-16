@@ -1,0 +1,31 @@
+{
+  "AUROC_mean": 0.8973501188484901,
+  "AUROC_std": 0.00021939128429921897,
+  "HALL_AUPR_mean": 0.6836873278015047,
+  "HALL_AUPR_std": 0.0025795152999433853,
+  "candidate": 4,
+  "config": {
+    "activation": "relu",
+    "batch_norm": true,
+    "batch_size": 256,
+    "dropout": 0.1,
+    "learning_rate": 0.001,
+    "lr_patience": 6,
+    "max_epochs": 150,
+    "monitor": "val_loss",
+    "patience": 20,
+    "standardize": false,
+    "weight_decay": 1e-05,
+    "width": 512
+  },
+  "ensemble": {
+    "AUROC": 0.8988589566765463,
+    "HALL_AUPR": 0.6862371118079185
+  },
+  "feature": "legacy_visual",
+  "model": "llava_1_5_7b",
+  "validation": {
+    "AUROC": 0.8992690753157465,
+    "HALL_AUPR": 0.7218667259322499
+  }
+}

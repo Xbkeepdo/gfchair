@@ -1,6 +1,46 @@
-# 实验结果索引（2026-09-10）
+# 实验结果索引（更新至 2026-09-17）
 
-- SADT风格Attention/P_E/cosine空间图正在重做（2026-09-14）：前两版图目录已按用户要求删除以释放约565 MB；新图将包含原图、独立Top16/Top32、完整生成原文与目标词标注，并画softmax(cos/.2)。完成后在此补新索引。
+GitHub 同步仅包含代码、文字报告和小型 CSV/JSON 汇总；部分图像链接指向本地生成产物，图像、模型权重及大规模特征缓存未上传。
+
+- All-attention同路径`AE+log1p(S_PV)+κ`固定811检测（2026-09-17，完成）：[四模型表、配对区间及κ同图差异](../outputs/decomposition_pv_kappa_811_v1/all_attention/summary.md)、[逐层测试图](../outputs/decomposition_pv_kappa_811_v1/all_attention/kappa_test.png)。S_PV为prompt+视觉逐token范数和；48新头核验。κ_P拼接的AUROC在Q2/Q3/Intern相对无κ区间全正，合并V+P的κ现象较弱；B1/B2仍待逐token重提，不包含在此结果。
+
+- Shikra/MiniGPT-4 全视觉 attention×目标词概率求和（2026-09-16，完成）：[两模型与AE/Top32对照](PREFIX_FULL_VISUAL_PRODUCT_811_RESULTS.md)、[raw/norm三种子与选参明细](../outputs/coco4000_512_endac_prefix_full_product_optuna_811/summary.md)。MiniGPT-4 norm 93.56/77.26%、Shikra raw 87.90/68.45%；相对旧 Top32 无清晰优势。12/12最终头重载核验通过。
+
+- log1p(S_E)+κ_P^e固定811检测（2026-09-16，完成）：[四模型结果与配对区间](../outputs/logs_prompt_effect_kappa_811_v1/summary.md)、[逐seed](../outputs/logs_prompt_effect_kappa_811_v1/seed_metrics.csv)。去掉AE后，拼接κ相对logS-only的AUROC四模型均提高（+1.45至+2.98pp），AP仅Qwen3名义区间全正；24新头CPU重载通过。
+
+- 目标词 softmax 概率全视觉 MAD（2026-09-16，完成）：[四模型对照和 raw 数值限制](SEMANTIC_PROBABILITY_MAD_811_RESULTS.md)、[四组完整三种子结果与参数](../outputs/coco4000_512_endac_semantic_probability_mad_optuna_811/summary.md)。raw/norm 单独及+logS 共48最终头；Qwen3 raw MAD+logS 测试 AUROC/AP 89.75/74.04%，其余模型未见对 AE 的一致收益。Qwen2.5 raw 多数 mentions 的末层 MAD 为0；CPU/GPU重载最大概率差5.11e-6，按显式1e-5容差核验通过。
+
+- Attention/物体概率 Top32 JS 与全视觉乘积（2026-09-16，完成）：[四模型比较和数值限制](SEMANTIC_JS_FULL_811_RESULTS.md)、[六项完整三种子汇总与参数](../outputs/coco4000_512_endac_semantic_js_full_optuna_811/summary.md)。两个分布同区域条件归一化后算 JS；Qwen2.5 最佳 JS norm 联合32 85.74/49.73%，Qwen3 norm attention32 90.47/72.46%；LLaVA/InternVL 本轮全视觉乘积较强。72 最终头核验 PASS。
+
+- Prompt WRITE κ_P^a单独及与F拼接811检测（2026-09-16，完成）：[四模型结果和配对区间](PROMPT_WRITE_KAPPA_811_RESULTS.md)、[a_m/e_m逐层对照图](../outputs/prompt_write_kappa_811_v1/kappa_curves_all.png)、[检测图](../outputs/prompt_write_kappa_811_v1/detection.png)。单独a/e κ无明确赢家；F+κ_P^a较F宏平均AUROC/AP+1.22/+2.66pp，24新头重载通过。
+
+- AE/log1p(S)分别拼接五个几何块811检测（2026-09-16，完成）：[设置、逐模型结果与bootstrap](LEGACY_VISUAL_GEOMETRY_FUSION_811_RESULTS.md)、[检测图](../outputs/legacy_visual_geometry_fusion_811_v1/detection.png)、[κ_P单独曲线与数据](../outputs/legacy_visual_geometry_fusion_811_v1/prompt_kappa/summary.md)、[主结果CSV](../outputs/legacy_visual_geometry_fusion_811_v1/detection_summary.csv)。prompt κ跨模型宏平均增量AUROC/AP +1.36/+2.60pp，B1 Δcos(R,G) +1.31/+2.62pp，是最稳定的两个块；主结果72头，额外五量合并12头仅存supplementary。
+
+- 五个来源/残差几何标量811检测（2026-09-16，完成）：[设置、四模型结果与bootstrap](SELECTED_GEOMETRY_SCALARS_811_RESULTS.md)、[检测图](../outputs/selected_geometry_scalars_811_v1/detection.png)、[完整JSON](../outputs/selected_geometry_scalars_811_v1/summary.json)。复用真RMS K32/B1缓存，84个新头；五量拼接AUROC/AP为Q2 85.54/41.01、LL90.08/68.39、Q3 90.77/66.95、Intern87.44/56.12；generation κ含position-only之外的信息，但未排除全部长度混杂。
+
+- [Visual-only统一标准化后去BN](LEGACY_VISUAL_STANDARDIZED_NO_BN_SEED_424344_811_RESULTS.md)：固定811、seeds42/43/44及其余超参数，仅关闭BN；三个实际去BN模型AP均降，四模型宏平均AUROC/AP变化−0.04/−0.62pp，当前设置不支持统一去BN。
+
+- [Visual-only冻结单层MLP统一标准化](LEGACY_VISUAL_STANDARDIZED_SEED_424344_811_RESULTS.md)：固定811及seeds42/43/44；Qwen2.5/LLaVA只切换train-only z-score，Qwen3/InternVL原已标准化。宏平均较原配置AUROC +0.15pp、AP −0.32pp；较同样标准化SVAR为+0.68/+1.89pp。
+
+- [比例层SVAR训练集标准化单因素对照](SVAR_STANDARDIZED_SEED_424344_811_RESULTS.md)：固定811、层范围、PyTorch MLP和seeds42/43/44，仅加train-only逐特征z-score；四模型宏平均AUROC/AP下降0.58/2.09pp，四模型AP均下降。
+
+- [比例层原生SVAR训练种子42/43/44固定811](SVAR_PROPORTIONAL_SEED_424344_811_RESULTS.md)：四模型12头重训；AUROC/AP为Q2 86.61/43.90、LL90.42/71.24、Q3 89.23/64.28、Intern87.85/55.28；含与同种子Visual-only直接对照。
+
+- [Visual-only冻结单层参数训练种子42/43/44](LEGACY_VISUAL_SEED_424344_811_RESULTS.md)：只新增4个seed42头并复用43/44；相对43/44/45四模型AUROC变化−.03至−.13pp，LLaVA AP下降.80pp，其余AP变化≤.19pp，整体结论不变。
+
+- [Visual-only条件路径Torch单层MLP搜参811](LEGACY_VISUAL_SINGLE_MLP_SEARCH_811_RESULTS.md)：复用`[AE_V,log1p(S_E)]`缓存及固定811，24候选验证搜参、四模型120次拟合；测试AUROC/AP为Q2 87.95/45.73、LL89.74/68.37、Q3 89.81/68.45、Intern86.69/53.70，含已有XGB、三层MLP及SVAR对照。
+
+- S_G/position生成平均响应811检测（2026-09-15，完成）：[中文报告](GENERATION_PER_POSITION_811_RESULTS.md)、[协议](GENERATION_PER_POSITION_811_PROTOCOL.md)、[完整分数/区间/图](../outputs/generation_per_position_811_v1/summary.md)。36头三seed，ratio对S_G四模型AUROC点估计均下降（−.29/−.56/−1.20/−2.40pp），但均强于position-only；无VLM新提取。
+
+- 四模型COCO4000 Operator Visual-write Innovation Ratio（2026-09-15，完成）：[方法、数值门禁、结果与解释边界](OVIR_ALL_ATTENTION_4000_RESULTS.md)、[跨模型汇总](../outputs/ovir_all_attention_4000_v1/summary.json)、[全量曲线](../outputs/ovir_all_attention_4000_v1/all_models_ovir.png)。原始视觉WRITE 95%能量子空间、真实RMS All-attention K32；49939目标/50812 mentions/1622248 target-layer，无检测器。全量同图跨层差在Qwen2/Intern为正、Qwen3为负、LLaVA跨零，不支持统一方向。
+
+- 视觉AE/gross全层聚合training-free（2026-09-15，完成）：[设置、四模型结果与解释](AE_LOGS_LAYER_SUM_TRAINING_FREE_4000_RESULTS.md)、[精确指标](../outputs/visual_layer_sum_training_free_4000_v1/metrics.csv)、[权重曲线](../outputs/visual_layer_sum_training_free_4000_v1/performance.png)。原4000图cohort全部mentions，`A_V=sum AE_V`、`S_FREE=log(1+sum S_V)`，无训练/标准化；前三模型AUROC以S-only最好，InternVL在w=.2时双指标提高。
+
+- All-attention WRITE/SS/gain前三项（2026-09-15，完成）：[分析报告](ALL_ATTENTION_WRITE_GAIN_811_RESULTS.md)、[固定协议](ALL_ATTENTION_WRITE_GAIN_811_PROTOCOL.md)、[完整分数及图](../outputs/all_attention_write_gain_811_v1/summary.md)。真RMS K32四模型4000图离线统计，72头固定811；PVG的I+S对I AUROC增量3/4模型名义区间为正，S-only对I四区间均跨零。无新VLM提取。
+
+- VP/G直接比值特征811检测（2026-09-14，完成）：[实验设置、四模型结果与解释](VP_OVER_G_811_RESULTS.md)、[三seed比较数据](../outputs/vp_over_g_standardized_no_bn_batch128_811_v1/comparison.csv)、[统一核验](../outputs/vp_over_g_standardized_no_bn_batch128_811_v1/validation.json)。固定batch128、StandardScaler、无BN和最低val-loss checkpoint；四模型AUROC均低于V与VP+G拼接，不支持以比值替代拼接。
+
+- SADT风格Attention/AE/P_E/cosine空间图（2026-09-14，完成）：[总览、四模型图册及全候选关系](../outputs/ffn_write_effect_sadt_gallery_v1/summary.md)、[未求和的PE–WRITE局部差值10例](../outputs/ffn_write_effect_sadt_gallery_v1/pe_write_local_amp_examples/summary.md)、[关系曲线](../outputs/ffn_write_effect_sadt_gallery_v1/attention_pe_relationship.png)、[逐目标逐层CSV](../outputs/ffn_write_effect_sadt_gallery_v1/attention_pe_relationship.csv)。主图每模型10个REAL/HALL案例和3个高差异HALL案例，共52张；局部差值图另含REAL/HALL各5张，使用 $|P_{E,m}-P_{W,m}|$，不乘1/2、不求和。全候选统计显示Attention与P_E总体高度相关，局部层仍有明显重排；前两版约565 MB已删除。
 
 - raw_AE_top32检测（2026-09-14，完成）：[说明](RAW_AE_TOP32_DETECTION.md)、[完整三seed结果](../outputs/ffn_source_composition_v1/raw_ae_top32_detection/summary.md)。原3200/800、四模型、单独Top32及拼接B共24新头；B复用旧结果。单独信号弱于B，拼接后前三模型AUROC/AP下降，InternVL小幅提高，不支持通用增益；与811协议分开。
 

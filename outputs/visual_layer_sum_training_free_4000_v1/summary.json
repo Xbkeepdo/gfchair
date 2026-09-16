@@ -1,0 +1,293 @@
+{
+  "diagnostics": [
+    {
+      "ae_sum_mean": 16.940175311303786,
+      "ae_sum_std": 1.3672272320709737,
+      "cohort_images": 4000,
+      "hall_mentions": 916,
+      "hall_prevalence": 0.10508202363198348,
+      "images_with_mentions": 3679,
+      "images_without_mentions": 321,
+      "layers": 28,
+      "mentions": 8717,
+      "model": "qwen2_5_vl_7b",
+      "real_mentions": 7801,
+      "strength_free_mean": 6.338426178154241,
+      "strength_free_std": 0.303885563530516
+    },
+    {
+      "ae_sum_mean": 17.982520100845466,
+      "ae_sum_std": 3.654098582938591,
+      "cohort_images": 4000,
+      "hall_mentions": 3487,
+      "hall_prevalence": 0.22550604669210372,
+      "images_with_mentions": 3971,
+      "images_without_mentions": 29,
+      "layers": 32,
+      "mentions": 15463,
+      "model": "llava_1_5_7b",
+      "real_mentions": 11976,
+      "strength_free_mean": 4.872394606857722,
+      "strength_free_std": 0.34501191904824985
+    },
+    {
+      "ae_sum_mean": 23.487862133295454,
+      "ae_sum_std": 2.3964141076265015,
+      "cohort_images": 4000,
+      "hall_mentions": 2593,
+      "hall_prevalence": 0.1743427687756337,
+      "images_with_mentions": 3943,
+      "images_without_mentions": 57,
+      "layers": 36,
+      "mentions": 14873,
+      "model": "qwen3_vl_8b",
+      "real_mentions": 12280,
+      "strength_free_mean": 6.233336997445004,
+      "strength_free_std": 0.3740145305014424
+    },
+    {
+      "ae_sum_mean": 19.232115044446005,
+      "ae_sum_std": 1.6701600988976077,
+      "cohort_images": 4000,
+      "hall_mentions": 1766,
+      "hall_prevalence": 0.15018283867675822,
+      "images_with_mentions": 3927,
+      "images_without_mentions": 73,
+      "layers": 32,
+      "mentions": 11759,
+      "model": "internvl_2_5_8b",
+      "real_mentions": 9993,
+      "strength_free_mean": 5.200723436711996,
+      "strength_free_std": 0.45590834871499275
+    }
+  ],
+  "metrics": [
+    {
+      "AUROC": 0.6279292376019422,
+      "HALL_AUPR": 0.19008241217431443,
+      "feature": "S_FREE",
+      "hall_mentions": 916,
+      "hall_prevalence": 0.10508202363198348,
+      "mentions": 8717,
+      "model": "qwen2_5_vl_7b",
+      "weight": 0.0
+    },
+    {
+      "AUROC": 0.6232844966130756,
+      "HALL_AUPR": 0.14660576288056382,
+      "feature": "fixed_fusion",
+      "hall_mentions": 916,
+      "hall_prevalence": 0.10508202363198348,
+      "mentions": 8717,
+      "model": "qwen2_5_vl_7b",
+      "weight": 0.2
+    },
+    {
+      "AUROC": 0.5702226340929306,
+      "HALL_AUPR": 0.1176163240522819,
+      "feature": "fixed_fusion",
+      "hall_mentions": 916,
+      "hall_prevalence": 0.10508202363198348,
+      "mentions": 8717,
+      "model": "qwen2_5_vl_7b",
+      "weight": 0.5
+    },
+    {
+      "AUROC": 0.5425713812303763,
+      "HALL_AUPR": 0.1101661328642159,
+      "feature": "fixed_fusion",
+      "hall_mentions": 916,
+      "hall_prevalence": 0.10508202363198348,
+      "mentions": 8717,
+      "model": "qwen2_5_vl_7b",
+      "weight": 0.8
+    },
+    {
+      "AUROC": 0.5329235026972804,
+      "HALL_AUPR": 0.10792446511442128,
+      "feature": "AE_V",
+      "hall_mentions": 916,
+      "hall_prevalence": 0.10508202363198348,
+      "mentions": 8717,
+      "model": "qwen2_5_vl_7b",
+      "weight": 1.0
+    },
+    {
+      "AUROC": 0.6694339472367927,
+      "HALL_AUPR": 0.2990858086600249,
+      "feature": "S_FREE",
+      "hall_mentions": 3487,
+      "hall_prevalence": 0.22550604669210372,
+      "mentions": 15463,
+      "model": "llava_1_5_7b",
+      "weight": 0.0
+    },
+    {
+      "AUROC": 0.6207644353806553,
+      "HALL_AUPR": 0.312720786502577,
+      "feature": "fixed_fusion",
+      "hall_mentions": 3487,
+      "hall_prevalence": 0.22550604669210372,
+      "mentions": 15463,
+      "model": "llava_1_5_7b",
+      "weight": 0.2
+    },
+    {
+      "AUROC": 0.5980471961033241,
+      "HALL_AUPR": 0.3015080117872804,
+      "feature": "fixed_fusion",
+      "hall_mentions": 3487,
+      "hall_prevalence": 0.22550604669210372,
+      "mentions": 15463,
+      "model": "llava_1_5_7b",
+      "weight": 0.5
+    },
+    {
+      "AUROC": 0.5916312957623497,
+      "HALL_AUPR": 0.29666757504413466,
+      "feature": "fixed_fusion",
+      "hall_mentions": 3487,
+      "hall_prevalence": 0.22550604669210372,
+      "mentions": 15463,
+      "model": "llava_1_5_7b",
+      "weight": 0.8
+    },
+    {
+      "AUROC": 0.5894554020573409,
+      "HALL_AUPR": 0.29491380895535174,
+      "feature": "AE_V",
+      "hall_mentions": 3487,
+      "hall_prevalence": 0.22550604669210372,
+      "mentions": 15463,
+      "model": "llava_1_5_7b",
+      "weight": 1.0
+    },
+    {
+      "AUROC": 0.659585001463474,
+      "HALL_AUPR": 0.2788172310864723,
+      "feature": "S_FREE",
+      "hall_mentions": 2593,
+      "hall_prevalence": 0.1743427687756337,
+      "mentions": 14873,
+      "model": "qwen3_vl_8b",
+      "weight": 0.0
+    },
+    {
+      "AUROC": 0.6361958279054986,
+      "HALL_AUPR": 0.25961146272362834,
+      "feature": "fixed_fusion",
+      "hall_mentions": 2593,
+      "hall_prevalence": 0.1743427687756337,
+      "mentions": 14873,
+      "model": "qwen3_vl_8b",
+      "weight": 0.2
+    },
+    {
+      "AUROC": 0.5981672970701626,
+      "HALL_AUPR": 0.22700429216570114,
+      "feature": "fixed_fusion",
+      "hall_mentions": 2593,
+      "hall_prevalence": 0.1743427687756337,
+      "mentions": 14873,
+      "model": "qwen3_vl_8b",
+      "weight": 0.5
+    },
+    {
+      "AUROC": 0.583899021545102,
+      "HALL_AUPR": 0.216172693083682,
+      "feature": "fixed_fusion",
+      "hall_mentions": 2593,
+      "hall_prevalence": 0.1743427687756337,
+      "mentions": 14873,
+      "model": "qwen3_vl_8b",
+      "weight": 0.8
+    },
+    {
+      "AUROC": 0.5787157167065929,
+      "HALL_AUPR": 0.21222498355841277,
+      "feature": "AE_V",
+      "hall_mentions": 2593,
+      "hall_prevalence": 0.1743427687756337,
+      "mentions": 14873,
+      "model": "qwen3_vl_8b",
+      "weight": 1.0
+    },
+    {
+      "AUROC": 0.6867695552231975,
+      "HALL_AUPR": 0.28810609592484815,
+      "feature": "S_FREE",
+      "hall_mentions": 1766,
+      "hall_prevalence": 0.15018283867675822,
+      "mentions": 11759,
+      "model": "internvl_2_5_8b",
+      "weight": 0.0
+    },
+    {
+      "AUROC": 0.7096514275734803,
+      "HALL_AUPR": 0.31748415578641975,
+      "feature": "fixed_fusion",
+      "hall_mentions": 1766,
+      "hall_prevalence": 0.15018283867675822,
+      "mentions": 11759,
+      "model": "internvl_2_5_8b",
+      "weight": 0.2
+    },
+    {
+      "AUROC": 0.6795257529647877,
+      "HALL_AUPR": 0.2906802429927297,
+      "feature": "fixed_fusion",
+      "hall_mentions": 1766,
+      "hall_prevalence": 0.15018283867675822,
+      "mentions": 11759,
+      "model": "internvl_2_5_8b",
+      "weight": 0.5
+    },
+    {
+      "AUROC": 0.6576875330284992,
+      "HALL_AUPR": 0.2608740677532574,
+      "feature": "fixed_fusion",
+      "hall_mentions": 1766,
+      "hall_prevalence": 0.15018283867675822,
+      "mentions": 11759,
+      "model": "internvl_2_5_8b",
+      "weight": 0.8
+    },
+    {
+      "AUROC": 0.6480942378804461,
+      "HALL_AUPR": 0.24877222388368392,
+      "feature": "AE_V",
+      "hall_mentions": 1766,
+      "hall_prevalence": 0.15018283867675822,
+      "mentions": 11759,
+      "model": "internvl_2_5_8b",
+      "weight": 1.0
+    }
+  ],
+  "protocol": {
+    "ae": "A_V = sum over all decoder layers of raw visual AE",
+    "cohort": "Original fixed COCO 4000-image cohort; all mentions across the full cohort",
+    "created_utc": "2026-09-14T19:47:48.856649+00:00",
+    "evidence": "E_w = (1-w) * S_FREE + w * A_V",
+    "fitting": "None; no classifier, label-dependent sign selection, or threshold selection",
+    "hall_risk": "-E_w; lower visual evidence means higher hallucination risk",
+    "metrics": "Mention-level AUROC with HALL positive and HALL-AUPR",
+    "models": [
+      "qwen2_5_vl_7b",
+      "llava_1_5_7b",
+      "qwen3_vl_8b",
+      "internvl_2_5_8b"
+    ],
+    "normalization": "None",
+    "schema": "visual-layer-sum-training-free-4000-v1",
+    "source": "True-RMS all-attention z-A_all -> z; local FP32 Gauss-Legendre K32",
+    "status": "Exploratory: the full cohort and labels have been inspected in earlier experiments",
+    "strength": "S_FREE = log(1 + sum over all decoder layers of raw visual gross S)",
+    "weights": [
+      0.0,
+      0.2,
+      0.5,
+      0.8,
+      1.0
+    ]
+  }
+}

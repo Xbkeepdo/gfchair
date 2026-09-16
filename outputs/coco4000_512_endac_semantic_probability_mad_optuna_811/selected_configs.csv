@@ -1,0 +1,17 @@
+model,variant,model_champion,trial,width,dropout,activation,learning_rate,weight_decay,batch_size,monitor,best_epochs
+qwen2_5_vl_7b,raw_mad,False,19,256,0.1,relu,0.00705835570048742,1e-06,512,val_auroc,9/11/8
+qwen2_5_vl_7b,norm_mad,False,23,248,0.1,relu,0.001689725070146629,0.0001,64,val_auroc,30/51/22
+qwen2_5_vl_7b,raw_mad_logs,True,21,128,0.5,gelu,0.008990281143405313,0.0,64,val_auroc,44/37/37
+qwen2_5_vl_7b,norm_mad_logs,False,6,256,0.5,relu,0.002696804044863828,1e-05,512,val_auroc,56/26/74
+llava_1_5_7b,raw_mad,False,20,512,0.0,relu,0.009089651607783212,0.0,512,val_auroc,84/96/115
+llava_1_5_7b,norm_mad,False,18,1024,0.0,relu,0.0025920145860390503,0.0,256,val_auroc,119/90/71
+llava_1_5_7b,raw_mad_logs,True,6,256,0.5,relu,0.002696804044863828,1e-05,512,val_auroc,50/35/42
+llava_1_5_7b,norm_mad_logs,False,6,256,0.5,relu,0.002696804044863828,1e-05,512,val_auroc,45/37/38
+qwen3_vl_8b,raw_mad,False,16,248,0.0,relu,0.00303578328654247,0.0,256,val_loss,75/62/66
+qwen3_vl_8b,norm_mad,False,18,256,0.0,relu,0.0026377795383435232,1e-06,64,val_loss,50/95/89
+qwen3_vl_8b,raw_mad_logs,True,13,1024,0.5,relu,0.001347546881051118,1e-05,512,val_auroc,49/55/62
+qwen3_vl_8b,norm_mad_logs,False,15,1024,0.5,relu,0.0006286048373101552,0.0001,256,val_auroc,75/77/88
+internvl_2_5_8b,raw_mad,False,22,512,0.1,relu,0.004474629476881067,0.0,64,val_auroc,94/58/49
+internvl_2_5_8b,norm_mad,False,22,1024,0.3,relu,0.0020103941141238414,1e-06,64,val_loss,76/73/63
+internvl_2_5_8b,raw_mad_logs,False,23,1024,0.3,relu,0.003099193492179321,1e-05,256,val_auroc,28/44/32
+internvl_2_5_8b,norm_mad_logs,True,16,256,0.0,relu,0.004173289462118456,1e-05,128,val_auroc,23/27/28

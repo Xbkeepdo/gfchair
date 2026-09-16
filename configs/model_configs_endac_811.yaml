@@ -1,0 +1,72 @@
+extends: model_configs_unified.yaml
+
+run:
+  prompt: "Describe this image."
+  validate_manifests: false
+
+labeling:
+  schema_version: 2
+  sample_unit: "first_canonical_mention"
+  primary_locator: "exact_response_offsets"
+  save_all_mentions: true
+  save_svar_official_samples: true
+  alignment_failure_policy: "error"
+
+dataset:
+  num_images: 4000
+  train_images: 3200
+  test_images: 800
+  seed: 42
+  shared_split_path: "/home/apulis-dev/userdata/CODEX/test-cocochair/token-detector/outputs/qwen3_vl_8b/COCO4000-512-ENDAC/image_splits.json"
+
+endac_811:
+  output_root: "outputs/coco4000_512_endac_811"
+  split_seed: 20260912
+  seeds: [43, 44, 45]
+  models:
+    qwen2_5_vl_7b:
+      generation_source: "/home/apulis-dev/userdata/CODEX/test-cocochair/token-detector/outputs/512/outputs/qwen2_5_vl_7b/COCO4000-512"
+      num_layers: 28
+      svar_layers: [4, 17]
+      all_attention_group: "v"
+    llava_1_5_7b:
+      generation_source: "/home/apulis-dev/userdata/CODEX/test-cocochair/token-detector/outputs/512/outputs/llava_1_5_7b/COCO4000-512"
+      num_layers: 32
+      svar_layers: [5, 19]
+      all_attention_group: "vp_generation"
+    qwen3_vl_8b:
+      generation_source: "/home/apulis-dev/userdata/CODEX/test-cocochair/token-detector/outputs/qwen3_vl_8b/COCO4000-512-ENDAC"
+      num_layers: 36
+      svar_layers: [6, 21]
+      all_attention_group: "vp_generation"
+    internvl_2_5_8b:
+      generation_source: "/home/apulis-dev/userdata/CODEX/test-cocochair/token-detector/outputs/512/outputs/internvl_2_5_8b/COCO4000-512"
+      num_layers: 32
+      svar_layers: [5, 19]
+      all_attention_group: "vp_generation"
+  extraction:
+    visual_quadrature_points: 4
+    all_attention_quadrature_points: 32
+    token_chunk_size: 32
+    mad_epsilon: 1.0e-6
+  fixed_mlp:
+    hidden_sizes: [128, 64, 32]
+    dropout: 0.3
+    batch_size: 256
+    max_epochs: 100
+    learning_rate: 0.001
+    weight_decay: 0.00001
+    early_stopping_patience: 10
+  single_mlp:
+    search_seed: 20260914
+    candidates: 24
+    shortlist: 3
+
+semantic_attention_topk:
+  output_root: "outputs/coco4000_512_endac_semantic_attention_topk"
+  top_k: [16, 32]
+  vocab_chunk_size: 32
+  target_token: "first_exact_span_token"
+  hidden_source: "h_prev"
+  attention_heads: "mean"
+  matrix_dtype: "float32"

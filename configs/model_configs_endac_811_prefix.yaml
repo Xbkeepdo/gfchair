@@ -1,0 +1,32 @@
+extends: model_configs_endac_811.yaml
+
+models:
+  minigpt4_7b:
+    hf_name: /home/apulis-dev/userdata/models/MiniGPT-4-7B
+    num_visual_tokens: 32
+    max_new_tokens: 512
+    temperature: 0.1
+    top_p: 0.5
+    dgst_attention_query_chunk_size: 64
+  shikra_7b:
+    hf_name: /home/apulis-dev/userdata/models/shikra-7b
+    num_visual_tokens: 256
+    max_new_tokens: 512
+    temperature: 0.1
+    top_p: 0.5
+    dgst_attention_query_chunk_size: 64
+
+endac_811:
+  chair_cache: /home/apulis-dev/userdata/CODEX/test-cocochair/gfchair/outputs/coco4000_512_endac_811/qwen3_vl_8b/chair.pkl
+  models:
+    minigpt4_7b:
+      generation_source: /home/apulis-dev/userdata/CODEX/test-cocochair/gfchair/outputs/minigpt4_7b/COCO4000-JACOBIAN-PATH
+      num_layers: 32
+      svar_layers: [5, 19]
+      all_attention_group: vp_generation
+    shikra_7b:
+      generation_source: /home/apulis-dev/userdata/CODEX/test-cocochair/gfchair/outputs/shikra_7b/COCO4000-JACOBIAN-PATH
+      num_layers: 32
+      svar_layers: [5, 19]
+      all_attention_group: vp_generation
+  extract_semantic_attention: true

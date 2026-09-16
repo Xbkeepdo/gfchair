@@ -1,0 +1,5 @@
+model,variant,model_champion,trial,width,dropout,activation,learning_rate,weight_decay,batch_size,monitor,best_epochs
+minigpt4_7b,raw_full_product,False,4,128,0.1,relu,0.0015382403527613895,0.0,64,val_loss,20/18/14
+minigpt4_7b,norm_full_product,True,22,128,0.1,gelu,0.00046295042459006,1e-06,64,val_auroc,60/44/47
+shikra_7b,raw_full_product,True,14,1024,0.5,relu,0.0006959270394170106,1e-06,256,val_auroc,35/44/19
+shikra_7b,norm_full_product,False,13,1024,0.5,relu,0.001347546881051118,1e-05,512,val_auroc,36/33/31

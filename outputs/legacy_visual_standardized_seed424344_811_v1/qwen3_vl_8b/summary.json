@@ -1,0 +1,48 @@
+{
+  "AUROC_mean": 0.8967812672176309,
+  "AUROC_std": 0.002364874873783185,
+  "HALL_AUPR_mean": 0.6826432441658423,
+  "HALL_AUPR_std": 0.006431736807662962,
+  "config": {
+    "activation": "relu",
+    "batch_norm": true,
+    "batch_size": 256,
+    "dropout": 0.3,
+    "learning_rate": 0.001,
+    "lr_patience": 6,
+    "max_epochs": 150,
+    "monitor": "val_loss",
+    "patience": 20,
+    "standardize": true,
+    "weight_decay": 1e-05,
+    "width": 128
+  },
+  "ensemble": {
+    "AUROC": 0.8994611570247933,
+    "HALL_AUPR": 0.6878425505371419
+  },
+  "model": "qwen3_vl_8b",
+  "schema": "legacy-visual-forced-standardized-model-summary-v1",
+  "seeds": [
+    42,
+    43,
+    44
+  ],
+  "source_candidate": 9,
+  "source_config": {
+    "activation": "relu",
+    "batch_norm": true,
+    "batch_size": 256,
+    "dropout": 0.3,
+    "learning_rate": 0.001,
+    "lr_patience": 6,
+    "max_epochs": 150,
+    "monitor": "val_loss",
+    "patience": 20,
+    "standardize": true,
+    "weight_decay": 1e-05,
+    "width": 128
+  },
+  "standardization_was_already_enabled": true,
+  "standardized_candidate": 9
+}

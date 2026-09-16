@@ -1,0 +1,143 @@
+{
+  "comparison_to_seeds434445": [
+    {
+      "AUROC_delta_pp": 0.07555315704265153,
+      "AUROC_mean_424344": 0.8660807442242953,
+      "AUROC_mean_434445": 0.8653252126538687,
+      "AUROC_std_424344": 0.0037273704414620273,
+      "AUROC_std_434445": 0.0038553970285652097,
+      "HALL_AUPR_delta_pp": 0.13003080195533312,
+      "HALL_AUPR_mean_424344": 0.4390323232705291,
+      "HALL_AUPR_mean_434445": 0.43773201525097577,
+      "HALL_AUPR_std_424344": 0.009548770355917686,
+      "HALL_AUPR_std_434445": 0.009894290140571438,
+      "model": "qwen2_5_vl_7b"
+    },
+    {
+      "AUROC_delta_pp": 0.01899293430239757,
+      "AUROC_mean_424344": 0.9041998024082716,
+      "AUROC_mean_434445": 0.9040098730652476,
+      "AUROC_std_424344": 0.00020509665704397187,
+      "AUROC_std_434445": 0.00011383497618368134,
+      "HALL_AUPR_delta_pp": 0.08766305027843035,
+      "HALL_AUPR_mean_424344": 0.7123791775318337,
+      "HALL_AUPR_mean_434445": 0.7115025470290494,
+      "HALL_AUPR_std_424344": 0.004604855195508557,
+      "HALL_AUPR_std_434445": 0.0036086117641409687,
+      "model": "llava_1_5_7b"
+    },
+    {
+      "AUROC_delta_pp": -0.0776859504132088,
+      "AUROC_mean_424344": 0.8923283746556474,
+      "AUROC_mean_434445": 0.8931052341597795,
+      "AUROC_std_424344": 0.000921681243989421,
+      "AUROC_std_434445": 0.0007885358180509522,
+      "HALL_AUPR_delta_pp": 0.6155233036067465,
+      "HALL_AUPR_mean_424344": 0.642790903583253,
+      "HALL_AUPR_mean_434445": 0.6366356705471855,
+      "HALL_AUPR_std_424344": 0.012693483165281376,
+      "HALL_AUPR_std_434445": 0.00821289429231422,
+      "model": "qwen3_vl_8b"
+    },
+    {
+      "AUROC_delta_pp": 0.2006940427993098,
+      "AUROC_mean_424344": 0.8785010603431656,
+      "AUROC_mean_434445": 0.8764941199151725,
+      "AUROC_std_424344": 0.004519260370464079,
+      "AUROC_std_434445": 0.0026482367818418395,
+      "HALL_AUPR_delta_pp": 0.34600164286586743,
+      "HALL_AUPR_mean_424344": 0.5528274550340352,
+      "HALL_AUPR_mean_434445": 0.5493674386053765,
+      "HALL_AUPR_std_424344": 0.009954812567653858,
+      "HALL_AUPR_std_434445": 0.008055152153177666,
+      "model": "internvl_2_5_8b"
+    }
+  ],
+  "schema": "native-svar-llava-5-18-proportional-811-v1",
+  "summaries": [
+    {
+      "AUROC_mean": 0.8660807442242953,
+      "AUROC_std": 0.0037273704414620273,
+      "HALL_AUPR_mean": 0.4390323232705291,
+      "HALL_AUPR_std": 0.009548770355917686,
+      "best_epochs": [
+        8,
+        8,
+        11
+      ],
+      "ensemble": {
+        "AUROC": 0.8668876725001927,
+        "HALL_AUPR": 0.4399908957976118
+      },
+      "input_dim": 364,
+      "layer_end_exclusive": 17,
+      "layer_start": 4,
+      "model": "qwen2_5_vl_7b",
+      "selected_layers": 13,
+      "total_layers": 28
+    },
+    {
+      "AUROC_mean": 0.9041998024082716,
+      "AUROC_std": 0.00020509665704397187,
+      "HALL_AUPR_mean": 0.7123791775318337,
+      "HALL_AUPR_std": 0.004604855195508557,
+      "best_epochs": [
+        19,
+        21,
+        11
+      ],
+      "ensemble": {
+        "AUROC": 0.905530122956833,
+        "HALL_AUPR": 0.7165043910942991
+      },
+      "input_dim": 448,
+      "layer_end_exclusive": 19,
+      "layer_start": 5,
+      "model": "llava_1_5_7b",
+      "selected_layers": 14,
+      "total_layers": 32
+    },
+    {
+      "AUROC_mean": 0.8923283746556474,
+      "AUROC_std": 0.000921681243989421,
+      "HALL_AUPR_mean": 0.642790903583253,
+      "HALL_AUPR_std": 0.012693483165281376,
+      "best_epochs": [
+        35,
+        20,
+        30
+      ],
+      "ensemble": {
+        "AUROC": 0.8958512396694215,
+        "HALL_AUPR": 0.6527541147808739
+      },
+      "input_dim": 480,
+      "layer_end_exclusive": 21,
+      "layer_start": 6,
+      "model": "qwen3_vl_8b",
+      "selected_layers": 15,
+      "total_layers": 36
+    },
+    {
+      "AUROC_mean": 0.8785010603431656,
+      "AUROC_std": 0.004519260370464079,
+      "HALL_AUPR_mean": 0.5528274550340352,
+      "HALL_AUPR_std": 0.009954812567653858,
+      "best_epochs": [
+        17,
+        12,
+        9
+      ],
+      "ensemble": {
+        "AUROC": 0.8799739733950258,
+        "HALL_AUPR": 0.5543898312681194
+      },
+      "input_dim": 448,
+      "layer_end_exclusive": 19,
+      "layer_start": 5,
+      "model": "internvl_2_5_8b",
+      "selected_layers": 14,
+      "total_layers": 32
+    }
+  ]
+}

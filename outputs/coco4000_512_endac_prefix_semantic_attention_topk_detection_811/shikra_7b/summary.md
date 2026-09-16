@@ -1,0 +1,91 @@
+# shikra_7b semantic-attention Top-K ENDAC-811
+
+3200/400/400 image split; seeds 43/44/45. Mean ± population std.
+Selection uses validation AUROC, then HALL-AUPR; test is held out.
+
+| variant | feature | validation AUROC (%) | test AUROC (%) | test HALL-AUPR (%) |
+|---|---|---:|---:|---:|
+| raw_top16 | semantic_only | 73.72 | 74.14 ± 0.18 | 45.42 ± 0.58 |
+| raw_top16 | attention_only | 79.19 | 79.60 ± 0.03 | 53.83 ± 0.33 |
+| raw_top16 | cosine_only | 81.48 | 81.22 ± 0.10 | 58.28 ± 0.31 |
+| raw_top16 | semantic_attention | 75.99 | 77.25 ± 0.02 | 49.47 ± 0.11 |
+| raw_top16 | cosine_attention | 79.12 | 79.42 ± 0.20 | 51.76 ± 0.12 |
+| raw_top16 | semantic_attention_positive_cosine | 78.36 | 78.64 ± 0.54 | 50.90 ± 1.11 |
+| raw_top16 | all_six | 85.35 | 84.38 ± 0.16 | 61.32 ± 0.19 |
+| raw_top16 | semantic_only+logS | 88.20 | 88.14 ± 0.03 | 69.17 ± 0.35 |
+| raw_top16 | attention_only+logS | 86.03 | 86.83 ± 0.15 | 68.07 ± 0.05 |
+| raw_top16 | cosine_only+logS | 87.54 | 86.96 ± 0.07 | 66.22 ± 0.54 |
+| raw_top16 | semantic_attention+logS | 88.15 | 87.95 ± 0.07 | 68.57 ± 0.43 |
+| raw_top16 | cosine_attention+logS | 86.21 | 86.95 ± 0.05 | 67.88 ± 0.22 |
+| raw_top16 | semantic_attention_positive_cosine+logS | 88.36 | 87.96 ± 0.05 | 68.44 ± 0.37 |
+| raw_top16 | all_six+logS | 88.02 | 87.97 ± 0.12 | 69.46 ± 0.26 |
+| raw_top16 | semantic_only+S | 88.30 | 88.12 ± 0.15 | 69.55 ± 0.74 |
+| raw_top16 | attention_only+S | 86.07 | 86.63 ± 0.02 | 67.51 ± 0.29 |
+| raw_top16 | cosine_only+S | 87.63 | 86.88 ± 0.09 | 66.53 ± 0.57 |
+| raw_top16 | semantic_attention+S | 88.21 | 87.83 ± 0.06 | 68.30 ± 0.28 |
+| raw_top16 | cosine_attention+S | 86.29 | 86.85 ± 0.13 | 67.60 ± 0.39 |
+| raw_top16 | semantic_attention_positive_cosine+S | 88.36 | 87.89 ± 0.13 | 68.24 ± 0.60 |
+| raw_top16 | all_six+S | 88.06 | 87.89 ± 0.10 | 69.33 ± 0.29 |
+| raw_top32 | semantic_only | 73.69 | 74.17 ± 0.09 | 45.62 ± 0.07 |
+| raw_top32 | attention_only | 81.42 | 81.49 ± 0.24 | 54.57 ± 0.83 |
+| raw_top32 | cosine_only | 81.69 | 80.87 ± 0.22 | 57.72 ± 0.33 |
+| raw_top32 | semantic_attention | 76.51 | 77.57 ± 0.10 | 49.83 ± 0.24 |
+| raw_top32 | cosine_attention | 80.49 | 80.83 ± 0.15 | 54.74 ± 0.23 |
+| raw_top32 | semantic_attention_positive_cosine | 79.56 | 79.38 ± 0.62 | 52.31 ± 1.29 |
+| raw_top32 | all_six | 86.48 | 85.27 ± 0.14 | 63.29 ± 0.41 |
+| raw_top32 | semantic_only+logS | 88.18 | 88.17 ± 0.08 | 69.41 ± 0.48 |
+| raw_top32 | attention_only+logS | 86.50 | 86.86 ± 0.20 | 66.84 ± 0.27 |
+| raw_top32 | cosine_only+logS | 87.44 | 86.53 ± 0.09 | 66.25 ± 0.57 |
+| raw_top32 | semantic_attention+logS | 88.07 | 87.91 ± 0.06 | 68.42 ± 0.28 |
+| raw_top32 | cosine_attention+logS | 86.73 | 86.71 ± 0.08 | 66.52 ± 0.58 |
+| raw_top32 | semantic_attention_positive_cosine+logS | 88.33 | 87.95 ± 0.06 | 68.48 ± 0.12 |
+| raw_top32 | all_six+logS | 88.59 | 87.85 ± 0.25 | 69.94 ± 0.52 |
+| raw_top32 | semantic_only+S | 88.32 | 88.15 ± 0.18 | 69.60 ± 0.68 |
+| raw_top32 | attention_only+S | 86.57 | 86.58 ± 0.19 | 66.19 ± 0.54 |
+| raw_top32 | cosine_only+S | 87.57 | 86.40 ± 0.15 | 66.16 ± 0.85 |
+| raw_top32 | semantic_attention+S | 88.22 | 87.88 ± 0.05 | 68.43 ± 0.31 |
+| raw_top32 | cosine_attention+S | 86.71 | 86.58 ± 0.25 | 66.40 ± 0.62 |
+| raw_top32 | semantic_attention_positive_cosine+S | 88.36 | 87.81 ± 0.04 | 68.02 ± 0.51 |
+| raw_top32 | all_six+S (selected) | 88.60 | 87.79 ± 0.24 | 69.91 ± 0.37 |
+| norm_top16 | semantic_only | 73.88 | 75.13 ± 0.05 | 47.87 ± 0.05 |
+| norm_top16 | attention_only | 78.69 | 78.59 ± 0.16 | 51.91 ± 0.25 |
+| norm_top16 | cosine_only | 80.14 | 80.49 ± 0.12 | 56.05 ± 0.28 |
+| norm_top16 | semantic_attention | 75.50 | 76.68 ± 0.12 | 48.18 ± 0.08 |
+| norm_top16 | cosine_attention | 79.96 | 79.41 ± 0.16 | 52.05 ± 0.25 |
+| norm_top16 | semantic_attention_positive_cosine | 77.28 | 78.20 ± 0.28 | 50.33 ± 0.51 |
+| norm_top16 | all_six | 85.24 | 85.28 ± 0.10 | 62.67 ± 0.40 |
+| norm_top16 | semantic_only+logS | 88.01 | 88.01 ± 0.05 | 69.06 ± 0.45 |
+| norm_top16 | attention_only+logS | 86.21 | 86.85 ± 0.21 | 68.38 ± 0.42 |
+| norm_top16 | cosine_only+logS | 87.07 | 86.59 ± 0.19 | 66.12 ± 0.43 |
+| norm_top16 | semantic_attention+logS | 88.04 | 87.49 ± 0.13 | 68.19 ± 0.37 |
+| norm_top16 | cosine_attention+logS | 86.92 | 87.07 ± 0.18 | 68.20 ± 0.28 |
+| norm_top16 | semantic_attention_positive_cosine+logS | 87.95 | 87.37 ± 0.14 | 67.57 ± 0.25 |
+| norm_top16 | all_six+logS | 88.13 | 87.87 ± 0.26 | 70.17 ± 0.50 |
+| norm_top16 | semantic_only+S | 88.18 | 88.20 ± 0.06 | 69.68 ± 0.36 |
+| norm_top16 | attention_only+S | 86.23 | 86.81 ± 0.17 | 67.70 ± 0.42 |
+| norm_top16 | cosine_only+S | 87.19 | 86.66 ± 0.07 | 66.79 ± 0.19 |
+| norm_top16 | semantic_attention+S | 88.20 | 87.57 ± 0.18 | 68.43 ± 0.63 |
+| norm_top16 | cosine_attention+S | 87.03 | 87.20 ± 0.23 | 68.08 ± 0.62 |
+| norm_top16 | semantic_attention_positive_cosine+S | 88.08 | 87.36 ± 0.05 | 67.46 ± 0.41 |
+| norm_top16 | all_six+S | 88.18 | 87.88 ± 0.27 | 70.41 ± 0.45 |
+| norm_top32 | semantic_only | 73.80 | 75.15 ± 0.13 | 47.91 ± 0.43 |
+| norm_top32 | attention_only | 80.29 | 80.37 ± 0.28 | 53.36 ± 0.43 |
+| norm_top32 | cosine_only | 80.51 | 80.27 ± 0.24 | 57.03 ± 0.47 |
+| norm_top32 | semantic_attention | 75.58 | 76.82 ± 0.19 | 48.67 ± 0.43 |
+| norm_top32 | cosine_attention | 80.58 | 79.75 ± 0.17 | 52.61 ± 0.37 |
+| norm_top32 | semantic_attention_positive_cosine | 77.43 | 78.46 ± 0.27 | 50.76 ± 0.56 |
+| norm_top32 | all_six | 85.93 | 84.78 ± 0.18 | 62.08 ± 0.73 |
+| norm_top32 | semantic_only+logS | 88.02 | 88.03 ± 0.01 | 69.05 ± 0.57 |
+| norm_top32 | attention_only+logS | 86.08 | 86.57 ± 0.02 | 67.45 ± 0.18 |
+| norm_top32 | cosine_only+logS | 87.09 | 86.18 ± 0.04 | 65.76 ± 0.10 |
+| norm_top32 | semantic_attention+logS | 88.05 | 87.49 ± 0.10 | 68.18 ± 0.29 |
+| norm_top32 | cosine_attention+logS | 86.55 | 86.72 ± 0.10 | 66.82 ± 0.26 |
+| norm_top32 | semantic_attention_positive_cosine+logS | 87.92 | 87.36 ± 0.12 | 67.65 ± 0.31 |
+| norm_top32 | all_six+logS | 88.28 | 87.66 ± 0.24 | 69.72 ± 0.23 |
+| norm_top32 | semantic_only+S | 88.11 | 88.13 ± 0.03 | 69.59 ± 0.47 |
+| norm_top32 | attention_only+S | 86.14 | 86.43 ± 0.07 | 66.65 ± 0.11 |
+| norm_top32 | cosine_only+S | 87.20 | 86.22 ± 0.04 | 66.23 ± 0.07 |
+| norm_top32 | semantic_attention+S | 88.12 | 87.42 ± 0.07 | 68.21 ± 0.22 |
+| norm_top32 | cosine_attention+S | 86.68 | 86.60 ± 0.18 | 66.38 ± 0.66 |
+| norm_top32 | semantic_attention_positive_cosine+S | 88.08 | 87.35 ± 0.05 | 67.55 ± 0.30 |
+| norm_top32 | all_six+S | 88.34 | 87.60 ± 0.23 | 69.56 ± 0.16 |

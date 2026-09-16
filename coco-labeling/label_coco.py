@@ -42,7 +42,13 @@ from utils.inslen_targeting import (
     resolve_inslen_candidate,
 )
 from utils.split_utils import ensure_strict_82_split
-from utils.token_alignment import locate_first_token_id
+from utils.token_alignment import (
+    TokenAlignmentError,
+    build_response_token_offsets,
+    locate_first_token_id,
+    token_indices_for_char_span,
+    validate_token_surface,
+)
 
 _CHAIR_PATH = Path(__file__).with_name("coco_chair.py")
 _CHAIR_MODULE_NAME = "coco_chair"
@@ -115,26 +121,35 @@ def main() -> None:
 
     config = load_config(args.config)
     model_cfg = get_model_cfg(config, args.model)
-    # Fail closed before generation/label reuse for model families that do not
-    # have a released InsLen resolver mapping.
-    inslen_model_branch(args.model)
     labeling_cfg = get_labeling_cfg(config)
-    if str(labeling_cfg.get("primary_locator")) != INSLEN_TARGET_PROTOCOL:
+    primary_locator = str(labeling_cfg.get("primary_locator"))
+    exact_protocol = primary_locator == "exact_response_offsets"
+    inslen_protocol = primary_locator == INSLEN_TARGET_PROTOCOL
+    if not (exact_protocol or inslen_protocol):
         raise ValueError(
-            "gfchair requires labeling.primary_locator="
-            f"{INSLEN_TARGET_PROTOCOL!r}; got "
-            f"{labeling_cfg.get('primary_locator')!r}."
+            "Unsupported labeling.primary_locator="
+            f"{primary_locator!r}; expected 'exact_response_offsets' or "
+            f"{INSLEN_TARGET_PROTOCOL!r}."
         )
-    if str(labeling_cfg.get("sample_unit")) != INSLEN_SAMPLE_UNIT:
+    if inslen_protocol:
+        # Fail before generation reuse when no released InsLen resolver exists.
+        inslen_model_branch(args.model)
+        if str(labeling_cfg.get("sample_unit")) != INSLEN_SAMPLE_UNIT:
+            raise ValueError(
+                "InsLen labeling requires sample_unit="
+                f"{INSLEN_SAMPLE_UNIT!r}."
+            )
+        if bool(labeling_cfg.get("save_svar_official_samples", False)):
+            raise ValueError(
+                "InsLen labeling requires save_svar_official_samples=false."
+            )
+    elif str(labeling_cfg.get("sample_unit")) not in {
+        "first_canonical_mention",
+        "all_mentions",
+    }:
         raise ValueError(
-            "gfchair requires labeling.sample_unit="
-            f"{INSLEN_SAMPLE_UNIT!r}; got "
-            f"{labeling_cfg.get('sample_unit')!r}."
-        )
-    if bool(labeling_cfg.get("save_svar_official_samples", False)):
-        raise ValueError(
-            "gfchair uses only the InsLen target protocol; set "
-            "labeling.save_svar_official_samples=false."
+            "Exact ENDAC labeling requires sample_unit="
+            "'first_canonical_mention' or 'all_mentions'."
         )
     validate_manifests = manifest_validation_enabled(config)
     adopt_legacy_generation = _legacy_generation_adoption_enabled(config)
@@ -271,11 +286,15 @@ def main() -> None:
             expected_labeling_manifest if validate_manifests else None
         ),
         expected_sample_unit=str(labeling_cfg["sample_unit"]),
-        expected_primary_locator=INSLEN_TARGET_PROTOCOL,
-        expected_upstream_commit=INSLEN_UPSTREAM_COMMIT,
-        expected_resolver_model=args.model,
+        expected_primary_locator=primary_locator,
+        expected_upstream_commit=(
+            INSLEN_UPSTREAM_COMMIT if inslen_protocol else None
+        ),
+        expected_resolver_model=args.model if inslen_protocol else None,
         expected_resolver_compatibility_note=(
             inslen_resolver_compatibility_note(args.model)
+            if inslen_protocol
+            else None
         ),
         validate_manifest=validate_manifests,
         ground_truth_path=ground_truth_path,
@@ -288,6 +307,7 @@ def main() -> None:
         instances_file=dataset_cfg["annotation_file"],
         captions_file=dataset_cfg.get("captions_file"),
         cache_path=args.chair_cache or os.path.join(args.output_dir, "chair.pkl"),
+        tokenization_mode="exact" if exact_protocol else "inslen",
     )
 
     if args.caption_file:
@@ -316,28 +336,60 @@ def main() -> None:
             provided_token_ids=row.get("response_token_ids"),
         )
         chair_info = evaluator.compute_chair_token(image_id, caption)
-        all_spans, spans, resolution_summary = _inslen_official_token_spans(
-            model_key=args.model,
-            tokenizer=tokenizer,
-            caption=caption,
-            token_ids=token_ids,
-            chair_info=chair_info,
-        )
-        official_svar_samples: list[dict] = []
+        if exact_protocol:
+            spans = _chair_token_spans(
+                evaluator=evaluator,
+                tokenizer=tokenizer,
+                image_id=image_id,
+                caption=caption,
+                token_ids=token_ids,
+                chair_info=chair_info,
+                alignment_failure_policy=str(
+                    labeling_cfg.get("alignment_failure_policy", "error")
+                ),
+            )
+            official_svar_samples = (
+                _build_official_svar_samples(
+                    tokenizer=tokenizer,
+                    token_ids=token_ids,
+                    chair_info=chair_info,
+                )
+                if bool(labeling_cfg.get("save_svar_official_samples", True))
+                else []
+            )
+        else:
+            all_spans, spans, resolution_summary = _inslen_official_token_spans(
+                model_key=args.model,
+                tokenizer=tokenizer,
+                caption=caption,
+                token_ids=token_ids,
+                chair_info=chair_info,
+            )
+            official_svar_samples = []
         generations[str(image_id)] = {
             "generated_text": caption,
             "response_token_ids": [int(token_id) for token_id in token_ids],
         }
-        labeling[str(image_id)] = _compact_inslen_label_entry(
-            image_id=image_id,
-            model_key=args.model,
-            caption=caption,
-            all_spans=all_spans,
-            selected_spans=spans,
-            chair_info=chair_info,
-            official_svar_samples=official_svar_samples,
-            resolution_summary=resolution_summary,
-        )
+        if exact_protocol:
+            labeling[str(image_id)] = _compact_label_entry(
+                image_id=image_id,
+                caption=caption,
+                spans=spans,
+                chair_info=chair_info,
+                official_svar_samples=official_svar_samples,
+                sample_unit=str(labeling_cfg["sample_unit"]),
+            )
+        else:
+            labeling[str(image_id)] = _compact_inslen_label_entry(
+                image_id=image_id,
+                model_key=args.model,
+                caption=caption,
+                all_spans=all_spans,
+                selected_spans=spans,
+                chair_info=chair_info,
+                official_svar_samples=official_svar_samples,
+                resolution_summary=resolution_summary,
+            )
 
     save_json(generations, generations_path)
     generation_manifest = build_generation_manifest(
@@ -1487,6 +1539,128 @@ def _generation_token_ids(
         "not a safe substitute. Include response_token_ids in --caption-file "
         "rows or reuse a generations.json that contains them."
     )
+
+
+def _chair_token_spans(
+    *,
+    evaluator,
+    tokenizer,
+    image_id: int,
+    caption: str,
+    token_ids: list[int],
+    chair_info: dict | None = None,
+    alignment_failure_policy: str = "error",
+) -> list[dict]:
+    """Locate each CHAIR mention on the saved response token sequence."""
+
+    if chair_info is None:
+        chair_info = evaluator.compute_chair_token(image_id, caption)
+    mentions = chair_info["object_mentions"]
+    failure_policy = str(alignment_failure_policy).strip().lower()
+    if failure_policy not in {"error", "skip"}:
+        raise ValueError(
+            "alignment_failure_policy must be 'error' or 'skip', got "
+            f"{alignment_failure_policy!r}"
+        )
+    try:
+        response_offsets = build_response_token_offsets(tokenizer, token_ids, caption)
+        global_alignment_error = None
+    except TokenAlignmentError as exc:
+        if failure_policy == "error":
+            raise TokenAlignmentError(f"image_id={image_id}: {exc}") from exc
+        response_offsets = [None] * len(token_ids)
+        global_alignment_error = str(exc)
+
+    canonical_counts: dict[str, int] = {}
+    for mention in mentions:
+        canonical = str(mention["canonical_object"])
+        canonical_counts[canonical] = canonical_counts.get(canonical, 0) + 1
+    canonical_seen: dict[str, int] = {}
+    spans = []
+    for mention in mentions:
+        char_start = int(mention["char_start"])
+        char_end = int(mention["char_end"])
+        canonical = str(mention["canonical_object"])
+        canonical_seen[canonical] = canonical_seen.get(canonical, 0) + 1
+        surface = caption[char_start:char_end]
+        normalized_word = str(
+            mention.get("normalized_word") or mention.get("word") or surface
+        )
+
+        exact_error = global_alignment_error
+        exact_indices: list[int] = []
+        if exact_error is None:
+            try:
+                exact_indices = token_indices_for_char_span(
+                    response_offsets, char_start, char_end
+                )
+                validate_token_surface(
+                    tokenizer=tokenizer,
+                    response_token_ids=token_ids,
+                    token_indices=exact_indices,
+                    offsets=response_offsets,
+                    caption=caption,
+                    char_start=char_start,
+                    char_end=char_end,
+                )
+            except TokenAlignmentError as exc:
+                exact_error = str(exc)
+                exact_indices = []
+                if failure_policy == "error":
+                    raise TokenAlignmentError(
+                        f"image_id={image_id}, surface={surface!r}, "
+                        f"chars=[{char_start}, {char_end}): {exc}"
+                    ) from exc
+
+        exact_location = {
+            "status": "found" if exact_indices else "not_found",
+            "query": surface,
+            "query_token_id": (
+                int(token_ids[exact_indices[0]]) if exact_indices else None
+            ),
+            "token_indices": [int(value) for value in exact_indices],
+            "char_start": char_start,
+            "char_end": char_end,
+            "used_plural_fallback": False,
+        }
+        if exact_error:
+            exact_location["error"] = exact_error
+
+        surface_location = locate_first_token_id(
+            tokenizer=tokenizer,
+            response_token_ids=token_ids,
+            query=normalized_word,
+            pluralize=_official_plural,
+        )
+        canonical_location = locate_first_token_id(
+            tokenizer=tokenizer,
+            response_token_ids=token_ids,
+            query=canonical,
+            pluralize=_official_plural,
+        )
+        spans.append(
+            {
+                "word": canonical,
+                "canonical_object": canonical,
+                "normalized_word": normalized_word,
+                "surface": surface,
+                "surface_word": surface,
+                "word_idx": int(mention["word_idx"]),
+                "char_start": char_start,
+                "char_end": char_end,
+                "token_indices": [int(value) for value in exact_indices],
+                "label": int(mention["label"]),
+                "occurrence_count": int(canonical_counts[canonical]),
+                "occurrence_index": int(canonical_seen[canonical]),
+                "token_locations": {
+                    "exact_response_offsets": exact_location,
+                    "svar_surface_first_token_id": surface_location,
+                    "svar_canonical_first_token_id": canonical_location,
+                },
+            }
+        )
+    spans.sort(key=lambda item: (int(item["char_start"]), int(item["word_idx"])))
+    return spans
 
 
 def _inslen_official_token_spans(

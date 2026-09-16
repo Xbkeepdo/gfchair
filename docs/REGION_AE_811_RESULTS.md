@@ -6,6 +6,8 @@
 V、VP、G、VP+G四组为区域原值AE＋对应All-attention gross的log1p，VP先加SV+SP再log；VP区域AE独立重算。ae_only为去掉gross的对应控制；legacy_visual为旧[AE_V,log1p(S_E)]，同样重训。
 新模型和旧82模型均在相同400测试图片、相同mentions评估；vs82_same400.csv保存配对点差。不能直接用新400图分数减旧800图总分。无新增bootstrap。
 
+后续已将 `legacy_visual` 单独套用24候选Torch单层搜参协议；结果见 [Visual-only条件路径单层MLP搜参811](LEGACY_VISUAL_SINGLE_MLP_SEARCH_811_RESULTS.md)。
+
 | 模型 | 特征 | 分类器 | AUROC | HALL-AUPR |
 |---|---|---|---:|---:|
 | qwen2_5_vl_7b | visual | three_hidden | 86.21 ± 0.50 | 39.25 ± 0.53 |

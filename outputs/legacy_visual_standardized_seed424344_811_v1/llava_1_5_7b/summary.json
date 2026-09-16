@@ -1,0 +1,48 @@
+{
+  "AUROC_mean": 0.8996716586293133,
+  "AUROC_std": 0.00017697899354549902,
+  "HALL_AUPR_mean": 0.6873284343892626,
+  "HALL_AUPR_std": 0.004022547954173504,
+  "config": {
+    "activation": "relu",
+    "batch_norm": true,
+    "batch_size": 256,
+    "dropout": 0.1,
+    "learning_rate": 0.001,
+    "lr_patience": 6,
+    "max_epochs": 150,
+    "monitor": "val_loss",
+    "patience": 20,
+    "standardize": true,
+    "weight_decay": 1e-05,
+    "width": 512
+  },
+  "ensemble": {
+    "AUROC": 0.9017568056656005,
+    "HALL_AUPR": 0.6929019106901549
+  },
+  "model": "llava_1_5_7b",
+  "schema": "legacy-visual-forced-standardized-model-summary-v1",
+  "seeds": [
+    42,
+    43,
+    44
+  ],
+  "source_candidate": 4,
+  "source_config": {
+    "activation": "relu",
+    "batch_norm": true,
+    "batch_size": 256,
+    "dropout": 0.1,
+    "learning_rate": 0.001,
+    "lr_patience": 6,
+    "max_epochs": 150,
+    "monitor": "val_loss",
+    "patience": 20,
+    "standardize": false,
+    "weight_decay": 1e-05,
+    "width": 512
+  },
+  "standardization_was_already_enabled": false,
+  "standardized_candidate": 5
+}

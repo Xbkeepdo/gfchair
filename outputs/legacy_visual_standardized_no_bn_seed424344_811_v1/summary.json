@@ -1,0 +1,267 @@
+{
+  "comparison": [
+    {
+      "AUROC_delta_pp": -0.07709505820676643,
+      "HALL_AUPR_delta_pp": -1.7744146496127933,
+      "bn_was_already_disabled": false,
+      "model": "qwen2_5_vl_7b",
+      "no_bn_AUROC_mean": 0.8813558450903297,
+      "no_bn_AUROC_std": 0.0016155089120350736,
+      "no_bn_HALL_AUPR_mean": 0.4153486378503959,
+      "no_bn_HALL_AUPR_std": 0.006333453523357515,
+      "standardized_svar_AUROC_mean": 0.8519209518669854,
+      "standardized_svar_HALL_AUPR_mean": 0.3945684821552344,
+      "vs_standardized_svar_AUROC_pp": 2.943489322334436,
+      "vs_standardized_svar_HALL_AUPR_pp": 2.0780155695161504,
+      "with_bn_AUROC_mean": 0.8821267956723974,
+      "with_bn_HALL_AUPR_mean": 0.4330927843465238
+    },
+    {
+      "AUROC_delta_pp": -0.22644794631765386,
+      "HALL_AUPR_delta_pp": -0.2863393122999103,
+      "bn_was_already_disabled": false,
+      "model": "llava_1_5_7b",
+      "no_bn_AUROC_mean": 0.8974071791661368,
+      "no_bn_AUROC_std": 0.000945397392032858,
+      "no_bn_HALL_AUPR_mean": 0.6844650412662635,
+      "no_bn_HALL_AUPR_std": 0.0005965104237692326,
+      "standardized_svar_AUROC_mean": 0.9021105796350096,
+      "standardized_svar_HALL_AUPR_mean": 0.7038840927504175,
+      "vs_standardized_svar_AUROC_pp": -0.47034004688728537,
+      "vs_standardized_svar_HALL_AUPR_pp": -1.9419051484154015,
+      "with_bn_AUROC_mean": 0.8996716586293133,
+      "with_bn_HALL_AUPR_mean": 0.6873284343892626
+    },
+    {
+      "AUROC_delta_pp": 0.16055096418733372,
+      "HALL_AUPR_delta_pp": -0.41782730035641036,
+      "bn_was_already_disabled": false,
+      "model": "qwen3_vl_8b",
+      "no_bn_AUROC_mean": 0.8983867768595042,
+      "no_bn_AUROC_std": 0.0008230320660547506,
+      "no_bn_HALL_AUPR_mean": 0.6784649711622782,
+      "no_bn_HALL_AUPR_std": 0.004438412023324894,
+      "standardized_svar_AUROC_mean": 0.8926269972451791,
+      "standardized_svar_HALL_AUPR_mean": 0.6329220989404095,
+      "vs_standardized_svar_AUROC_pp": 0.5759779614325056,
+      "vs_standardized_svar_HALL_AUPR_pp": 4.55428722218687,
+      "with_bn_AUROC_mean": 0.8967812672176309,
+      "with_bn_HALL_AUPR_mean": 0.6826432441658423
+    },
+    {
+      "AUROC_delta_pp": 0.0,
+      "HALL_AUPR_delta_pp": 0.0,
+      "bn_was_already_disabled": true,
+      "model": "internvl_2_5_8b",
+      "no_bn_AUROC_mean": 0.866578947368421,
+      "no_bn_AUROC_std": 0.002168737222735177,
+      "no_bn_HALL_AUPR_mean": 0.5359345467626156,
+      "no_bn_HALL_AUPR_std": 0.006165450732147222,
+      "standardized_svar_AUROC_mean": 0.8711152882205514,
+      "standardized_svar_HALL_AUPR_mean": 0.5320653322520367,
+      "vs_standardized_svar_AUROC_pp": -0.4536340852130394,
+      "vs_standardized_svar_HALL_AUPR_pp": 0.38692145105789777,
+      "with_bn_AUROC_mean": 0.866578947368421,
+      "with_bn_HALL_AUPR_mean": 0.5359345467626156
+    }
+  ],
+  "macro_average": {
+    "AUROC_delta_pp": -0.03574801008427164,
+    "HALL_AUPR_delta_pp": -0.6196453155672784,
+    "no_bn_AUROC_mean": 0.885932187121098,
+    "no_bn_HALL_AUPR_mean": 0.5785532992603883,
+    "standardized_svar_AUROC_mean": 0.8794434542419314,
+    "standardized_svar_HALL_AUPR_mean": 0.5658600015245245,
+    "vs_standardized_svar_AUROC_pp": 0.6488732879166542,
+    "vs_standardized_svar_HALL_AUPR_pp": 1.2693297735863793,
+    "with_bn_AUROC_mean": 0.8862896672219407,
+    "with_bn_HALL_AUPR_mean": 0.5847497524160611
+  },
+  "schema": "legacy-visual-standardized-no-bn-seed424344-summary-v1",
+  "summaries": [
+    {
+      "AUROC_mean": 0.8813558450903297,
+      "AUROC_std": 0.0016155089120350736,
+      "HALL_AUPR_mean": 0.4153486378503959,
+      "HALL_AUPR_std": 0.006333453523357515,
+      "bn_was_already_disabled": false,
+      "config": {
+        "activation": "relu",
+        "batch_norm": false,
+        "batch_size": 256,
+        "dropout": 0.1,
+        "learning_rate": 0.001,
+        "lr_patience": 6,
+        "max_epochs": 150,
+        "monitor": "val_loss",
+        "patience": 20,
+        "standardize": true,
+        "weight_decay": 1e-05,
+        "width": 512
+      },
+      "ensemble": {
+        "AUROC": 0.8833551769331585,
+        "HALL_AUPR": 0.42184912111499484
+      },
+      "model": "qwen2_5_vl_7b",
+      "schema": "legacy-visual-standardized-no-bn-model-summary-v1",
+      "seeds": [
+        42,
+        43,
+        44
+      ],
+      "source_config": {
+        "activation": "relu",
+        "batch_norm": true,
+        "batch_size": 256,
+        "dropout": 0.1,
+        "learning_rate": 0.001,
+        "lr_patience": 6,
+        "max_epochs": 150,
+        "monitor": "val_loss",
+        "patience": 20,
+        "standardize": false,
+        "weight_decay": 1e-05,
+        "width": 512
+      }
+    },
+    {
+      "AUROC_mean": 0.8974071791661368,
+      "AUROC_std": 0.000945397392032858,
+      "HALL_AUPR_mean": 0.6844650412662635,
+      "HALL_AUPR_std": 0.0005965104237692326,
+      "bn_was_already_disabled": false,
+      "config": {
+        "activation": "relu",
+        "batch_norm": false,
+        "batch_size": 256,
+        "dropout": 0.1,
+        "learning_rate": 0.001,
+        "lr_patience": 6,
+        "max_epochs": 150,
+        "monitor": "val_loss",
+        "patience": 20,
+        "standardize": true,
+        "weight_decay": 1e-05,
+        "width": 512
+      },
+      "ensemble": {
+        "AUROC": 0.8989787833436041,
+        "HALL_AUPR": 0.6876923514398986
+      },
+      "model": "llava_1_5_7b",
+      "schema": "legacy-visual-standardized-no-bn-model-summary-v1",
+      "seeds": [
+        42,
+        43,
+        44
+      ],
+      "source_config": {
+        "activation": "relu",
+        "batch_norm": true,
+        "batch_size": 256,
+        "dropout": 0.1,
+        "learning_rate": 0.001,
+        "lr_patience": 6,
+        "max_epochs": 150,
+        "monitor": "val_loss",
+        "patience": 20,
+        "standardize": false,
+        "weight_decay": 1e-05,
+        "width": 512
+      }
+    },
+    {
+      "AUROC_mean": 0.8983867768595042,
+      "AUROC_std": 0.0008230320660547506,
+      "HALL_AUPR_mean": 0.6784649711622782,
+      "HALL_AUPR_std": 0.004438412023324894,
+      "bn_was_already_disabled": false,
+      "config": {
+        "activation": "relu",
+        "batch_norm": false,
+        "batch_size": 256,
+        "dropout": 0.3,
+        "learning_rate": 0.001,
+        "lr_patience": 6,
+        "max_epochs": 150,
+        "monitor": "val_loss",
+        "patience": 20,
+        "standardize": true,
+        "weight_decay": 1e-05,
+        "width": 128
+      },
+      "ensemble": {
+        "AUROC": 0.9000694214876034,
+        "HALL_AUPR": 0.6814557345754869
+      },
+      "model": "qwen3_vl_8b",
+      "schema": "legacy-visual-standardized-no-bn-model-summary-v1",
+      "seeds": [
+        42,
+        43,
+        44
+      ],
+      "source_config": {
+        "activation": "relu",
+        "batch_norm": true,
+        "batch_size": 256,
+        "dropout": 0.3,
+        "learning_rate": 0.001,
+        "lr_patience": 6,
+        "max_epochs": 150,
+        "monitor": "val_loss",
+        "patience": 20,
+        "standardize": true,
+        "weight_decay": 1e-05,
+        "width": 128
+      }
+    },
+    {
+      "AUROC_mean": 0.866578947368421,
+      "AUROC_std": 0.002168737222735177,
+      "HALL_AUPR_mean": 0.5359345467626156,
+      "HALL_AUPR_std": 0.006165450732147222,
+      "bn_was_already_disabled": true,
+      "config": {
+        "activation": "relu",
+        "batch_norm": false,
+        "batch_size": 256,
+        "dropout": 0.3,
+        "learning_rate": 0.003,
+        "lr_patience": 6,
+        "max_epochs": 150,
+        "monitor": "val_auroc",
+        "patience": 20,
+        "standardize": true,
+        "weight_decay": 0.0001,
+        "width": 128
+      },
+      "ensemble": {
+        "AUROC": 0.8683024869866975,
+        "HALL_AUPR": 0.5394360679934302
+      },
+      "model": "internvl_2_5_8b",
+      "schema": "legacy-visual-standardized-no-bn-model-summary-v1",
+      "seeds": [
+        42,
+        43,
+        44
+      ],
+      "source_config": {
+        "activation": "relu",
+        "batch_norm": false,
+        "batch_size": 256,
+        "dropout": 0.3,
+        "learning_rate": 0.003,
+        "lr_patience": 6,
+        "max_epochs": 150,
+        "monitor": "val_auroc",
+        "patience": 20,
+        "standardize": true,
+        "weight_decay": 0.0001,
+        "width": 128
+      }
+    }
+  ]
+}

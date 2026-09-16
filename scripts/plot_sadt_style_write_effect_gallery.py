@@ -462,18 +462,27 @@ def summarize():
         '每张图先给模型实际输入视图和完整生成原文，并用红色标出本次检测词；随后分别给Top16和Top32下的Attention、AE、P_E与softmax(cos/0.2)。',
         '空间图仿照SADT作者实现：TopK之外置零，JET热图0.45+原图0.55；因此背景呈冷蓝色且没有patch框。',
         'P_E来自all-attention K32逐token ||e_m||并在视觉token上归一化；cosine为cos(a_m,e_m)，softmax在每层全部视觉token上计算。softmax会抹去cosine正负号，本图只表达相对空间排序。',
-        '额外HALL案例按mean JS、Top16/32低重合共同排序；完整候选逐层关系保存在CSV，避免只用挑图论证P_E不同于Attention。','',
+        '额外HALL案例按单层最大JS与最小Top16/32重合共同排序；完整候选逐层关系保存在CSV，避免只用挑图论证P_E不同于Attention。','',
         '[Attention–P_E全候选关系曲线](attention_pe_relationship.png)；[逐目标逐层CSV](attention_pe_relationship.csv)。','',
         '| 模型 | main | 额外差异HALL | 层 | 图册 |','|---|---:|---:|---|---|']
     for model in MODELS:
         layers='/'.join(map(str,selected_layers(model)))
         lines.append(f'| {MODEL_NAMES[model]} | 10 | 3 | {layers} | [{model}/summary.md]({model}/summary.md) |')
     lines+=['','## 全候选Attention–P_E关系','',
+        '统计范围是四模型共享500图缓存中能与完整目标标注对齐的全部mention及上述指定层，不是只统计52个展示案例。','',
         '| 模型 | target-layer数 | JS中位数 | rank correlation中位数 | Top16 overlap中位数 | Top32 overlap中位数 |','|---|---:|---:|---:|---:|---:|']
     for model in MODELS:
         subset=[x for x in relationship_rows if x['model']==model]
         med=lambda key:float(np.median([float(x[key]) for x in subset]))
         lines.append(f"| {MODEL_NAMES[model]} | {len(subset)} | {med('js'):.3f} | {med('spearman'):.3f} | {med('overlap16'):.3f} | {med('overlap32'):.3f} |")
+    lines+=['','### REAL/HALL分开','',
+        '| 模型 | 标签 | target-layer数 | JS中位数 | rank correlation中位数 | Top16 overlap中位数 | Top32 overlap中位数 |',
+        '|---|---|---:|---:|---:|---:|---:|']
+    for model in MODELS:
+        for label,name in ((1,'REAL'),(0,'HALL')):
+            subset=[x for x in relationship_rows if x['model']==model and x['label']==label]
+            med=lambda key:float(np.median([float(x[key]) for x in subset]))
+            lines.append(f"| {MODEL_NAMES[model]} | {name} | {len(subset)} | {med('js'):.3f} | {med('spearman'):.3f} | {med('overlap16'):.3f} | {med('overlap32'):.3f} |")
     lines+=['','运行：','', '```bash',
         'python scripts/plot_sadt_style_write_effect_gallery.py --stage rank --models <model>',
         'python scripts/plot_sadt_style_write_effect_gallery.py --stage plot --models <model>',

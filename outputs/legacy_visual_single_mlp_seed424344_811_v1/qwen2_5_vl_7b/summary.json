@@ -1,0 +1,32 @@
+{
+  "AUROC_mean": 0.8789761776270142,
+  "AUROC_std": 0.001554544315264534,
+  "HALL_AUPR_mean": 0.45750619553427363,
+  "HALL_AUPR_std": 0.008267375146290841,
+  "candidate": 4,
+  "config": {
+    "activation": "relu",
+    "batch_norm": true,
+    "batch_size": 256,
+    "dropout": 0.1,
+    "learning_rate": 0.001,
+    "lr_patience": 6,
+    "max_epochs": 150,
+    "monitor": "val_loss",
+    "patience": 20,
+    "standardize": false,
+    "weight_decay": 1e-05,
+    "width": 512
+  },
+  "ensemble": {
+    "AUROC": 0.8818903708272299,
+    "HALL_AUPR": 0.4680902868068197
+  },
+  "model": "qwen2_5_vl_7b",
+  "schema": "legacy-visual-frozen-config-seed424344-model-summary-v1",
+  "seeds": [
+    42,
+    43,
+    44
+  ]
+}
